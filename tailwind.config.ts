@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,21 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Chemistry-specific colors
+				chemistry: {
+					alkali: '#ff8a65',
+					alkaline: '#ffb74d',
+					transition: '#ffd54f',
+					'post-transition': '#dce775',
+					metalloid: '#aed581',
+					nonmetal: '#81c784',
+					halogen: '#4db6ac',
+					'noble-gas': '#4dd0e1',
+					lanthanide: '#9575cd',
+					actinide: '#ba68c8',
+					unknown: '#e0e0e0',
+					highlight: '#ff4081',
 				}
 			},
 			borderRadius: {
@@ -84,11 +100,35 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'bounce-subtle': {
+					'0%, 100%': {
+						transform: 'translateY(-5%)',
+						animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
+					},
+					'50%': {
+						transform: 'translateY(0)',
+						animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
+					}
+				},
+				'reaction': {
+					'0%': { transform: 'scale(1) rotate(0deg)' },
+					'25%': { transform: 'scale(1.2) rotate(5deg)' },
+					'50%': { transform: 'scale(1.5) rotate(-5deg)' },
+					'75%': { transform: 'scale(1.2) rotate(5deg)' },
+					'100%': { transform: 'scale(1) rotate(0deg)' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'bounce-subtle': 'bounce-subtle 2s infinite',
+				'reaction': 'reaction 1s ease-in-out',
+				'fade-in': 'fade-in 0.5s ease-in'
 			}
 		}
 	},
