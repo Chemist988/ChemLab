@@ -13,7 +13,7 @@ interface PeriodicTableProps {
 
 const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
   const { theme } = useTheme();
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.9);
 
   const getElementByAtomicNumber = (atomicNumber: number): Element | undefined => {
     return elements.find(element => element.atomicNumber === atomicNumber);
@@ -27,7 +27,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
           <input 
             id="zoom"
             type="range"
-            min="0.8"
+            min="0.5"
             max="1.2"
             step="0.1"
             value={scale}
@@ -37,12 +37,12 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
         </div>
       </div>
 
-      <ScrollArea className="h-[420px] w-full border rounded-md shadow-inner">
+      <ScrollArea className="h-[500px] w-full border rounded-md shadow-inner">
         <div className="p-4" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', transition: 'transform 0.2s ease' }}>
           <div 
-            className="grid gap-2" 
+            className="grid gap-1" 
             style={{ 
-              gridTemplateColumns: 'repeat(18, 45px)',
+              gridTemplateColumns: 'repeat(18, 40px)',
               justifyContent: 'center',
               padding: '8px'
             }}
@@ -58,11 +58,11 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                       transition-all duration-300 hover:z-10
                     `}
                     style={{
-                      minHeight: '45px',
-                      minWidth: '45px'
+                      minHeight: '40px',
+                      minWidth: '40px'
                     }}
                   >
-                    {atomicNumber > 0 && (
+                    {atomicNumber > 0 && getElementByAtomicNumber(atomicNumber) && (
                       <ElementCard
                         element={getElementByAtomicNumber(atomicNumber)!}
                         onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
