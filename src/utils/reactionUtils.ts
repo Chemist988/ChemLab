@@ -1,5 +1,8 @@
 
-import { Element, knownReactions } from "../data/elements";
+import { Element } from '../data/elements';
+
+// Define animation types
+export type AnimationType = string;
 
 export interface ReactionResult {
   result: string;
@@ -7,33 +10,77 @@ export interface ReactionResult {
   animationType: AnimationType;
 }
 
-export type AnimationType = 'combustion' | 'oxidation' | 'crystallization' | 'gasformation' | 'generic';
-
-// Simulate a reaction between two elements
-export const simulateReaction = (element1: Element, element2: Element): ReactionResult => {
-  // Sort the elements by atomic number to ensure consistent lookup
-  const [first, second] = [element1, element2].sort((a, b) => a.atomicNumber - b.atomicNumber);
-  
-  // Create a key for the reaction lookup
-  const reactionKey = `${first.symbol}-${second.symbol}`;
-  
-  // Look up the reaction or return the default
-  return knownReactions[reactionKey as keyof typeof knownReactions] || knownReactions.default;
-};
-
-// Get animation class based on reaction type
+// Use this function to get the appropriate animation class
 export const getAnimationClass = (animationType: AnimationType): string => {
   switch (animationType) {
-    case 'combustion':
-      return 'animate-reaction bg-orange-500/50';
-    case 'oxidation':
-      return 'animate-reaction bg-red-500/50';
-    case 'crystallization':
-      return 'animate-reaction bg-blue-500/50';
-    case 'gasformation':
-      return 'animate-reaction bg-green-500/50';
-    case 'generic':
+    case 'explosion':
+      return 'animate-pulse';
+    case 'fade':
+      return 'animate-fade-in';
+    case 'bubble':
+      return 'animate-bounce-subtle';
     default:
-      return 'animate-reaction bg-purple-500/50';
+      return '';
+  }
+};
+
+// Simulate chemical reactions between elements
+export const simulateReaction = (element1: Element, element2: Element): ReactionResult => {
+  const combo = `${element1.symbol}-${element2.symbol}`;
+  
+  // Predefined reactions
+  switch (combo) {
+    // Hydrogen + Oxygen
+    case 'H-O':
+    case 'O-H':
+      return {
+        result: 'H₂O (Water)',
+        description: 'Hydrogen and oxygen combine to form water molecules.',
+        animationType: 'fade'
+      };
+    
+    // Sodium + Chlorine
+    case 'Na-Cl':
+    case 'Cl-Na':
+      return {
+        result: 'NaCl (Table Salt)',
+        description: 'Sodium and chlorine form ionic bonds to create table salt.',
+        animationType: 'explosion'
+      };
+    
+    // Carbon + Oxygen
+    case 'C-O':
+    case 'O-C':
+      return {
+        result: 'CO₂ (Carbon Dioxide)',
+        description: 'Carbon and oxygen form carbon dioxide, a greenhouse gas.',
+        animationType: 'bubble'
+      };
+    
+    // Hydrogen + Chlorine
+    case 'H-Cl':
+    case 'Cl-H':
+      return {
+        result: 'HCl (Hydrochloric Acid)',
+        description: 'Hydrogen and chlorine combine to form hydrochloric acid.',
+        animationType: 'explosion'
+      };
+    
+    // Sodium + Oxygen
+    case 'Na-O':
+    case 'O-Na':
+      return {
+        result: 'Na₂O (Sodium Oxide)',
+        description: 'Sodium and oxygen react to form sodium oxide.',
+        animationType: 'fade'
+      };
+    
+    // Default for any other combinations
+    default:
+      return {
+        result: 'Unknown Reaction',
+        description: `No known reaction between ${element1.symbol} and ${element2.symbol}.`,
+        animationType: 'fade'
+      };
   }
 };
