@@ -36,20 +36,25 @@ const ElementCard: React.FC<ElementCardProps> = ({
     <div
       ref={isDraggable ? drag : undefined}
       className={cn(
-        `bg-${categoryColors[element.category]} rounded-md p-1 cursor-pointer transition-all`,
+        `bg-chemistry-${element.category} rounded-md shadow-sm overflow-hidden cursor-pointer transition-all`,
+        `border border-white/20 dark:border-black/20`,
+        `hover:shadow-md hover:scale-105`,
         sizeClasses[size],
-        isDragging && 'opacity-50',
+        isDragging && 'opacity-50 shadow-lg',
         !isDraggable && 'cursor-default'
       )}
       onClick={onClick}
-      style={{ opacity: isDragging ? 0.5 : 1 }}
+      style={{ 
+        opacity: isDragging ? 0.5 : 1,
+        backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.05) 100%)` 
+      }}
     >
-      <div className="flex justify-between items-start">
-        <span className="font-mono text-xs">{element.atomicNumber}</span>
+      <div className="flex justify-between items-start px-1 pt-1">
+        <span className="font-mono text-xs opacity-80">{element.atomicNumber}</span>
       </div>
-      <div className="flex flex-col items-center justify-center h-2/3">
+      <div className="flex flex-col items-center justify-center h-2/3 -mt-1">
         <span className="font-bold">{element.symbol}</span>
-        <span className="text-xs truncate w-full text-center">
+        <span className="text-xs truncate w-full text-center opacity-90">
           {element.name}
         </span>
       </div>

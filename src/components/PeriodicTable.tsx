@@ -39,11 +39,29 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
 
       <ScrollArea className="h-[420px] w-full border rounded-md shadow-inner">
         <div className="p-4" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', transition: 'transform 0.2s ease' }}>
-          <div className="grid gap-1" style={{ gridTemplateColumns: 'repeat(18, minmax(0, 1fr))' }}>
+          <div 
+            className="grid gap-2" 
+            style={{ 
+              gridTemplateColumns: 'repeat(18, 45px)',
+              justifyContent: 'center',
+              padding: '8px'
+            }}
+          >
             {periodicTableLayout.map((row, rowIndex) => (
               <React.Fragment key={rowIndex}>
                 {row.map((atomicNumber, colIndex) => (
-                  <div key={`${rowIndex}-${colIndex}`} className="min-h-14 flex items-center justify-center">
+                  <div 
+                    key={`${rowIndex}-${colIndex}`} 
+                    className={`
+                      flex items-center justify-center
+                      ${atomicNumber > 0 ? '' : 'opacity-0'}
+                      transition-all duration-300 hover:z-10
+                    `}
+                    style={{
+                      minHeight: '45px',
+                      minWidth: '45px'
+                    }}
+                  >
                     {atomicNumber > 0 && (
                       <ElementCard
                         element={getElementByAtomicNumber(atomicNumber)!}
