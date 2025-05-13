@@ -5,6 +5,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
@@ -20,10 +21,13 @@ const Index = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
+      <div className="min-h-screen bg-gradient-to-b from-background to-muted/30 dark:from-background dark:to-background/80 transition-colors">
         <div className="container mx-auto py-8">
-          <header className="mb-8 text-center">
-            <h1 className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+          <header className="mb-8 flex flex-col items-center relative">
+            <div className="absolute right-0 top-0">
+              <ThemeSwitcher />
+            </div>
+            <h1 className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-500">
               AI-Powered Periodic Table
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -33,12 +37,12 @@ const Index = () => {
           </header>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-card rounded-lg shadow-md p-6">
+            <div className="lg:col-span-2 bg-card rounded-lg shadow-md p-6 dark:shadow-lg dark:shadow-purple-500/5">
               <h2 className="text-xl font-semibold mb-4">Periodic Table of Elements</h2>
               <PeriodicTable onElementClick={handleElementClick} />
             </div>
 
-            <div className="bg-card rounded-lg shadow-md p-6">
+            <div className="bg-card rounded-lg shadow-md p-6 dark:shadow-lg dark:shadow-blue-500/5">
               <Tabs defaultValue="reaction">
                 <TabsList className="w-full mb-4">
                   <TabsTrigger value="reaction" className="flex-1">Reaction Zone</TabsTrigger>

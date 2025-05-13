@@ -2,7 +2,7 @@
 import { Element } from '../data/elements';
 
 // Define animation types
-export type AnimationType = string;
+export type AnimationType = 'explosion' | 'fade' | 'bubble' | 'gas';
 
 export interface ReactionResult {
   result: string;
@@ -14,7 +14,9 @@ export interface ReactionResult {
 export const getAnimationClass = (animationType: AnimationType): string => {
   switch (animationType) {
     case 'explosion':
-      return 'animate-pulse';
+      return 'animate-reaction';
+    case 'gas':
+      return 'animate-fade-in';
     case 'fade':
       return 'animate-fade-in';
     case 'bubble':
@@ -36,7 +38,7 @@ export const simulateReaction = (element1: Element, element2: Element): Reaction
       return {
         result: 'H₂O (Water)',
         description: 'Hydrogen and oxygen combine to form water molecules.',
-        animationType: 'fade'
+        animationType: 'bubble'
       };
     
     // Sodium + Chlorine
@@ -54,7 +56,7 @@ export const simulateReaction = (element1: Element, element2: Element): Reaction
       return {
         result: 'CO₂ (Carbon Dioxide)',
         description: 'Carbon and oxygen form carbon dioxide, a greenhouse gas.',
-        animationType: 'bubble'
+        animationType: 'gas'
       };
     
     // Hydrogen + Chlorine
@@ -72,7 +74,7 @@ export const simulateReaction = (element1: Element, element2: Element): Reaction
       return {
         result: 'Na₂O (Sodium Oxide)',
         description: 'Sodium and oxygen react to form sodium oxide.',
-        animationType: 'fade'
+        animationType: 'gas'
       };
     
     // Default for any other combinations

@@ -125,6 +125,23 @@ export default {
 				'rise': {
 					'0%': { transform: 'translateY(0)', opacity: '0.8' },
 					'100%': { transform: 'translateY(-100px)', opacity: '0' }
+				},
+				'shake': {
+					'0%, 100%': { transform: 'translateX(0)' },
+					'10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-2px)' },
+					'20%, 40%, 60%, 80%': { transform: 'translateX(2px)' }
+				},
+				'explosion-particle': {
+					'0%': { transform: 'translate(0, 0) scale(1)', opacity: '1' },
+					'100%': { transform: 'translate(var(--x, 50px), var(--y, -50px)) scale(0)', opacity: '0' }
+				},
+				'gas-rise': {
+					'0%': { transform: 'translateY(0) scale(1)', opacity: '0.7' },
+					'100%': { transform: 'translateY(-100px) scale(1.5)', opacity: '0' }
+				},
+				'flame': {
+					'0%, 100%': { transform: 'scaleY(1)' },
+					'50%': { transform: 'scaleY(1.2)' }
 				}
 			},
 			animation: {
@@ -133,7 +150,11 @@ export default {
 				'bounce-subtle': 'bounce-subtle 2s infinite',
 				'reaction': 'reaction 1s ease-in-out',
 				'fade-in': 'fade-in 0.5s ease-in',
-				'rise': 'rise 3s ease-in forwards'
+				'rise': 'rise 3s ease-in forwards',
+				'shake': 'shake 0.5s ease-in-out',
+				'explosion-particle': 'explosion-particle 1s ease-out forwards',
+				'gas-rise': 'gas-rise 4s ease-out forwards',
+				'flame': 'flame 0.5s ease-in-out infinite'
 			}
 		}
 	},

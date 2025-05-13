@@ -6,7 +6,7 @@ import ElementCard from './ElementCard';
 import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Sparkles, RotateCw, Beaker } from 'lucide-react';
+import { Sparkles, RotateCw, Beaker, Bomb, Flame } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -17,6 +17,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [reaction, setReaction] = useState<ReactionResult | null>(null);
   const [animating, setAnimating] = useState(false);
   const [bubbles, setBubbles] = useState<number[]>([]);
+  const [explosion, setExplosion] = useState(false);
+  const [gas, setGas] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -59,6 +61,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setReaction(null);
     setAnimating(false);
     setBubbles([]);
+    setExplosion(false);
+    setGas(false);
   };
 
   const simulateCurrentReaction = () => {
@@ -72,6 +76,16 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         newBubbles.push(Math.random());
       }
       setBubbles(newBubbles);
+      
+      // Set special animation effects based on reaction type
+      if (result.animationType === 'explosion') {
+        setExplosion(true);
+        setTimeout(() => setExplosion(false), 2000);
+      } else if (result.animationType === 'gas') {
+        setGas(true);
+      } else {
+        setGas(false);
+      }
       
       // Delay setting reaction to allow animation to be visible
       setTimeout(() => {
@@ -113,17 +127,67 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           transition-all duration-300
         `}
       >
+        {/* Explosion effect */}
+        {explosion && (
+          <div className="absolute inset-0 z-10">
+            <div className="absolute inset-0 bg-orange-500/20 animate-pulse"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative">
+                <Bomb className="h-20 w-20 text-orange-500 animate-bounce" />
+                <div className="absolute top-0 left-1/2 w-6 h-12 -translate-x-1/2 -translate-y-full">
+                  <div className="w-full h-full bg-gradient-to-t from-orange-500 to-transparent animate-flame"></div>
+                </div>
+              </div>
+            </div>
+            {[...Array(20)].map((_, i) => (
+              <div 
+                key={i} 
+                className="absolute bg-orange-500 rounded-full animate-explosion-particle"
+                style={{
+                  width: Math.random() * 8 + 2 + 'px',
+                  height: Math.random() * 8 + 2 + 'px',
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 100 + '%',
+                  opacity: Math.random() * 0.7 + 0.3,
+                  animationDuration: Math.random() * 1 + 0.5 + 's',
+                  animationDelay: Math.random() * 0.2 + 's'
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+        
+        {/* Gas effect */}
+        {gas && (
+          <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+            {[...Array(15)].map((_, i) => (
+              <div 
+                key={i} 
+                className="absolute bg-green-500/30 rounded-full animate-gas-rise dark:bg-green-400/30"
+                style={{
+                  width: Math.random() * 40 + 10 + 'px',
+                  height: Math.random() * 40 + 10 + 'px',
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 30 + 70 + '%',
+                  animationDuration: Math.random() * 3 + 3 + 's',
+                  animationDelay: Math.random() * 2 + 's'
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+        
         {/* Beaker container */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-48 h-48">
             {/* Beaker body */}
-            <div className="absolute bottom-0 w-full h-[85%] border-2 border-gray-300 rounded-b-lg bg-blue-50/40 backdrop-blur-sm">
+            <div className="absolute bottom-0 w-full h-[85%] border-2 border-gray-300 rounded-b-lg bg-blue-50/40 backdrop-blur-sm dark:border-gray-600 dark:bg-blue-950/20">
               {/* Beaker liquid */}
               <div 
                 className={`
                   absolute bottom-0 w-full rounded-b-lg transition-all duration-700 ease-out
                   ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}
-                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-blue-100/70'}
+                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-blue-100/70 dark:bg-blue-800/50'}
                   ${animating ? 'animate-pulse' : ''}
                 `}
               >
@@ -131,7 +195,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                 {bubbles.map((bubble, index) => (
                   <div 
                     key={index} 
-                    className="absolute rounded-full bg-white/80 animate-rise"
+                    className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise"
                     style={{
                       width: Math.max(4, Math.random() * 10) + 'px',
                       height: Math.max(4, Math.random() * 10) + 'px',
@@ -161,6 +225,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                           className={`
                             ${index === 0 && animating ? 'animate-bounce-subtle' : ''}
                             ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''}
+                            ${(explosion || gas) && 'animate-shake'}
                           `}
                         >
                           <ElementCard 
@@ -177,6 +242,20 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                       <div className={`text-center mt-4 ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
                         <h3 className="text-xl font-bold">{reaction.result}</h3>
                         <p className="text-sm mt-1">{reaction.description}</p>
+                        
+                        {reaction.animationType === 'gas' && (
+                          <div className="mt-2">
+                            <Sparkles className="h-5 w-5 inline-block text-green-500 animate-pulse" />
+                            <span className="ml-1 text-xs text-green-600 dark:text-green-400">Gaseous reaction</span>
+                          </div>
+                        )}
+                        
+                        {reaction.animationType === 'explosion' && (
+                          <div className="mt-2">
+                            <Flame className="h-5 w-5 inline-block text-orange-500 animate-pulse" />
+                            <span className="ml-1 text-xs text-orange-600 dark:text-orange-400">Explosive reaction</span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -185,10 +264,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             </div>
             
             {/* Beaker top rim */}
-            <div className="absolute top-[15%] w-full h-[3px] bg-gray-300"></div>
+            <div className="absolute top-[15%] w-full h-[3px] bg-gray-300 dark:bg-gray-600"></div>
             
             {/* Beaker neck */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-2 border-l-2 border-r-2 border-gray-300"></div>
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-2 border-l-2 border-r-2 border-gray-300 dark:border-gray-600"></div>
           </div>
         </div>
       </div>
@@ -211,13 +290,15 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 const getReactionColor = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
-      return 'bg-orange-200';
+      return 'bg-orange-200 dark:bg-orange-900/50';
+    case 'gas':
+      return 'bg-green-200 dark:bg-green-900/50';
     case 'bubble':
-      return 'bg-green-200';
+      return 'bg-blue-200 dark:bg-blue-900/50';
     case 'fade':
-      return 'bg-blue-200';
+      return 'bg-purple-200 dark:bg-purple-900/50';
     default:
-      return 'bg-blue-100/70';
+      return 'bg-blue-100/70 dark:bg-blue-800/50';
   }
 };
 
