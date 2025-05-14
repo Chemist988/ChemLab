@@ -6,7 +6,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useTheme } from '@/hooks/use-theme';
-import { Slider } from '@/components/ui/slider';
 import { Atom } from 'lucide-react';
 
 interface PeriodicTableProps {
@@ -15,28 +14,30 @@ interface PeriodicTableProps {
 
 const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
   const { theme } = useTheme();
-  const [scale, setScale] = useState(0.6);
   const [showLegend, setShowLegend] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const getElementByAtomicNumber = (atomicNumber: number): Element | undefined => {
     return elements.find(element => element.atomicNumber === atomicNumber);
   };
 
+  const handleCategoryClick = (category: string) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category);
+    }
+  };
+
+  const filteredElements = selectedCategory 
+    ? elements.filter(element => element.category === selectedCategory)
+    : [];
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <Label htmlFor="zoom" className="font-medium">Zoom:</Label>
-          <Slider
-            id="zoom"
-            min={0.4}
-            max={1.0}
-            step={0.05}
-            value={[scale]}
-            onValueChange={(values) => setScale(values[0])}
-            className="w-32"
-          />
-          <span className="text-sm text-muted-foreground">{Math.round(scale * 100)}%</span>
+        <div className="flex items-center">
+          <h3 className="text-md font-semibold">Interactive Periodic Table</h3>
         </div>
         <div className="flex items-center gap-2">
           <Label htmlFor="show-legend" className="text-sm">Legend</Label>
@@ -49,8 +50,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
       </div>
 
       <div className="relative rounded-lg overflow-hidden border shadow-md bg-gradient-to-br from-card to-background">
-        <ScrollArea className="h-[540px] w-full">
-          <div className="relative p-6" style={{ transform: `scale(${scale})`, transformOrigin: 'top left', transition: 'transform 0.3s ease' }}>
+        <ScrollArea className="h-[600px] w-full">
+          <div className="relative p-6">
             <div 
               className="periodic-table-grid" 
               style={{ 
@@ -80,6 +81,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                           element={getElementByAtomicNumber(atomicNumber)!}
                           onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
                           size="sm"
+                          className="animate-fade-in hover:animate-bounce-subtle"
                         />
                       )}
                     </div>
@@ -124,12 +126,41 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
           {Object.entries(categoryNames).map(([category, name]) => (
             <div 
               key={category} 
-              className={`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 bg-chemistry-${category} bg-opacity-30 dark:bg-opacity-50 border border-chemistry-${category}/20 shadow-sm hover:shadow-md transition-shadow`}
+              className={`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 
+                bg-chemistry-${category} bg-opacity-30 dark:bg-opacity-50 
+                border border-chemistry-${category}/20 shadow-sm hover:shadow-md 
+                transition-shadow cursor-pointer
+                ${selectedCategory === category ? 'ring-2 ring-primary' : ''}
+              `}
+              onClick={() => handleCategoryClick(category)}
             >
               <div className={`w-3 h-3 rounded-full bg-chemistry-${category}`}></div>
               {name}
             </div>
           ))}
+        </div>
+      )}
+      
+      {/* Display filtered elements when category is selected */}
+      {selectedCategory && (
+        <div className="mt-4 p-4 bg-card rounded-lg shadow-sm border animate-fade-in">
+          <h4 className="text-sm font-medium mb-3">
+            {categoryNames[selectedCategory as keyof typeof categoryNames]} Elements
+          </h4>
+          <div className="flex flex-wrap gap-2 justify-center">
+            {filteredElements.map(element => (
+              <ElementCard
+                key={element.id}
+                element={element}
+                onClick={() => onElementClick(element)}
+                size="md"
+                className="animate-fade-in"
+              />
+            ))}
+            {filteredElements.length === 0 && (
+              <p className="text-sm text-muted-foreground">No elements found in this category.</p>
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -9,13 +9,15 @@ interface ElementCardProps {
   onClick: () => void;
   size?: 'sm' | 'md' | 'lg';
   isDraggable?: boolean;
+  className?: string;
 }
 
 const ElementCard: React.FC<ElementCardProps> = ({ 
   element, 
   onClick, 
   size = 'md',
-  isDraggable = true
+  isDraggable = true,
+  className = ''
 }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'element',
@@ -40,7 +42,8 @@ const ElementCard: React.FC<ElementCardProps> = ({
         `border border-white/20 dark:border-black/20`,
         `hover:shadow-lg hover:scale-110 hover:z-20`,
         `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110' : ''}`,
-        sizeClasses[size]
+        sizeClasses[size],
+        className
       )}
       onClick={onClick}
       style={{ 
