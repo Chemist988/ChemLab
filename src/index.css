@@ -211,6 +211,22 @@
     100% { transform: translateY(-100px) scale(2); opacity: 0; }
   }
   
+  @keyframes splash-rise {
+    0% { transform: translateY(0) rotate(var(--rotation, 0deg)); opacity: 0.8; }
+    100% { transform: translateY(-20px) rotate(var(--rotation, 0deg)); opacity: 0; }
+  }
+  
+  @keyframes powder-burst {
+    0% { transform: translate(0, 0); opacity: 0.8; }
+    100% { transform: translate(var(--x-move), var(--y-move)); opacity: 0; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
+  }
+  
   .animate-rise {
     animation: rise 2s ease-out forwards;
   }
@@ -239,5 +255,9 @@
     --x-move: 0px;
     --y-move: 0px;
     animation: explosion-particle 1s ease-out forwards;
+  }
+  
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
   }
 }

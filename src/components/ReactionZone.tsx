@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element } from '../data/elements';
@@ -18,6 +19,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [bubbles, setBubbles] = useState<number[]>([]);
   const [explosion, setExplosion] = useState(false);
   const [gas, setGas] = useState(false);
+  const [splash, setSplash] = useState(false);
+  const [powderBurst, setPowderBurst] = useState<{active: boolean; color: string}>({active: false, color: 'white'});
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -32,6 +35,15 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
   const addElement = (element: Element) => {
     if (selectedElements.length < 2) {
+      // Create splash effect when adding element to beaker
+      setSplash(true);
+      setTimeout(() => setSplash(false), 700);
+      
+      // Create powder burst effect based on element category
+      const burstColor = getCategoryColor(element.category);
+      setPowderBurst({active: true, color: burstColor});
+      setTimeout(() => setPowderBurst({active: false, color: burstColor}), 1000);
+      
       // Create bubble effect when adding element to beaker
       const newBubbles = [...bubbles];
       for (let i = 0; i < 5; i++) {
@@ -62,6 +74,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setBubbles([]);
     setExplosion(false);
     setGas(false);
+    setSplash(false);
+    setPowderBurst({active: false, color: 'white'});
   };
 
   const simulateCurrentReaction = () => {
@@ -85,6 +99,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       } else {
         setGas(false);
       }
+      
+      // Create splash effect for reaction
+      setSplash(true);
+      setTimeout(() => setSplash(false), 700);
       
       // Delay setting reaction to allow animation to be visible
       setTimeout(() => {
@@ -115,6 +133,23 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setReaction(null);
     }
   }, [selectedElements]);
+
+  // Helper function to get color based on element category
+  const getCategoryColor = (category: string): string => {
+    switch (category) {
+      case 'alkali-metal': return '#f87171'; // red
+      case 'alkaline-earth-metal': return '#fb923c'; // orange
+      case 'transition-metal': return '#3b82f6'; // blue
+      case 'post-transition-metal': return '#a78bfa'; // purple
+      case 'metalloid': return '#34d399'; // emerald
+      case 'nonmetal': return '#4ade80'; // green
+      case 'halogen': return '#22d3ee'; // cyan
+      case 'noble-gas': return '#d946ef'; // fuchsia
+      case 'lanthanide': return '#ec4899'; // pink
+      case 'actinide': return '#f59e0b'; // amber
+      default: return '#d1d5db'; // gray
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -173,6 +208,59 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                 }}
               ></div>
             ))}
+          </div>
+        )}
+
+        {/* Splash effect */}
+        {splash && (
+          <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+            {[...Array(12)].map((_, i) => (
+              <div 
+                key={`splash-${i}`}
+                className="absolute bg-blue-400/70 dark:bg-blue-500/50"
+                style={{
+                  width: Math.random() * 6 + 2 + 'px',
+                  height: Math.random() * 12 + 8 + 'px',
+                  left: 40 + Math.random() * 20 + '%',
+                  top: 40 + Math.random() * 10 + '%',
+                  borderRadius: '50% 50% 0 0',
+                  transform: `rotate(${Math.random() * 360}deg)`,
+                  opacity: Math.random() * 0.7 + 0.3,
+                  animation: `splash-rise ${Math.random() * 0.8 + 0.5}s ease-out forwards`,
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
+        {/* Powder Burst effect */}
+        {powderBurst.active && (
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+            {[...Array(30)].map((_, i) => {
+              const size = Math.random() * 4 + 1;
+              const angle = Math.random() * Math.PI * 2;
+              const distance = Math.random() * 30 + 20;
+              const duration = Math.random() * 1 + 0.5;
+              
+              return (
+                <div 
+                  key={`powder-${i}`}
+                  className="absolute rounded-full"
+                  style={{
+                    width: size + 'px',
+                    height: size + 'px',
+                    left: 'calc(50% - ' + size/2 + 'px)',
+                    top: '50%',
+                    backgroundColor: powderBurst.color,
+                    opacity: Math.random() * 0.8 + 0.2,
+                    transform: `translateY(-50%)`,
+                    animation: `powder-burst ${duration}s ease-out forwards`,
+                    '--x-move': `${Math.cos(angle) * distance}px`,
+                    '--y-move': `${Math.sin(angle) * distance}px`,
+                  } as React.CSSProperties}
+                ></div>
+              );
+            })}
           </div>
         )}
         
