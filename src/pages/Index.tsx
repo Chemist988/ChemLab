@@ -10,15 +10,6 @@ import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 
-const scientists = [
-  { name: "Marie Curie", position: "top-4 left-4", rotation: "-rotate-12" },
-  { name: "Albert Einstein", position: "top-4 right-4", rotation: "rotate-12" },
-  { name: "Isaac Newton", position: "bottom-4 left-4", rotation: "rotate-12" },
-  { name: "Nikola Tesla", position: "bottom-4 right-4", rotation: "-rotate-12" },
-  { name: "Dmitri Mendeleev", position: "top-1/3 left-0", rotation: "-rotate-90" },
-  { name: "Rosalind Franklin", position: "top-2/3 right-0", rotation: "rotate-90" },
-];
-
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -30,24 +21,7 @@ const Index = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/30 dark:from-background dark:to-background/80 transition-colors relative">
-        {/* Scientist Caricatures */}
-        {scientists.map((scientist, index) => (
-          <div 
-            key={scientist.name}
-            className={`absolute ${scientist.position} z-10 opacity-30 hover:opacity-70 transition-opacity`}
-          >
-            <div 
-              className={`bg-card p-2 rounded-lg shadow-md border ${scientist.rotation} transition-transform`}
-            >
-              <div className="text-xs font-semibold text-center">{scientist.name}</div>
-              <div className="w-16 h-16 bg-muted/50 rounded-full mx-auto flex items-center justify-center border border-primary/20">
-                {scientist.name.split(' ').map(part => part[0]).join('')}
-              </div>
-            </div>
-          </div>
-        ))}
-
+      <div className="min-h-screen bg-gradient-to-b from-background to-muted/30 dark:from-background dark:to-background/80 transition-colors">
         <div className="container mx-auto py-8">
           <header className="mb-8 flex flex-col items-center relative">
             <div className="absolute right-0 top-0">
