@@ -743,4 +743,53 @@ export const elements: Element[] = [
     group: 5,
     period: 5,
     electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁴',
-    electronegativity: 1
+    electronegativity: 1.6,
+    density: 8.57,
+    meltingPoint: 2477,
+    boilingPoint: 4744,
+    discoveredBy: 'Charles Hatchett',
+    description: 'Soft, ductile, lustrous, gray-white transition metal with a slight blue tinge, used in special steel alloys and superconductors.'
+  },
+  {
+    id: 42,
+    symbol: 'Mo',
+    name: 'Molybdenum',
+    atomicNumber: 42,
+    atomicMass: 95.95,
+    category: 'transition-metal',
+    group: 6,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁵',
+    electronegativity: 2.16,
+    density: 10.28,
+    meltingPoint: 2623,
+    boilingPoint: 4639,
+    discoveredBy: 'Carl Wilhelm Scheele',
+    description: 'Silvery-gray metal with a high melting point, used in high-strength steel alloys and as a catalyst.'
+  }
+];
+
+// Layout for the periodic table display
+// This represents the position of each element by its atomic number
+export const periodicTableLayout = [
+  // Period 1
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+  // Period 2
+  [3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 6, 7, 8, 9, 10],
+  // Period 3
+  [11, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 14, 15, 16, 17, 18],
+  // Period 4
+  [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+  // Period 5
+  [37, 38, 39, 40, 41, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // Period 6 (with lanthanide break)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // Period 7 (with actinide break)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // Empty row for spacing
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // Lanthanides
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // Actinides
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
