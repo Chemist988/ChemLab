@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element } from '../data/elements';
@@ -6,7 +5,7 @@ import ElementCard from './ElementCard';
 import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Beaker, Bomb, Flame, Sparkles, Droplets, Flask, AtomIcon, Atom } from 'lucide-react';
+import { RotateCw, Beaker, Bomb, Flame, Sparkles, Droplets, FlaskConical, AtomIcon, Atom } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -337,9 +336,9 @@ const getReactionIcon = (animationType: string): React.ReactNode => {
     case 'bubble':
       return <Droplets className="h-4 w-4 text-blue-500" />;
     case 'fade':
-      return <Flask className="h-4 w-4 text-purple-500" />;
+      return <FlaskConical className="h-4 w-4 text-purple-500" />;
     case 'crystallization':
-      return <Flask className="h-4 w-4 text-indigo-500" />;
+      return <FlaskConical className="h-4 w-4 text-indigo-500" />;
     case 'precipitation':
       return <Droplets className="h-4 w-4 text-yellow-500" />;
     case 'combustion':
