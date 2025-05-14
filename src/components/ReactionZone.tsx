@@ -6,7 +6,7 @@ import ElementCard from './ElementCard';
 import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Sparkles, RotateCw, Beaker, Bomb, Flame } from 'lucide-react';
+import { RotateCw, Beaker, Bomb, Flame, Sparkles, Droplets, Flask, AtomIcon, Atom } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -123,8 +123,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         ref={drop}
         className={`
           relative h-64 p-6 rounded-lg flex flex-col items-center justify-center overflow-hidden
-          ${isOver ? 'border-primary/70 bg-primary/5' : ''}
-          transition-all duration-300
+          ${isOver ? 'border-primary/70 bg-primary/5' : 'border border-border'}
+          transition-all duration-300 shadow-sm
         `}
       >
         {/* Explosion effect */}
@@ -243,19 +243,12 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                         <h3 className="text-xl font-bold">{reaction.result}</h3>
                         <p className="text-sm mt-1">{reaction.description}</p>
                         
-                        {reaction.animationType === 'gas' && (
-                          <div className="mt-2">
-                            <Sparkles className="h-5 w-5 inline-block text-green-500 animate-pulse" />
-                            <span className="ml-1 text-xs text-green-600 dark:text-green-400">Gaseous reaction</span>
-                          </div>
-                        )}
-                        
-                        {reaction.animationType === 'explosion' && (
-                          <div className="mt-2">
-                            <Flame className="h-5 w-5 inline-block text-orange-500 animate-pulse" />
-                            <span className="ml-1 text-xs text-orange-600 dark:text-orange-400">Explosive reaction</span>
-                          </div>
-                        )}
+                        <div className="mt-3 flex items-center justify-center gap-2">
+                          {getReactionIcon(reaction.animationType)}
+                          <span className="text-xs text-muted-foreground">
+                            {getReactionTypeName(reaction.animationType)}
+                          </span>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -297,8 +290,64 @@ const getReactionColor = (animationType: string): string => {
       return 'bg-blue-200 dark:bg-blue-900/50';
     case 'fade':
       return 'bg-purple-200 dark:bg-purple-900/50';
+    case 'crystallization':
+      return 'bg-indigo-200 dark:bg-indigo-900/50';
+    case 'precipitation':
+      return 'bg-yellow-200 dark:bg-yellow-900/50';
+    case 'combustion':
+      return 'bg-red-200 dark:bg-red-900/50';
+    case 'neutralization':
+      return 'bg-teal-200 dark:bg-teal-900/50';
     default:
       return 'bg-blue-100/70 dark:bg-blue-800/50';
+  }
+};
+
+// Helper function to get reaction type display name
+const getReactionTypeName = (animationType: string): string => {
+  switch (animationType) {
+    case 'explosion':
+      return 'Explosive Reaction';
+    case 'gas':
+      return 'Gas Formation';
+    case 'bubble':
+      return 'Aqueous Reaction';
+    case 'fade':
+      return 'Subtle Reaction';
+    case 'crystallization':
+      return 'Crystallization';
+    case 'precipitation':
+      return 'Precipitation';
+    case 'combustion':
+      return 'Combustion Reaction';
+    case 'neutralization':
+      return 'Neutralization';
+    default:
+      return 'Chemical Reaction';
+  }
+};
+
+// Helper function to get reaction icon
+const getReactionIcon = (animationType: string): React.ReactNode => {
+  switch (animationType) {
+    case 'explosion':
+      return <Bomb className="h-4 w-4 text-orange-500" />;
+    case 'gas':
+      return <Sparkles className="h-4 w-4 text-green-500" />;
+    case 'bubble':
+      return <Droplets className="h-4 w-4 text-blue-500" />;
+    case 'fade':
+      return <Flask className="h-4 w-4 text-purple-500" />;
+    case 'crystallization':
+      return <Flask className="h-4 w-4 text-indigo-500" />;
+    case 'precipitation':
+      return <Droplets className="h-4 w-4 text-yellow-500" />;
+    case 'combustion':
+      return <Flame className="h-4 w-4 text-red-500" />;
+    case 'neutralization':
+      return <Atom className="h-4 w-4 text-teal-500" />;
+    default:
+      return <Beaker className="h-4 w-4 text-gray-500" />;
   }
 };
 

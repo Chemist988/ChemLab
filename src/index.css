@@ -43,6 +43,19 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Chemistry Element Colors */
+    --chemistry-alkali: 4 90% 58%;
+    --chemistry-alkaline: 30 90% 60%;
+    --chemistry-transition: 200 75% 55%;
+    --chemistry-post-transition: 265 51% 65%;
+    --chemistry-metalloid: 150 50% 60%;
+    --chemistry-nonmetal: 120 60% 70%;
+    --chemistry-halogen: 186 70% 50%;
+    --chemistry-noble-gas: 300 70% 70%;
+    --chemistry-lanthanide: 340 70% 50%;
+    --chemistry-actinide: 22 90% 50%;
+    --chemistry-unknown: 0 0% 75%;
   }
 
   .dark {
@@ -82,6 +95,19 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Chemistry Element Colors - Dark Mode */
+    --chemistry-alkali: 4 80% 45%;
+    --chemistry-alkaline: 30 70% 45%;
+    --chemistry-transition: 200 70% 45%;
+    --chemistry-post-transition: 265 51% 55%;
+    --chemistry-metalloid: 150 50% 40%;
+    --chemistry-nonmetal: 120 60% 50%;
+    --chemistry-halogen: 186 70% 40%;
+    --chemistry-noble-gas: 300 70% 55%;
+    --chemistry-lanthanide: 340 70% 40%;
+    --chemistry-actinide: 22 80% 40%;
+    --chemistry-unknown: 0 0% 40%;
   }
 }
 
@@ -104,5 +130,114 @@
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-500;
+  }
+  
+  /* Chemistry Color Classes */
+  .bg-chemistry-alkali-metal {
+    @apply bg-red-500/80 dark:bg-red-600/80;
+  }
+  
+  .bg-chemistry-alkaline-earth-metal {
+    @apply bg-orange-500/80 dark:bg-orange-600/80;
+  }
+  
+  .bg-chemistry-transition-metal {
+    @apply bg-blue-500/80 dark:bg-blue-600/80;
+  }
+  
+  .bg-chemistry-post-transition-metal {
+    @apply bg-purple-400/80 dark:bg-purple-700/80;
+  }
+  
+  .bg-chemistry-metalloid {
+    @apply bg-emerald-400/80 dark:bg-emerald-700/80;
+  }
+  
+  .bg-chemistry-nonmetal {
+    @apply bg-green-400/80 dark:bg-green-600/80;
+  }
+  
+  .bg-chemistry-halogen {
+    @apply bg-cyan-500/80 dark:bg-cyan-600/80;
+  }
+  
+  .bg-chemistry-noble-gas {
+    @apply bg-fuchsia-400/80 dark:bg-fuchsia-700/80;
+  }
+  
+  .bg-chemistry-lanthanide {
+    @apply bg-pink-500/80 dark:bg-pink-700/80;
+  }
+  
+  .bg-chemistry-actinide {
+    @apply bg-amber-500/80 dark:bg-amber-700/80;
+  }
+  
+  .bg-chemistry-unknown {
+    @apply bg-gray-400/80 dark:bg-gray-600/80;
+  }
+  
+  /* Chemistry Animation Classes */
+  @keyframes rise {
+    0% { transform: translateY(0); opacity: 0.7; }
+    100% { transform: translateY(-20px); opacity: 0; }
+  }
+  
+  @keyframes fall {
+    0% { transform: translateY(-20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0.7; }
+  }
+  
+  @keyframes flame {
+    0% { transform: scale(0.9); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(0.9); opacity: 0.5; }
+  }
+  
+  @keyframes neutralize {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); filter: brightness(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes explosion-particle {
+    0% { transform: translate(0, 0); opacity: 1; }
+    100% { transform: translate(var(--x-move), var(--y-move)); opacity: 0; }
+  }
+  
+  @keyframes gas-rise {
+    0% { transform: translateY(0) scale(0.5); opacity: 0.1; }
+    50% { opacity: 0.7; }
+    100% { transform: translateY(-100px) scale(2); opacity: 0; }
+  }
+  
+  .animate-rise {
+    animation: rise 2s ease-out forwards;
+  }
+  
+  .animate-fall {
+    animation: fall 2s ease-out forwards;
+  }
+  
+  .animate-flame {
+    animation: flame 1s ease-in-out infinite;
+  }
+  
+  .animate-neutralize {
+    animation: neutralize 1s ease-in-out;
+  }
+  
+  .animate-bounce-subtle {
+    animation: bounce 1s ease-in-out infinite;
+  }
+  
+  .animate-gas-rise {
+    animation: gas-rise 3s ease-out forwards;
+  }
+  
+  .animate-explosion-particle {
+    --x-move: 0px;
+    --y-move: 0px;
+    animation: explosion-particle 1s ease-out forwards;
   }
 }
