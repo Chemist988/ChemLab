@@ -81,7 +81,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                           element={getElementByAtomicNumber(atomicNumber)!}
                           onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
                           size="sm"
-                          className="animate-fade-in hover:animate-bounce-subtle"
+                          className="animate-fade-in"
                         />
                       )}
                     </div>
