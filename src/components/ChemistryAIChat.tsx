@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Bot, SendHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,58 @@ interface Message {
   isUser: boolean;
   timestamp: Date;
 }
+
+// Slang language mapping for common terms
+const slangDictionary: Record<string, string> = {
+  // Common texting abbreviations
+  'lol': 'laugh out loud',
+  'rofl': 'rolling on the floor laughing',
+  'lmao': 'laughing my [posterior] off',
+  'brb': 'be right back',
+  'btw': 'by the way',
+  'afaik': 'as far as I know',
+  'imo': 'in my opinion',
+  'imho': 'in my humble opinion',
+  'tbh': 'to be honest',
+  'fyi': 'for your information',
+  'idk': 'I don\'t know',
+  'idc': 'I don\'t care',
+  'omg': 'oh my goodness',
+  'ttyl': 'talk to you later',
+  'smh': 'shaking my head',
+  'wtf': 'what the [expletive]',
+  'yolo': 'you only live once',
+  'fomo': 'fear of missing out',
+  'rn': 'right now',
+  'tfw': 'that feeling when',
+  'tbt': 'throwback thursday',
+  'ngl': 'not gonna lie',
+  'sus': 'suspicious',
+  'gg': 'good game',
+  'no cap': 'no lie',
+  'lit': 'excellent or exciting',
+  'slay': 'do something impressively well',
+  'bet': 'affirmation/agreement',
+  'fr': 'for real',
+  'fax': 'facts',
+  'wyd': 'what you doing',
+  'ofc': 'of course',
+  'tho': 'though',
+  'u': 'you',
+  'r': 'are',
+  'ur': 'your',
+  'y': 'why',
+  'k': 'okay',
+  'thx': 'thanks',
+  'bc': 'because',
+  'b4': 'before',
+  'ppl': 'people',
+  'srsly': 'seriously',
+  'dm': 'direct message',
+  'fb': 'Facebook',
+  'ig': 'Instagram',
+  'yt': 'YouTube'
+};
 
 const ChemistryAIChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
@@ -33,46 +86,113 @@ const ChemistryAIChat: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Knowledge base - expanded with more general knowledge
+  // Expanded knowledge base - now with much more categories
   const knowledgeBase = {
-    // Chemistry knowledge from before
-    // ... keep existing code (chemistry knowledge entries)
+    // Chemistry knowledge
+    chemistry: "Chemistry is the scientific study of matter, its properties, and the changes it undergoes. It involves elements, compounds, atoms, molecules, and reactions between substances.",
+    element: "In chemistry, an element is a substance that cannot be broken down into simpler substances by chemical means. Each element is made up of atoms with the same number of protons.",
+    compound: "A compound is a substance formed when two or more elements are chemically joined. Water (H₂O) is a compound of hydrogen and oxygen.",
+    molecule: "A molecule is a group of atoms bonded together, representing the smallest fundamental unit of a chemical compound that can take part in a chemical reaction.",
+    acid: "Acids are substances that donate hydrogen ions (H⁺) and have a pH less than 7. They typically taste sour and can react with metals to form hydrogen gas.",
+    base: "Bases are substances that accept hydrogen ions (or donate OH⁻ ions) and have a pH greater than 7. They typically taste bitter and feel slippery.",
+    reaction: "A chemical reaction is a process where one or more substances are converted into different substances. It involves breaking and forming chemical bonds.",
+    organic: "Organic chemistry is the study of carbon compounds, especially those found in living things. It's crucial for understanding life processes and developing medicines.",
+    inorganic: "Inorganic chemistry is the study of non-carbon compounds, including metals and minerals. It's important for understanding materials, catalysis, and industrial processes.",
+    periodic: "The periodic table is a tabular arrangement of chemical elements, organized by their atomic number, electron configuration, and chemical properties.",
     
-    // General knowledge topics
-    science: "Science is the systematic study of the structure and behavior of the physical and natural world through observation, experimentation, and theoretical explanation. The major branches include physics, chemistry, biology, astronomy, and Earth sciences.",
-    math: "Mathematics is the study of numbers, quantities, and shapes. It uses logic and abstraction to develop theories and solve problems in fields such as algebra, geometry, calculus, and statistics.",
-    physics: "Physics is the study of matter, energy, and the interaction between them. It explores the fundamental forces of nature and the basic principles that govern the universe, from subatomic particles to galaxies.",
-    biology: "Biology is the study of living organisms and their interactions with each other and the environment. It covers topics from molecular processes to ecosystems and evolution.",
-    history: "History is the study of past events, particularly human affairs. Historical research uses primary sources, archaeology, and other evidence to understand how societies have changed over time.",
-    geography: "Geography studies the lands, features, inhabitants, and phenomena of Earth. It examines both the physical properties of Earth's surface and the human societies spread across it.",
-    literature: "Literature encompasses written works valued for their form, ideas, or emotional impact. It includes poetry, novels, plays, and essays from cultures around the world.",
-    art: "Art is the expression of creative skill and imagination, typically in visual forms such as painting, sculpture, and photography, producing works appreciated primarily for their beauty or emotional power.",
-    music: "Music is the art of arranging sounds in time. It is expressed through elements such as melody, harmony, rhythm, and timbre, and can be performed with voice or instruments.",
-    technology: "Technology refers to methods, systems, and devices that are the result of scientific knowledge being used for practical purposes. It encompasses everything from simple tools to complex systems.",
-    space: "Space, or outer space, refers to the void that exists between celestial bodies, including Earth. It includes planets, moons, stars, galaxies, and all other matter and energy in the universe.",
-    earth: "Earth is the third planet from the Sun and the only astronomical object known to harbor life. It has a dynamic surface with continents and oceans, an atmosphere that supports life, and a variety of ecosystems.",
-    climate: "Climate is the average weather conditions in a place over a long period. Climate change refers to significant changes in global temperature, precipitation, wind patterns, and other measures of climate that occur over several decades or longer.",
-    health: "Health is a state of complete physical, mental, and social well-being, not merely the absence of disease or infirmity. It encompasses lifestyle, genetics, environment, and healthcare.",
-    nutrition: "Nutrition is the process of providing or obtaining the food necessary for health and growth. It studies nutrients and other substances in foods, how the body uses them, and the relationship between diet, health, and disease.",
-    sports: "Sports are physical activities governed by a set of rules or customs, often engaged in competitively. They provide exercise, develop skills, promote teamwork, and entertain spectators.",
-    economy: "The economy is the system of production, distribution, and consumption of goods and services within a region. Economics studies how individuals, businesses, governments, and nations make choices about allocating resources.",
-    politics: "Politics involves the activities associated with governance of a country or area, especially the debate or conflict among individuals or parties having or hoping to achieve power.",
-    philosophy: "Philosophy is the study of fundamental questions about existence, knowledge, values, reason, mind, and language. It seeks wisdom through rational argument and critical discussion.",
-    psychology: "Psychology is the scientific study of the mind and behavior. It explores concepts such as perception, cognition, attention, emotion, intelligence, motivation, brain functioning, and personality.",
-    sociology: "Sociology is the study of society, patterns of social relationships, social interaction, and culture. It uses various methods of empirical investigation and critical analysis.",
-    language: "Language is a system of communication consisting of sounds, words, and grammar used by humans. Linguistics studies language structure, acquisition, history, and use in society.",
-    religion: "Religion involves belief in and worship of a superhuman controlling power, especially a personal God or gods. Religious studies examine belief systems, practices, texts, and institutions across cultures.",
-    internet: "The Internet is a global network of interconnected computers that allows for the sharing of information through websites, email, messaging, and other services. It has revolutionized communication and access to information.",
-    ai: "Artificial Intelligence (AI) is the simulation of human intelligence in machines programmed to think and learn like humans. It includes machine learning, natural language processing, computer vision, and robotics.",
-    programming: "Programming involves writing computer code to create software that accomplishes specific tasks. Common programming languages include Python, JavaScript, Java, C++, and many others.",
+    // Science categories
+    science: "Science is the systematic study of the structure and behavior of the physical and natural world through observation, experimentation, and theoretical explanation.",
+    physics: "Physics is the branch of science concerned with the nature and properties of matter and energy, including mechanics, heat, light, sound, electricity, magnetism, and atomic structure.",
+    biology: "Biology is the study of living organisms, including their physical structure, chemical processes, molecular interactions, physiological mechanisms, development, and evolution.",
+    astronomy: "Astronomy is the scientific study of celestial objects (such as stars, planets, comets, and galaxies), the physics, chemistry, and evolution of objects in the universe.",
+    geology: "Geology is the science that deals with the Earth's physical structure and substance, its history, and the processes that act on it.",
+    ecology: "Ecology is the study of how organisms interact with one another and with their physical environment.",
+    
+    // Technology and computers
+    technology: "Technology refers to methods, systems, and devices which are the result of scientific knowledge being used for practical purposes.",
+    computer: "A computer is an electronic device that manipulates information or data. It can store, retrieve, and process data according to instructions.",
+    internet: "The Internet is a global network of billions of computers and other electronic devices that allows people to connect and share information.",
+    software: "Software refers to programs and other operating information used by a computer to perform specific tasks.",
+    hardware: "Hardware refers to the physical components of a computer system, including the monitor, keyboard, CPU, and storage devices.",
+    programming: "Programming involves writing computer code to create software programs that perform specific tasks or solve particular problems.",
+    ai: "Artificial Intelligence (AI) refers to the simulation of human intelligence in machines, particularly computer systems. AI involves problem solving, learning, reasoning, and self-correction.",
+    
+    // Mathematics
+    math: "Mathematics is the science of numbers, quantities, and shapes and the relations between them. It's used in many fields including science, engineering, medicine, and economics.",
+    algebra: "Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols to solve equations and study mathematical structures.",
+    geometry: "Geometry is a branch of mathematics concerned with questions of shape, size, relative position of figures, and the properties of space.",
+    calculus: "Calculus is the mathematical study of continuous change, dealing with derivatives (rates of change) and integrals (accumulations).",
+    statistics: "Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.",
+    
+    // History and social sciences
+    history: "History is the study of past events, particularly human affairs. It helps us understand how societies and individuals have changed over time.",
+    geography: "Geography is the study of places and the relationships between people and their environments, including physical features and human societies.",
+    economics: "Economics is the social science that studies the production, distribution, and consumption of goods and services.",
+    politics: "Politics refers to the activities associated with governance, especially the debate or conflict among groups or individuals having or hoping to achieve political power.",
+    psychology: "Psychology is the scientific study of the mind and behavior. It explores concepts such as perception, cognition, emotion, intelligence, and personality.",
+    sociology: "Sociology is the study of human social relationships and institutions, examining how social structures and cultural norms influence human behavior.",
+    anthropology: "Anthropology is the scientific study of humans, human behavior, and societies in the past and present.",
+    
+    // Arts and humanities
+    art: "Art is a diverse range of human activities in creating visual, auditory or performing artifacts expressing the author's imaginative or technical skill.",
+    literature: "Literature refers to written works, especially those considered of superior or lasting artistic merit, including fiction, non-fiction, drama, and poetry.",
+    music: "Music is an art form and cultural activity whose medium is sound organized in time, generally produced with the intent to be heard.",
+    philosophy: "Philosophy is the study of fundamental questions about existence, knowledge, values, reason, mind, and language.",
+    religion: "Religion involves beliefs and practices related to supernatural or spiritual elements, often including sacred texts, rituals, and ethical guidelines.",
+    language: "Language is a system of communication consisting of sounds, words, and grammar used by humans to express ideas and feelings.",
+    
+    // Health and medicine
+    health: "Health refers to a state of complete physical, mental, and social well-being and not merely the absence of disease or infirmity.",
+    medicine: "Medicine is the science and practice of establishing the diagnosis, prognosis, treatment, and prevention of disease.",
+    disease: "A disease is an abnormal condition negatively affecting the structure or function of an organism, not due to external injury.",
+    nutrition: "Nutrition is the study of nutrients in food and how the body uses them for growth, metabolism, and repair.",
+    exercise: "Physical exercise is bodily activity that enhances or maintains physical fitness and overall health and wellness.",
+    mental: "Mental health includes our emotional, psychological, and social well-being. It affects how we think, feel, and act.",
+    
+    // Current issues
+    climate: "Climate change refers to long-term shifts in temperatures and weather patterns, largely caused by human activities, particularly burning fossil fuels.",
+    environment: "Environmental science studies interactions among the physical, chemical, and biological components of the environment and human impacts on these systems.",
+    energy: "Energy is the capacity for doing work. It exists in various forms such as heat, kinetic (motion), light, potential (stored), electrical, and chemical energy.",
+    sustainability: "Sustainability focuses on meeting the needs of the present without compromising the ability of future generations to meet their needs.",
+    
+    // Popular culture
+    movie: "Movies (or films) are visual arts that simulate experiences and tell stories through moving images, often with sound, providing entertainment and artistic expression.",
+    music: "Popular music includes genres widely accessible to the general public, often distributed through the music industry via recordings and broadcasts.",
+    game: "Video games are electronic games that involve interaction with a user interface to generate visual feedback on a display device, providing entertainment and challenges.",
+    sport: "Sports involve physical activity and skill where individuals or teams compete against each other, following specific rules and objectives.",
+    celebrity: "Celebrities are people who have gained fame and public attention, often due to achievements in entertainment, sports, politics, or other fields.",
+    
+    // General knowledge
+    world: "The world refers to the Earth, especially as the habitat of human beings, with its countries, peoples, and natural features.",
+    country: "A country is a nation with its own government, occupying a particular territory. There are approximately 195 countries in the world today.",
+    ocean: "Oceans are large bodies of saltwater that cover approximately 70% of Earth's surface. The five major oceans are the Pacific, Atlantic, Indian, Southern, and Arctic.",
+    animal: "Animals are multicellular eukaryotic organisms in the biological kingdom Animalia, ranging from simple organisms to complex mammals.",
+    plant: "Plants are mainly multicellular organisms in the kingdom Plantae that use photosynthesis to make their own food using energy from the sun.",
+    space: "Space, or outer space, refers to the relatively empty regions of the universe outside the atmospheres of celestial bodies, containing stars, planets, and galaxies."
+  };
+
+  // Process slang terms in user input
+  const processSlang = (input: string): string => {
+    let processedInput = input.toLowerCase();
+    
+    // Replace slang terms with their meanings
+    Object.keys(slangDictionary).forEach(slang => {
+      const regex = new RegExp(`\\b${slang}\\b`, 'gi');
+      processedInput = processedInput.replace(regex, slangDictionary[slang]);
+    });
+    
+    return processedInput;
   };
 
   const generateResponse = async (userQuestion: string): Promise<string> => {
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
 
-    const lowercaseQuestion = userQuestion.toLowerCase();
-    let response = "I don't have specific information about that topic. Could you try asking something else? I'm knowledgeable about chemistry, science, history, and many other subjects.";
+    // Process any slang in the question
+    const processedQuestion = processSlang(userQuestion);
+    const lowercaseQuestion = processedQuestion.toLowerCase();
+    
+    let response = "";
     
     // Extract keywords from the question
     const keywords = Object.keys(knowledgeBase);
@@ -104,9 +224,20 @@ const ChemistryAIChat: React.FC = () => {
         response = "I'm an AI assistant designed to answer questions on a wide range of topics, with special knowledge in chemistry and science.";
       } else if (lowercaseQuestion.includes("thank")) {
         response = "You're welcome! Feel free to ask if you have any other questions.";
+      } else if (lowercaseQuestion.includes("who made you") || lowercaseQuestion.includes("creator")) {
+        response = "I was developed by a team of engineers and scientists focusing on natural language processing and knowledge retrieval.";
+      } else if (lowercaseQuestion.includes("joke") || lowercaseQuestion.includes("funny")) {
+        const jokes = [
+          "Why don't scientists trust atoms? Because they make up everything!",
+          "I told my chemistry joke, but there was no reaction.",
+          "Why was the math book sad? Because it had too many problems!",
+          "Why did the scarecrow win an award? Because he was outstanding in his field!",
+          "What's the best way to organize a space party? You planet!"
+        ];
+        response = jokes[Math.floor(Math.random() * jokes.length)];
       } else {
-        // Generic response for unrecognized topics
-        response = "That's an interesting question! While I don't have specific information on that exact topic, I can try to help if you ask about chemistry, science, history, art, technology, or many other subjects.";
+        // General knowledge response for unrecognized topics
+        response = "That's an interesting question! While I don't have specific information on that exact topic, I can try to help if you have other questions. I'm knowledgeable about science, history, technology, arts, health, and many other subjects.";
       }
     }
     

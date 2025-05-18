@@ -48,7 +48,7 @@ const ElementSuggestions: React.FC<ElementSuggestionsProps> = ({
                   <ElementCard 
                     element={suggestedElement} 
                     onClick={() => onSelectElement(suggestedElement)} 
-                    size="xs"
+                    size="sm"
                     isDraggable={false}
                   />
                 </div>

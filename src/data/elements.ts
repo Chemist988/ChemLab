@@ -1,4 +1,3 @@
-
 export interface Element {
   id: number;
   symbol: string;
@@ -58,7 +57,7 @@ export const categoryNames: Record<ElementCategory, string> = {
   'unknown': 'Unknown',
 };
 
-// Define the periodic table layout (new export)
+// Define the periodic table layout
 export const periodicTableLayout: number[][] = [
   // Period 1
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
@@ -775,4 +774,265 @@ export const elements: Element[] = [
     discoveredBy: 'Charles Hatchett',
     description: 'Soft, grey, ductile transition metal, often used in alloys and superconductors due to its resistance to corrosion.'
   },
+  {
+    id: 42,
+    symbol: 'Mo',
+    name: 'Molybdenum',
+    atomicNumber: 42,
+    atomicMass: 95.95,
+    category: 'transition-metal',
+    group: 6,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁵',
+    electronegativity: 2.16,
+    density: 10.28,
+    meltingPoint: 2623,
+    boilingPoint: 4639,
+    discoveredBy: 'Carl Wilhelm Scheele',
+    description: 'Silvery metal with a gray cast, valued for its strength and resistance to heat and corrosion, used in high-strength steel alloys.'
+  },
+  {
+    id: 43,
+    symbol: 'Tc',
+    name: 'Technetium',
+    atomicNumber: 43,
+    atomicMass: 98,
+    category: 'transition-metal',
+    group: 7,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d⁵',
+    electronegativity: 1.9,
+    density: 11.5,
+    meltingPoint: 2157,
+    boilingPoint: 4265,
+    discoveredBy: 'Carlo Perrier and Emilio Segrè',
+    description: 'Silvery-gray, radioactive metal that does not occur naturally on Earth, used primarily in medical diagnostic procedures.'
+  },
+  {
+    id: 44,
+    symbol: 'Ru',
+    name: 'Ruthenium',
+    atomicNumber: 44,
+    atomicMass: 101.07,
+    category: 'transition-metal',
+    group: 8,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁷',
+    electronegativity: 2.2,
+    density: 12.37,
+    meltingPoint: 2334,
+    boilingPoint: 4150,
+    discoveredBy: 'Karl Ernst Claus',
+    description: 'Hard, lustrous, silver-white metal from the platinum group, resistant to corrosion and used in alloys to increase hardness.'
+  },
+  {
+    id: 45,
+    symbol: 'Rh',
+    name: 'Rhodium',
+    atomicNumber: 45,
+    atomicMass: 102.91,
+    category: 'transition-metal',
+    group: 9,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁸',
+    electronegativity: 2.28,
+    density: 12.41,
+    meltingPoint: 1964,
+    boilingPoint: 3695,
+    discoveredBy: 'William Hyde Wollaston',
+    description: 'Silvery-white, hard, corrosion-resistant precious metal, used as catalytic converters in cars and for jewelry plating.'
+  },
+  {
+    id: 46,
+    symbol: 'Pd',
+    name: 'Palladium',
+    atomicNumber: 46,
+    atomicMass: 106.42,
+    category: 'transition-metal',
+    group: 10,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 4d¹⁰',
+    electronegativity: 2.2,
+    density: 12.02,
+    meltingPoint: 1555,
+    boilingPoint: 2963,
+    discoveredBy: 'William Hyde Wollaston',
+    description: 'Least dense and lowest melting of the platinum group metals, extensively used in catalytic converters and electronics.'
+  },
+  {
+    id: 47,
+    symbol: 'Ag',
+    name: 'Silver',
+    atomicNumber: 47,
+    atomicMass: 107.87,
+    category: 'transition-metal',
+    group: 11,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d¹⁰',
+    electronegativity: 1.93,
+    density: 10.49,
+    meltingPoint: 961.78,
+    boilingPoint: 2162,
+    discoveredBy: 'Ancient',
+    description: 'Soft, white, lustrous transition metal with the highest electrical conductivity of any element and the highest thermal conductivity of any metal.'
+  },
+  {
+    id: 48,
+    symbol: 'Cd',
+    name: 'Cadmium',
+    atomicNumber: 48,
+    atomicMass: 112.41,
+    category: 'transition-metal',
+    group: 12,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d¹⁰',
+    electronegativity: 1.69,
+    density: 8.65,
+    meltingPoint: 321.07,
+    boilingPoint: 767,
+    discoveredBy: 'Karl Samuel Leberecht Hermann and Friedrich Stromeyer',
+    description: 'Soft, bluish-white metal that is highly toxic and primarily used in batteries, pigments, coatings, and plating.'
+  },
+  {
+    id: 49,
+    symbol: 'In',
+    name: 'Indium',
+    atomicNumber: 49,
+    atomicMass: 114.82,
+    category: 'post-transition-metal',
+    group: 13,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d¹⁰ 5p¹',
+    electronegativity: 1.78,
+    density: 7.31,
+    meltingPoint: 156.6,
+    boilingPoint: 2072,
+    discoveredBy: 'Ferdinand Reich and Hieronymous Theodor Richter',
+    description: 'Soft, malleable post-transition metal with a bright luster, used primarily in LCD screens and semiconductor materials.'
+  },
+  {
+    id: 50,
+    symbol: 'Sn',
+    name: 'Tin',
+    atomicNumber: 50,
+    atomicMass: 118.71,
+    category: 'post-transition-metal',
+    group: 14,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d¹⁰ 5p²',
+    electronegativity: 1.96,
+    density: 7.31,
+    meltingPoint: 231.93,
+    boilingPoint: 2602,
+    discoveredBy: 'Ancient',
+    description: 'Silvery metal that resists corrosion, used in solder, tin plating, and various alloys. When bent, it emits a characteristic "tin cry" sound.'
+  },
+];
+
+// Common molecules for the reactions
+export const molecules = [
+  {
+    id: 1,
+    formula: 'H2O',
+    name: 'Water',
+    description: 'The most common compound on Earth\'s surface, essential for all known forms of life.',
+    composition: [
+      { elementId: 1, count: 2 }, // Hydrogen
+      { elementId: 8, count: 1 }  // Oxygen
+    ]
+  },
+  {
+    id: 2,
+    formula: 'NaCl',
+    name: 'Sodium Chloride (Table Salt)',
+    description: 'Essential for animal life, used as a food preservative and seasoning.',
+    composition: [
+      { elementId: 11, count: 1 }, // Sodium
+      { elementId: 17, count: 1 }  // Chlorine
+    ]
+  },
+  {
+    id: 3,
+    formula: 'CO2',
+    name: 'Carbon Dioxide',
+    description: 'Used by plants for photosynthesis, a greenhouse gas, and important in Earth\'s carbon cycle.',
+    composition: [
+      { elementId: 6, count: 1 },  // Carbon
+      { elementId: 8, count: 2 }   // Oxygen
+    ]
+  },
+  {
+    id: 4,
+    formula: 'NH3',
+    name: 'Ammonia',
+    description: 'Used in fertilizers, cleaning products, and manufacturing processes.',
+    composition: [
+      { elementId: 7, count: 1 },  // Nitrogen
+      { elementId: 1, count: 3 }   // Hydrogen
+    ]
+  },
+  {
+    id: 5,
+    formula: 'CH4',
+    name: 'Methane',
+    description: 'Simplest hydrocarbon and a potent greenhouse gas, used as a fuel.',
+    composition: [
+      { elementId: 6, count: 1 },  // Carbon
+      { elementId: 1, count: 4 }   // Hydrogen
+    ]
+  },
+  {
+    id: 6,
+    formula: 'C2H5OH',
+    name: 'Ethanol (Drinking Alcohol)',
+    description: 'Used in alcoholic beverages, as a solvent, and as a fuel.',
+    composition: [
+      { elementId: 6, count: 2 },  // Carbon
+      { elementId: 1, count: 6 },  // Hydrogen
+      { elementId: 8, count: 1 }   // Oxygen
+    ]
+  },
+  {
+    id: 7,
+    formula: 'C6H12O6',
+    name: 'Glucose',
+    description: 'Simple sugar used by cells for energy in the process of cellular respiration.',
+    composition: [
+      { elementId: 6, count: 6 },  // Carbon
+      { elementId: 1, count: 12 }, // Hydrogen
+      { elementId: 8, count: 6 }   // Oxygen
+    ]
+  },
+  {
+    id: 8,
+    formula: 'H2SO4',
+    name: 'Sulfuric Acid',
+    description: 'Strong mineral acid used in fertilizer manufacturing, chemical synthesis, and metal processing.',
+    composition: [
+      { elementId: 1, count: 2 },  // Hydrogen
+      { elementId: 16, count: 1 }, // Sulfur
+      { elementId: 8, count: 4 }   // Oxygen
+    ]
+  },
+  {
+    id: 9,
+    formula: 'HCl',
+    name: 'Hydrochloric Acid',
+    description: 'Strong corrosive acid found in gastric acid, used in metal cleaning and processing.',
+    composition: [
+      { elementId: 1, count: 1 },  // Hydrogen
+      { elementId: 17, count: 1 }  // Chlorine
+    ]
+  },
+  {
+    id: 10,
+    formula: 'NaOH',
+    name: 'Sodium Hydroxide (Lye)',
+    description: 'Strong base used in manufacturing soap, paper, and drain cleaners.',
+    composition: [
+      { elementId: 11, count: 1 }, // Sodium
+      { elementId: 8, count: 1 },  // Oxygen
+      { elementId: 1, count: 1 }   // Hydrogen
+    ]
+  }
 ];
