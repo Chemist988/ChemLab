@@ -6,6 +6,7 @@ import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
+import ChemistryAIChat from '@/components/ChemistryAIChat';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
@@ -46,6 +47,7 @@ const Index = () => {
               <Tabs defaultValue="reaction">
                 <TabsList className="w-full mb-4">
                   <TabsTrigger value="reaction" className="flex-1">Reaction Zone</TabsTrigger>
+                  <TabsTrigger value="chat" className="flex-1">AI Chat</TabsTrigger>
                   <TabsTrigger value="info" className="flex-1">Guide</TabsTrigger>
                 </TabsList>
                 
@@ -58,6 +60,10 @@ const Index = () => {
                   <ReactionZone onElementClick={handleElementClick} />
                 </TabsContent>
                 
+                <TabsContent value="chat" className="h-[500px]">
+                  <ChemistryAIChat />
+                </TabsContent>
+                
                 <TabsContent value="info">
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold">How it works</h2>
@@ -67,6 +73,7 @@ const Index = () => {
                       <li>Combine two elements to see their simulated reaction</li>
                       <li>The AI will generate an animated visualization of the reaction</li>
                       <li>Clear the reaction zone to try different combinations</li>
+                      <li>Use the AI chat to ask questions about chemistry concepts</li>
                     </ol>
                     
                     <h3 className="text-lg font-semibold mt-6">Available Reactions</h3>
