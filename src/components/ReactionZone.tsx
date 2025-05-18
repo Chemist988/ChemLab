@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element } from '../data/elements';
 import ElementCard from './ElementCard';
+import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [gas, setGas] = useState(false);
   const [splash, setSplash] = useState(false);
   const [powderBurst, setPowderBurst] = useState<{active: boolean; color: string}>({active: false, color: 'white'});
+  const [suggestedElements, setSuggestedElements] = useState<Element[]>([]);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -33,8 +34,52 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }),
   }));
 
+  // Helper function to find compatible elements
+  const findCompatibleElements = (element: Element): Element[] => {
+    // This is a simplified approach - in a real app, you would have a more
+    // sophisticated algorithm or database of compatible elements
+    const elementsDatabase = require('../data/elements').elements;
+    
+    // Simple compatibility rules based on element categories and properties
+    const compatibleElements = elementsDatabase.filter((e: Element) => {
+      // Don't suggest the same element
+      if (e.symbol === element.symbol) return false;
+      
+      // Different categories tend to react interestingly
+      if (e.category !== element.category) {
+        return true;
+      }
+      
+      // Metals often react well with non-metals
+      if ((element.category.includes('metal') && !e.category.includes('metal')) ||
+          (!element.category.includes('metal') && e.category.includes('metal'))) {
+        return true;
+      }
+      
+      // Elements with very different atomic numbers sometimes react well
+      if (Math.abs(e.atomicNumber - element.atomicNumber) > 30) {
+        return true;
+      }
+      
+      return false;
+    });
+    
+    // Return a random selection of up to 4 compatible elements
+    return shuffleArray(compatibleElements).slice(0, 4);
+  };
+  
+  // Shuffle array helper
+  const shuffleArray = (array: any[]): any[] => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
+
   const addElement = (element: Element) => {
-    if (selectedElements.length < 2) {
+    if (selectedElements.length < 4) {
       // Create splash effect when adding element to beaker
       setSplash(true);
       setTimeout(() => setSplash(false), 700);
@@ -52,7 +97,14 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setBubbles(newBubbles);
       
       // Add element with animation delay
-      setSelectedElements((prev) => [...prev, element]);
+      setSelectedElements((prev) => {
+        const newElements = [...prev, element];
+        
+        // Update suggested elements based on the last added element
+        setSuggestedElements(findCompatibleElements(element));
+        
+        return newElements;
+      });
       
       // Show toast
       toast({
@@ -76,11 +128,15 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setGas(false);
     setSplash(false);
     setPowderBurst({active: false, color: 'white'});
+    setSuggestedElements([]);
   };
 
   const simulateCurrentReaction = () => {
-    if (selectedElements.length === 2) {
+    if (selectedElements.length >= 2) {
       setAnimating(true);
+      
+      // For simplicity, we'll use the first two elements for the reaction
+      // In a more complex implementation, you could consider all combinations
       const result = simulateReaction(selectedElements[0], selectedElements[1]);
       
       // Create intense bubble effect for reaction
@@ -127,10 +183,11 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   }, [bubbles]);
 
   useEffect(() => {
-    if (selectedElements.length === 2) {
+    if (selectedElements.length >= 2 && selectedElements.length <= 4) {
       simulateCurrentReaction();
-    } else {
+    } else if (selectedElements.length === 0) {
       setReaction(null);
+      setSuggestedElements([]);
     }
   }, [selectedElements]);
 
@@ -161,6 +218,15 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           transition-all duration-300 shadow-sm
         `}
       >
+        {/* Element Suggestions Popup */}
+        {selectedElements.length > 0 && (
+          <ElementSuggestions 
+            element={selectedElements[selectedElements.length - 1]} 
+            onSelectElement={addElement}
+            suggestedElements={suggestedElements}
+          />
+        )}
+        
         {/* Explosion effect */}
         {explosion && (
           <div className="absolute inset-0 z-10">
@@ -301,24 +367,25 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                   <div className="text-center text-muted-foreground">
                     <Beaker className="mx-auto h-8 w-8 mb-2" />
                     <p>Drag elements here to start a reaction</p>
-                    <p className="text-xs mt-1">Try combining two elements!</p>
+                    <p className="text-xs mt-1">Try combining up to four elements!</p>
                   </div>
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center">
-                    <div className="flex flex-wrap items-center justify-center gap-3">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
                       {selectedElements.map((element, index) => (
                         <div 
                           key={index} 
                           className={`
                             ${index === 0 && animating ? 'animate-bounce-subtle' : ''}
                             ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''}
+                            ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''}
                             ${(explosion || gas) && 'animate-shake'}
                           `}
                         >
                           <ElementCard 
                             element={element} 
                             onClick={() => onElementClick(element)}
-                            size="sm"
+                            size="xs"
                             isDraggable={false}
                           />
                         </div>
