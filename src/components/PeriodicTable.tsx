@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames, categoryColors } from '../data/elements';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useTheme } from '@/hooks/use-theme';
 import { Atom } from 'lucide-react';
@@ -14,7 +13,6 @@ interface PeriodicTableProps {
 
 const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
   const { theme } = useTheme();
-  const [showLegend, setShowLegend] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const getElementByAtomicNumber = (atomicNumber: number): Element | undefined => {
@@ -39,25 +37,17 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
         <div className="flex items-center">
           <h3 className="text-md font-semibold">Interactive Periodic Table</h3>
         </div>
-        <div className="flex items-center gap-2">
-          <Label htmlFor="show-legend" className="text-sm">Legend</Label>
-          <Switch 
-            id="show-legend" 
-            checked={showLegend} 
-            onCheckedChange={setShowLegend}
-          />
-        </div>
       </div>
 
-      <div className="relative rounded-lg overflow-hidden border shadow-md bg-gradient-to-br from-card to-background">
+      <div className="relative rounded-xl overflow-hidden border shadow-md bg-gradient-to-br from-card to-background/80">
         <ScrollArea className="h-[600px] w-full">
           <div className="relative p-6">
             <div 
               className="periodic-table-grid" 
               style={{ 
                 display: 'grid',
-                gridTemplateColumns: 'repeat(18, 42px)',
-                gridGap: '3px',
+                gridTemplateColumns: 'repeat(18, 54px)',
+                gridGap: '4px',
                 justifyContent: 'center',
                 padding: '8px'
               }}
@@ -72,8 +62,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                         ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
                       `}
                       style={{
-                        width: '42px',
-                        height: '42px'
+                        width: '54px',
+                        height: '54px'
                       }}
                     >
                       {atomicNumber > 0 && getElementByAtomicNumber(atomicNumber) && (
@@ -81,7 +71,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                           element={getElementByAtomicNumber(atomicNumber)!}
                           onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
                           size="sm"
-                          className="animate-fade-in"
+                          className="animate-fade-in backdrop-blur-sm"
                         />
                       )}
                     </div>
@@ -117,33 +107,31 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
         </div>
       </div>
       
-      {/* Legend */}
-      {showLegend && (
-        <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-card/50 rounded-lg shadow-sm border">
-          <div className="w-full text-center mb-1">
-            <h4 className="text-sm font-medium">Element Categories</h4>
-          </div>
-          {Object.entries(categoryNames).map(([category, name]) => (
-            <div 
-              key={category} 
-              className={`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 
-                bg-chemistry-${category} bg-opacity-30 dark:bg-opacity-50 
-                border border-chemistry-${category}/20 shadow-sm hover:shadow-md 
-                transition-shadow cursor-pointer
-                ${selectedCategory === category ? 'ring-2 ring-primary' : ''}
-              `}
-              onClick={() => handleCategoryClick(category)}
-            >
-              <div className={`w-3 h-3 rounded-full bg-chemistry-${category}`}></div>
-              {name}
-            </div>
-          ))}
+      {/* Legend - Always show the categories */}
+      <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm">
+        <div className="w-full text-center mb-1">
+          <h4 className="text-sm font-medium">Element Categories</h4>
         </div>
-      )}
+        {Object.entries(categoryNames).map(([category, name]) => (
+          <div 
+            key={category} 
+            className={`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 
+              bg-chemistry-${category} bg-opacity-30 dark:bg-opacity-50 
+              border border-chemistry-${category}/20 shadow-sm hover:shadow-md 
+              transition-shadow cursor-pointer
+              ${selectedCategory === category ? 'ring-2 ring-primary' : ''}
+            `}
+            onClick={() => handleCategoryClick(category)}
+          >
+            <div className={`w-3 h-3 rounded-full bg-chemistry-${category}`}></div>
+            {name}
+          </div>
+        ))}
+      </div>
       
       {/* Display filtered elements when category is selected */}
       {selectedCategory && (
-        <div className="mt-4 p-4 bg-card rounded-lg shadow-sm border animate-fade-in">
+        <div className="mt-4 p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm animate-fade-in">
           <h4 className="text-sm font-medium mb-3">
             {categoryNames[selectedCategory as keyof typeof categoryNames]} Elements
           </h4>

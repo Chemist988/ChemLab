@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element } from '../data/elements';
@@ -213,9 +214,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       <div 
         ref={drop}
         className={`
-          relative h-64 p-6 rounded-lg flex flex-col items-center justify-center overflow-hidden
-          ${isOver ? 'border-primary/70 bg-primary/5' : 'border border-border'}
-          transition-all duration-300 shadow-sm
+          relative h-96 p-6 rounded-xl flex flex-col items-center justify-center overflow-hidden
+          ${isOver ? 'border-primary/70 bg-primary/5' : 'border border-white/10'}
+          transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
         `}
       >
         {/* Element Suggestions Popup */}
@@ -239,13 +240,13 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                 </div>
               </div>
             </div>
-            {[...Array(20)].map((_, i) => (
+            {[...Array(30)].map((_, i) => (
               <div 
                 key={i} 
                 className="absolute bg-orange-500 rounded-full animate-explosion-particle"
                 style={{
-                  width: Math.random() * 8 + 2 + 'px',
-                  height: Math.random() * 8 + 2 + 'px',
+                  width: Math.random() * 12 + 2 + 'px',
+                  height: Math.random() * 12 + 2 + 'px',
                   left: Math.random() * 100 + '%',
                   top: Math.random() * 100 + '%',
                   opacity: Math.random() * 0.7 + 0.3,
@@ -260,13 +261,13 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         {/* Gas effect */}
         {gas && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-            {[...Array(15)].map((_, i) => (
+            {[...Array(25)].map((_, i) => (
               <div 
                 key={i} 
                 className="absolute bg-green-500/30 rounded-full animate-gas-rise dark:bg-green-400/30"
                 style={{
-                  width: Math.random() * 40 + 10 + 'px',
-                  height: Math.random() * 40 + 10 + 'px',
+                  width: Math.random() * 50 + 20 + 'px',
+                  height: Math.random() * 50 + 20 + 'px',
                   left: Math.random() * 100 + '%',
                   top: Math.random() * 30 + 70 + '%',
                   animationDuration: Math.random() * 3 + 3 + 's',
@@ -280,18 +281,18 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         {/* Splash effect */}
         {splash && (
           <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
-            {[...Array(12)].map((_, i) => (
+            {[...Array(20)].map((_, i) => (
               <div 
                 key={`splash-${i}`}
                 className="absolute bg-blue-400/70 dark:bg-blue-500/50"
                 style={{
-                  width: Math.random() * 6 + 2 + 'px',
-                  height: Math.random() * 12 + 8 + 'px',
+                  width: Math.random() * 8 + 2 + 'px',
+                  height: Math.random() * 16 + 10 + 'px',
                   left: 40 + Math.random() * 20 + '%',
                   top: 40 + Math.random() * 10 + '%',
                   borderRadius: '50% 50% 0 0',
                   transform: `rotate(${Math.random() * 360}deg)`,
-                  opacity: Math.random() * 0.7 + 0.3,
+                  opacity: Math.random() * 0.8 + 0.3,
                   animation: `splash-rise ${Math.random() * 0.8 + 0.5}s ease-out forwards`,
                 }}
               ></div>
@@ -302,10 +303,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         {/* Powder Burst effect */}
         {powderBurst.active && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(30)].map((_, i) => {
-              const size = Math.random() * 4 + 1;
+            {[...Array(40)].map((_, i) => {
+              const size = Math.random() * 6 + 1;
               const angle = Math.random() * Math.PI * 2;
-              const distance = Math.random() * 30 + 20;
+              const distance = Math.random() * 40 + 30;
               const duration = Math.random() * 1 + 0.5;
               
               return (
@@ -318,7 +319,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                     left: 'calc(50% - ' + size/2 + 'px)',
                     top: '50%',
                     backgroundColor: powderBurst.color,
-                    opacity: Math.random() * 0.8 + 0.2,
+                    opacity: Math.random() * 0.9 + 0.2,
                     transform: `translateY(-50%)`,
                     animation: `powder-burst ${duration}s ease-out forwards`,
                     '--x-move': `${Math.cos(angle) * distance}px`,
@@ -330,32 +331,35 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* Beaker container */}
+        {/* Beaker container - More Apple-like with frosted glass effect */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-48 h-48">
-            {/* Beaker body */}
-            <div className="absolute bottom-0 w-full h-[85%] border-2 border-gray-300 rounded-b-lg bg-blue-50/40 backdrop-blur-sm dark:border-gray-600 dark:bg-blue-950/20">
+          <div className="relative w-64 h-64">
+            {/* Beaker body - More premium design */}
+            <div className="absolute bottom-0 w-full h-[85%] border-[1px] border-white/30 dark:border-white/10 rounded-b-lg bg-white/10 backdrop-blur-md dark:bg-black/10 shadow-lg">
               {/* Beaker liquid */}
               <div 
                 className={`
-                  absolute bottom-0 w-full rounded-b-lg transition-all duration-700 ease-out
+                  absolute bottom-0 w-full rounded-b-lg transition-all duration-700 ease-out overflow-hidden
                   ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}
-                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-blue-100/70 dark:bg-blue-800/50'}
+                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'}
                   ${animating ? 'animate-pulse' : ''}
                 `}
               >
+                {/* Reflective surface */}
+                <div className="absolute inset-x-0 top-0 h-1 bg-white/40 dark:bg-white/20"></div>
+                
                 {/* Bubbles */}
                 {bubbles.map((bubble, index) => (
                   <div 
                     key={index} 
                     className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise"
                     style={{
-                      width: Math.max(4, Math.random() * 10) + 'px',
-                      height: Math.max(4, Math.random() * 10) + 'px',
+                      width: Math.max(4, Math.random() * 12) + 'px',
+                      height: Math.max(4, Math.random() * 12) + 'px',
                       bottom: (bubble * 100) + '%',
                       left: (Math.random() * 90 + 5) + '%',
                       animationDuration: (Math.random() * 2 + 1) + 's',
-                      opacity: Math.random() * 0.5 + 0.2
+                      opacity: Math.random() * 0.6 + 0.2
                     }}
                   />
                 ))}
@@ -365,9 +369,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
                 {selectedElements.length === 0 ? (
                   <div className="text-center text-muted-foreground">
-                    <Beaker className="mx-auto h-8 w-8 mb-2" />
+                    <Beaker className="mx-auto h-10 w-10 mb-2 opacity-70" />
                     <p>Drag elements here to start a reaction</p>
-                    <p className="text-xs mt-1">Try combining up to four elements!</p>
+                    <p className="text-xs mt-2 text-muted-foreground/80">Try combining up to four elements!</p>
                   </div>
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center">
@@ -411,10 +415,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             </div>
             
             {/* Beaker top rim */}
-            <div className="absolute top-[15%] w-full h-[3px] bg-gray-300 dark:bg-gray-600"></div>
+            <div className="absolute top-[15%] w-full h-[2px] bg-white/30 dark:bg-white/10"></div>
             
             {/* Beaker neck */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-2 border-l-2 border-r-2 border-gray-300 dark:border-gray-600"></div>
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-[1px] border-l-[1px] border-r-[1px] border-white/30 dark:border-white/10"></div>
           </div>
         </div>
       </div>
@@ -424,7 +428,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           variant="outline" 
           onClick={clearReaction}
           disabled={selectedElements.length === 0}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 dark:bg-black/20 dark:hover:bg-black/30"
         >
           <RotateCw className="h-4 w-4" /> Clear Reaction
         </Button>
@@ -437,23 +441,23 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 const getReactionColor = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
-      return 'bg-orange-200 dark:bg-orange-900/50';
+      return 'bg-gradient-to-b from-orange-200/70 to-orange-300/50 dark:from-orange-900/40 dark:to-orange-800/30';
     case 'gas':
-      return 'bg-green-200 dark:bg-green-900/50';
+      return 'bg-gradient-to-b from-green-200/70 to-green-300/50 dark:from-green-900/40 dark:to-green-800/30';
     case 'bubble':
-      return 'bg-blue-200 dark:bg-blue-900/50';
+      return 'bg-gradient-to-b from-blue-200/70 to-blue-300/50 dark:from-blue-900/40 dark:to-blue-800/30';
     case 'fade':
-      return 'bg-purple-200 dark:bg-purple-900/50';
+      return 'bg-gradient-to-b from-purple-200/70 to-purple-300/50 dark:from-purple-900/40 dark:to-purple-800/30';
     case 'crystallization':
-      return 'bg-indigo-200 dark:bg-indigo-900/50';
+      return 'bg-gradient-to-b from-indigo-200/70 to-indigo-300/50 dark:from-indigo-900/40 dark:to-indigo-800/30';
     case 'precipitation':
-      return 'bg-yellow-200 dark:bg-yellow-900/50';
+      return 'bg-gradient-to-b from-yellow-200/70 to-yellow-300/50 dark:from-yellow-900/40 dark:to-yellow-800/30';
     case 'combustion':
-      return 'bg-red-200 dark:bg-red-900/50';
+      return 'bg-gradient-to-b from-red-200/70 to-red-300/50 dark:from-red-900/40 dark:to-red-800/30';
     case 'neutralization':
-      return 'bg-teal-200 dark:bg-teal-900/50';
+      return 'bg-gradient-to-b from-teal-200/70 to-teal-300/50 dark:from-teal-900/40 dark:to-teal-800/30';
     default:
-      return 'bg-blue-100/70 dark:bg-blue-800/50';
+      return 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20';
   }
 };
 

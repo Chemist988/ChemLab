@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 interface ElementCardProps {
   element: Element;
   onClick: () => void;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xs';
   isDraggable?: boolean;
   className?: string;
 }
@@ -29,9 +29,10 @@ const ElementCard: React.FC<ElementCardProps> = ({
   }));
 
   const sizeClasses = {
-    sm: 'w-[42px] h-[42px] text-[0.65rem]',
-    md: 'w-[56px] h-[56px] text-xs',
-    lg: 'w-[72px] h-[72px] text-sm',
+    xs: 'w-[36px] h-[36px] text-[0.6rem]',
+    sm: 'w-[54px] h-[54px] text-[0.7rem]',
+    md: 'w-[64px] h-[64px] text-xs',
+    lg: 'w-[80px] h-[80px] text-sm',
   };
 
   return (
@@ -39,7 +40,7 @@ const ElementCard: React.FC<ElementCardProps> = ({
       ref={isDraggable ? drag : undefined}
       className={cn(
         `bg-chemistry-${element.category} rounded-md overflow-hidden cursor-pointer transition-all duration-300`,
-        `border border-white/20 dark:border-black/20`,
+        `backdrop-blur-sm border border-white/10 dark:border-black/10`,
         `hover:shadow-lg hover:scale-110 hover:z-20`,
         `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110' : ''}`,
         sizeClasses[size],
