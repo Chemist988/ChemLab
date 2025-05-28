@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { Bot, X } from 'lucide-react';
 import { Button } from './ui/button';
+import { useTheme } from '@/hooks/use-theme';
 
 const EduBotAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { theme } = useTheme();
 
   return (
     <>
@@ -21,7 +23,7 @@ const EduBotAssistant = () => {
       {/* Chatbot Modal */}
       {isOpen && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
-          <div className="w-full max-w-5xl h-[85vh] bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-black/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
+          <div className="w-full max-w-5xl h-[85vh] bg-white/95 dark:bg-gray-900/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
             {/* Header */}
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -30,7 +32,7 @@ const EduBotAssistant = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-white">Neutrino AI</h2>
-                  <p className="text-white/80 text-sm">Precision meets intuition. Your intelligent chemistry companion for NCERT Class 10</p>
+                  <p className="text-white/80 text-sm">Precision meets intuition. Your intelligent chemistry companion</p>
                 </div>
               </div>
               <Button
@@ -63,8 +65,8 @@ const EduBotAssistant = () => {
                   <p className="text-gray-600 dark:text-gray-400 text-xs">Explore reactions, periodic trends, and molecular structures</p>
                 </div>
                 <div className="bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 p-4 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50">
-                  <p className="text-emerald-700 dark:text-emerald-300 text-sm font-medium">NCERT Solutions</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-xs">Get step-by-step solutions for Class 10 science questions</p>
+                  <p className="text-emerald-700 dark:text-emerald-300 text-sm font-medium">Interactive Learning</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-xs">Get help with reactions and chemical concepts</p>
                 </div>
               </div>
             </div>
