@@ -47,7 +47,7 @@ const Index = () => {
             </div>
           </header>
 
-          {/* Neutrino AI Section - Enhanced */}
+          {/* Neutrino AI Section - Inkwell inspired */}
           <section className="mb-16 relative overflow-hidden">
             <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-12 relative">
               {/* Background pattern */}
@@ -73,7 +73,7 @@ const Index = () => {
                 </p>
                 
                 <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-                  Your intelligent chemistry companion. Get instant help with reactions, 
+                  Your intelligent chemistry companion for NCERT Class 10. Get instant help with reactions, 
                   molecular structures, and complex chemistry concepts through natural conversation.
                 </p>
                 
@@ -95,7 +95,7 @@ const Index = () => {
                     </div>
                     <div className="flex items-center gap-1">
                       <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span>AI Powered</span>
+                      <span>NCERT Aligned</span>
                     </div>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ const Index = () => {
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-            {/* Periodic Table - Enhanced */}
+            {/* Periodic Table - Larger and More Visible */}
             <div className="xl:col-span-3 bg-white/80 dark:bg-gray-900/80 rounded-3xl shadow-xl backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 p-8">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-thin text-gray-900 dark:text-white">Periodic Table</h2>
@@ -181,7 +181,7 @@ const Index = () => {
         {/* Additional bot instance for guide integration */}
         {showBot && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
-            <div className="w-full max-w-5xl h-[85vh] bg-white/95 dark:bg-gray-900/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
+            <div className="w-full max-w-5xl h-[85vh] bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-black/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
               <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-white/10 rounded-full">
@@ -198,7 +198,7 @@ const Index = () => {
                   size="sm"
                   className="text-white hover:bg-white/10 rounded-full p-2"
                 >
-                  <X className="w-5 h-5" />
+                  ×
                 </Button>
               </div>
               <div className="h-full bg-white/90 dark:bg-gray-900/90 p-6">
