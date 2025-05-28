@@ -136,7 +136,7 @@ const ChemistryAIChat: React.FC = () => {
     // Arts and humanities
     art: "Art is a diverse range of human activities in creating visual, auditory or performing artifacts expressing the author's imaginative or technical skill.",
     literature: "Literature refers to written works, especially those considered of superior or lasting artistic merit, including fiction, non-fiction, drama, and poetry.",
-    music: "Music is an art form and cultural activity whose medium is sound organized in time, generally produced with the intent to be heard.",
+    musical: "Music is an art form and cultural activity whose medium is sound organized in time, generally produced with the intent to be heard.",
     philosophy: "Philosophy is the study of fundamental questions about existence, knowledge, values, reason, mind, and language.",
     religion: "Religion involves beliefs and practices related to supernatural or spiritual elements, often including sacred texts, rituals, and ethical guidelines.",
     language: "Language is a system of communication consisting of sounds, words, and grammar used by humans to express ideas and feelings.",
