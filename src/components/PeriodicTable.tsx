@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames, categoryColors } from '../data/elements';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Label } from '@/components/ui/label';
 import { useTheme } from '@/hooks/use-theme';
 import { Atom } from 'lucide-react';
 
@@ -32,7 +30,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
     : [];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
           <h3 className="text-md font-semibold">Interactive Periodic Table</h3>
@@ -40,16 +38,15 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
       </div>
 
       <div className="relative rounded-xl overflow-hidden border shadow-md bg-gradient-to-br from-card to-background/80">
-        <ScrollArea className="h-[600px] w-full">
-          <div className="relative p-6">
+        <div className="w-full p-4">
+          <div className="relative">
             <div 
-              className="periodic-table-grid" 
+              className="periodic-table-grid w-full" 
               style={{ 
                 display: 'grid',
-                gridTemplateColumns: 'repeat(18, 54px)',
-                gridGap: '4px',
-                justifyContent: 'center',
-                padding: '8px'
+                gridTemplateColumns: 'repeat(18, minmax(0, 1fr))',
+                gap: '2px',
+                aspectRatio: '18/10'
               }}
             >
               {periodicTableLayout.map((row, rowIndex) => (
@@ -58,20 +55,16 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                     <div 
                       key={`${rowIndex}-${colIndex}`} 
                       className={`
-                        element-cell transition-all duration-300
+                        element-cell transition-all duration-300 aspect-square
                         ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
                       `}
-                      style={{
-                        width: '54px',
-                        height: '54px'
-                      }}
                     >
                       {atomicNumber > 0 && getElementByAtomicNumber(atomicNumber) && (
                         <ElementCard
                           element={getElementByAtomicNumber(atomicNumber)!}
                           onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
-                          size="sm"
-                          className="animate-fade-in backdrop-blur-sm"
+                          size="xs"
+                          className="animate-fade-in backdrop-blur-sm w-full h-full"
                         />
                       )}
                     </div>
@@ -81,35 +74,34 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
             </div>
             
             {/* Period numbers (vertical) */}
-            <div className="absolute left-0 top-0 h-full flex flex-col justify-around py-6">
+            <div className="absolute left-[-20px] top-0 h-full flex flex-col justify-around">
               {[1, 2, 3, 4, 5, 6, 7, "", 8, 9].map((period, index) => (
-                <div key={`period-${index}`} className="text-xs font-medium text-muted-foreground px-1">
+                <div key={`period-${index}`} className="text-xs font-medium text-muted-foreground text-center">
                   {period && period}
                 </div>
               ))}
             </div>
             
             {/* Group numbers (horizontal) */}
-            <div className="absolute top-0 left-0 w-full flex justify-around px-6" 
-                 style={{ paddingLeft: '20px' }}>
+            <div className="absolute top-[-20px] left-0 w-full grid grid-cols-18 gap-[2px]">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((group) => (
-                <div key={`group-${group}`} className="text-xs font-medium text-muted-foreground">
+                <div key={`group-${group}`} className="text-xs font-medium text-muted-foreground text-center">
                   {group}
                 </div>
               ))}
             </div>
           </div>
-        </ScrollArea>
+        </div>
         
         {/* Atom icon watermark */}
         <div className="absolute bottom-2 right-2 opacity-5 pointer-events-none">
-          <Atom className="h-20 w-20" />
+          <Atom className="h-12 w-12" />
         </div>
       </div>
       
       {/* Legend - Always show the categories */}
-      <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm">
-        <div className="w-full text-center mb-1">
+      <div className="mt-6 flex flex-wrap gap-2 justify-center p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm">
+        <div className="w-full text-center mb-2">
           <h4 className="text-sm font-medium">Element Categories</h4>
         </div>
         {Object.entries(categoryNames).map(([category, name]) => (
@@ -141,7 +133,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                 key={element.id}
                 element={element}
                 onClick={() => onElementClick(element)}
-                size="md"
+                size="sm"
                 className="animate-fade-in"
               />
             ))}
