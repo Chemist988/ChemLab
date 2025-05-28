@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -11,7 +10,7 @@ import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Atom, BookOpen, Beaker, Bot } from 'lucide-react';
+import { Atom, BookOpen, Beaker, Bot, X } from 'lucide-react';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
