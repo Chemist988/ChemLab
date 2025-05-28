@@ -6,6 +6,7 @@ import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
+import EduBotAssistant from '@/components/EduBotAssistant';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
@@ -67,6 +68,7 @@ const Index = () => {
                       <li>Combine up to four elements to see their simulated reaction</li>
                       <li>The simulation will generate an animated visualization of the reaction</li>
                       <li>Clear the reaction zone to try different combinations</li>
+                      <li>Use the EduBot assistant for chemistry questions and NCERT help</li>
                     </ol>
                     
                     <h3 className="text-lg font-semibold mt-6">Available Reactions</h3>
@@ -86,6 +88,14 @@ const Index = () => {
                       <li>Al + I (Aluminum + Iodine)</li>
                       <li>Ca + F (Calcium + Fluorine)</li>
                     </ul>
+                    
+                    <div className="mt-6 p-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-lg border border-cyan-500/20">
+                      <h4 className="text-md font-semibold text-cyan-400 mb-2">Need Help?</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Click the EduBot assistant button in the bottom-right corner for chemistry help, 
+                        NCERT Class 10 questions, and educational support!
+                      </p>
+                    </div>
                   </div>
                 </TabsContent>
               </Tabs>
@@ -98,6 +108,9 @@ const Index = () => {
           isOpen={detailOpen} 
           onClose={() => setDetailOpen(false)}
         />
+        
+        {/* EduBot Assistant */}
+        <EduBotAssistant />
       </div>
     </DndProvider>
   );
