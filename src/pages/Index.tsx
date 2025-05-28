@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -9,7 +10,7 @@ import EduBotAssistant from '@/components/EduBotAssistant';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
-import { Atom, Beaker, BookOpen, X } from 'lucide-react';
+import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -46,6 +47,62 @@ const Index = () => {
             </div>
           </header>
 
+          {/* Neutrino AI Section - Inkwell inspired */}
+          <section className="mb-16 relative overflow-hidden">
+            <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-12 relative">
+              {/* Background pattern */}
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+                <div className="absolute bottom-10 right-10 w-24 h-24 bg-yellow-300 rounded-full blur-2xl"></div>
+                <div className="absolute top-1/2 left-1/3 w-20 h-20 bg-blue-300 rounded-full blur-xl"></div>
+              </div>
+              
+              <div className="relative z-10 text-center">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="p-4 bg-white/20 rounded-full backdrop-blur-sm">
+                    <Bot className="w-12 h-12 text-white" />
+                  </div>
+                </div>
+                
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                  Meet Neutrino AI
+                </h2>
+                
+                <p className="text-xl text-white/90 mb-2 font-medium">
+                  Precision meets intuition.
+                </p>
+                
+                <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+                  Your intelligent chemistry companion for NCERT Class 10. Get instant help with reactions, 
+                  molecular structures, and complex chemistry concepts through natural conversation.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <Button 
+                    onClick={() => setShowBot(true)}
+                    size="lg"
+                    className="bg-white text-indigo-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Start Exploring
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                  
+                  <div className="flex items-center gap-4 text-white/80 text-sm">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span>24/7 Available</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                      <span>NCERT Aligned</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
             {/* Periodic Table - Larger and More Visible */}
@@ -54,12 +111,7 @@ const Index = () => {
                 <h2 className="text-3xl font-thin text-gray-900 dark:text-white">Periodic Table</h2>
                 <div className="text-sm text-gray-500 dark:text-gray-400">Click any element to explore</div>
               </div>
-              {/* Zoomed out container for better visibility */}
-              <div className="overflow-x-auto">
-                <div className="min-w-[1200px] transform scale-90 origin-top-left">
-                  <PeriodicTable onElementClick={handleElementClick} />
-                </div>
-              </div>
+              <PeriodicTable onElementClick={handleElementClick} />
             </div>
 
             {/* Sidebar with Tabs */}
@@ -109,21 +161,6 @@ const Index = () => {
                           <li>• Mg + O → Combustion</li>
                         </ul>
                       </div>
-                      
-                      <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl border border-purple-200/50 dark:border-purple-700/50">
-                        <h4 className="font-medium text-purple-700 dark:text-purple-300 mb-2">Need Help?</h4>
-                        <p className="text-gray-600 dark:text-gray-400 text-xs mb-3">
-                          Get instant help with chemistry concepts and NCERT questions
-                        </p>
-                        <Button 
-                          onClick={() => setShowBot(true)}
-                          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl"
-                          size="sm"
-                        >
-                          <Atom className="w-4 h-4 mr-2" />
-                          Ask Neutrino
-                        </Button>
-                      </div>
                     </div>
                   </div>
                 </TabsContent>
@@ -145,14 +182,14 @@ const Index = () => {
         {showBot && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
             <div className="w-full max-w-5xl h-[85vh] bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-black/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
-              <div className="bg-gradient-to-r from-gray-900 to-slate-800 p-6 flex items-center justify-between">
+              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-white/10 rounded-full">
-                    <Atom className="w-6 h-6 text-white" />
+                    <Bot className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-semibold text-white">Neutrino</h2>
-                    <p className="text-gray-300 text-sm">Your intelligent chemistry companion</p>
+                    <h2 className="text-2xl font-semibold text-white">Neutrino AI</h2>
+                    <p className="text-white/80 text-sm">Precision meets intuition.</p>
                   </div>
                 </div>
                 <Button
@@ -161,7 +198,7 @@ const Index = () => {
                   size="sm"
                   className="text-white hover:bg-white/10 rounded-full p-2"
                 >
-                  <X className="w-5 h-5" />
+                  ×
                 </Button>
               </div>
               <div className="h-full bg-white/90 dark:bg-gray-900/90 p-6">
