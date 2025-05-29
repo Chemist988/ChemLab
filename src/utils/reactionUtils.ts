@@ -1,4 +1,3 @@
-
 import { Element } from '../data/elements';
 
 // Define animation types
@@ -16,19 +15,19 @@ export const getAnimationClass = (animationType: AnimationType): string => {
     case 'explosion':
       return 'animate-reaction';
     case 'gas':
-      return 'animate-rise';
+      return 'animate-realistic-bubble';
     case 'fade':
       return 'animate-fade-in';
     case 'bubble':
-      return 'animate-bounce-subtle';
+      return 'animate-realistic-bubble';
     case 'crystallization':
-      return 'animate-pulse';
+      return 'animate-chemical-glow';
     case 'precipitation':
-      return 'animate-fall';
+      return 'animate-liquid-swirl';
     case 'combustion':
-      return 'animate-flame';
+      return 'animate-reaction';
     case 'neutralization':
-      return 'animate-neutralize';
+      return 'animate-liquid-swirl';
     default:
       return '';
   }
@@ -200,7 +199,7 @@ export const simulateReaction = (element1: Element, element2: Element): Reaction
       animationType: "fade"
     },
     
-    // Halogen reactions (F, Cl, Br, I)
+    // Halogen reactions
     "Cl-H": {
       result: "HCl (Hydrochloric Acid)",
       description: "Chlorine and hydrogen form hydrochloric acid, a strong acid.",
@@ -248,7 +247,7 @@ export const simulateReaction = (element1: Element, element2: Element): Reaction
       animationType: "neutralization"
     },
     
-    // Noble gas compounds (rare but possible)
+    // Noble gas compounds
     "Xe-F": {
       result: "XeF₂",
       description: "Xenon and fluorine can form xenon difluoride under specific conditions.",
@@ -256,13 +255,11 @@ export const simulateReaction = (element1: Element, element2: Element): Reaction
     }
   };
   
-  // Check for reaction in both directions
   if (reactions[combo]) {
     return reactions[combo];
   } else if (reactions[reversedCombo]) {
     return reactions[reversedCombo];
   } else {
-    // Default for any other combinations
     return {
       result: "No Reaction",
       description: `No common reaction between ${element1.symbol} and ${element2.symbol}.`,

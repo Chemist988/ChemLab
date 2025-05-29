@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -67,7 +66,7 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Apple-inspired chemistry colors
+				// Apple-inspired chemistry colors (no yellow)
 				chemistry: {
 					'alkali-metal': '#ef4444',
 					'alkaline-earth-metal': '#f97316',
@@ -78,7 +77,7 @@ export default {
 					'halogen': '#06b6d4',
 					'noble-gas': '#a855f7',
 					'lanthanide': '#ec4899',
-					'actinide': '#f59e0b',
+					'actinide': '#fb7185',
 					'unknown': '#9ca3af',
 				}
 			},
@@ -151,6 +150,36 @@ export default {
 				'fade-in': {
 					'0%': { opacity: '0' },
 					'100%': { opacity: '1' }
+				},
+				'realistic-bubble': {
+					'0%': { 
+						transform: 'translateY(100%) scale(0)',
+						opacity: '0.3'
+					},
+					'50%': { 
+						transform: 'translateY(-20%) scale(1)',
+						opacity: '0.8'
+					},
+					'100%': { 
+						transform: 'translateY(-100%) scale(0.5)',
+						opacity: '0'
+					}
+				},
+				'liquid-swirl': {
+					'0%': { transform: 'rotate(0deg) scale(1)' },
+					'33%': { transform: 'rotate(120deg) scale(1.1)' },
+					'66%': { transform: 'rotate(240deg) scale(0.9)' },
+					'100%': { transform: 'rotate(360deg) scale(1)' }
+				},
+				'chemical-glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 5px currentColor',
+						filter: 'brightness(1)'
+					},
+					'50%': { 
+						boxShadow: '0 0 20px currentColor',
+						filter: 'brightness(1.3)'
+					}
 				}
 			},
 			animation: {
@@ -160,7 +189,10 @@ export default {
 				'apple-fade-in': 'apple-fade-in 0.6s ease-out',
 				'apple-scale-in': 'apple-scale-in 0.4s ease-out',
 				'reaction': 'reaction 1s ease-in-out',
-				'fade-in': 'fade-in 0.5s ease-in'
+				'fade-in': 'fade-in 0.5s ease-in',
+				'realistic-bubble': 'realistic-bubble 3s ease-out infinite',
+				'liquid-swirl': 'liquid-swirl 4s ease-in-out infinite',
+				'chemical-glow': 'chemical-glow 2s ease-in-out infinite'
 			}
 		}
 	},

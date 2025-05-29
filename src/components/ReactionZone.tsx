@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element } from '../data/elements';
@@ -7,7 +6,7 @@ import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Beaker, Bomb, Flame, Sparkles, Droplets, FlaskConical, AtomIcon, Atom } from 'lucide-react';
+import { RotateCw, Beaker, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -18,10 +17,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [reaction, setReaction] = useState<ReactionResult | null>(null);
   const [animating, setAnimating] = useState(false);
   const [bubbles, setBubbles] = useState<number[]>([]);
-  const [explosion, setExplosion] = useState(false);
-  const [gas, setGas] = useState(false);
-  const [splash, setSplash] = useState(false);
-  const [powderBurst, setPowderBurst] = useState<{active: boolean; color: string}>({active: false, color: 'white'});
+  const [particles, setParticles] = useState<{id: number; type: string; x: number; y: number}[]>([]);
+  const [liquidLevel, setLiquidLevel] = useState(15);
   const [suggestedElements, setSuggestedElements] = useState<Element[]>([]);
 
   const [{ isOver }, drop] = useDrop(() => ({
@@ -37,27 +34,20 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
   // Helper function to find compatible elements
   const findCompatibleElements = (element: Element): Element[] => {
-    // This is a simplified approach - in a real app, you would have a more
-    // sophisticated algorithm or database of compatible elements
     const elementsDatabase = require('../data/elements').elements;
     
-    // Simple compatibility rules based on element categories and properties
     const compatibleElements = elementsDatabase.filter((e: Element) => {
-      // Don't suggest the same element
       if (e.symbol === element.symbol) return false;
       
-      // Different categories tend to react interestingly
       if (e.category !== element.category) {
         return true;
       }
       
-      // Metals often react well with non-metals
       if ((element.category.includes('metal') && !e.category.includes('metal')) ||
           (!element.category.includes('metal') && e.category.includes('metal'))) {
         return true;
       }
       
-      // Elements with very different atomic numbers sometimes react well
       if (Math.abs(e.atomicNumber - element.atomicNumber) > 30) {
         return true;
       }
@@ -65,11 +55,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       return false;
     });
     
-    // Return a random selection of up to 4 compatible elements
     return shuffleArray(compatibleElements).slice(0, 4);
   };
   
-  // Shuffle array helper
   const shuffleArray = (array: any[]): any[] => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -81,33 +69,34 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
   const addElement = (element: Element) => {
     if (selectedElements.length < 4) {
-      // Create splash effect when adding element to beaker
-      setSplash(true);
-      setTimeout(() => setSplash(false), 700);
+      // Create realistic splash particles
+      const newParticles = [];
+      for (let i = 0; i < 10; i++) {
+        newParticles.push({
+          id: Date.now() + i,
+          type: 'liquid',
+          x: 50 + (Math.random() - 0.5) * 30,
+          y: 60 + Math.random() * 10
+        });
+      }
+      setParticles(prev => [...prev, ...newParticles]);
       
-      // Create powder burst effect based on element category
-      const burstColor = getCategoryColor(element.category);
-      setPowderBurst({active: true, color: burstColor});
-      setTimeout(() => setPowderBurst({active: false, color: burstColor}), 1000);
+      // Increase liquid level
+      setLiquidLevel(prev => Math.min(70, prev + 15));
       
-      // Create bubble effect when adding element to beaker
+      // Create realistic bubbles
       const newBubbles = [...bubbles];
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 8; i++) {
         newBubbles.push(Math.random());
       }
       setBubbles(newBubbles);
       
-      // Add element with animation delay
       setSelectedElements((prev) => {
         const newElements = [...prev, element];
-        
-        // Update suggested elements based on the last added element
         setSuggestedElements(findCompatibleElements(element));
-        
         return newElements;
       });
       
-      // Show toast
       toast({
         title: `${element.name} added`,
         description: "Element added to reaction beaker",
@@ -125,10 +114,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setReaction(null);
     setAnimating(false);
     setBubbles([]);
-    setExplosion(false);
-    setGas(false);
-    setSplash(false);
-    setPowderBurst({active: false, color: 'white'});
+    setParticles([]);
+    setLiquidLevel(15);
     setSuggestedElements([]);
   };
 
@@ -136,52 +123,68 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     if (selectedElements.length >= 2) {
       setAnimating(true);
       
-      // For simplicity, we'll use the first two elements for the reaction
-      // In a more complex implementation, you could consider all combinations
       const result = simulateReaction(selectedElements[0], selectedElements[1]);
       
-      // Create intense bubble effect for reaction
+      // Create intense realistic effects based on reaction type
+      const newParticles = [];
       const newBubbles = [...bubbles];
-      for (let i = 0; i < 15; i++) {
+      
+      if (result.animationType === 'explosion') {
+        // Explosion particles
+        for (let i = 0; i < 25; i++) {
+          newParticles.push({
+            id: Date.now() + i,
+            type: 'explosion',
+            x: 50 + (Math.random() - 0.5) * 50,
+            y: 50 + (Math.random() - 0.5) * 50
+          });
+        }
+      } else if (result.animationType === 'gas') {
+        // Gas particles
+        for (let i = 0; i < 15; i++) {
+          newParticles.push({
+            id: Date.now() + i,
+            type: 'gas',
+            x: 40 + Math.random() * 20,
+            y: 70 + Math.random() * 10
+          });
+        }
+      }
+      
+      // Always add bubbles for chemical activity
+      for (let i = 0; i < 20; i++) {
         newBubbles.push(Math.random());
       }
+      
       setBubbles(newBubbles);
+      setParticles(prev => [...prev, ...newParticles]);
       
-      // Set special animation effects based on reaction type
-      if (result.animationType === 'explosion') {
-        setExplosion(true);
-        setTimeout(() => setExplosion(false), 2000);
-      } else if (result.animationType === 'gas') {
-        setGas(true);
-      } else {
-        setGas(false);
-      }
+      // Increase liquid level for reaction
+      setLiquidLevel(prev => Math.min(80, prev + 10));
       
-      // Create splash effect for reaction
-      setSplash(true);
-      setTimeout(() => setSplash(false), 700);
-      
-      // Delay setting reaction to allow animation to be visible
       setTimeout(() => {
         setReaction(result);
       }, 600);
       
       setTimeout(() => {
         setAnimating(false);
-      }, 2000);
+      }, 3000);
     }
   };
 
   useEffect(() => {
-    // Clean up bubbles over time
+    // Clean up particles and bubbles
     const timer = setTimeout(() => {
-      if (bubbles.length > 0) {
-        setBubbles(prev => prev.slice(Math.floor(prev.length / 2)));
+      if (bubbles.length > 10) {
+        setBubbles(prev => prev.slice(Math.floor(prev.length / 3)));
+      }
+      if (particles.length > 5) {
+        setParticles(prev => prev.slice(Math.floor(prev.length / 2)));
       }
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [bubbles]);
+  }, [bubbles, particles]);
 
   useEffect(() => {
     if (selectedElements.length >= 2 && selectedElements.length <= 4) {
@@ -192,20 +195,19 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }
   }, [selectedElements]);
 
-  // Helper function to get color based on element category
   const getCategoryColor = (category: string): string => {
     switch (category) {
-      case 'alkali-metal': return '#f87171'; // red
-      case 'alkaline-earth-metal': return '#fb923c'; // orange
-      case 'transition-metal': return '#3b82f6'; // blue
-      case 'post-transition-metal': return '#a78bfa'; // purple
-      case 'metalloid': return '#34d399'; // emerald
-      case 'nonmetal': return '#4ade80'; // green
-      case 'halogen': return '#22d3ee'; // cyan
-      case 'noble-gas': return '#d946ef'; // fuchsia
-      case 'lanthanide': return '#ec4899'; // pink
-      case 'actinide': return '#f59e0b'; // amber
-      default: return '#d1d5db'; // gray
+      case 'alkali-metal': return '#f87171';
+      case 'alkaline-earth-metal': return '#fb923c';
+      case 'transition-metal': return '#3b82f6';
+      case 'post-transition-metal': return '#a78bfa';
+      case 'metalloid': return '#34d399';
+      case 'nonmetal': return '#4ade80';
+      case 'halogen': return '#22d3ee';
+      case 'noble-gas': return '#d946ef';
+      case 'lanthanide': return '#ec4899';
+      case 'actinide': return '#fb7185';
+      default: return '#d1d5db';
     }
   };
 
@@ -219,7 +221,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
         `}
       >
-        {/* Element Suggestions Popup */}
+        {/* Element Suggestions */}
         {selectedElements.length > 0 && (
           <ElementSuggestions 
             element={selectedElements[selectedElements.length - 1]} 
@@ -228,138 +230,53 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           />
         )}
         
-        {/* Explosion effect */}
-        {explosion && (
-          <div className="absolute inset-0 z-10">
-            <div className="absolute inset-0 bg-orange-500/20 animate-pulse"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <Bomb className="h-20 w-20 text-orange-500 animate-bounce" />
-                <div className="absolute top-0 left-1/2 w-6 h-12 -translate-x-1/2 -translate-y-full">
-                  <div className="w-full h-full bg-gradient-to-t from-orange-500 to-transparent animate-flame"></div>
-                </div>
-              </div>
-            </div>
-            {[...Array(30)].map((_, i) => (
-              <div 
-                key={i} 
-                className="absolute bg-orange-500 rounded-full animate-explosion-particle"
-                style={{
-                  width: Math.random() * 12 + 2 + 'px',
-                  height: Math.random() * 12 + 2 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
-                  opacity: Math.random() * 0.7 + 0.3,
-                  animationDuration: Math.random() * 1 + 0.5 + 's',
-                  animationDelay: Math.random() * 0.2 + 's'
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
+        {/* Realistic Particles */}
+        {particles.map((particle) => (
+          <div 
+            key={particle.id}
+            className={`absolute pointer-events-none ${
+              particle.type === 'explosion' ? 'particle-explosion bg-orange-500 rounded-full' :
+              particle.type === 'gas' ? 'gas-particle bg-green-500/70 rounded-full' :
+              'liquid-particle bg-blue-500 rounded-full'
+            }`}
+            style={{
+              width: particle.type === 'explosion' ? '8px' : particle.type === 'gas' ? '12px' : '6px',
+              height: particle.type === 'explosion' ? '8px' : particle.type === 'gas' ? '12px' : '6px',
+              left: particle.x + '%',
+              top: particle.y + '%',
+            }}
+          />
+        ))}
         
-        {/* Gas effect */}
-        {gas && (
-          <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-            {[...Array(25)].map((_, i) => (
-              <div 
-                key={i} 
-                className="absolute bg-green-500/30 rounded-full animate-gas-rise dark:bg-green-400/30"
-                style={{
-                  width: Math.random() * 50 + 20 + 'px',
-                  height: Math.random() * 50 + 20 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 30 + 70 + '%',
-                  animationDuration: Math.random() * 3 + 3 + 's',
-                  animationDelay: Math.random() * 2 + 's'
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {/* Splash effect */}
-        {splash && (
-          <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
-            {[...Array(20)].map((_, i) => (
-              <div 
-                key={`splash-${i}`}
-                className="absolute bg-blue-400/70 dark:bg-blue-500/50"
-                style={{
-                  width: Math.random() * 8 + 2 + 'px',
-                  height: Math.random() * 16 + 10 + 'px',
-                  left: 40 + Math.random() * 20 + '%',
-                  top: 40 + Math.random() * 10 + '%',
-                  borderRadius: '50% 50% 0 0',
-                  transform: `rotate(${Math.random() * 360}deg)`,
-                  opacity: Math.random() * 0.8 + 0.3,
-                  animation: `splash-rise ${Math.random() * 0.8 + 0.5}s ease-out forwards`,
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {/* Powder Burst effect */}
-        {powderBurst.active && (
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(40)].map((_, i) => {
-              const size = Math.random() * 6 + 1;
-              const angle = Math.random() * Math.PI * 2;
-              const distance = Math.random() * 40 + 30;
-              const duration = Math.random() * 1 + 0.5;
-              
-              return (
-                <div 
-                  key={`powder-${i}`}
-                  className="absolute rounded-full"
-                  style={{
-                    width: size + 'px',
-                    height: size + 'px',
-                    left: 'calc(50% - ' + size/2 + 'px)',
-                    top: '50%',
-                    backgroundColor: powderBurst.color,
-                    opacity: Math.random() * 0.9 + 0.2,
-                    transform: `translateY(-50%)`,
-                    animation: `powder-burst ${duration}s ease-out forwards`,
-                    '--x-move': `${Math.cos(angle) * distance}px`,
-                    '--y-move': `${Math.sin(angle) * distance}px`,
-                  } as React.CSSProperties}
-                ></div>
-              );
-            })}
-          </div>
-        )}
-        
-        {/* Beaker container - More Apple-like with frosted glass effect */}
+        {/* Enhanced Beaker */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-64 h-64">
-            {/* Beaker body - More premium design */}
-            <div className="absolute bottom-0 w-full h-[85%] border-[1px] border-white/30 dark:border-white/10 rounded-b-lg bg-white/10 backdrop-blur-md dark:bg-black/10 shadow-lg">
-              {/* Beaker liquid */}
+            {/* Beaker body with more realistic design */}
+            <div className="absolute bottom-0 w-full h-[85%] border-2 border-white/20 dark:border-white/10 rounded-b-xl bg-white/5 backdrop-blur-md dark:bg-black/5 shadow-2xl">
+              {/* Realistic liquid with dynamic level */}
               <div 
                 className={`
-                  absolute bottom-0 w-full rounded-b-lg transition-all duration-700 ease-out overflow-hidden
-                  ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}
-                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'}
-                  ${animating ? 'animate-pulse' : ''}
+                  absolute bottom-0 w-full rounded-b-xl transition-all duration-1000 ease-out overflow-hidden
+                  ${reaction ? getReactionColor(reaction.animationType) : 'realistic-liquid'}
+                  ${animating ? 'chemical-reaction-glow' : ''}
                 `}
+                style={{ height: `${liquidLevel}%` }}
               >
-                {/* Reflective surface */}
-                <div className="absolute inset-x-0 top-0 h-1 bg-white/40 dark:bg-white/20"></div>
+                {/* Liquid surface with shimmer */}
+                <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
                 
-                {/* Bubbles */}
+                {/* Enhanced realistic bubbles */}
                 {bubbles.map((bubble, index) => (
                   <div 
                     key={index} 
-                    className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise"
+                    className="absolute realistic-bubble animate-realistic-bubble"
                     style={{
-                      width: Math.max(4, Math.random() * 12) + 'px',
-                      height: Math.max(4, Math.random() * 12) + 'px',
-                      bottom: (bubble * 100) + '%',
-                      left: (Math.random() * 90 + 5) + '%',
-                      animationDuration: (Math.random() * 2 + 1) + 's',
-                      opacity: Math.random() * 0.6 + 0.2
+                      width: Math.max(6, Math.random() * 16) + 'px',
+                      height: Math.max(6, Math.random() * 16) + 'px',
+                      bottom: (bubble * 80) + '%',
+                      left: (Math.random() * 80 + 10) + '%',
+                      animationDuration: (Math.random() * 3 + 2) + 's',
+                      animationDelay: Math.random() * 2 + 's'
                     }}
                   />
                 ))}
@@ -371,7 +288,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                   <div className="text-center text-muted-foreground">
                     <Beaker className="mx-auto h-10 w-10 mb-2 opacity-70" />
                     <p>Drag elements here to start a reaction</p>
-                    <p className="text-xs mt-2 text-muted-foreground/80">Try combining up to four elements!</p>
+                    <p className="text-xs mt-2 text-muted-foreground/80">Watch chemistry come alive!</p>
                   </div>
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center">
@@ -380,11 +297,12 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                         <div 
                           key={index} 
                           className={`
-                            ${index === 0 && animating ? 'animate-bounce-subtle' : ''}
-                            ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''}
-                            ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''}
-                            ${(explosion || gas) && 'animate-shake'}
+                            transition-all duration-500
+                            ${animating ? 'animate-reaction' : 'animate-apple-scale-in'}
                           `}
+                          style={{
+                            animationDelay: `${index * 100}ms`
+                          }}
                         >
                           <ElementCard 
                             element={element} 
@@ -398,12 +316,12 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                     
                     {reaction && (
                       <div className={`text-center mt-4 ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
-                        <h3 className="text-xl font-bold">{reaction.result}</h3>
-                        <p className="text-sm mt-1">{reaction.description}</p>
+                        <h3 className="text-xl font-bold text-white drop-shadow-lg">{reaction.result}</h3>
+                        <p className="text-sm mt-1 text-white/90 drop-shadow">{reaction.description}</p>
                         
                         <div className="mt-3 flex items-center justify-center gap-2">
                           {getReactionIcon(reaction.animationType)}
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-white/80">
                             {getReactionTypeName(reaction.animationType)}
                           </span>
                         </div>
@@ -414,11 +332,11 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
               </div>
             </div>
             
-            {/* Beaker top rim */}
-            <div className="absolute top-[15%] w-full h-[2px] bg-white/30 dark:bg-white/10"></div>
+            {/* Enhanced beaker top rim */}
+            <div className="absolute top-[15%] w-full h-[3px] bg-gradient-to-r from-white/20 via-white/40 to-white/20 rounded-full"></div>
             
-            {/* Beaker neck */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-[1px] border-l-[1px] border-r-[1px] border-white/30 dark:border-white/10"></div>
+            {/* Beaker neck with better styling */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-2 border-l-2 border-r-2 border-white/20 dark:border-white/10 rounded-t-lg bg-white/5 backdrop-blur-sm"></div>
           </div>
         </div>
       </div>
@@ -437,27 +355,27 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   );
 };
 
-// Helper function to get color based on reaction type
+// Helper function to get color based on reaction type (no yellow)
 const getReactionColor = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
-      return 'bg-gradient-to-b from-orange-200/70 to-orange-300/50 dark:from-orange-900/40 dark:to-orange-800/30';
+      return 'bg-gradient-to-b from-orange-400/80 to-red-500/70 dark:from-orange-600/60 dark:to-red-700/50';
     case 'gas':
-      return 'bg-gradient-to-b from-green-200/70 to-green-300/50 dark:from-green-900/40 dark:to-green-800/30';
+      return 'bg-gradient-to-b from-green-400/80 to-emerald-500/70 dark:from-green-600/60 dark:to-emerald-700/50';
     case 'bubble':
-      return 'bg-gradient-to-b from-blue-200/70 to-blue-300/50 dark:from-blue-900/40 dark:to-blue-800/30';
+      return 'bg-gradient-to-b from-blue-400/80 to-cyan-500/70 dark:from-blue-600/60 dark:to-cyan-700/50';
     case 'fade':
-      return 'bg-gradient-to-b from-purple-200/70 to-purple-300/50 dark:from-purple-900/40 dark:to-purple-800/30';
+      return 'bg-gradient-to-b from-purple-400/80 to-violet-500/70 dark:from-purple-600/60 dark:to-violet-700/50';
     case 'crystallization':
-      return 'bg-gradient-to-b from-indigo-200/70 to-indigo-300/50 dark:from-indigo-900/40 dark:to-indigo-800/30';
+      return 'bg-gradient-to-b from-indigo-400/80 to-blue-500/70 dark:from-indigo-600/60 dark:to-blue-700/50';
     case 'precipitation':
-      return 'bg-gradient-to-b from-yellow-200/70 to-yellow-300/50 dark:from-yellow-900/40 dark:to-yellow-800/30';
+      return 'bg-gradient-to-b from-orange-400/80 to-pink-500/70 dark:from-orange-600/60 dark:to-pink-700/50';
     case 'combustion':
-      return 'bg-gradient-to-b from-red-200/70 to-red-300/50 dark:from-red-900/40 dark:to-red-800/30';
+      return 'bg-gradient-to-b from-red-400/80 to-orange-500/70 dark:from-red-600/60 dark:to-orange-700/50';
     case 'neutralization':
-      return 'bg-gradient-to-b from-teal-200/70 to-teal-300/50 dark:from-teal-900/40 dark:to-teal-800/30';
+      return 'bg-gradient-to-b from-teal-400/80 to-green-500/70 dark:from-teal-600/60 dark:to-green-700/50';
     default:
-      return 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20';
+      return 'realistic-liquid';
   }
 };
 
@@ -489,23 +407,23 @@ const getReactionTypeName = (animationType: string): string => {
 const getReactionIcon = (animationType: string): React.ReactNode => {
   switch (animationType) {
     case 'explosion':
-      return <Bomb className="h-4 w-4 text-orange-500" />;
+      return <Bomb className="h-4 w-4 text-orange-400" />;
     case 'gas':
-      return <Sparkles className="h-4 w-4 text-green-500" />;
+      return <Sparkles className="h-4 w-4 text-green-400" />;
     case 'bubble':
-      return <Droplets className="h-4 w-4 text-blue-500" />;
+      return <Droplets className="h-4 w-4 text-blue-400" />;
     case 'fade':
-      return <FlaskConical className="h-4 w-4 text-purple-500" />;
+      return <FlaskConical className="h-4 w-4 text-purple-400" />;
     case 'crystallization':
-      return <FlaskConical className="h-4 w-4 text-indigo-500" />;
+      return <FlaskConical className="h-4 w-4 text-indigo-400" />;
     case 'precipitation':
-      return <Droplets className="h-4 w-4 text-yellow-500" />;
+      return <Droplets className="h-4 w-4 text-orange-400" />;
     case 'combustion':
-      return <Flame className="h-4 w-4 text-red-500" />;
+      return <Flame className="h-4 w-4 text-red-400" />;
     case 'neutralization':
-      return <Atom className="h-4 w-4 text-teal-500" />;
+      return <Atom className="h-4 w-4 text-teal-400" />;
     default:
-      return <Beaker className="h-4 w-4 text-gray-500" />;
+      return <Beaker className="h-4 w-4 text-gray-400" />;
   }
 };
 
