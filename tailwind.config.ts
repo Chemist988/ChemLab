@@ -19,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'sf-pro-display': ['SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+				'sf-pro-text': ['SF Pro Text', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -63,26 +67,28 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Chemistry-specific colors
+				// Apple-inspired chemistry colors
 				chemistry: {
-					alkali: '#ff8a65',
-					alkaline: '#ffb74d',
-					transition: '#ffd54f',
-					'post-transition': '#dce775',
-					metalloid: '#aed581',
-					nonmetal: '#81c784',
-					halogen: '#4db6ac',
-					'noble-gas': '#4dd0e1',
-					lanthanide: '#9575cd',
-					actinide: '#ba68c8',
-					unknown: '#e0e0e0',
-					highlight: '#ff4081',
+					'alkali-metal': '#ef4444',
+					'alkaline-earth-metal': '#f97316',
+					'transition-metal': '#3b82f6',
+					'post-transition-metal': '#9333ea',
+					'metalloid': '#22c55e',
+					'nonmetal': '#10b981',
+					'halogen': '#06b6d4',
+					'noble-gas': '#a855f7',
+					'lanthanide': '#ec4899',
+					'actinide': '#f59e0b',
+					'unknown': '#9ca3af',
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			backdropBlur: {
+				'xs': '2px',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -101,14 +107,38 @@ export default {
 						height: '0'
 					}
 				},
-				'bounce-subtle': {
-					'0%, 100%': {
-						transform: 'translateY(-5%)',
-						animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
+				'apple-bounce': {
+					'0%, 20%, 53%, 80%, 100%': {
+						transform: 'translate3d(0,0,0)'
 					},
-					'50%': {
-						transform: 'translateY(0)',
-						animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
+					'40%, 43%': {
+						transform: 'translate3d(0, -8px, 0)'
+					},
+					'70%': {
+						transform: 'translate3d(0, -4px, 0)'
+					},
+					'90%': {
+						transform: 'translate3d(0, -2px, 0)'
+					}
+				},
+				'apple-fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(20px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'apple-scale-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'scale(0.9)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'scale(1)'
 					}
 				},
 				'reaction': {
@@ -121,40 +151,16 @@ export default {
 				'fade-in': {
 					'0%': { opacity: '0' },
 					'100%': { opacity: '1' }
-				},
-				'rise': {
-					'0%': { transform: 'translateY(0)', opacity: '0.8' },
-					'100%': { transform: 'translateY(-100px)', opacity: '0' }
-				},
-				'shake': {
-					'0%, 100%': { transform: 'translateX(0)' },
-					'10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-2px)' },
-					'20%, 40%, 60%, 80%': { transform: 'translateX(2px)' }
-				},
-				'explosion-particle': {
-					'0%': { transform: 'translate(0, 0) scale(1)', opacity: '1' },
-					'100%': { transform: 'translate(var(--x, 50px), var(--y, -50px)) scale(0)', opacity: '0' }
-				},
-				'gas-rise': {
-					'0%': { transform: 'translateY(0) scale(1)', opacity: '0.7' },
-					'100%': { transform: 'translateY(-100px) scale(1.5)', opacity: '0' }
-				},
-				'flame': {
-					'0%, 100%': { transform: 'scaleY(1)' },
-					'50%': { transform: 'scaleY(1.2)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'bounce-subtle': 'bounce-subtle 2s infinite',
+				'apple-bounce': 'apple-bounce 1s ease-in-out',
+				'apple-fade-in': 'apple-fade-in 0.6s ease-out',
+				'apple-scale-in': 'apple-scale-in 0.4s ease-out',
 				'reaction': 'reaction 1s ease-in-out',
-				'fade-in': 'fade-in 0.5s ease-in',
-				'rise': 'rise 3s ease-in forwards',
-				'shake': 'shake 0.5s ease-in-out',
-				'explosion-particle': 'explosion-particle 1s ease-out forwards',
-				'gas-rise': 'gas-rise 4s ease-out forwards',
-				'flame': 'flame 0.5s ease-in-out infinite'
+				'fade-in': 'fade-in 0.5s ease-in'
 			}
 		}
 	},
