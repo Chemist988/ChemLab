@@ -3,16 +3,15 @@ import React, { useState } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useTheme } from '@/hooks/use-theme';
-import { Atom } from 'lucide-react';
+import { Atom, Sparkles } from 'lucide-react';
 
 interface PeriodicTableProps {
   onElementClick: (element: Element) => void;
 }
 
 const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
-  const { theme } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [hoveredElement, setHoveredElement] = useState<number | null>(null);
 
   const getElementByAtomicNumber = (atomicNumber: number): Element | undefined => {
     return elements.find(element => element.atomicNumber === atomicNumber);
@@ -31,25 +30,29 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
     : [];
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center">
-          <h3 className="text-lg font-semibold">Periodic Table - All 118 Elements</h3>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <Sparkles className="w-5 h-5 text-cyan-400 animate-pulse" />
+          <span className="text-white/80 text-sm font-medium">118 Elements Ready for Mixing</span>
         </div>
       </div>
 
-      <div className="relative rounded-xl overflow-hidden border shadow-md bg-gradient-to-br from-card to-background/80">
+      {/* Main Periodic Table */}
+      <div className="relative bg-black/20 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10">
         <ScrollArea className="h-[500px] w-full">
-          <div className="relative p-4">
+          <div className="relative p-6">
+            
+            {/* Periodic Table Grid */}
             <div 
-              className="periodic-table-grid" 
+              className="periodic-table-grid mx-auto" 
               style={{ 
                 display: 'grid',
-                gridTemplateColumns: 'repeat(18, 42px)',
+                gridTemplateColumns: 'repeat(18, 38px)',
                 gridGap: '2px',
                 justifyContent: 'center',
-                padding: '4px',
-                transform: 'scale(0.85)',
+                transform: 'scale(0.75)',
                 transformOrigin: 'center top'
               }}
             >
@@ -58,19 +61,31 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                   {row.map((atomicNumber, colIndex) => (
                     <div 
                       key={`${rowIndex}-${colIndex}`} 
-                      className="element-cell transition-all duration-300"
-                      style={{
-                        width: '42px',
-                        height: '42px'
-                      }}
+                      className="element-cell"
+                      style={{ width: '38px', height: '38px' }}
                     >
                       {atomicNumber > 0 && getElementByAtomicNumber(atomicNumber) && (
-                        <ElementCard
-                          element={getElementByAtomicNumber(atomicNumber)!}
-                          onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
-                          size="xs"
-                          className="animate-fade-in backdrop-blur-sm"
-                        />
+                        <div
+                          onMouseEnter={() => setHoveredElement(atomicNumber)}
+                          onMouseLeave={() => setHoveredElement(null)}
+                          className="relative"
+                        >
+                          <ElementCard
+                            element={getElementByAtomicNumber(atomicNumber)!}
+                            onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
+                            size="xs"
+                            className={`
+                              transition-all duration-300 
+                              ${hoveredElement === atomicNumber ? 'scale-150 z-50 shadow-2xl' : 'hover:scale-125'}
+                              ${selectedCategory && getElementByAtomicNumber(atomicNumber)?.category === selectedCategory ? 'ring-2 ring-cyan-400' : ''}
+                            `}
+                          />
+                          
+                          {/* Hover Glow Effect */}
+                          {hoveredElement === atomicNumber && (
+                            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/30 to-purple-400/30 rounded-xl blur-sm -z-10 animate-pulse"></div>
+                          )}
+                        </div>
                       )}
                     </div>
                   ))}
@@ -78,73 +93,84 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
               ))}
             </div>
             
-            {/* Period numbers */}
-            <div className="absolute left-0 top-0 h-full flex flex-col justify-around py-4" style={{ transform: 'scale(0.85)', transformOrigin: 'left top' }}>
+            {/* Period Labels */}
+            <div className="absolute left-2 top-6 h-full flex flex-col justify-around" style={{ transform: 'scale(0.75)', transformOrigin: 'left top' }}>
               {[1, 2, 3, 4, 5, 6, 7, "", "", ""].map((period, index) => (
-                <div key={`period-${index}`} className="text-xs font-medium text-muted-foreground px-1 h-[42px] flex items-center">
-                  {period && period}
+                <div key={`period-${index}`} className="text-xs font-medium text-white/60 h-[38px] flex items-center">
+                  {period && (
+                    <div className="bg-white/10 px-2 py-1 rounded text-center min-w-[20px]">
+                      {period}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
             
-            {/* Group numbers */}
-            <div className="absolute top-0 left-0 w-full flex justify-around px-4" 
-                 style={{ paddingLeft: '16px', transform: 'scale(0.85)', transformOrigin: 'left top' }}>
+            {/* Group Labels */}
+            <div className="absolute top-2 left-6 w-full flex justify-around" style={{ transform: 'scale(0.75)', transformOrigin: 'left top', paddingLeft: '20px' }}>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((group) => (
-                <div key={`group-${group}`} className="text-xs font-medium text-muted-foreground w-[42px] text-center">
-                  {group}
+                <div key={`group-${group}`} className="text-xs font-medium text-white/60 w-[38px] text-center">
+                  <div className="bg-white/10 px-1 py-1 rounded">
+                    {group}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </ScrollArea>
         
-        {/* Atom icon watermark */}
-        <div className="absolute bottom-2 right-2 opacity-5 pointer-events-none">
-          <Atom className="h-16 w-16" />
+        {/* Floating Atom Icon */}
+        <div className="absolute bottom-4 right-4 opacity-20 pointer-events-none">
+          <Atom className="h-12 w-12 text-cyan-400 animate-spin" style={{ animationDuration: '8s' }} />
         </div>
       </div>
       
-      {/* Legend */}
-      <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm">
-        <div className="w-full text-center mb-1">
-          <h4 className="text-sm font-medium">Element Categories</h4>
+      {/* Interactive Legend */}
+      <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+        <div className="text-center mb-4">
+          <h4 className="text-lg font-bold text-white mb-2">Element Categories</h4>
+          <p className="text-white/60 text-sm">Click to filter • Drag elements to react</p>
         </div>
-        {Object.entries(categoryNames).map(([category, name]) => (
-          <div 
-            key={category} 
-            className={`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 
-              bg-chemistry-${category} bg-opacity-30 dark:bg-opacity-50 
-              border border-chemistry-${category}/20 shadow-sm hover:shadow-md 
-              transition-shadow cursor-pointer
-              ${selectedCategory === category ? 'ring-2 ring-primary' : ''}
-            `}
-            onClick={() => handleCategoryClick(category)}
-          >
-            <div className={`w-3 h-3 rounded-full bg-chemistry-${category}`}></div>
-            {name}
-          </div>
-        ))}
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {Object.entries(categoryNames).map(([category, name]) => (
+            <div 
+              key={category} 
+              className={`
+                group px-4 py-3 rounded-xl text-sm flex items-center space-x-3 
+                bg-chemistry-${category}/20 hover:bg-chemistry-${category}/30 
+                border border-chemistry-${category}/30 hover:border-chemistry-${category}/50 
+                transition-all duration-300 cursor-pointer transform hover:scale-105
+                ${selectedCategory === category ? 'ring-2 ring-cyan-400 bg-chemistry-' + category + '/40' : ''}
+              `}
+              onClick={() => handleCategoryClick(category)}
+            >
+              <div className={`w-3 h-3 rounded-full bg-chemistry-${category} group-hover:animate-pulse`}></div>
+              <span className="text-white font-medium">{name}</span>
+            </div>
+          ))}
+        </div>
       </div>
       
-      {/* Display filtered elements */}
+      {/* Filtered Elements Display */}
       {selectedCategory && (
-        <div className="mt-4 p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm animate-fade-in">
-          <h4 className="text-sm font-medium mb-3">
-            {categoryNames[selectedCategory as keyof typeof categoryNames]} Elements
+        <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 border border-white/10 animate-fade-in">
+          <h4 className="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+            <Sparkles className="w-5 h-5 text-cyan-400" />
+            <span>{categoryNames[selectedCategory as keyof typeof categoryNames]} Elements</span>
           </h4>
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 justify-items-center">
             {filteredElements.map(element => (
               <ElementCard
                 key={element.id}
                 element={element}
                 onClick={() => onElementClick(element)}
                 size="sm"
-                className="animate-fade-in"
+                className="transform hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-cyan-400/25"
               />
             ))}
             {filteredElements.length === 0 && (
-              <p className="text-sm text-muted-foreground">No elements found in this category.</p>
+              <p className="col-span-full text-center text-white/60">No elements found in this category.</p>
             )}
           </div>
         </div>
