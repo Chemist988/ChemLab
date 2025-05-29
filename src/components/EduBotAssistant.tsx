@@ -30,7 +30,7 @@ const EduBotAssistant = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-white">Neutrino AI</h2>
-                  <p className="text-white/80 text-sm">Precision meets intuition. Your intelligent chemistry companion for NCERT Class 10</p>
+                  <p className="text-white/80 text-sm">Precision meets intuition. Your intelligent chemistry companion</p>
                 </div>
               </div>
               <Button
@@ -63,8 +63,8 @@ const EduBotAssistant = () => {
                   <p className="text-gray-600 dark:text-gray-400 text-xs">Explore reactions, periodic trends, and molecular structures</p>
                 </div>
                 <div className="bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 p-4 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50">
-                  <p className="text-emerald-700 dark:text-emerald-300 text-sm font-medium">NCERT Solutions</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-xs">Get step-by-step solutions for Class 10 science questions</p>
+                  <p className="text-emerald-700 dark:text-emerald-300 text-sm font-medium">Chemistry Solutions</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-xs">Get step-by-step solutions for chemistry questions</p>
                 </div>
               </div>
             </div>
