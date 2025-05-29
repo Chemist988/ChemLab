@@ -10,7 +10,7 @@ import EduBotAssistant from '@/components/EduBotAssistant';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
-import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight } from 'lucide-react';
+import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
