@@ -8,7 +8,7 @@ import ElementDetail from '@/components/ElementDetail';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import EduBotAssistant from '@/components/EduBotAssistant';
 import { Element } from '@/data/elements';
-import { Atom, FlaskConical, Sparkles } from 'lucide-react';
+import { Atom, FlaskConical, Bot, Sparkles, TestTube } from 'lucide-react';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
@@ -21,103 +21,162 @@ const Index = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-        {/* Animated Background */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-1 h-1 bg-purple-400 rounded-full animate-bounce"></div>
-          <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-cyan-400 rounded-full animate-ping"></div>
-          <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
-        </div>
-
-        {/* Header */}
-        <header className="relative z-50 bg-black/20 backdrop-blur-xl border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="min-h-screen bg-white">
+        {/* Samsung-style Header */}
+        <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-6 py-4">
             <nav className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-4">
                 <div className="relative">
-                  <Atom className="w-8 h-8 text-cyan-400 animate-spin" style={{ animationDuration: '3s' }} />
-                  <div className="absolute inset-0 bg-cyan-400/20 rounded-full animate-ping"></div>
+                  <Atom className="w-8 h-8 text-blue-600" />
                 </div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold text-gray-900">
                   ChemLab Pro
                 </h1>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="hidden md:flex items-center space-x-6 text-white/80">
-                  <span className="hover:text-cyan-400 transition-colors cursor-pointer">Elements</span>
-                  <span className="hover:text-purple-400 transition-colors cursor-pointer">Reactions</span>
-                  <span className="hover:text-pink-400 transition-colors cursor-pointer">Lab</span>
-                </div>
+              <div className="flex items-center space-x-8">
+                <nav className="hidden md:flex items-center space-x-6 text-gray-600">
+                  <span className="hover:text-blue-600 transition-colors cursor-pointer font-medium">Elements</span>
+                  <span className="hover:text-blue-600 transition-colors cursor-pointer font-medium">Reactions</span>
+                  <span className="hover:text-blue-600 transition-colors cursor-pointer font-medium">Lab</span>
+                  <span className="hover:text-blue-600 transition-colors cursor-pointer font-medium">AI Assistant</span>
+                </nav>
                 <ThemeSwitcher />
               </div>
             </nav>
           </div>
         </header>
 
-        {/* Hero Section */}
-        <section className="relative z-10 text-center py-12">
-          <div className="max-w-4xl mx-auto px-4">
-            <h2 className="text-5xl md:text-7xl font-extrabold mb-6">
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Chemistry
-              </span>
+        {/* Hero Section - Samsung Style */}
+        <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
+          <div className="max-w-6xl mx-auto px-6 text-center">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              The Future of
               <br />
-              <span className="text-white">Reimagined</span>
+              <span className="text-blue-600">Chemistry Learning</span>
             </h2>
-            <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
-              Experience chemistry like never before. Mix elements, watch reactions explode, and discover the magic of molecular interactions.
+            <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Experience chemistry through interactive simulations, real-time reactions, and AI-powered assistance. 
+              Drag test tubes, mix elements, and discover the magic of molecular science.
             </p>
-            <div className="flex items-center justify-center space-x-2 text-yellow-400">
-              <Sparkles className="w-5 h-5 animate-pulse" />
-              <span className="text-sm font-medium">Real-time Physics Simulation</span>
-              <Sparkles className="w-5 h-5 animate-pulse" />
+            <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
+              <div className="flex items-center space-x-2">
+                <TestTube className="w-5 h-5 text-blue-600" />
+                <span>Real-time Reactions</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Atom className="w-5 h-5 text-blue-600" />
+                <span>118 Elements</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Bot className="w-5 h-5 text-blue-600" />
+                <span>AI Assistant</span>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Main Lab Interface */}
-        <section className="relative z-10 max-w-7xl mx-auto px-4 pb-20">
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        {/* Main Content Grid */}
+        <section className="max-w-7xl mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
             
-            {/* Periodic Table - Left Side */}
+            {/* Periodic Table Section */}
             <div className="xl:col-span-2">
-              <div className="bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6">
-                <div className="flex items-center space-x-3 mb-6">
-                  <FlaskConical className="w-6 h-6 text-cyan-400" />
-                  <h3 className="text-2xl font-bold text-white">Element Arsenal</h3>
-                  <div className="flex-1 h-px bg-gradient-to-r from-cyan-400/50 to-transparent"></div>
+              <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-8">
+                <div className="flex items-center space-x-4 mb-8">
+                  <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
+                    <Atom className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900">Periodic Table</h3>
+                    <p className="text-gray-600">Select elements to start your experiments</p>
+                  </div>
                 </div>
                 <PeriodicTable onElementClick={handleElementClick} />
               </div>
             </div>
 
-            {/* Reaction Lab - Right Side */}
+            {/* Reaction Lab Section */}
             <div className="xl:col-span-1">
-              <div className="bg-black/30 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6 h-full">
-                <div className="flex items-center space-x-3 mb-6">
-                  <div className="relative">
-                    <FlaskConical className="w-6 h-6 text-purple-400" />
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-pink-400 rounded-full animate-ping"></div>
+              <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 h-full">
+                <div className="flex items-center space-x-4 mb-8">
+                  <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
+                    <FlaskConical className="w-6 h-6 text-green-600" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white">Reaction Chamber</h3>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900">Reaction Lab</h3>
+                    <p className="text-gray-600">Drag test tubes to create reactions</p>
+                  </div>
                 </div>
-                <p className="text-white/60 text-sm mb-6">
-                  Drag 2 elements to witness explosive chemistry!
-                </p>
                 <ReactionZone onElementClick={handleElementClick} />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Floating Action Elements */}
-        <div className="fixed bottom-8 right-8 z-50 flex flex-col space-y-4">
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-full p-4 shadow-2xl hover:scale-110 transition-transform cursor-pointer">
-            <Sparkles className="w-6 h-6 text-white" />
+        {/* Neutrino AI Section */}
+        <section className="bg-gray-50 py-20">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <div className="w-16 h-16 bg-purple-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                <Bot className="w-8 h-8 text-purple-600" />
+              </div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Meet Neutrino AI</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Your intelligent chemistry companion. Get instant explanations, step-by-step solutions, 
+                and personalized learning guidance powered by advanced AI.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Sparkles className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Instant Explanations</h3>
+                <p className="text-gray-600">Get immediate answers to your chemistry questions with detailed explanations.</p>
+              </div>
+              
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <TestTube className="w-6 h-6 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Reaction Insights</h3>
+                <p className="text-gray-600">Understand the science behind every reaction with AI-powered analysis.</p>
+              </div>
+              
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Atom className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Learning Path</h3>
+                <p className="text-gray-600">Get personalized recommendations to improve your chemistry knowledge.</p>
+              </div>
+            </div>
+            
+            <div className="text-center mt-12">
+              <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-2xl font-semibold transition-colors">
+                Try Neutrino AI
+              </button>
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="bg-gray-900 text-white py-12">
+          <div className="max-w-6xl mx-auto px-6 text-center">
+            <div className="flex items-center justify-center space-x-4 mb-6">
+              <Atom className="w-8 h-8 text-blue-400" />
+              <h3 className="text-2xl font-bold">ChemLab Pro</h3>
+            </div>
+            <p className="text-gray-400 mb-8">Revolutionizing chemistry education through technology</p>
+            <div className="flex justify-center space-x-8 text-gray-400">
+              <span className="hover:text-white cursor-pointer">Privacy</span>
+              <span className="hover:text-white cursor-pointer">Terms</span>
+              <span className="hover:text-white cursor-pointer">Support</span>
+            </div>
+          </div>
+        </footer>
 
         {/* Modals */}
         <ElementDetail 
