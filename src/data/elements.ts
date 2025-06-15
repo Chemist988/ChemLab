@@ -1,9 +1,8 @@
+
 export interface Element {
-  id: number;
   symbol: string;
   name: string;
   atomicNumber: number;
-  category: ElementCategory;
   atomicMass: number;
   group: number | null;
   period: number;
@@ -12,8 +11,11 @@ export interface Element {
   density?: number;
   meltingPoint?: number;
   boilingPoint?: number;
-  discoveredBy?: string;
-  description: string;
+  description?: string;
+  category: string;
+  color: string;
+  x: number;
+  y: number;
 }
 
 export type ElementCategory = 

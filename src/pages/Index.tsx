@@ -10,9 +10,10 @@ import EduBotAssistant from '@/components/EduBotAssistant';
 import { Element } from '@/data/refactored-elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
-import { Apple, Beaker, BookOpen, Bot } from 'lucide-react';
+import { Apple, Beaker, BookOpen, Bot, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/use-theme';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
@@ -30,7 +31,13 @@ const Index = () => {
       <div className="min-h-screen bg-background transition-colors duration-500">
         <div className="relative container mx-auto py-12 px-4 z-10">
           <header className="mb-20 flex flex-col items-center relative text-center">
-            <div className="absolute right-0 top-0">
+            <div className="absolute right-0 top-0 flex gap-2">
+              <Link to="/gemini">
+                <Button variant="outline" size="sm" className="gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Gemini UI
+                </Button>
+              </Link>
               <ThemeSwitcher />
             </div>
             <div className="space-y-4">
