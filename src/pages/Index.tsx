@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -44,8 +45,8 @@ const Index = () => {
           </header>
 
           {/* Neutrino AI Section - Inkwell inspired */}
-          <section className="mb-16 relative overflow-hidden">
-            <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-12 relative">
+          <section className="mb-12 relative overflow-hidden">
+            <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-8 relative">
               {/* Background pattern */}
               <div className="absolute inset-0 opacity-20">
                 <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
@@ -54,21 +55,21 @@ const Index = () => {
               </div>
               
               <div className="relative z-10 text-center">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="p-4 bg-white/20 rounded-full backdrop-blur-sm">
-                    <Bot className="w-12 h-12 text-white" />
+                <div className="flex items-center justify-center mb-4">
+                  <div className="p-3 bg-white/20 rounded-full backdrop-blur-sm">
+                    <Bot className="w-10 h-10 text-white" />
                   </div>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
                   Meet HeisenBot
                 </h2>
                 
-                <p className="text-xl text-white/90 mb-2 font-medium">
+                <p className="text-lg text-white/90 mb-1 font-medium">
                   Precision meets intuition.
                 </p>
                 
-                <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-base text-white/80 mb-6 max-w-2xl mx-auto leading-relaxed">
                   Your intelligent chemistry companion. Get instant help with reactions, 
                   molecular structures, and complex chemistry concepts through natural conversation.
                 </p>
@@ -77,7 +78,7 @@ const Index = () => {
                   <Button 
                     onClick={() => navigate('/analytics')}
                     size="lg"
-                    className="bg-white text-indigo-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="bg-white text-indigo-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg neon-glow-primary"
                   >
                     <Sparkles className="w-5 h-5 mr-2" />
                     Chat with HeisenBot

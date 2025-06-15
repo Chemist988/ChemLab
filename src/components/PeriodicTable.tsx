@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
-import { Atom, Search } from 'lucide-react';
+import { Atom, Search, X } from 'lucide-react';
 
 interface PeriodicTableProps {
   onElementClick: (element: Element) => void;
@@ -46,8 +47,17 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
               setSearchQuery(e.target.value)
               setSelectedCategory(null); // Reset category filter when searching
             }}
-            className="pl-10 bg-background/50"
+            className="pl-10 pr-10 bg-background/50"
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              aria-label="Clear search"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -125,7 +135,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
               bg-chemistry-${category} bg-opacity-30 dark:bg-opacity-50 
               border border-chemistry-${category}/20 shadow-sm hover:shadow-md 
               transition-all cursor-pointer hover:ring-2 hover:ring-primary/50
-              ${selectedCategory === category ? 'ring-2 ring-primary' : ''}
+              ${selectedCategory === category ? `ring-2 ring-primary neon-glow-${category}` : ''}
             `}
             onClick={() => handleCategoryClick(category)}
           >

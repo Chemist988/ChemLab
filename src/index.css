@@ -189,15 +189,16 @@
   }
 
   /* Enhanced Neon Glow Effect */
-  .neon-glow-alkali-metal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-alkali))) drop-shadow(0 0 16px hsla(var(--chemistry-alkali), 0.5)); }
-  .neon-glow-alkaline-earth-metal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-alkaline))) drop-shadow(0 0 16px hsla(var(--chemistry-alkaline), 0.5)); }
-  .neon-glow-transition-metal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-transition))) drop-shadow(0 0 16px hsla(var(--chemistry-transition), 0.5)); }
-  .neon-glow-post-transition-metal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-post-transition))) drop-shadow(0 0 16px hsla(var(--chemistry-post-transition), 0.5)); }
-  .neon-glow-metalloid { filter: drop-shadow(0 0 8px hsl(var(--chemistry-metalloid))) drop-shadow(0 0 16px hsla(var(--chemistry-metalloid), 0.5)); }
-  .neon-glow-nonmetal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-nonmetal))) drop-shadow(0 0 16px hsla(var(--chemistry-nonmetal), 0.5)); }
-  .neon-glow-halogen { filter: drop-shadow(0 0 8px hsl(var(--chemistry-halogen))) drop-shadow(0 0 16px hsla(var(--chemistry-halogen), 0.5)); }
-  .neon-glow-noble-gas { filter: drop-shadow(0 0 8px hsl(var(--chemistry-noble-gas))) drop-shadow(0 0 16px hsla(var(--chemistry-noble-gas), 0.5)); }
-  .neon-glow-lanthanide { filter: drop-shadow(0 0 8px hsl(var(--chemistry-lanthanide))) drop-shadow(0 0 16px hsla(var(--chemistry-lanthanide), 0.5)); }
-  .neon-glow-actinide { filter: drop-shadow(0 0 8px hsl(var(--chemistry-actinide))) drop-shadow(0 0 16px hsla(var(--chemistry-actinide), 0.5)); }
-  .neon-glow-unknown { filter: drop-shadow(0 0 8px hsl(var(--chemistry-unknown))) drop-shadow(0 0 16px hsla(var(--chemistry-unknown), 0.5)); }
+  .neon-glow-alkali-metal { filter: drop-shadow(0 0 10px hsl(var(--chemistry-alkali))) drop-shadow(0 0 20px hsla(var(--chemistry-alkali), 0.7)); }
+  .neon-glow-alkaline-earth-metal { filter: drop-shadow(0 0 10px hsl(var(--chemistry-alkaline))) drop-shadow(0 0 20px hsla(var(--chemistry-alkaline), 0.7)); }
+  .neon-glow-transition-metal { filter: drop-shadow(0 0 10px hsl(var(--chemistry-transition))) drop-shadow(0 0 20px hsla(var(--chemistry-transition), 0.7)); }
+  .neon-glow-post-transition-metal { filter: drop-shadow(0 0 10px hsl(var(--chemistry-post-transition))) drop-shadow(0 0 20px hsla(var(--chemistry-post-transition), 0.7)); }
+  .neon-glow-metalloid { filter: drop-shadow(0 0 10px hsl(var(--chemistry-metalloid))) drop-shadow(0 0 20px hsla(var(--chemistry-metalloid), 0.7)); }
+  .neon-glow-nonmetal { filter: drop-shadow(0 0 10px hsl(var(--chemistry-nonmetal))) drop-shadow(0 0 20px hsla(var(--chemistry-nonmetal), 0.7)); }
+  .neon-glow-halogen { filter: drop-shadow(0 0 10px hsl(var(--chemistry-halogen))) drop-shadow(0 0 20px hsla(var(--chemistry-halogen), 0.7)); }
+  .neon-glow-noble-gas { filter: drop-shadow(0 0 10px hsl(var(--chemistry-noble-gas))) drop-shadow(0 0 20px hsla(var(--chemistry-noble-gas), 0.7)); }
+  .neon-glow-lanthanide { filter: drop-shadow(0 0 10px hsl(var(--chemistry-lanthanide))) drop-shadow(0 0 20px hsla(var(--chemistry-lanthanide), 0.7)); }
+  .neon-glow-actinide { filter: drop-shadow(0 0 10px hsl(var(--chemistry-actinide))) drop-shadow(0 0 20px hsla(var(--chemistry-actinide), 0.7)); }
+  .neon-glow-unknown { filter: drop-shadow(0 0 10px hsl(var(--chemistry-unknown))) drop-shadow(0 0 20px hsla(var(--chemistry-unknown), 0.7)); }
+  .neon-glow-primary { filter: drop-shadow(0 0 10px hsl(var(--primary))) drop-shadow(0 0 20px hsla(var(--primary), 0.7)); }
 }
