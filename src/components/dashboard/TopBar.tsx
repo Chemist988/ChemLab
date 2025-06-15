@@ -1,6 +1,6 @@
 
 import React from "react";
-import { search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const TopBar = () => (
@@ -15,7 +15,7 @@ const TopBar = () => (
     </div>
     <div className="flex items-center gap-2">
       <Button size="sm" className="bg-white/20 text-white hover:bg-white/30 flex gap-2">
-        <search className="w-4 h-4" />
+        <Search className="w-4 h-4" />
         Search
       </Button>
     </div>

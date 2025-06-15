@@ -1,12 +1,18 @@
 
 import React from "react";
-import { layoutDashboard, fileText, bookOpen, search, chevronRight } from "lucide-react";
+import {
+  LayoutDashboard,
+  FileText,
+  BookOpen,
+  Search,
+  ChevronRight,
+} from "lucide-react";
 
 const navItems = [
-  { label: "Dashboard", icon: layoutDashboard, active: true },
-  { label: "Files", icon: fileText },
-  { label: "Text", icon: bookOpen },
-  { label: "Website", icon: search },
+  { label: "Dashboard", icon: LayoutDashboard, active: true },
+  { label: "Files", icon: FileText },
+  { label: "Text", icon: BookOpen },
+  { label: "Website", icon: Search },
 ];
 
 const SidebarNav = () => (
@@ -33,7 +39,7 @@ const SidebarNav = () => (
     </ul>
     <div className="mt-auto px-6 pb-4">
       <button className="flex items-center text-sm gap-2 text-muted-foreground hover:text-primary transition">
-        See all <chevronRight className="w-4 h-4" />
+        See all <ChevronRight className="w-4 h-4" />
       </button>
     </div>
   </nav>
