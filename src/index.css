@@ -33,17 +33,17 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
     
-    /* Chemistry Element Colors - New & Vibrant */
-    --chemistry-alkali: 4 90% 65%; /* coral */
-    --chemistry-alkaline: 45 95% 60%; /* gold */
-    --chemistry-transition: 195 80% 55%; /* sky blue */
-    --chemistry-post-transition: 275 60% 70%; /* lavender */
-    --chemistry-metalloid: 140 55% 65%; /* sea green */
-    --chemistry-nonmetal: 100 60% 70%; /* light green */
-    --chemistry-halogen: 180 70% 50%; /* teal */
-    --chemistry-noble-gas: 290 80% 75%; /* lilac */
-    --chemistry-lanthanide: 330 80% 65%; /* rose */
-    --chemistry-actinide: 350 85% 60%; /* crimson */
+    /* Chemistry Element Colors - Inspired by classic periodic tables */
+    --chemistry-alkali: 160 50% 45%; /* teal */
+    --chemistry-alkaline: 15 50% 45%; /* reddish-brown */
+    --chemistry-transition: 260 50% 55%; /* purple */
+    --chemistry-post-transition: 210 30% 50%; /* steel blue */
+    --chemistry-metalloid: 170 40% 45%; /* greenish-teal */
+    --chemistry-nonmetal: 225 60% 50%; /* royal blue */
+    --chemistry-halogen: 130 50% 40%; /* forest green */
+    --chemistry-noble-gas: 280 40% 50%; /* deep purple */
+    --chemistry-lanthanide: 30 40% 50%; /* warm brown */
+    --chemistry-actinide: 30 50% 40%; /* darker warm brown */
     --chemistry-unknown: 220 10% 75%; /* light slate */
   }
 
@@ -68,17 +68,17 @@
     --input: 215 27.9% 16.9%;
     --ring: 198 93% 60%; /* Vibrant Cyan */
     
-    /* Chemistry Element Colors - Dark Mode - New & Vibrant */
-    --chemistry-alkali: 4 70% 55%;
-    --chemistry-alkaline: 45 75% 50%;
-    --chemistry-transition: 195 70% 45%;
-    --chemistry-post-transition: 275 50% 60%;
-    --chemistry-metalloid: 140 45% 55%;
-    --chemistry-nonmetal: 100 50% 60%;
-    --chemistry-halogen: 180 60% 40%;
-    --chemistry-noble-gas: 290 70% 65%;
-    --chemistry-lanthanide: 330 70% 55%;
-    --chemistry-actinide: 350 75% 50%;
+    /* Chemistry Element Colors - Dark Mode - Inspired by classic periodic tables */
+    --chemistry-alkali: 160 50% 35%;
+    --chemistry-alkaline: 15 50% 35%;
+    --chemistry-transition: 260 50% 45%;
+    --chemistry-post-transition: 210 30% 40%;
+    --chemistry-metalloid: 170 40% 35%;
+    --chemistry-nonmetal: 225 60% 40%;
+    --chemistry-halogen: 130 50% 30%;
+    --chemistry-noble-gas: 280 40% 40%;
+    --chemistry-lanthanide: 30 40% 40%;
+    --chemistry-actinide: 30 50% 30%;
     --chemistry-unknown: 220 10% 40%;
   }
 }
