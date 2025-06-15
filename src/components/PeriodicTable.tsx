@@ -64,7 +64,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
               }}
             >
               {periodicTableLayout.map((row, rowIndex) => (
-                <React.Fragment key={rowIndex}>
+                <div key={rowIndex} style={{ display: 'contents' }}>
                   {row.map((atomicNumber, colIndex) => {
                     const element = atomicNumber > 0 ? getElementByAtomicNumber(atomicNumber) : null;
                     
@@ -101,7 +101,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                       </div>
                     )
                   })}
-                </React.Fragment>
+                </div>
               ))}
             </div>
           </div>

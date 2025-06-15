@@ -64,13 +64,22 @@ const Molecule = ({ moleculeKey }: { moleculeKey: MoleculeKey }) => {
     }
   });
 
+  const center = useMemo(() => {
+    if (!molecule.atoms.length) return new THREE.Vector3(0, 0, 0);
+    const centerVec = new THREE.Vector3();
+    molecule.atoms.forEach(atom => centerVec.add(new THREE.Vector3(...atom.position)));
+    return centerVec.divideScalar(molecule.atoms.length);
+  }, [molecule.atoms]);
+
   const orientedBonds = useMemo(() => {
     return molecule.bonds.map((bondIndices, i) => {
       const start = new THREE.Vector3(...molecule.atoms[bondIndices[0]].position);
       const end = new THREE.Vector3(...molecule.atoms[bondIndices[1]].position);
       
-      const position = start.clone().lerp(end, 0.5);
       const distance = start.distanceTo(end);
+      if (distance < 0.001) return null; // Prevent rendering zero-length bonds
+
+      const position = start.clone().lerp(end, 0.5);
 
       const direction = end.clone().sub(start).normalize();
       // The default Cylinder in three.js is aligned along the Y axis, so we create a quaternion to rotate it.
@@ -89,12 +98,14 @@ const Molecule = ({ moleculeKey }: { moleculeKey: MoleculeKey }) => {
 
   return (
     <group ref={groupRef}>
-      {molecule.atoms.map((atom, i) => (
-        <Sphere key={i} position={atom.position} args={[atomRadii[atom.element], 32, 32]}>
-          <meshStandardMaterial color={atomColors[atom.element]} roughness={0.3} metalness={0.2} />
-        </Sphere>
-      ))}
-      {orientedBonds}
+      <group position={center.clone().negate()}>
+        {molecule.atoms.map((atom, i) => (
+          <Sphere key={i} position={atom.position} args={[atomRadii[atom.element], 32, 32]}>
+            <meshStandardMaterial color={atomColors[atom.element]} roughness={0.3} metalness={0.2} />
+          </Sphere>
+        ))}
+        {orientedBonds}
+      </group>
     </group>
   );
 };
