@@ -30,11 +30,11 @@ const Index = () => {
           <header className="mb-16 flex flex-col items-center relative">
             <div className="text-center space-y-6">
               <h1 className="text-6xl md:text-7xl font-thin tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-purple-700 dark:from-white dark:via-blue-200 dark:to-purple-300">
-                Interactive Chemistry
+                ChemLab
               </h1>
               <p className="text-xl font-light text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                Explore the periodic table like never before. Drag elements, simulate reactions, 
-                and discover the beauty of chemistry with stunning visualizations.
+                An interactive chemistry playground. Drag elements, simulate reactions, 
+                and discover the building blocks of our world with stunning visualizations.
               </p>
               <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                 <Atom className="w-4 h-4" />
@@ -69,7 +69,7 @@ const Index = () => {
                 </p>
                 
                 <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-                  Your intelligent chemistry companion for NCERT Class 10. Get instant help with reactions, 
+                  Your intelligent chemistry companion. Get instant help with reactions, 
                   molecular structures, and complex chemistry concepts through natural conversation.
                 </p>
                 
@@ -80,7 +80,7 @@ const Index = () => {
                     className="bg-white text-indigo-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                   >
                     <Sparkles className="w-5 h-5 mr-2" />
-                    Start Exploring
+                    Chat with HeisenBot
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                   
@@ -88,10 +88,6 @@ const Index = () => {
                     <div className="flex items-center gap-1">
                       <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                       <span>24/7 Available</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span>NCERT Aligned</span>
                     </div>
                   </div>
                 </div>
@@ -171,7 +167,7 @@ const Index = () => {
           onClose={() => setDetailOpen(false)}
         />
         
-        {/* Neutrino AI Assistant */}
+        {/* HeisenBot AI Assistant */}
         <EduBotAssistant />
         
       </>

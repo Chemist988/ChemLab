@@ -14,7 +14,7 @@ const AnalyticsPage = () => {
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-white">HeisenBot</h2>
-              <p className="text-white/80 text-sm">Your intelligent chemistry companion for NCERT Class 10</p>
+              <p className="text-white/80 text-sm">Your intelligent chemistry companion</p>
             </div>
           </div>
         </div>

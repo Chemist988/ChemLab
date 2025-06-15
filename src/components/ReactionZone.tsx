@@ -6,7 +6,7 @@ import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, getAnimationClass, ReactionResult, reactions } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Beaker, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom } from 'lucide-react';
+import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -209,7 +209,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         ref={drop}
         className={`
           relative h-96 p-6 rounded-xl flex flex-col items-center justify-center overflow-hidden
-          ${isOver ? 'border-primary/70 bg-primary/5' : 'border border-white/10'}
+          ${isOver ? 'border-primary/70 bg-primary/5' : 'border-0'}
           transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
         `}
       >
@@ -325,17 +325,29 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* Beaker container - More Apple-like with frosted glass effect */}
+        {/* Beaker container - More realistic design */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-64 h-64">
-            {/* Beaker body - More premium design */}
-            <div className="absolute bottom-0 w-full h-[85%] border-[1px] border-white/30 dark:border-white/10 rounded-b-lg bg-white/10 backdrop-blur-md dark:bg-black/10 shadow-lg">
+          <div className="relative w-56 h-72">
+            {/* Beaker Glass */}
+            <div className="absolute bottom-0 w-full h-full rounded-b-3xl rounded-t-lg border-2 border-gray-400/20 bg-gray-500/10 backdrop-blur-sm">
+              {/* Glossy highlight */}
+              <div className="absolute top-0 left-0 w-full h-full rounded-b-3xl rounded-t-lg overflow-hidden">
+                <div className="absolute -top-1/4 -left-1/2 w-full h-1/2 bg-white/10 dark:bg-white/5 transform -rotate-45"></div>
+              </div>
+
+              {/* Volume Markings */}
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="absolute left-2 right-2 border-t border-gray-400/30" style={{bottom: `${20 + i * 15}%`}}>
+                  <span className="absolute -left-1 top-0 -translate-y-1/2 text-xs text-gray-400/50">{100 * (i+1)}</span>
+                </div>
+              ))}
+              
               {/* Beaker liquid */}
               <div 
                 className={`
-                  absolute bottom-0 w-full rounded-b-lg transition-all duration-700 ease-out overflow-hidden
+                  absolute bottom-0 w-full rounded-b-3xl transition-all duration-700 ease-out overflow-hidden
                   ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}
-                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'}
+                  ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'}
                   ${animating ? 'animate-pulse' : ''}
                 `}
               >
@@ -363,9 +375,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
                 {selectedElements.length === 0 ? (
                   <div className="text-center text-muted-foreground">
-                    <Beaker className="mx-auto h-10 w-10 mb-2 opacity-70" />
+                    <FlaskConical className="mx-auto h-12 w-12 mb-3 opacity-50" />
                     <p>Drag elements here to start a reaction</p>
-                    <p className="text-xs mt-2 text-muted-foreground/80">Try combining up to four elements!</p>
+                    <p className="text-xs mt-2 text-muted-foreground/80">Combine up to two elements</p>
                   </div>
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center">
@@ -407,12 +419,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                 )}
               </div>
             </div>
-            
-            {/* Beaker top rim */}
-            <div className="absolute top-[15%] w-full h-[2px] bg-white/30 dark:bg-white/10"></div>
-            
-            {/* Beaker neck */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-[1px] border-l-[1px] border-r-[1px] border-white/30 dark:border-white/10"></div>
           </div>
         </div>
       </div>
@@ -429,30 +435,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       </div>
     </div>
   );
-};
-
-// Helper function to get color based on reaction type
-const getReactionColor = (animationType: string): string => {
-  switch (animationType) {
-    case 'explosion':
-      return 'bg-gradient-to-b from-orange-200/70 to-orange-300/50 dark:from-orange-900/40 dark:to-orange-800/30';
-    case 'gas':
-      return 'bg-gradient-to-b from-green-200/70 to-green-300/50 dark:from-green-900/40 dark:to-green-800/30';
-    case 'bubble':
-      return 'bg-gradient-to-b from-blue-200/70 to-blue-300/50 dark:from-blue-900/40 dark:to-blue-800/30';
-    case 'fade':
-      return 'bg-gradient-to-b from-purple-200/70 to-purple-300/50 dark:from-purple-900/40 dark:to-purple-800/30';
-    case 'crystallization':
-      return 'bg-gradient-to-b from-indigo-200/70 to-indigo-300/50 dark:from-indigo-900/40 dark:to-indigo-800/30';
-    case 'precipitation':
-      return 'bg-gradient-to-b from-yellow-200/70 to-yellow-300/50 dark:from-yellow-900/40 dark:to-yellow-800/30';
-    case 'combustion':
-      return 'bg-gradient-to-b from-red-200/70 to-red-300/50 dark:from-red-900/40 dark:to-red-800/30';
-    case 'neutralization':
-      return 'bg-gradient-to-b from-teal-200/70 to-teal-300/50 dark:from-teal-900/40 dark:to-teal-800/30';
-    default:
-      return 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20';
-  }
 };
 
 // Helper function to get reaction type display name
@@ -499,7 +481,7 @@ const getReactionIcon = (animationType: string): React.ReactNode => {
     case 'neutralization':
       return <Atom className="h-4 w-4 text-teal-500" />;
     default:
-      return <Beaker className="h-4 w-4 text-gray-500" />;
+      return <FlaskConical className="h-4 w-4 text-gray-500" />;
   }
 };
 

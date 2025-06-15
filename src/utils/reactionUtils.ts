@@ -7,6 +7,7 @@ export interface ReactionResult {
   result: string;
   description: string;
   animationType: AnimationType;
+  productColor?: string; // e.g., 'bg-red-500/50'
 }
 
 // Use this function to get the appropriate animation class
@@ -39,7 +40,8 @@ export const reactions: Record<string, ReactionResult> = {
   "H-O": {
     result: "H₂O (Water)",
     description: "Hydrogen and oxygen combine explosively to form water. This is a classic synthesis reaction.",
-    animationType: "bubble"
+    animationType: "bubble",
+    productColor: 'bg-gradient-to-b from-blue-200/70 to-blue-300/50 dark:from-blue-800/40 dark:to-blue-700/30'
   },
   "H-Cl": {
     result: "HCl (Hydrochloric Acid)",
@@ -49,7 +51,8 @@ export const reactions: Record<string, ReactionResult> = {
   "H-N": {
     result: "NH₃ (Ammonia)",
     description: "Hydrogen and nitrogen form ammonia, a common nitrogen source for plants.",
-    animationType: "gas"
+    animationType: "gas",
+    productColor: 'bg-gradient-to-b from-green-200/60 to-green-300/40 dark:from-green-900/40 dark:to-green-800/30'
   },
   "H-F": {
     result: "HF (Hydrofluoric Acid)",
@@ -76,7 +79,8 @@ export const reactions: Record<string, ReactionResult> = {
   "Na-Cl": {
     result: "NaCl (Table Salt)",
     description: "A reactive metal (Na) and a reactive nonmetal (Cl) form a stable ionic compound (salt).",
-    animationType: "crystallization"
+    animationType: "crystallization",
+    productColor: 'bg-gradient-to-b from-gray-100/70 to-gray-200/50 dark:from-gray-800/40 dark:to-gray-700/30'
   },
   "Na-O": {
     result: "Na₂O (Sodium Oxide)",
@@ -161,7 +165,8 @@ export const reactions: Record<string, ReactionResult> = {
   "C-O": {
     result: "CO₂ (Carbon Dioxide)",
     description: "Carbon and oxygen form carbon dioxide in complete combustion.",
-    animationType: "combustion"
+    animationType: "combustion",
+    productColor: 'bg-gradient-to-b from-gray-300/60 to-gray-400/40 dark:from-gray-700/40 dark:to-gray-600/30'
   },
   "C-H": {
     result: "CH₄ (Methane)",
@@ -195,7 +200,8 @@ export const reactions: Record<string, ReactionResult> = {
   "O-H": {
     result: "H₂O (Water)",
     description: "Oxygen and hydrogen combine to form water, essential for life. This is a synthesis reaction.",
-    animationType: "bubble"
+    animationType: "bubble",
+    productColor: 'bg-gradient-to-b from-blue-200/70 to-blue-300/50 dark:from-blue-800/40 dark:to-blue-700/30'
   },
   "O-C": {
     result: "CO₂ (Carbon Dioxide)",
@@ -205,7 +211,8 @@ export const reactions: Record<string, ReactionResult> = {
   "O-Fe": {
     result: "Fe₂O₃ (Iron Oxide)",
     description: "Oxygen and iron form iron oxide, commonly known as rust.",
-    animationType: "fade"
+    animationType: "fade",
+    productColor: 'bg-gradient-to-b from-orange-400/70 to-amber-500/50 dark:from-orange-800/40 dark:to-amber-700/30'
   },
   "O-Al": {
     result: "Al₂O₃ (Aluminum Oxide)",
@@ -258,9 +265,38 @@ export const reactions: Record<string, ReactionResult> = {
   "HCl-NaOH": {
     result: "NaCl + H₂O",
     description: "Hydrochloric acid and sodium hydroxide form salt and water.",
-    animationType: "neutralization"
+    animationType: "neutralization",
+    productColor: 'bg-gradient-to-b from-teal-200/70 to-teal-300/50 dark:from-teal-900/40 dark:to-teal-800/30'
   },
   
+  // Iron reactions
+  "Fe-S": {
+    result: "FeS (Iron(II) Sulfide)",
+    description: "Iron and sulfur react when heated to form iron(II) sulfide, a black solid.",
+    animationType: "precipitation",
+    productColor: 'bg-gradient-to-b from-gray-800/80 to-black/70 dark:from-gray-900/80 dark:to-black/70'
+  },
+  "Fe-Cl": {
+    result: "FeCl₃ (Iron(III) Chloride)",
+    description: "Iron reacts with chlorine gas to form iron(III) chloride, which is yellow-brown in solution.",
+    animationType: "precipitation",
+    productColor: 'bg-gradient-to-b from-yellow-500/70 to-yellow-600/50 dark:from-yellow-700/40 dark:to-yellow-800/30'
+  },
+
+  // Copper reactions
+  "Cu-O": {
+    result: "CuO (Copper(II) Oxide)",
+    description: "Copper reacts with oxygen at high temperatures to form black copper(II) oxide.",
+    animationType: "fade",
+    productColor: 'bg-gradient-to-b from-gray-700/80 to-black/70 dark:from-gray-800/80 dark:to-black/70'
+  },
+  "Cu-S": {
+    result: "CuS (Copper(II) Sulfide)",
+    description: "Copper and sulfur react to form copper(II) sulfide, a black solid.",
+    animationType: "precipitation",
+    productColor: 'bg-gradient-to-b from-gray-800/80 to-black/70 dark:from-gray-900/80 dark:to-black/70'
+  },
+
   // Noble gas compounds (rare but possible)
   "Xe-F": {
     result: "XeF₂",
