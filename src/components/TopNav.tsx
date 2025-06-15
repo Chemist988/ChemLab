@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Atom, BarChart, Activity, Sources, Zap } from 'lucide-react';
+import { Atom, BarChart, Activity, Files, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ThemeSwitcher from './ThemeSwitcher';
 
@@ -9,7 +9,7 @@ const navItems = [
   { name: 'Playground', href: '/', icon: Atom },
   { name: 'Analytics', href: '/analytics', icon: BarChart },
   { name: 'Activity', href: '/activity', icon: Activity },
-  { name: 'Sources', href: '/sources', icon: Sources },
+  { name: 'Sources', href: '/sources', icon: Files },
   { name: 'Actions', href: '/actions', icon: Zap },
 ];
 
