@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BookOpen, Beaker, Bot, LayoutDashboard, ChevronRight } from "lucide-react";
+import { BookOpen, Beaker, Bot, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
@@ -10,15 +10,14 @@ export interface ChemistryNavBarProps {
 }
 
 const sections = [
-  { key: 'elements', label: "Elements", icon: LayoutDashboard },
-  { key: 'reactions', label: "Reactions", icon: Beaker },
-  { key: 'assistant', label: "AI Assistant", icon: Bot },
+  { key: 'explore', label: "Explore Lab", icon: LayoutDashboard },
+  { key: 'heisenbot', label: "HeisenBot", icon: Bot },
   { key: 'guide', label: "Lab Guide", icon: BookOpen },
 ];
 
 const ChemistryNavBar: React.FC<ChemistryNavBarProps> = ({
   onSelect,
-  current = "elements",
+  current = "explore",
 }) => {
   return (
     <nav className="fixed z-40 top-0 left-0 w-full bg-gradient-to-r from-[#f43f5e] via-[#fbbf24] to-[#f87171] dark:from-[#1e293b] dark:via-[#eab308] dark:to-[#9333ea] shadow-md shadow-black/10">

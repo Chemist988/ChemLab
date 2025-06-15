@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -26,7 +25,7 @@ const Index = () => {
   };
 
   // Use a local state to remember which main dashboard tab is "active"
-  const [dashboardSection, setDashboardSection] = useState("elements");
+  const [dashboardSection, setDashboardSection] = useState("explore");
 
   // The main dashboard card: Elements, Reactions, Neutrino AI, Lab Guide as tabs
   return (
@@ -41,8 +40,8 @@ const Index = () => {
           <div className="w-full">
             <div className="mx-auto w-full max-w-6xl rounded-[2rem] shadow-2xl bg-white dark:bg-card border border-border mt-6 mb-6 p-0 overflow-hidden transition-all">
               <div className="w-full h-full p-0">
-                {/* Headline - only visible in Elements tab */}
-                {dashboardSection === "elements" && (
+                {/* Headline - only visible in Explore tab now */}
+                {dashboardSection === "explore" && (
                   <header className="flex flex-col items-center pt-12 pb-4 px-4 text-center">
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-gradient mb-2 select-none">
                       Chemistry Lab
@@ -54,37 +53,38 @@ const Index = () => {
                 )}
                 <Tabs value={dashboardSection} onValueChange={setDashboardSection} className="w-full">
                   <TabsList className="mx-6 my-4 border border-muted bg-muted/20 rounded-full flex-center shadow-sm">
-                    <TabsTrigger value="elements" className="flex-1 min-w-24 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">Elements</TabsTrigger>
-                    <TabsTrigger value="reactions" className="flex-1 min-w-24 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">Reactions</TabsTrigger>
-                    <TabsTrigger value="assistant" className="flex-1 min-w-28 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">AI Assistant</TabsTrigger>
-                    <TabsTrigger value="guide" className="flex-1 min-w-24 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">Lab Guide</TabsTrigger>
+                    <TabsTrigger value="explore" className="flex-1 min-w-32 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">
+                      Explore Lab
+                    </TabsTrigger>
+                    <TabsTrigger value="heisenbot" className="flex-1 min-w-32 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">
+                      HeisenBot
+                    </TabsTrigger>
+                    <TabsTrigger value="guide" className="flex-1 min-w-24 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">
+                      Lab Guide
+                    </TabsTrigger>
                   </TabsList>
 
-                  {/* Periodic Table */}
-                  <TabsContent value="elements" className="px-8 pb-12 pt-2">
-                    <div className="bg-card rounded-2xl border border-border shadow-inner py-10 px-2 md:px-8">
+                  {/* Combined Explore Tab: both Periodic Table and Reaction Simulator */}
+                  <TabsContent value="explore" className="px-8 pb-12 pt-2">
+                    <div className="bg-card rounded-2xl border border-border shadow-inner py-10 px-2 md:px-8 mb-8">
                       <h2 className="text-3xl font-light text-foreground mb-3 text-center">
                         Periodic Table
                       </h2>
                       <div className="text-center text-sm text-muted-foreground mb-4">Click an element to explore</div>
                       <PeriodicTable onElementClick={handleElementClick} />
                     </div>
-                  </TabsContent>
-
-                  {/* Reaction Simulator */}
-                  <TabsContent value="reactions" className="px-8 pb-12 pt-2">
                     <div className="bg-card rounded-2xl border border-border shadow-inner px-2 md:px-10 py-10 min-h-[32rem]">
                       <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">Reaction Simulator</h2>
                       <ReactionZone onElementClick={handleElementClick} />
                     </div>
                   </TabsContent>
 
-                  {/* AI Assistant */}
-                  <TabsContent value="assistant" className="px-8 pb-12 pt-2">
+                  {/* HeisenBot AI Assistant */}
+                  <TabsContent value="heisenbot" className="px-8 pb-12 pt-2">
                     <div className="bg-card rounded-2xl border border-border shadow-inner p-6 w-full flex flex-col items-center">
                       <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center flex items-center justify-center gap-2">
                         <Apple className="w-7 h-7 text-primary mb-1" />
-                        Neutrino AI – Chemistry Assistant
+                        HeisenBot
                       </h2>
                       <p className="text-muted-foreground text-base mb-6 max-w-md text-center">
                         Your intelligent chemistry companion. Get instant help with reactions, molecular structures, and complex concepts.
@@ -94,7 +94,7 @@ const Index = () => {
                         size="lg"
                         className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 rounded-full text-base mx-auto"
                       >
-                        Launch Assistant
+                        Launch HeisenBot
                       </Button>
                     </div>
                   </TabsContent>
@@ -139,6 +139,7 @@ const Index = () => {
 
         <EduBotAssistant />
 
+        {/* Modal for HeisenBot */}
         {showBot && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
             <div className="w-full max-w-5xl h-[85vh] bg-card rounded-2xl shadow-2xl overflow-hidden border border-border">
@@ -146,7 +147,7 @@ const Index = () => {
                 <div className="flex items-center gap-3">
                   <Apple className="w-6 h-6 text-foreground" />
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground">Neutrino AI</h2>
+                    <h2 className="text-xl font-semibold text-foreground">HeisenBot</h2>
                     <p className="text-muted-foreground text-sm">Your chemistry assistant.</p>
                   </div>
                 </div>
@@ -165,7 +166,7 @@ const Index = () => {
                     src="https://www.chatbase.co/chatbot-iframe/COwMkAjIYb1meY0saCFK1"
                     allow="clipboard-write; microphone;"
                     className="w-full h-full border-none"
-                    title="Neutrino AI Assistant"
+                    title="HeisenBot"
                     style={theme === 'dark' ? { filter: 'invert(0.9) hue-rotate(180deg)' } : {}}
                   />
                 </div>
