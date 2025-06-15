@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { MessageCircle, X, Atom } from 'lucide-react';
+import { Bot, X } from 'lucide-react';
 import { Button } from './ui/button';
 
 const EduBotAssistant = () => {
@@ -12,9 +12,9 @@ const EduBotAssistant = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-16 h-16 rounded-full bg-gradient-to-r from-slate-900 to-gray-800 hover:from-slate-800 hover:to-gray-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center border border-gray-600/30 backdrop-blur-xl"
+          className="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center border border-white/20 backdrop-blur-xl transform hover:scale-105"
         >
-          {isOpen ? <X className="w-7 h-7 text-white" /> : <Atom className="w-7 h-7 text-white" />}
+          {isOpen ? <X className="w-7 h-7 text-white" /> : <Bot className="w-7 h-7 text-white" />}
         </Button>
       </div>
 
@@ -23,14 +23,14 @@ const EduBotAssistant = () => {
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
           <div className="w-full max-w-5xl h-[85vh] bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-black/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
             {/* Header */}
-            <div className="bg-gradient-to-r from-gray-900 to-slate-800 p-6 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/10 rounded-full">
-                  <Atom className="w-6 h-6 text-white" />
+                  <Bot className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-semibold text-white">Neutrino</h2>
-                  <p className="text-gray-300 text-sm">Your intelligent chemistry companion for NCERT Class 10</p>
+                  <h2 className="text-2xl font-semibold text-white">Neutrino AI</h2>
+                  <p className="text-white/80 text-sm">Precision meets intuition. Your intelligent chemistry companion for NCERT Class 10</p>
                 </div>
               </div>
               <Button
