@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Sphere, Cylinder } from '@react-three/drei';
@@ -65,24 +64,6 @@ const Molecule = ({ moleculeKey }: { moleculeKey: MoleculeKey }) => {
     }
   });
 
-  const bonds = useMemo(() => {
-    return molecule.bonds.map((bondIndices, i) => {
-      const start = new THREE.Vector3(...molecule.atoms[bondIndices[0]].position);
-      const end = new THREE.Vector3(...molecule.atoms[bondIndices[1]].position);
-      const distance = start.distanceTo(end);
-
-      const bondRef = React.createRef<THREE.Mesh>();
-      
-      return (
-        <group key={i}>
-          <Cylinder ref={bondRef} args={[0.08, 0.08, distance, 8]} position={start.clone().lerp(end, 0.5)}>
-            <meshStandardMaterial color="grey" />
-          </Cylinder>
-        </group>
-      );
-    });
-  }, [molecule]);
-
   const orientedBonds = useMemo(() => {
     return molecule.bonds.map((bondIndices, i) => {
       const start = new THREE.Vector3(...molecule.atoms[bondIndices[0]].position);
@@ -91,13 +72,15 @@ const Molecule = ({ moleculeKey }: { moleculeKey: MoleculeKey }) => {
       const position = start.clone().lerp(end, 0.5);
       const distance = start.distanceTo(end);
 
-      // Create a dummy object to compute rotation
-      const dummy = new THREE.Object3D();
-      dummy.position.copy(position);
-      dummy.lookAt(end);
+      const direction = end.clone().sub(start).normalize();
+      // The default Cylinder in three.js is aligned along the Y axis, so we create a quaternion to rotate it.
+      const quaternion = new THREE.Quaternion().setFromUnitVectors(
+        new THREE.Vector3(0, 1, 0), 
+        direction
+      );
       
       return (
-          <Cylinder key={i} args={[0.08, 0.08, distance]} position={position} rotation={dummy.rotation}>
+          <Cylinder key={i} args={[0.08, 0.08, distance, 8]} position={position} quaternion={quaternion}>
               <meshStandardMaterial color="#888888" />
           </Cylinder>
       );

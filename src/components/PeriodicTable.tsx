@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
@@ -68,10 +67,15 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                 <React.Fragment key={rowIndex}>
                   {row.map((atomicNumber, colIndex) => {
                     const element = atomicNumber > 0 ? getElementByAtomicNumber(atomicNumber) : null;
-                    const isDimmed = isSearching && element && 
-                      !element.name.toLowerCase().includes(lowerCaseQuery) &&
-                      !element.symbol.toLowerCase().includes(lowerCaseQuery) &&
-                      !element.atomicNumber.toString().includes(lowerCaseQuery);
+                    
+                    let isDimmed = false;
+                    if (isSearching && element) {
+                      const matchesQuery = 
+                        element.name.toLowerCase().includes(lowerCaseQuery) ||
+                        element.symbol.toLowerCase().includes(lowerCaseQuery) ||
+                        element.atomicNumber.toString().includes(lowerCaseQuery);
+                      isDimmed = !matchesQuery;
+                    }
 
                     return (
                       <div 
