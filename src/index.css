@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -220,17 +219,4 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
-  
-  /* Chemistry Color Classes */
-  .bg-chemistry-alkali-metal { background-color: hsl(var(--chemistry-alkali)); }
-  .bg-chemistry-alkaline-earth-metal { background-color: hsl(var(--chemistry-alkaline)); }
-  .bg-chemistry-transition-metal { background-color: hsl(var(--chemistry-transition)); }
-  .bg-chemistry-post-transition-metal { background-color: hsl(var(--chemistry-post-transition)); }
-  .bg-chemistry-metalloid { background-color: hsl(var(--chemistry-metalloid)); }
-  .bg-chemistry-nonmetal { background-color: hsl(var(--chemistry-nonmetal)); }
-  .bg-chemistry-halogen { background-color: hsl(var(--chemistry-halogen)); }
-  .bg-chemistry-noble-gas { background-color: hsl(var(--chemistry-noble-gas)); }
-  .bg-chemistry-lanthanide { background-color: hsl(var(--chemistry-lanthanide)); }
-  .bg-chemistry-actinide { background-color: hsl(var(--chemistry-actinide)); }
-  .bg-chemistry-unknown { background-color: hsl(var(--chemistry-unknown)); }
 }

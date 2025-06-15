@@ -53,6 +53,19 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				chemistry: {
+                  'alkali-metal': 'hsl(var(--chemistry-alkali))',
+                  'alkaline-earth-metal': 'hsl(var(--chemistry-alkaline))',
+                  'transition-metal': 'hsl(var(--chemistry-transition))',
+                  'post-transition-metal': 'hsl(var(--chemistry-post-transition))',
+                  'metalloid': 'hsl(var(--chemistry-metalloid))',
+                  'nonmetal': 'hsl(var(--chemistry-nonmetal))',
+                  'halogen': 'hsl(var(--chemistry-halogen))',
+                  'noble-gas': 'hsl(var(--chemistry-noble-gas))',
+                  'lanthanide': 'hsl(var(--chemistry-lanthanide))',
+                  'actinide': 'hsl(var(--chemistry-actinide))',
+                  'unknown': 'hsl(var(--chemistry-unknown))'
+                },
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

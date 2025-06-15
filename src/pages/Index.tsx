@@ -34,7 +34,7 @@ const Index = () => {
               <ThemeSwitcher />
             </div>
             <div className="space-y-4">
-              <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-foreground">
+              <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-gradient">
                 Chemistry Lab
               </h1>
               <p className="text-xl font-normal text-muted-foreground max-w-2xl mx-auto">

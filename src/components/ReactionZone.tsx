@@ -192,19 +192,20 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
   // Helper function to get color based on element category
   const getCategoryColor = (category: string): string => {
-    switch (category) {
-      case 'alkali-metal': return '#f87171'; // red
-      case 'alkaline-earth-metal': return '#fb923c'; // orange
-      case 'transition-metal': return '#3b82f6'; // blue
-      case 'post-transition-metal': return '#a78bfa'; // purple
-      case 'metalloid': return '#34d399'; // emerald
-      case 'nonmetal': return '#4ade80'; // green
-      case 'halogen': return '#22d3ee'; // cyan
-      case 'noble-gas': return '#d946ef'; // fuchsia
-      case 'lanthanide': return '#ec4899'; // pink
-      case 'actinide': return '#f59e0b'; // amber
-      default: return '#d1d5db'; // gray
-    }
+    const categoryMap: { [key: string]: string } = {
+      'alkali-metal': 'alkali',
+      'alkaline-earth-metal': 'alkaline',
+      'transition-metal': 'transition',
+      'post-transition-metal': 'post-transition',
+      'metalloid': 'metalloid',
+      'nonmetal': 'nonmetal',
+      'halogen': 'halogen',
+      'noble-gas': 'noble-gas',
+      'lanthanide': 'lanthanide',
+      'actinide': 'actinide',
+    };
+    const colorVar = categoryMap[category] || 'unknown';
+    return `hsl(var(--chemistry-${colorVar}))`;
   };
 
   return (
@@ -435,27 +436,45 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   );
 };
 
+// Helper function to get color based on element category
+const getCategoryColor = (category: string): string => {
+  const categoryMap: { [key: string]: string } = {
+    'alkali-metal': 'alkali',
+    'alkaline-earth-metal': 'alkaline',
+    'transition-metal': 'transition',
+    'post-transition-metal': 'post-transition',
+    'metalloid': 'metalloid',
+    'nonmetal': 'nonmetal',
+    'halogen': 'halogen',
+    'noble-gas': 'noble-gas',
+    'lanthanide': 'lanthanide',
+    'actinide': 'actinide',
+  };
+  const colorVar = categoryMap[category] || 'unknown';
+  return `hsl(var(--chemistry-${colorVar}))`;
+};
+
 // Helper function to get color based on reaction type
 const getReactionColor = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
-      return 'bg-gradient-to-b from-orange-200/70 to-orange-300/50 dark:from-orange-900/40 dark:to-orange-800/30';
+      return 'bg-gradient-to-b from-red-400/70 to-orange-500/50 dark:from-red-800/40 dark:to-orange-700/30';
     case 'gas':
-      return 'bg-gradient-to-b from-green-200/70 to-green-300/50 dark:from-green-900/40 dark:to-green-800/30';
+      return 'bg-gradient-to-b from-lime-300/70 to-green-500/50 dark:from-lime-800/40 dark:to-green-700/30';
     case 'bubble':
-      return 'bg-gradient-to-b from-blue-200/70 to-blue-300/50 dark:from-blue-900/40 dark:to-blue-800/30';
+      return 'bg-gradient-to-b from-cyan-300/70 to-blue-500/50 dark:from-cyan-800/40 dark:to-blue-700/30';
     case 'fade':
-      return 'bg-gradient-to-b from-purple-200/70 to-purple-300/50 dark:from-purple-900/40 dark:to-purple-800/30';
+      return 'bg-gradient-to-b from-violet-400/70 to-purple-500/50 dark:from-violet-800/40 dark:to-purple-700/30';
     case 'crystallization':
-      return 'bg-gradient-to-b from-indigo-200/70 to-indigo-300/50 dark:from-indigo-900/40 dark:to-indigo-800/30';
+      return 'bg-gradient-to-b from-sky-400/70 to-indigo-500/50 dark:from-sky-800/40 dark:to-indigo-700/30';
     case 'precipitation':
-      return 'bg-gradient-to-b from-yellow-200/70 to-yellow-300/50 dark:from-yellow-900/40 dark:to-yellow-800/30';
+      return 'bg-gradient-to-b from-amber-300/70 to-yellow-400/50 dark:from-amber-800/40 dark:to-yellow-700/30';
     case 'combustion':
-      return 'bg-gradient-to-b from-red-200/70 to-red-300/50 dark:from-red-900/40 dark:to-red-800/30';
+      return 'bg-gradient-to-b from-orange-400/70 to-red-600/50 dark:from-orange-800/40 dark:to-red-700/30';
     case 'neutralization':
-      return 'bg-gradient-to-b from-teal-200/70 to-teal-300/50 dark:from-teal-900/40 dark:to-teal-800/30';
+      return 'bg-gradient-to-b from-emerald-400/70 to-teal-500/50 dark:from-emerald-800/40 dark:to-teal-700/30';
     default:
-      return 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20';
+      return 'bg-gradient-to-b from-slate-400/40 to-slate-500/30 dark:from-slate-800/30 dark:to-slate-700/20';
   }
 };
 
