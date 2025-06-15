@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
@@ -90,25 +89,6 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                   </div>
                 ))}
               </React.Fragment>
-            ))}
-          </div>
-          
-          {/* Period numbers (vertical) */}
-          <div className="absolute left-0 top-0 h-full flex flex-col justify-around py-6">
-            {[1, 2, 3, 4, 5, 6, 7, "", 8, 9].map((period, index) => (
-              <div key={`period-${index}`} className="text-xs font-medium text-neutral-500 px-1">
-                {period && period}
-              </div>
-            ))}
-          </div>
-          
-          {/* Group numbers (horizontal) */}
-          <div className="absolute top-0 left-0 w-full flex justify-around px-6" 
-               style={{ paddingLeft: '20px' }}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((group) => (
-              <div key={`group-${group}`} className="text-xs font-medium text-neutral-500">
-                {group}
-              </div>
             ))}
           </div>
         </div>
