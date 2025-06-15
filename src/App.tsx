@@ -7,14 +7,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/use-theme";
 import Index from "./pages/Index";
-import GeminiUI from "./pages/GeminiUI";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App: React.FC = () => (
   <React.Fragment>
-    <ThemeProvider defaultTheme="dark">
+    <ThemeProvider defaultTheme="system">
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
@@ -22,7 +21,6 @@ const App: React.FC = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/gemini" element={<GeminiUI />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

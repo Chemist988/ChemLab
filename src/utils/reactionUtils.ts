@@ -1,4 +1,5 @@
-import { Element } from '../data/refactored-elements';
+
+import { Element } from '../data/elements';
 
 // Define animation types
 export type AnimationType = 'explosion' | 'fade' | 'bubble' | 'gas' | 'crystallization' | 'precipitation' | 'combustion' | 'neutralization';

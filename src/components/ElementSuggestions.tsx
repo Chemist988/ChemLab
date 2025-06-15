@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Element } from '@/data/refactored-elements';
+import { Element } from '@/data/elements';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import ElementCard from './ElementCard';
 import { Button } from '@/components/ui/button';

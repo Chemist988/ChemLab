@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
-import { Element, elements } from '../data/refactored-elements';
+import { Element } from '../data/elements';
 import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';
@@ -34,40 +35,39 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }),
   }));
 
-  // Memoize suggestions to avoid unnecessary recomputation/renders
-  const findCompatibleElements = useMemo(() => {
-    return (element: Element): Element[] => {
-      // This is a simplified approach - in a real app, you would have a more
-      // sophisticated algorithm or database of compatible elements
+  // Helper function to find compatible elements
+  const findCompatibleElements = (element: Element): Element[] => {
+    // This is a simplified approach - in a real app, you would have a more
+    // sophisticated algorithm or database of compatible elements
+    const elementsDatabase = require('../data/elements').elements;
     
-      // Simple compatibility rules based on element categories and properties
-      const compatibleElements = elements.filter((e: Element) => {
-        // Don't suggest the same element
-        if (e.symbol === element.symbol) return false;
-        
-        // Different categories tend to react interestingly
-        if (e.category !== element.category) {
-          return true;
-        }
-        
-        // Metals often react well with non-metals
-        if ((element.category.includes('metal') && !e.category.includes('metal')) ||
-            (!element.category.includes('metal') && e.category.includes('metal'))) {
-          return true;
-        }
-        
-        // Elements with very different atomic numbers sometimes react well
-        if (Math.abs(e.atomicNumber - element.atomicNumber) > 30) {
-          return true;
-        }
-        
-        return false;
-      });
+    // Simple compatibility rules based on element categories and properties
+    const compatibleElements = elementsDatabase.filter((e: Element) => {
+      // Don't suggest the same element
+      if (e.symbol === element.symbol) return false;
       
-      // Return a random selection of up to 4 compatible elements
-      return shuffleArray(compatibleElements).slice(0, 4);
-    };    
-  }, []); // Only recompute if elements never changes
+      // Different categories tend to react interestingly
+      if (e.category !== element.category) {
+        return true;
+      }
+      
+      // Metals often react well with non-metals
+      if ((element.category.includes('metal') && !e.category.includes('metal')) ||
+          (!element.category.includes('metal') && e.category.includes('metal'))) {
+        return true;
+      }
+      
+      // Elements with very different atomic numbers sometimes react well
+      if (Math.abs(e.atomicNumber - element.atomicNumber) > 30) {
+        return true;
+      }
+      
+      return false;
+    });
+    
+    // Return a random selection of up to 4 compatible elements
+    return shuffleArray(compatibleElements).slice(0, 4);
+  };
   
   // Shuffle array helper
   const shuffleArray = (array: any[]): any[] => {
@@ -101,7 +101,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setSelectedElements((prev) => {
         const newElements = [...prev, element];
         
-        // Use memoized version for better performance
+        // Update suggested elements based on the last added element
         setSuggestedElements(findCompatibleElements(element));
         
         return newElements;
@@ -194,32 +194,32 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
   // Helper function to get color based on element category
   const getCategoryColor = (category: string): string => {
-    const categoryMap: { [key: string]: string } = {
-      'alkali-metal': 'alkali',
-      'alkaline-earth-metal': 'alkaline',
-      'transition-metal': 'transition',
-      'post-transition-metal': 'post-transition',
-      'metalloid': 'metalloid',
-      'nonmetal': 'nonmetal',
-      'halogen': 'halogen',
-      'noble-gas': 'noble-gas',
-      'lanthanide': 'lanthanide',
-      'actinide': 'actinide',
-    };
-    const colorVar = categoryMap[category] || 'unknown';
-    return `hsl(var(--chemistry-${colorVar}))`;
+    switch (category) {
+      case 'alkali-metal': return '#f87171'; // red
+      case 'alkaline-earth-metal': return '#fb923c'; // orange
+      case 'transition-metal': return '#3b82f6'; // blue
+      case 'post-transition-metal': return '#a78bfa'; // purple
+      case 'metalloid': return '#34d399'; // emerald
+      case 'nonmetal': return '#4ade80'; // green
+      case 'halogen': return '#22d3ee'; // cyan
+      case 'noble-gas': return '#d946ef'; // fuchsia
+      case 'lanthanide': return '#ec4899'; // pink
+      case 'actinide': return '#f59e0b'; // amber
+      default: return '#d1d5db'; // gray
+    }
   };
 
-  // Update outer container to use w-full and flex-1 to better fit new side-by-side layout
   return (
-    <div className="flex flex-col gap-4 w-full h-full flex-1">
+    <div className="flex flex-col gap-4 w-full">
       <div 
         ref={drop}
-        className={`relative h-96 p-6 rounded-xl flex flex-col items-center justify-center overflow-hidden
-          ${isOver ? 'border-primary/70 bg-primary/10' : 'border border-white/10'}
-          transition-all duration-300 bg-card/50`}
-        style={{ minHeight: '24rem', height: '100%' }}
+        className={`
+          relative h-96 p-6 rounded-xl flex flex-col items-center justify-center overflow-hidden
+          ${isOver ? 'border-primary/70 bg-primary/5' : 'border border-white/10'}
+          transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
+        `}
       >
+        {/* Element Suggestions Popup */}
         {selectedElements.length > 0 && (
           <ElementSuggestions 
             element={selectedElements[selectedElements.length - 1]} 
@@ -227,6 +227,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             suggestedElements={suggestedElements}
           />
         )}
+        
         {/* Explosion effect */}
         {explosion && (
           <div className="absolute inset-0 z-10">
@@ -329,106 +330,105 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             })}
           </div>
         )}
-
-        {/* === Realistic Conical Beaker SVG Below === */}
+        
+        {/* Beaker container - More Apple-like with frosted glass effect */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-64 h-64">
-            {/* Realistic conical beaker SVG */}
-            <svg
-              viewBox="0 0 260 260"
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[92%] h-[92%] z-10"
-              fill="none"
-            >
-              {/* Outer Beaker Shape */}
-              <path
-                d="M40 40 Q129 45 220 40 L205 245 Q129 255 55 245Z"
-                fill="#EDF3FA"
-                stroke="#B0B8C8"
-                strokeWidth="5"
-                filter="url(#inner-shadow)"
-              />
-              {/* Beaker Liquid Level */}
-              <path
-                d={`M55 180 Q129 190 205 180 Q181 245 129 250 Q77 243 55 180`}
-                fill={reaction ? getReactionSVGColor(reaction.animationType) : "url(#liquid-gradient)"}
-                opacity="0.80"
-              />
-              {/* Liquid reflections */}
-              <ellipse
-                cx="165" cy="200" rx="16" ry="3"
-                fill="#fff"
-                fillOpacity="0.38"
-              />
-              <ellipse
-                cx="115" cy="190" rx="25" ry="7"
-                fill="#fff"
-                fillOpacity="0.18"
-              />
-              <defs>
-                <linearGradient id="liquid-gradient" x1="129" y1="180" x2="129" y2="250" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#69aee4"/>
-                  <stop offset="1" stopColor="#4a72a6"/>
-                </linearGradient>
-                <filter id="inner-shadow" x="0" y="0" width="260" height="260" filterUnits="userSpaceOnUse">
-                  <feDropShadow dx="0" dy="-3" stdDeviation="3" floodColor="#B0B8C8" floodOpacity="0.18"/>
-                </filter>
-              </defs>
-            </svg>
-            {/* (optional) bubbles, reflections here as overlays */}
-            {/* Draggable element cards in front */}
-            <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center p-4 z-20">
-              {selectedElements.length === 0 ? (
-                <div className="text-center text-neutral-400">
-                  <Beaker className="mx-auto h-10 w-10 mb-2 opacity-50" />
-                  <p>Drag elements here to start a reaction</p>
-                  <p className="text-xs mt-2 text-neutral-500">Try combining up to four elements!</p>
-                </div>
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center">
-                  <div className="flex flex-wrap items-center justify-center gap-2">
-                    {selectedElements.map((element, index) => (
-                      <div 
-                        key={index} 
-                        className={`
-                          ${index === 0 && animating ? 'animate-bounce-subtle' : ''}
-                          ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''}
-                          ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''}
-                          ${(explosion || gas) && 'animate-shake'}
-                        `}
-                      >
-                        <ElementCard 
-                          element={element} 
-                          onClick={() => onElementClick(element)}
-                          size="xs"
-                          isDraggable={false}
-                        />
-                      </div>
-                    ))}
+            {/* Beaker body - More premium design */}
+            <div className="absolute bottom-0 w-full h-[85%] border-[1px] border-white/30 dark:border-white/10 rounded-b-lg bg-white/10 backdrop-blur-md dark:bg-black/10 shadow-lg">
+              {/* Beaker liquid */}
+              <div 
+                className={`
+                  absolute bottom-0 w-full rounded-b-lg transition-all duration-700 ease-out overflow-hidden
+                  ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}
+                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'}
+                  ${animating ? 'animate-pulse' : ''}
+                `}
+              >
+                {/* Reflective surface */}
+                <div className="absolute inset-x-0 top-0 h-1 bg-white/40 dark:bg-white/20"></div>
+                
+                {/* Bubbles */}
+                {bubbles.map((bubble, index) => (
+                  <div 
+                    key={index} 
+                    className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise"
+                    style={{
+                      width: Math.max(4, Math.random() * 12) + 'px',
+                      height: Math.max(4, Math.random() * 12) + 'px',
+                      bottom: (bubble * 100) + '%',
+                      left: (Math.random() * 90 + 5) + '%',
+                      animationDuration: (Math.random() * 2 + 1) + 's',
+                      opacity: Math.random() * 0.6 + 0.2
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Beaker content */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                {selectedElements.length === 0 ? (
+                  <div className="text-center text-muted-foreground">
+                    <Beaker className="mx-auto h-10 w-10 mb-2 opacity-70" />
+                    <p>Drag elements here to start a reaction</p>
+                    <p className="text-xs mt-2 text-muted-foreground/80">Try combining up to four elements!</p>
                   </div>
-                  {reaction && (
-                    <div className={`text-center mt-4 ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
-                      <h3 className="text-xl font-bold text-white">{reaction.result}</h3>
-                      <p className="text-sm mt-1 text-neutral-300">{reaction.description}</p>
-                      <div className="mt-3 flex items-center justify-center gap-2">
-                        {getReactionIcon(reaction.animationType)}
-                        <span className="text-xs text-neutral-400">
-                          {getReactionTypeName(reaction.animationType)}
-                        </span>
-                      </div>
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      {selectedElements.map((element, index) => (
+                        <div 
+                          key={index} 
+                          className={`
+                            ${index === 0 && animating ? 'animate-bounce-subtle' : ''}
+                            ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''}
+                            ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''}
+                            ${(explosion || gas) && 'animate-shake'}
+                          `}
+                        >
+                          <ElementCard 
+                            element={element} 
+                            onClick={() => onElementClick(element)}
+                            size="xs"
+                            isDraggable={false}
+                          />
+                        </div>
+                      ))}
                     </div>
-                  )}
-                </div>
-              )}
+                    
+                    {reaction && (
+                      <div className={`text-center mt-4 ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
+                        <h3 className="text-xl font-bold">{reaction.result}</h3>
+                        <p className="text-sm mt-1">{reaction.description}</p>
+                        
+                        <div className="mt-3 flex items-center justify-center gap-2">
+                          {getReactionIcon(reaction.animationType)}
+                          <span className="text-xs text-muted-foreground">
+                            {getReactionTypeName(reaction.animationType)}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
+            
+            {/* Beaker top rim */}
+            <div className="absolute top-[15%] w-full h-[2px] bg-white/30 dark:bg-white/10"></div>
+            
+            {/* Beaker neck */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-[1px] border-l-[1px] border-r-[1px] border-white/30 dark:border-white/10"></div>
           </div>
         </div>
       </div>
+      
       <div className="flex justify-center">
         <Button 
           variant="outline" 
           onClick={clearReaction}
           disabled={selectedElements.length === 0}
-          className="flex items-center gap-2 bg-card/50 backdrop-blur-sm hover:bg-card/80 border-white/10"
+          className="flex items-center gap-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 dark:bg-black/20 dark:hover:bg-black/30"
         >
           <RotateCw className="h-4 w-4" /> Clear Reaction
         </Button>
@@ -436,53 +436,32 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     </div>
   );
 };
-// Utility for SVG color based on animationType
-const getReactionSVGColor = (animationType: string): string => {
-  switch (animationType) {
-    case 'explosion':
-      return "url(#explosion-gradient)";
-    case 'gas':
-      return "url(#gas-gradient)";
-    case 'bubble':
-      return "url(#bubble-gradient)";
-    case 'fade':
-      return "url(#fade-gradient)";
-    case 'crystallization':
-      return "url(#crystal-gradient)";
-    case 'precipitation':
-      return "url(#precip-gradient)";
-    case 'combustion':
-      return "url(#combustion-gradient)";
-    case 'neutralization':
-      return "url(#neutral-gradient)";
-    default:
-      return "url(#liquid-gradient)";
-  }
-};
 
+// Helper function to get color based on reaction type
 const getReactionColor = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
-      return 'bg-gradient-to-b from-red-400/70 to-orange-500/50 dark:from-red-800/40 dark:to-orange-700/30';
+      return 'bg-gradient-to-b from-orange-200/70 to-orange-300/50 dark:from-orange-900/40 dark:to-orange-800/30';
     case 'gas':
-      return 'bg-gradient-to-b from-lime-300/70 to-green-500/50 dark:from-lime-800/40 dark:to-green-700/30';
+      return 'bg-gradient-to-b from-green-200/70 to-green-300/50 dark:from-green-900/40 dark:to-green-800/30';
     case 'bubble':
-      return 'bg-gradient-to-b from-cyan-300/70 to-blue-500/50 dark:from-cyan-800/40 dark:to-blue-700/30';
+      return 'bg-gradient-to-b from-blue-200/70 to-blue-300/50 dark:from-blue-900/40 dark:to-blue-800/30';
     case 'fade':
-      return 'bg-gradient-to-b from-violet-400/70 to-purple-500/50 dark:from-violet-800/40 dark:to-purple-700/30';
+      return 'bg-gradient-to-b from-purple-200/70 to-purple-300/50 dark:from-purple-900/40 dark:to-purple-800/30';
     case 'crystallization':
-      return 'bg-gradient-to-b from-sky-400/70 to-indigo-500/50 dark:from-sky-800/40 dark:to-indigo-700/30';
+      return 'bg-gradient-to-b from-indigo-200/70 to-indigo-300/50 dark:from-indigo-900/40 dark:to-indigo-800/30';
     case 'precipitation':
-      return 'bg-gradient-to-b from-amber-300/70 to-yellow-400/50 dark:from-amber-800/40 dark:to-yellow-700/30';
+      return 'bg-gradient-to-b from-yellow-200/70 to-yellow-300/50 dark:from-yellow-900/40 dark:to-yellow-800/30';
     case 'combustion':
-      return 'bg-gradient-to-b from-orange-400/70 to-red-600/50 dark:from-orange-800/40 dark:to-red-700/30';
+      return 'bg-gradient-to-b from-red-200/70 to-red-300/50 dark:from-red-900/40 dark:to-red-800/30';
     case 'neutralization':
-      return 'bg-gradient-to-b from-emerald-400/70 to-teal-500/50 dark:from-emerald-800/40 dark:to-teal-700/30';
+      return 'bg-gradient-to-b from-teal-200/70 to-teal-300/50 dark:from-teal-900/40 dark:to-teal-800/30';
     default:
-      return 'bg-gradient-to-b from-slate-400/40 to-slate-500/30 dark:from-slate-800/30 dark:to-slate-700/20';
+      return 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20';
   }
 };
 
+// Helper function to get reaction type display name
 const getReactionTypeName = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
@@ -506,6 +485,7 @@ const getReactionTypeName = (animationType: string): string => {
   }
 };
 
+// Helper function to get reaction icon
 const getReactionIcon = (animationType: string): React.ReactNode => {
   switch (animationType) {
     case 'explosion':

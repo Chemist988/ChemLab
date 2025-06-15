@@ -1,158 +1,213 @@
-import React, { useState, useCallback } from 'react';
+
+import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
-import ChemistryNavBar from '@/components/ChemistryNavBar';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
 import EduBotAssistant from '@/components/EduBotAssistant';
-import { Element } from '@/data/refactored-elements';
+import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
-import { Apple } from 'lucide-react';
+import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useTheme } from '@/hooks/use-theme';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [showBot, setShowBot] = useState(false);
-  const { theme } = useTheme();
 
-  // Memoize click handler for perf
-  const handleElementClick = useCallback((element: Element) => {
+  const handleElementClick = (element: Element) => {
     setSelectedElement(element);
     setDetailOpen(true);
-  }, []);
+  };
 
-  // Use a local state to remember which main dashboard tab is "active"
-  const [dashboardSection, setDashboardSection] = useState("explore");
-
-  // Layout update: periodic table LEFT, simulator RIGHT (side-by-side, on all screens, stack on mobile)
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen w-full bg-gradient-to-br from-[#ffd6b0] via-[#feb47b] to-[#fd5e53] dark:from-[#0f172a] dark:via-[#3b0764] dark:to-[#fbbf24] relative transition-colors duration-700 pb-12">
-        <ChemistryNavBar current={dashboardSection} onSelect={setDashboardSection} />
-        <div className="h-16 w-full" />
-        <div className="container max-w-7xl mx-auto flex justify-center items-start px-1 md:px-6">
-          <div className="w-full">
-            <div className="mx-auto w-full max-w-6xl rounded-[2rem] shadow-2xl bg-white dark:bg-card border border-border mt-6 mb-6 p-0 overflow-hidden transition-all">
-              <div className="w-full h-full p-0">
-                {dashboardSection === "explore" && (
-                  <header className="flex flex-col items-center pt-12 pb-4 px-4 text-center">
-                    <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-gradient mb-2 select-none">
-                      Chemistry Lab
-                    </h1>
-                    <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-                      Explore the periodic table, combine elements, and discover chemical reactions.
-                    </p>
-                  </header>
-                )}
-                <Tabs value={dashboardSection} onValueChange={setDashboardSection} className="w-full">
-                  <TabsContent value="explore" className="px-4 md:px-8 pb-12 pt-8">
-                    <div className="flex flex-col md:flex-row gap-8 w-full">
-                      {/* Table left, simulator right */}
-                      <div className="w-full md:w-1/2 flex flex-col">
-                        <div className="bg-card rounded-2xl border border-border shadow-inner py-6 px-2 md:px-6 mb-8 md:mb-0 flex-1 flex flex-col">
-                          <h2 className="text-3xl font-light text-foreground mb-3 text-center">
-                            Periodic Table
-                          </h2>
-                          <div className="text-center text-sm text-muted-foreground mb-4">Click an element to explore</div>
-                          <PeriodicTable onElementClick={handleElementClick} />
-                        </div>
-                      </div>
-                      <div className="w-full md:w-1/2 flex flex-col">
-                        <div className="bg-card rounded-2xl border border-border shadow-inner px-2 md:px-8 py-6 min-h-[32rem] flex-1 flex flex-col">
-                          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">
-                            Reaction Simulator
-                          </h2>
-                          <ReactionZone onElementClick={handleElementClick} />
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="heisenbot" className="px-8 pb-12 pt-8">
-                    <div className="bg-card rounded-2xl border border-border shadow-inner p-6 w-full flex flex-col items-center">
-                      <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center flex items-center justify-center gap-2">
-                        <Apple className="w-7 h-7 text-primary mb-1" />
-                        HeisenBot
-                      </h2>
-                      <p className="text-muted-foreground text-base mb-6 max-w-md text-center">
-                        Your intelligent chemistry companion. Get instant help with reactions, molecular structures, and complex concepts.
-                      </p>
-                      <Button 
-                        onClick={() => setShowBot(true)}
-                        size="lg"
-                        className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 rounded-full text-base mx-auto"
-                      >
-                        Launch HeisenBot
-                      </Button>
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="guide" className="px-8 pb-12 pt-8">
-                    <div className="bg-card rounded-2xl border border-border shadow-inner p-8 w-full">
-                      <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">Lab Guide</h2>
-                      <Separator className="mb-6" />
-                      <div className="space-y-4 text-sm max-w-3xl mx-auto">
-                        <div className="p-4 bg-background rounded-xl border">
-                          <h4 className="font-medium text-primary mb-2">Getting Started</h4>
-                          <ul className="space-y-1 text-muted-foreground">
-                            <li>• Click any element for detailed information</li>
-                            <li>• Drag elements to the reaction zone</li>
-                            <li>• Watch chemical reactions come to life</li>
-                          </ul>
-                        </div>
-                        <div className="p-4 bg-background rounded-xl border">
-                          <h4 className="font-medium text-primary mb-2">Popular Reactions</h4>
-                          <ul className="space-y-1 text-muted-foreground text-xs">
-                            <li>• H + O → Water formation</li>
-                            <li>• Na + Cl → Salt formation</li>
-                            <li>• Fe + O → Rust formation</li>
-                            <li>• Mg + O → Combustion</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                </Tabs>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-black dark:to-gray-800 transition-all duration-700">
+        <div className="container mx-auto py-8 px-4">
+          {/* Apple-inspired Header */}
+          <header className="mb-16 flex flex-col items-center relative">
+            <div className="absolute right-0 top-0">
+              <ThemeSwitcher />
+            </div>
+            <div className="text-center space-y-6">
+              <h1 className="text-6xl md:text-7xl font-thin tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-purple-700 dark:from-white dark:via-blue-200 dark:to-purple-300">
+                Interactive Chemistry
+              </h1>
+              <p className="text-xl font-light text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                Explore the periodic table like never before. Drag elements, simulate reactions, 
+                and discover the beauty of chemistry with stunning visualizations.
+              </p>
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <Atom className="w-4 h-4" />
+                <span>118 Elements • Unlimited Possibilities</span>
               </div>
+            </div>
+          </header>
+
+          {/* Neutrino AI Section - Inkwell inspired */}
+          <section className="mb-16 relative overflow-hidden">
+            <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-12 relative">
+              {/* Background pattern */}
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+                <div className="absolute bottom-10 right-10 w-24 h-24 bg-yellow-300 rounded-full blur-2xl"></div>
+                <div className="absolute top-1/2 left-1/3 w-20 h-20 bg-blue-300 rounded-full blur-xl"></div>
+              </div>
+              
+              <div className="relative z-10 text-center">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="p-4 bg-white/20 rounded-full backdrop-blur-sm">
+                    <Bot className="w-12 h-12 text-white" />
+                  </div>
+                </div>
+                
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                  Meet Neutrino AI
+                </h2>
+                
+                <p className="text-xl text-white/90 mb-2 font-medium">
+                  Precision meets intuition.
+                </p>
+                
+                <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+                  Your intelligent chemistry companion for NCERT Class 10. Get instant help with reactions, 
+                  molecular structures, and complex chemistry concepts through natural conversation.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <Button 
+                    onClick={() => setShowBot(true)}
+                    size="lg"
+                    className="bg-white text-indigo-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Start Exploring
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                  
+                  <div className="flex items-center gap-4 text-white/80 text-sm">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span>24/7 Available</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                      <span>NCERT Aligned</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+            {/* Periodic Table - Larger and More Visible */}
+            <div className="xl:col-span-3 bg-white/80 dark:bg-gray-900/80 rounded-3xl shadow-xl backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-3xl font-thin text-gray-900 dark:text-white">Periodic Table</h2>
+                <div className="text-sm text-gray-500 dark:text-gray-400">Click any element to explore</div>
+              </div>
+              <PeriodicTable onElementClick={handleElementClick} />
+            </div>
+
+            {/* Sidebar with Tabs */}
+            <div className="bg-white/80 dark:bg-gray-900/80 rounded-3xl shadow-xl backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+              <Tabs defaultValue="reaction" className="h-full">
+                <TabsList className="w-full mb-6 bg-gray-100/50 dark:bg-gray-800/50 rounded-2xl p-1">
+                  <TabsTrigger value="reaction" className="flex-1 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700">
+                    <Beaker className="w-4 h-4 mr-2" />
+                    Lab
+                  </TabsTrigger>
+                  <TabsTrigger value="info" className="flex-1 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700">
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    Guide
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="reaction" className="space-y-6 h-full">
+                  <div>
+                    <h3 className="text-xl font-medium mb-2">Reaction Simulator</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                      Drag and drop elements to simulate chemical reactions
+                    </p>
+                  </div>
+                  <Separator />
+                  <ReactionZone onElementClick={handleElementClick} />
+                </TabsContent>
+                
+                <TabsContent value="info" className="space-y-6">
+                  <div>
+                    <h3 className="text-xl font-medium mb-4">How to Use</h3>
+                    <div className="space-y-4 text-sm">
+                      <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-200/50 dark:border-blue-700/50">
+                        <h4 className="font-medium text-blue-700 dark:text-blue-300 mb-2">Getting Started</h4>
+                        <ul className="space-y-1 text-gray-600 dark:text-gray-400">
+                          <li>• Click any element for detailed information</li>
+                          <li>• Drag elements to the reaction zone</li>
+                          <li>• Watch chemical reactions come to life</li>
+                        </ul>
+                      </div>
+                      
+                      <div className="p-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50">
+                        <h4 className="font-medium text-emerald-700 dark:text-emerald-300 mb-2">Popular Reactions</h4>
+                        <ul className="space-y-1 text-gray-600 dark:text-gray-400 text-xs">
+                          <li>• H + O → Water formation</li>
+                          <li>• Na + Cl → Salt formation</li>
+                          <li>• Fe + O → Rust formation</li>
+                          <li>• Mg + O → Combustion</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </div>
+        
         <ElementDetail 
           element={selectedElement} 
           isOpen={detailOpen} 
           onClose={() => setDetailOpen(false)}
         />
+        
+        {/* Neutrino AI Assistant */}
         <EduBotAssistant />
+        
+        {/* Additional bot instance for guide integration */}
         {showBot && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
-            <div className="w-full max-w-5xl h-[85vh] bg-card rounded-2xl shadow-2xl overflow-hidden border border-border">
-              <div className="bg-secondary p-4 flex items-center justify-between border-b">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
+            <div className="w-full max-w-5xl h-[85vh] bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-black/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
+              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Apple className="w-6 h-6 text-foreground" />
+                  <div className="p-2 bg-white/10 rounded-full">
+                    <Bot className="w-6 h-6 text-white" />
+                  </div>
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground">HeisenBot</h2>
-                    <p className="text-muted-foreground text-sm">Your chemistry assistant.</p>
+                    <h2 className="text-2xl font-semibold text-white">Neutrino AI</h2>
+                    <p className="text-white/80 text-sm">Precision meets intuition.</p>
                   </div>
                 </div>
                 <Button
                   onClick={() => setShowBot(false)}
                   variant="ghost"
-                  size="icon"
-                  className="text-muted-foreground hover:bg-secondary/80 rounded-full"
+                  size="sm"
+                  className="text-white hover:bg-white/10 rounded-full p-2"
                 >
-                  <span className="text-2xl font-light">×</span>
+                  ×
                 </Button>
               </div>
-              <div className="h-[calc(100%-73px)] bg-background p-2">
-                <div className="w-full h-full bg-background rounded-2xl shadow-inner overflow-hidden border">
+              <div className="h-full bg-white/90 dark:bg-gray-900/90 p-6">
+                <div className="w-full h-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200/50 dark:border-gray-700/50">
                   <iframe
                     src="https://www.chatbase.co/chatbot-iframe/COwMkAjIYb1meY0saCFK1"
                     allow="clipboard-write; microphone;"
                     className="w-full h-full border-none"
-                    title="HeisenBot"
-                    style={theme === 'dark' ? { filter: 'invert(0.9) hue-rotate(180deg)' } : {}}
+                    title="Neutrino AI Assistant"
                   />
                 </div>
               </div>
