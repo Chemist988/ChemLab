@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
@@ -37,11 +38,11 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-end gap-2 px-6 -mb-2 z-20 relative">
-        <Button variant="outline" size="icon" onClick={handleZoomOut} className="bg-transparent border-white/10 hover:bg-white/10 h-8 w-8">
+        <Button variant="outline" size="icon" onClick={handleZoomOut} className="bg-card hover:bg-secondary h-8 w-8">
           <ZoomOut className="h-4 w-4" />
           <span className="sr-only">Zoom Out</span>
         </Button>
-        <Button variant="outline" size="icon" onClick={handleZoomIn} className="bg-transparent border-white/10 hover:bg-white/10 h-8 w-8">
+        <Button variant="outline" size="icon" onClick={handleZoomIn} className="bg-card hover:bg-secondary h-8 w-8">
           <ZoomIn className="h-4 w-4" />
           <span className="sr-only">Zoom In</span>
         </Button>
@@ -114,21 +115,21 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
         
         {/* Atom icon watermark */}
         <div className="absolute bottom-2 right-2 opacity-5 pointer-events-none">
-          <Atom className="h-20 w-20 text-white" />
+          <Atom className="h-20 w-20 text-foreground" />
         </div>
       </div>
       
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-card/50 rounded-xl border border-white/10 backdrop-blur-sm">
+      <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-card rounded-xl border">
         <div className="w-full text-center mb-1">
-          <h4 className="text-sm font-medium text-neutral-300">Element Categories</h4>
+          <h4 className="text-sm font-medium text-muted-foreground">Element Categories</h4>
         </div>
         {Object.entries(categoryNames).map(([category, name]) => (
           <button
             key={category} 
             className={cn(`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 
-              bg-card hover:bg-background
-              border border-white/10
+              bg-secondary hover:bg-background
+              border
               transition-all
               `,
               selectedCategory === category ? 'ring-2 ring-primary' : ''
@@ -146,8 +147,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
       
       {/* Display filtered elements when category is selected */}
       {selectedCategory && (
-        <div className="mt-4 p-4 bg-card/50 rounded-xl border border-white/10 backdrop-blur-sm animate-fade-in">
-          <h4 className="text-sm font-medium mb-3 text-neutral-300">
+        <div className="mt-4 p-4 bg-card rounded-xl border animate-fade-in">
+          <h4 className="text-sm font-medium mb-3 text-muted-foreground">
             {categoryNames[selectedCategory as keyof typeof categoryNames]} Elements
           </h4>
           <div className="flex flex-wrap gap-2 justify-center">
