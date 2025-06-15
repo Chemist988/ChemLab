@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,10 +19,6 @@ export default {
 			}
 		},
 		extend: {
-			fontFamily: {
-				'sf-pro-display': ['SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-				'sf-pro-text': ['SF Pro Text', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -66,28 +63,26 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Apple-inspired chemistry colors (no yellow)
+				// Chemistry-specific colors
 				chemistry: {
-					'alkali-metal': '#ef4444',
-					'alkaline-earth-metal': '#f97316',
-					'transition-metal': '#3b82f6',
-					'post-transition-metal': '#9333ea',
-					'metalloid': '#22c55e',
-					'nonmetal': '#10b981',
-					'halogen': '#06b6d4',
-					'noble-gas': '#a855f7',
-					'lanthanide': '#ec4899',
-					'actinide': '#fb7185',
-					'unknown': '#9ca3af',
+					alkali: '#ff8a65',
+					alkaline: '#ffb74d',
+					transition: '#ffd54f',
+					'post-transition': '#dce775',
+					metalloid: '#aed581',
+					nonmetal: '#81c784',
+					halogen: '#4db6ac',
+					'noble-gas': '#4dd0e1',
+					lanthanide: '#9575cd',
+					actinide: '#ba68c8',
+					unknown: '#e0e0e0',
+					highlight: '#ff4081',
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
-			},
-			backdropBlur: {
-				'xs': '2px',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -106,38 +101,14 @@ export default {
 						height: '0'
 					}
 				},
-				'apple-bounce': {
-					'0%, 20%, 53%, 80%, 100%': {
-						transform: 'translate3d(0,0,0)'
+				'bounce-subtle': {
+					'0%, 100%': {
+						transform: 'translateY(-5%)',
+						animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
 					},
-					'40%, 43%': {
-						transform: 'translate3d(0, -8px, 0)'
-					},
-					'70%': {
-						transform: 'translate3d(0, -4px, 0)'
-					},
-					'90%': {
-						transform: 'translate3d(0, -2px, 0)'
-					}
-				},
-				'apple-fade-in': {
-					'0%': {
-						opacity: '0',
-						transform: 'translateY(20px)'
-					},
-					'100%': {
-						opacity: '1',
-						transform: 'translateY(0)'
-					}
-				},
-				'apple-scale-in': {
-					'0%': {
-						opacity: '0',
-						transform: 'scale(0.9)'
-					},
-					'100%': {
-						opacity: '1',
-						transform: 'scale(1)'
+					'50%': {
+						transform: 'translateY(0)',
+						animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
 					}
 				},
 				'reaction': {
@@ -150,49 +121,14 @@ export default {
 				'fade-in': {
 					'0%': { opacity: '0' },
 					'100%': { opacity: '1' }
-				},
-				'realistic-bubble': {
-					'0%': { 
-						transform: 'translateY(100%) scale(0)',
-						opacity: '0.3'
-					},
-					'50%': { 
-						transform: 'translateY(-20%) scale(1)',
-						opacity: '0.8'
-					},
-					'100%': { 
-						transform: 'translateY(-100%) scale(0.5)',
-						opacity: '0'
-					}
-				},
-				'liquid-swirl': {
-					'0%': { transform: 'rotate(0deg) scale(1)' },
-					'33%': { transform: 'rotate(120deg) scale(1.1)' },
-					'66%': { transform: 'rotate(240deg) scale(0.9)' },
-					'100%': { transform: 'rotate(360deg) scale(1)' }
-				},
-				'chemical-glow': {
-					'0%, 100%': { 
-						boxShadow: '0 0 5px currentColor',
-						filter: 'brightness(1)'
-					},
-					'50%': { 
-						boxShadow: '0 0 20px currentColor',
-						filter: 'brightness(1.3)'
-					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'apple-bounce': 'apple-bounce 1s ease-in-out',
-				'apple-fade-in': 'apple-fade-in 0.6s ease-out',
-				'apple-scale-in': 'apple-scale-in 0.4s ease-out',
+				'bounce-subtle': 'bounce-subtle 2s infinite',
 				'reaction': 'reaction 1s ease-in-out',
-				'fade-in': 'fade-in 0.5s ease-in',
-				'realistic-bubble': 'realistic-bubble 3s ease-out infinite',
-				'liquid-swirl': 'liquid-swirl 4s ease-in-out infinite',
-				'chemical-glow': 'chemical-glow 2s ease-in-out infinite'
+				'fade-in': 'fade-in 0.5s ease-in'
 			}
 		}
 	},

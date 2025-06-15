@@ -5,10 +5,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
-import ThemeSwitcher from '@/components/ThemeSwitcher';
-import EduBotAssistant from '@/components/EduBotAssistant';
 import { Element } from '@/data/elements';
-import { Atom, FlaskConical, Bot, Sparkles, TestTube } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from '@/components/ui/separator';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
@@ -21,127 +20,74 @@ const Index = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-black text-foreground">
-        {/* Header */}
-        <header className="sticky top-0 z-50 bg-black/70 backdrop-blur-lg border-b border-border">
-          <div className="max-w-screen-xl mx-auto px-6 py-4">
-            <nav className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <Atom className="w-8 h-8 text-primary" />
-                <h1 className="text-2xl font-bold">
-                  ChemLab Pro
-                </h1>
-              </div>
-              <div className="flex items-center space-x-6">
-                <nav className="hidden md:flex items-center space-x-6 text-muted-foreground">
-                  <span className="hover:text-primary transition-colors cursor-pointer font-medium">Periodic Table</span>
-                  <span className="hover:text-primary transition-colors cursor-pointer font-medium">Reaction Lab</span>
-                  <span className="hover:text-primary transition-colors cursor-pointer font-medium">AI Assistant</span>
-                </nav>
-                <ThemeSwitcher />
-              </div>
-            </nav>
-          </div>
-        </header>
-
-        {/* Hero Section */}
-        <section className="relative py-32 overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
-          <div className="max-w-4xl mx-auto px-6 text-center relative">
-            <h2 className="text-5xl md:text-7xl font-bold mb-6 leading-tight bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent">
-              The Universe of Elements,
-              <br />
-              <span className="text-gradient">In Your Hands</span>
-            </h2>
-            <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">
-              An immersive chemistry experience. Drag, drop, and combine elements to witness breathtaking reactions in a futuristic digital laboratory.
+      <div className="min-h-screen bg-gradient-to-b from-background to-muted/30">
+        <div className="container mx-auto py-8">
+          <header className="mb-8 text-center">
+            <h1 className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+              AI-Powered Periodic Table
+            </h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Explore elements and simulate reactions with AI visualization. 
+              Drag elements from the table into the reaction zone to see what happens!
             </p>
-            <div className="flex items-center justify-center space-x-2">
-                <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-colors">
-                    Start Experimenting
-                </button>
-                 <button className="bg-secondary hover:bg-secondary/80 px-8 py-3 rounded-lg font-semibold transition-colors">
-                    Meet Neutrino AI
-                </button>
-            </div>
-          </div>
-        </section>
+          </header>
 
-        {/* Main Content Grid */}
-        <section className="max-w-screen-xl mx-auto px-6 py-16 space-y-16">
-          {/* Periodic Table Section */}
-          <div className="glow-card">
-            <div className="p-8 md:p-12">
-              <div className="flex items-center space-x-4 mb-8">
-                <div className="w-12 h-12 bg-secondary rounded-2xl flex items-center justify-center">
-                  <Atom className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold">Periodic Table</h3>
-                  <p className="text-muted-foreground">Select elements to start your experiments</p>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 bg-card rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-semibold mb-4">Periodic Table of Elements</h2>
               <PeriodicTable onElementClick={handleElementClick} />
             </div>
-          </div>
 
-          {/* Reaction Lab Section */}
-          <div className="glow-card">
-            <div className="p-8 md:p-12">
-              <div className="flex items-center space-x-4 mb-8">
-                <div className="w-12 h-12 bg-secondary rounded-2xl flex items-center justify-center">
-                  <FlaskConical className="w-6 h-6 text-green-400" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold">Reaction Lab</h3>
-                  <p className="text-muted-foreground">Drag test tubes to create reactions</p>
-                </div>
-              </div>
-              <ReactionZone onElementClick={handleElementClick} />
+            <div className="bg-card rounded-lg shadow-md p-6">
+              <Tabs defaultValue="reaction">
+                <TabsList className="w-full mb-4">
+                  <TabsTrigger value="reaction" className="flex-1">Reaction Zone</TabsTrigger>
+                  <TabsTrigger value="info" className="flex-1">Guide</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="reaction" className="space-y-4">
+                  <h2 className="text-xl font-semibold">Reaction Simulator</h2>
+                  <p className="text-muted-foreground text-sm">
+                    Drag and drop elements to simulate chemical reactions
+                  </p>
+                  <Separator />
+                  <ReactionZone onElementClick={handleElementClick} />
+                </TabsContent>
+                
+                <TabsContent value="info">
+                  <div className="space-y-4">
+                    <h2 className="text-xl font-semibold">How it works</h2>
+                    <ol className="list-decimal list-inside space-y-2 text-sm">
+                      <li>Click any element to view detailed information</li>
+                      <li>Drag elements from the periodic table to the reaction zone</li>
+                      <li>Combine two elements to see their simulated reaction</li>
+                      <li>The AI will generate an animated visualization of the reaction</li>
+                      <li>Clear the reaction zone to try different combinations</li>
+                    </ol>
+                    
+                    <h3 className="text-lg font-semibold mt-6">Available Reactions</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Try these combinations for interesting results:
+                    </p>
+                    <ul className="list-disc list-inside space-y-1 text-sm">
+                      <li>H + O (Hydrogen + Oxygen)</li>
+                      <li>Na + Cl (Sodium + Chlorine)</li>
+                      <li>C + O (Carbon + Oxygen)</li>
+                      <li>H + Cl (Hydrogen + Chlorine)</li>
+                      <li>Na + O (Sodium + Oxygen)</li>
+                    </ul>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
-          
-          {/* Neutrino AI Section */}
-           <div className="glow-card">
-            <div className="p-8 md:p-12 text-center">
-              <div className="w-16 h-16 bg-secondary rounded-3xl flex items-center justify-center mx-auto mb-6">
-                <Bot className="w-8 h-8 text-primary" />
-              </div>
-              <h2 className="text-4xl font-bold mb-6 text-gradient">Meet Neutrino AI</h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12">
-                Your intelligent chemistry companion. Get instant explanations, step-by-step solutions, and personalized learning guidance powered by advanced AI.
-              </p>
-               <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-xl font-semibold transition-colors">
-                Try Neutrino AI
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="border-t border-border py-12">
-          <div className="max-w-screen-xl mx-auto px-6 text-center">
-            <div className="flex items-center justify-center space-x-3 mb-4">
-              <Atom className="w-7 h-7 text-primary" />
-              <h3 className="text-xl font-bold">ChemLab Pro</h3>
-            </div>
-            <p className="text-muted-foreground mb-6">Revolutionizing chemistry education through technology</p>
-            <div className="flex justify-center space-x-6 text-muted-foreground">
-              <span className="hover:text-primary cursor-pointer">Privacy</span>
-              <span className="hover:text-primary cursor-pointer">Terms</span>
-              <span className="hover:text-primary cursor-pointer">Support</span>
-            </div>
-          </div>
-        </footer>
-
-        {/* Modals */}
+        </div>
+        
         <ElementDetail 
           element={selectedElement} 
           isOpen={detailOpen} 
           onClose={() => setDetailOpen(false)}
         />
-        
-        <EduBotAssistant />
       </div>
     </DndProvider>
   );
