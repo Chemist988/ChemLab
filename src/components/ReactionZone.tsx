@@ -99,19 +99,19 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   return (
     <div className="space-y-8">
       {/* Game Stats */}
-      <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+      <div className="bg-secondary/50 rounded-2xl p-6 border border-border">
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
-            <div className="text-2xl font-bold text-blue-600">{gameScore}</div>
-            <div className="text-sm text-gray-600">Score</div>
+            <div className="text-2xl font-bold text-primary">{gameScore}</div>
+            <div className="text-sm text-muted-foreground">Score</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-green-600">{successfulReactions}</div>
-            <div className="text-sm text-gray-600">Reactions</div>
+            <div className="text-2xl font-bold text-green-400">{successfulReactions}</div>
+            <div className="text-sm text-muted-foreground">Reactions</div>
           </div>
           <div>
-            <Zap className="w-6 h-6 text-purple-600 mx-auto" />
-            <div className="text-sm text-gray-600">Lab Active</div>
+            <Zap className="w-6 h-6 text-purple-400 mx-auto" />
+            <div className="text-sm text-muted-foreground">Lab Active</div>
           </div>
         </div>
       </div>
@@ -120,12 +120,12 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       <div className="grid grid-cols-2 gap-8">
         {/* Test Tube A */}
         <div className="space-y-4">
-          <h4 className="text-lg font-semibold text-gray-900 text-center">Test Tube A</h4>
+          <h4 className="text-lg font-semibold text-center">Test Tube A</h4>
           <div 
             ref={drop1}
             className={`
               p-8 rounded-2xl border-2 border-dashed transition-all duration-300 min-h-[200px] flex items-center justify-center
-              ${isOver1 ? 'border-blue-400 bg-blue-50' : 'border-gray-300 bg-gray-50'}
+              ${isOver1 ? 'border-primary bg-primary/10' : 'border-border bg-transparent'}
             `}
           >
             <TestTube element={tube1Element} isEmpty={!tube1Element} />
@@ -134,12 +134,12 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
         {/* Test Tube B */}
         <div className="space-y-4">
-          <h4 className="text-lg font-semibold text-gray-900 text-center">Test Tube B</h4>
+          <h4 className="text-lg font-semibold text-center">Test Tube B</h4>
           <div 
             ref={drop2}
             className={`
               p-8 rounded-2xl border-2 border-dashed transition-all duration-300 min-h-[200px] flex items-center justify-center
-              ${isOver2 ? 'border-green-400 bg-green-50' : 'border-gray-300 bg-gray-50'}
+              ${isOver2 ? 'border-green-400 bg-green-400/10' : 'border-border bg-transparent'}
             `}
           >
             <TestTube element={tube2Element} isEmpty={!tube2Element} />
@@ -148,12 +148,12 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       </div>
 
       {/* Reaction Controls */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
+      <div className="bg-secondary/30 rounded-2xl border border-border p-6">
         <div className="flex gap-4 justify-center">
           <Button 
             onClick={triggerReaction}
             disabled={!tube1Element || !tube2Element || isReacting}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl flex items-center gap-2 font-semibold"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-xl flex items-center gap-2 font-semibold"
           >
             <Play className="h-5 w-5" />
             {isReacting ? 'REACTING...' : 'START REACTION'}
@@ -163,7 +163,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             variant="outline" 
             onClick={clearTubes}
             disabled={!tube1Element && !tube2Element}
-            className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-xl flex items-center gap-2"
+            className="border-border text-muted-foreground hover:bg-secondary/80 px-6 py-3 rounded-xl flex items-center gap-2"
           >
             <RotateCw className="h-4 w-4" /> 
             Clear
@@ -173,30 +173,30 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
       {/* Reaction Result */}
       {reaction && (
-        <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg animate-fade-in">
+        <div className="bg-secondary/30 rounded-2xl border border-border p-8 shadow-lg animate-fade-in">
           <div className="text-center space-y-4">
             <div className="flex items-center justify-center gap-3 mb-6">
               {reaction.energy === 'explosive' && <Flame className="w-8 h-8 text-red-500 animate-bounce" />}
               {reaction.energy === 'high' && <Zap className="w-8 h-8 text-orange-500 animate-pulse" />}
-              {reaction.gasProduced && <Droplets className="w-8 h-8 text-blue-500" />}
+              {reaction.gasProduced && <Droplets className="w-8 h-8 text-blue-400" />}
             </div>
             
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">{reaction.result}</h3>
-            <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">{reaction.description}</p>
+            <h3 className="text-3xl font-bold mb-4 text-gradient">{reaction.result}</h3>
+            <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">{reaction.description}</p>
             
             <div className="flex justify-center items-center space-x-6 mt-6 text-sm">
-              <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full">
+              <div className="flex items-center gap-2 bg-secondary px-4 py-2 rounded-full">
                 <div 
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: reaction.color }}
                 ></div>
-                <span className="text-gray-700 capitalize font-medium">{reaction.energy} Energy</span>
+                <span className="text-foreground capitalize font-medium">{reaction.energy} Energy</span>
               </div>
               {reaction.gasProduced && (
-                <span className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full font-medium">Gas Produced</span>
+                <span className="bg-blue-500/20 text-blue-300 px-4 py-2 rounded-full font-medium">Gas Produced</span>
               )}
               {reaction.precipitate && (
-                <span className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-medium">Precipitate Formed</span>
+                <span className="bg-yellow-500/20 text-yellow-300 px-4 py-2 rounded-full font-medium">Precipitate Formed</span>
               )}
             </div>
           </div>

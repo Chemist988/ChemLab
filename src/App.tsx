@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 
 const App: React.FC = () => (
   <React.Fragment>
-    <ThemeProvider defaultTheme="system">
+    <ThemeProvider defaultTheme="dark" storageKey="chemlab-ui-theme">
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />

@@ -39,11 +39,11 @@ const ElementCard: React.FC<ElementCardProps> = ({
     <div
       ref={isDraggable ? drag : undefined}
       className={cn(
-        `bg-chemistry-${element.category} rounded-lg overflow-hidden cursor-pointer`,
-        `transition-all duration-200 ease-out relative`,
-        `hover:shadow-lg hover:scale-105`,
-        `border border-white/30`,
-        `${isDragging ? 'ring-2 ring-blue-400 shadow-xl scale-110 rotate-2 opacity-80' : ''}`,
+        `bg-zinc-900 rounded-lg overflow-hidden cursor-pointer`,
+        `transition-all duration-200 ease-out relative border-2`,
+        `border-chemistry-${element.category}`,
+        `hover:shadow-lg hover:scale-105 hover:shadow-primary/20`,
+        `${isDragging ? 'ring-2 ring-primary shadow-xl scale-110 rotate-2 opacity-80' : ''}`,
         sizeClasses[size],
         className
       )}
@@ -54,29 +54,29 @@ const ElementCard: React.FC<ElementCardProps> = ({
     >
       <div className="h-full p-1.5 flex flex-col text-white relative">
         {/* Glass effect overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/10 pointer-events-none rounded-lg" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 pointer-events-none rounded-lg" />
         
         {/* Top Row - Atomic Number */}
         <div className="flex justify-between items-start text-[0.45rem] font-bold opacity-90 relative z-10">
-          <span className="bg-black/20 px-1 rounded text-center min-w-[12px]">{element.atomicNumber}</span>
-          {element.group && <span className="bg-black/20 px-1 rounded">{element.group}</span>}
+          <span className="bg-black/40 px-1 rounded text-center min-w-[12px]">{element.atomicNumber}</span>
+          {element.group && <span className="bg-black/40 px-1 rounded">{element.group}</span>}
         </div>
         
         {/* Center - Symbol and Name */}
         <div className="flex-1 flex flex-col items-center justify-center text-center relative z-10">
           <span className="font-black text-base leading-none mb-1 drop-shadow-sm">{element.symbol}</span>
-          <span className="text-[0.45rem] font-medium opacity-90 px-0.5 truncate max-w-full leading-tight">
+          <span className="text-[0.45rem] font-medium text-zinc-300 px-0.5 truncate max-w-full leading-tight">
             {element.name}
           </span>
         </div>
         
         {/* Bottom - Atomic Mass */}
-        <div className="text-[0.4rem] text-center font-medium opacity-80 relative z-10 bg-black/20 rounded px-1">
+        <div className="text-[0.4rem] text-center font-medium opacity-80 relative z-10 bg-black/40 rounded px-1">
           {element.atomicMass.toFixed(1)}
         </div>
         
         {/* Subtle highlight */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       </div>
     </div>
   );

@@ -34,18 +34,18 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
       {/* Header Info */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-            <Atom className="w-5 h-5 text-blue-600" />
+          <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
+            <Atom className="w-5 h-5 text-primary" />
           </div>
-          <span className="text-gray-600 font-medium">118 Elements Available</span>
+          <span className="text-muted-foreground font-medium">118 Elements Available</span>
         </div>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-muted-foreground">
           Click to select • Drag to test tubes
         </div>
       </div>
 
       {/* Main Periodic Table */}
-      <div className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
+      <div className="bg-black/50 rounded-2xl border border-border overflow-hidden">
         <ScrollArea className="h-[420px] w-full">
           <div className="p-6">
             <div 
@@ -79,14 +79,14 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                             size="xs"
                             className={`
                               transition-all duration-200 
-                              ${hoveredElement === atomicNumber ? 'scale-150 z-50 shadow-xl' : 'hover:scale-125'}
-                              ${selectedCategory && getElementByAtomicNumber(atomicNumber)?.category === selectedCategory ? 'ring-2 ring-blue-400' : ''}
+                              ${hoveredElement === atomicNumber ? 'scale-150 z-50 shadow-xl shadow-primary/30' : 'hover:scale-125'}
+                              ${selectedCategory && getElementByAtomicNumber(atomicNumber)?.category === selectedCategory ? 'ring-2 ring-primary' : ''}
                             `}
                           />
                           
                           {/* Hover tooltip */}
                           {hoveredElement === atomicNumber && (
-                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap z-50">
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-zinc-900 text-white text-xs rounded-lg whitespace-nowrap z-50 border border-border">
                               {getElementByAtomicNumber(atomicNumber)?.name}
                             </div>
                           )}
@@ -101,9 +101,9 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
             {/* Period labels */}
             <div className="absolute left-2 top-6 h-full flex flex-col justify-around" style={{ transform: 'scale(0.85)', transformOrigin: 'left top' }}>
               {[1, 2, 3, 4, 5, 6, 7, "", "", ""].map((period, index) => (
-                <div key={`period-${index}`} className="text-xs font-medium text-gray-500 h-[36px] flex items-center">
+                <div key={`period-${index}`} className="text-xs font-medium text-muted-foreground h-[36px] flex items-center">
                   {period && (
-                    <div className="bg-gray-200 px-2 py-1 rounded text-center min-w-[24px] text-gray-700">
+                    <div className="bg-secondary px-2 py-1 rounded text-center min-w-[24px] text-foreground">
                       {period}
                     </div>
                   )}
@@ -114,8 +114,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
             {/* Group labels */}
             <div className="absolute top-2 left-6 w-full flex justify-around" style={{ transform: 'scale(0.85)', transformOrigin: 'left top', paddingLeft: '20px' }}>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((group) => (
-                <div key={`group-${group}`} className="text-xs font-medium text-gray-500 w-[36px] text-center">
-                  <div className="bg-gray-200 px-1 py-1 rounded text-gray-700">
+                <div key={`group-${group}`} className="text-xs font-medium text-muted-foreground w-[36px] text-center">
+                  <div className="bg-secondary px-1 py-1 rounded text-foreground">
                     {group}
                   </div>
                 </div>
@@ -126,10 +126,10 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
       </div>
       
       {/* Element Categories */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
+      <div className="bg-black/50 rounded-2xl border border-border p-6">
         <div className="flex items-center space-x-3 mb-6">
-          <Filter className="w-5 h-5 text-gray-600" />
-          <h4 className="text-lg font-semibold text-gray-900">Element Categories</h4>
+          <Filter className="w-5 h-5 text-muted-foreground" />
+          <h4 className="text-lg font-semibold">Element Categories</h4>
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -140,8 +140,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
               className={`
                 px-4 py-3 rounded-xl text-sm flex items-center space-x-3 transition-all duration-200
                 ${selectedCategory === category 
-                  ? 'bg-blue-100 border-blue-300 text-blue-800 shadow-sm' 
-                  : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
+                  ? 'bg-primary/20 border-primary text-primary shadow-sm' 
+                  : 'bg-secondary border-border text-muted-foreground hover:bg-secondary/80'
                 }
                 border transform hover:scale-105
               `}
@@ -155,8 +155,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
       
       {/* Filtered Elements Display */}
       {selectedCategory && (
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 animate-fade-in">
-          <h4 className="text-lg font-semibold text-gray-900 mb-6">
+        <div className="bg-black/50 rounded-2xl border border-border p-6 animate-fade-in">
+          <h4 className="text-lg font-semibold mb-6">
             {categoryNames[selectedCategory as keyof typeof categoryNames]} Elements
           </h4>
           <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 justify-items-center">

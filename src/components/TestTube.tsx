@@ -104,9 +104,9 @@ const TestTube: React.FC<TestTubeProps> = ({ element, isEmpty = false, className
       {/* Element Label */}
       {element && (
         <div className="text-center mt-2">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 px-2 py-1">
-            <div className="text-sm font-bold text-gray-900">{element.symbol}</div>
-            <div className="text-xs text-gray-600 truncate">{element.name}</div>
+          <div className="bg-zinc-900/70 backdrop-blur-sm rounded-lg shadow-lg border border-zinc-700 px-2 py-1">
+            <div className="text-sm font-bold text-white">{element.symbol}</div>
+            <div className="text-xs text-zinc-400 truncate">{element.name}</div>
           </div>
         </div>
       )}
@@ -114,7 +114,7 @@ const TestTube: React.FC<TestTubeProps> = ({ element, isEmpty = false, className
       {/* Empty state */}
       {isEmpty && !element && (
         <div className="text-center mt-2">
-          <div className="text-xs text-gray-400">Empty</div>
+          <div className="text-xs text-zinc-600">Empty</div>
         </div>
       )}
     </div>
