@@ -40,7 +40,7 @@ const ElementDetail: React.FC<ElementDetailProps> = ({ element, isOpen, onClose 
               </div>
               <div className="bg-muted/50 p-2 rounded">
                 <p className="text-sm font-medium">Category</p>
-                <p className="text-xl">{categoryNames[element.category]}</p>
+                <p className="text-xl">{categoryNames[element.category as keyof typeof categoryNames] || element.category}</p>
               </div>
               <div className="bg-muted/50 p-2 rounded">
                 <p className="text-sm font-medium">Group / Period</p>
@@ -70,10 +70,12 @@ const ElementDetail: React.FC<ElementDetailProps> = ({ element, isOpen, onClose 
               </div>
             </div>
             
-            <div>
-              <h3 className="font-medium mb-1">Electron Configuration</h3>
-              <p className="font-mono bg-muted/30 p-2 rounded">{element.electronConfiguration}</p>
-            </div>
+            {element.electronConfiguration && (
+              <div>
+                <h3 className="font-medium mb-1">Electron Configuration</h3>
+                <p className="font-mono bg-muted/30 p-2 rounded">{element.electronConfiguration}</p>
+              </div>
+            )}
             
             {element.discoveredBy && (
               <div>
@@ -82,10 +84,12 @@ const ElementDetail: React.FC<ElementDetailProps> = ({ element, isOpen, onClose 
               </div>
             )}
             
-            <div>
-              <h3 className="font-medium mb-1">Description</h3>
-              <p className="text-sm leading-relaxed">{element.description}</p>
-            </div>
+            {element.description && (
+              <div>
+                <h3 className="font-medium mb-1">Description</h3>
+                <p className="text-sm leading-relaxed">{element.description}</p>
+              </div>
+            )}
           </div>
         </ScrollArea>
       </DialogContent>
