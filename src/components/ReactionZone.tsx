@@ -210,14 +210,15 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     return `hsl(var(--chemistry-${colorVar}))`;
   };
 
-  // Replace Beaker with a realistic conical beaker SVG with layered visuals (no raster images)
+  // Update outer container to use w-full and flex-1 to better fit new side-by-side layout
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-4 w-full h-full flex-1">
       <div 
         ref={drop}
         className={`relative h-96 p-6 rounded-xl flex flex-col items-center justify-center overflow-hidden
           ${isOver ? 'border-primary/70 bg-primary/10' : 'border border-white/10'}
           transition-all duration-300 bg-card/50`}
+        style={{ minHeight: '24rem', height: '100%' }}
       >
         {selectedElements.length > 0 && (
           <ElementSuggestions 

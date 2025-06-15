@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PeriodicTable from '@/components/PeriodicTable';
@@ -19,28 +20,25 @@ const Index = () => {
   const [showBot, setShowBot] = useState(false);
   const { theme } = useTheme();
 
-  const handleElementClick = (element: Element) => {
+  // Memoize click handler for perf
+  const handleElementClick = useCallback((element: Element) => {
     setSelectedElement(element);
     setDetailOpen(true);
-  };
+  }, []);
 
   // Use a local state to remember which main dashboard tab is "active"
   const [dashboardSection, setDashboardSection] = useState("explore");
 
-  // The main dashboard card: Elements, Reactions, Neutrino AI, Lab Guide as tabs
+  // Layout update: periodic table LEFT, simulator RIGHT (side-by-side, on all screens, stack on mobile)
   return (
     <DndProvider backend={HTML5Backend}>
-      {/* Gradient background */}
       <div className="min-h-screen w-full bg-gradient-to-br from-[#ffd6b0] via-[#feb47b] to-[#fd5e53] dark:from-[#0f172a] dark:via-[#3b0764] dark:to-[#fbbf24] relative transition-colors duration-700 pb-12">
         <ChemistryNavBar current={dashboardSection} onSelect={setDashboardSection} />
-        {/* Top nav bar space */}
         <div className="h-16 w-full" />
-        {/* Main white dashboard card */}
         <div className="container max-w-7xl mx-auto flex justify-center items-start px-1 md:px-6">
           <div className="w-full">
             <div className="mx-auto w-full max-w-6xl rounded-[2rem] shadow-2xl bg-white dark:bg-card border border-border mt-6 mb-6 p-0 overflow-hidden transition-all">
               <div className="w-full h-full p-0">
-                {/* Headline - only visible in Explore tab now */}
                 {dashboardSection === "explore" && (
                   <header className="flex flex-col items-center pt-12 pb-4 px-4 text-center">
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-gradient mb-2 select-none">
@@ -63,23 +61,28 @@ const Index = () => {
                       Lab Guide
                     </TabsTrigger>
                   </TabsList>
-                  {/* Side-by-side layout for Explore */}
-                  <TabsContent value="explore" className="px-8 pb-12 pt-2">
-                    <div className="flex flex-col md:flex-row gap-8">
-                      <div className="flex-1 bg-card rounded-2xl border border-border shadow-inner py-6 px-2 md:px-6 mb-8 md:mb-0">
-                        <h2 className="text-3xl font-light text-foreground mb-3 text-center">
-                          Periodic Table
-                        </h2>
-                        <div className="text-center text-sm text-muted-foreground mb-4">Click an element to explore</div>
-                        <PeriodicTable onElementClick={handleElementClick} />
+                  <TabsContent value="explore" className="px-4 md:px-8 pb-12 pt-2">
+                    <div className="flex flex-col md:flex-row gap-8 w-full">
+                      {/* Table left, simulator right */}
+                      <div className="w-full md:w-1/2 flex flex-col">
+                        <div className="bg-card rounded-2xl border border-border shadow-inner py-6 px-2 md:px-6 mb-8 md:mb-0 flex-1 flex flex-col">
+                          <h2 className="text-3xl font-light text-foreground mb-3 text-center">
+                            Periodic Table
+                          </h2>
+                          <div className="text-center text-sm text-muted-foreground mb-4">Click an element to explore</div>
+                          <PeriodicTable onElementClick={handleElementClick} />
+                        </div>
                       </div>
-                      <div className="flex-1 bg-card rounded-2xl border border-border shadow-inner px-2 md:px-8 py-6 min-h-[32rem]">
-                        <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">Reaction Simulator</h2>
-                        <ReactionZone onElementClick={handleElementClick} />
+                      <div className="w-full md:w-1/2 flex flex-col">
+                        <div className="bg-card rounded-2xl border border-border shadow-inner px-2 md:px-8 py-6 min-h-[32rem] flex-1 flex flex-col">
+                          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">
+                            Reaction Simulator
+                          </h2>
+                          <ReactionZone onElementClick={handleElementClick} />
+                        </div>
                       </div>
                     </div>
                   </TabsContent>
-                  {/* HeisenBot AI Assistant */}
                   <TabsContent value="heisenbot" className="px-8 pb-12 pt-2">
                     <div className="bg-card rounded-2xl border border-border shadow-inner p-6 w-full flex flex-col items-center">
                       <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center flex items-center justify-center gap-2">
@@ -98,7 +101,6 @@ const Index = () => {
                       </Button>
                     </div>
                   </TabsContent>
-                  {/* Lab Guide */}
                   <TabsContent value="guide" className="px-8 pb-12 pt-2">
                     <div className="bg-card rounded-2xl border border-border shadow-inner p-8 w-full">
                       <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">Lab Guide</h2>
@@ -129,16 +131,12 @@ const Index = () => {
             </div>
           </div>
         </div>
-
         <ElementDetail 
           element={selectedElement} 
           isOpen={detailOpen} 
           onClose={() => setDetailOpen(false)}
         />
-
         <EduBotAssistant />
-
-        {/* Modal for HeisenBot */}
         {showBot && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
             <div className="w-full max-w-5xl h-[85vh] bg-card rounded-2xl shadow-2xl overflow-hidden border border-border">
