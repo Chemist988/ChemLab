@@ -7,7 +7,7 @@ export interface Element {
   atomicMass: number;
   group: number | null;
   period: number;
-  electronConfiguration: string;
+  electronConfiguration?: string;
   electronegativity?: number;
   density?: number;
   meltingPoint?: number;
