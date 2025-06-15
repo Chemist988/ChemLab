@@ -5,7 +5,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
-import ThemeSwitcher from '@/components/ThemeSwitcher';
 import EduBotAssistant from '@/components/EduBotAssistant';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -25,13 +24,10 @@ const Index = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-black dark:to-gray-800 transition-all duration-700">
+      <>
         <div className="container mx-auto py-8 px-4">
           {/* Apple-inspired Header */}
           <header className="mb-16 flex flex-col items-center relative">
-            <div className="absolute right-0 top-0">
-              <ThemeSwitcher />
-            </div>
             <div className="text-center space-y-6">
               <h1 className="text-6xl md:text-7xl font-thin tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-purple-700 dark:from-white dark:via-blue-200 dark:to-purple-300">
                 Interactive Chemistry
@@ -198,7 +194,7 @@ const Index = () => {
                   size="sm"
                   className="text-white hover:bg-white/10 rounded-full p-2"
                 >
-                  ×
+                  <X className="w-5 h-5" />
                 </Button>
               </div>
               <div className="h-full bg-white/90 dark:bg-gray-900/90 p-6">
@@ -214,7 +210,7 @@ const Index = () => {
             </div>
           </div>
         )}
-      </div>
+      </>
     </DndProvider>
   );
 };

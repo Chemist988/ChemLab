@@ -1,0 +1,44 @@
+
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { Atom, BarChart, Activity, Sources, Zap } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import ThemeSwitcher from './ThemeSwitcher';
+
+const navItems = [
+  { name: 'Playground', href: '/', icon: Atom },
+  { name: 'Analytics', href: '/analytics', icon: BarChart },
+  { name: 'Activity', href: '/activity', icon: Activity },
+  { name: 'Sources', href: '/sources', icon: Sources },
+  { name: 'Actions', href: '/actions', icon: Zap },
+];
+
+const TopNav = () => {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 items-center justify-between">
+        <nav className="flex items-center space-x-6">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.href}
+              end={item.href === '/'}
+              className={({ isActive }) =>
+                cn(
+                  'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+                  isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'
+                )
+              }
+            >
+              <item.icon className="h-4 w-4" />
+              <span>{item.name}</span>
+            </NavLink>
+          ))}
+        </nav>
+        <ThemeSwitcher />
+      </div>
+    </header>
+  );
+};
+
+export default TopNav;

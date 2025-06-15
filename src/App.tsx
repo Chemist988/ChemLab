@@ -8,6 +8,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/use-theme";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Layout from "@/components/Layout";
+import AnalyticsPage from './pages/AnalyticsPage';
+import ActivityPage from './pages/ActivityPage';
+import SourcesPage from './pages/SourcesPage';
+import ActionsPage from './pages/ActionsPage';
 
 const queryClient = new QueryClient();
 
@@ -20,7 +25,13 @@ const App: React.FC = () => (
           <Sonner position="top-center" />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route element={<Layout />}>
+                <Route path="/" element={<Index />} />
+                <Route path="/analytics" element={<AnalyticsPage />} />
+                <Route path="/activity" element={<ActivityPage />} />
+                <Route path="/sources" element={<SourcesPage />} />
+                <Route path="/actions" element={<ActionsPage />} />
+              </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
