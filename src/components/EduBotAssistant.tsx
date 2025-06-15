@@ -12,7 +12,7 @@ const EduBotAssistant = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center border border-white/20 backdrop-blur-xl transform hover:scale-105"
+          className="w-16 h-16 rounded-full bg-gradient-to-r from-green-700 to-teal-600 hover:from-green-800 hover:to-teal-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center border border-white/20 backdrop-blur-xl transform hover:scale-105"
         >
           {isOpen ? <X className="w-7 h-7 text-white" /> : <Bot className="w-7 h-7 text-white" />}
         </Button>
@@ -23,7 +23,7 @@ const EduBotAssistant = () => {
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
           <div className="w-full max-w-5xl h-[85vh] bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-black/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
             {/* Header */}
-            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-green-700 to-teal-600 p-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/10 rounded-full">
                   <Bot className="w-6 h-6 text-white" />
@@ -58,8 +58,8 @@ const EduBotAssistant = () => {
             {/* Suggested Prompts */}
             <div className="bg-white/90 dark:bg-gray-900/90 p-6 border-t border-gray-200/50 dark:border-gray-700/50">
               <div className="grid grid-cols-1 gap-4">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-blue-200/50 dark:border-blue-700/50">
-                  <p className="text-blue-700 dark:text-blue-300 text-sm font-medium">Chemistry Mastery</p>
+                <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 p-4 rounded-xl border border-green-200/50 dark:border-green-700/50">
+                  <p className="text-green-700 dark:text-green-300 text-sm font-medium">Chemistry Mastery</p>
                   <p className="text-gray-600 dark:text-gray-400 text-xs">Explore reactions, periodic trends, and molecular structures</p>
                 </div>
               </div>

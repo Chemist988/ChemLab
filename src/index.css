@@ -7,25 +7,25 @@
 
 @layer base {
   :root {
-    --background: 224 71.4% 4.1%; /* Deep Navy */
-    --foreground: 210 20% 98%; /* Almost White */
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 198 93% 60%; /* Vibrant Cyan */
-    --primary-foreground: 224 71.4% 4.1%;
-    --secondary: 215 27.9% 16.9%; /* Darker Navy */
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 198 93% 60%; /* Vibrant Cyan */
+    --background: 150 100% 4%; /* Very Dark Green */
+    --foreground: 140 20% 95%; /* Light Greenish White */
+    --card: 150 100% 4%;
+    --card-foreground: 140 20% 95%;
+    --popover: 150 100% 4%;
+    --popover-foreground: 140 20% 95%;
+    --primary: 140 80% 55%; /* Vibrant Green */
+    --primary-foreground: 150 100% 4%;
+    --secondary: 150 50% 12%; /* Dark Green */
+    --secondary-foreground: 140 20% 95%;
+    --muted: 150 50% 12%;
+    --muted-foreground: 140 15% 65%;
+    --accent: 150 50% 12%;
+    --accent-foreground: 140 80% 55%; /* Vibrant Green */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 198 93% 60%; /* Vibrant Cyan */
+    --border: 150 50% 12%;
+    --input: 150 50% 12%;
+    --ring: 140 80% 55%; /* Vibrant Green */
     --radius: 0.8rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;

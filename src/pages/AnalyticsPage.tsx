@@ -7,7 +7,7 @@ const AnalyticsPage = () => {
     <div className="container mx-auto py-8 px-4">
       <div className="flex flex-col w-full h-[calc(100vh-8rem)] bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-black/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex items-center shrink-0">
+        <div className="bg-gradient-to-r from-green-700 to-teal-600 p-6 flex items-center shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-full">
               <Bot className="w-6 h-6 text-white" />
