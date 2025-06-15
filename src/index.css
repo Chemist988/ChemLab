@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -43,10 +42,6 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    
-    /* Breaking Bad Theme Colors */
-    --bb-green: 114 56% 40%;
-    --bb-blue: 191 100% 50%;
     
     /* Chemistry Element Colors */
     --chemistry-alkali: 4 90% 58%;
@@ -288,7 +283,7 @@
     inset: -1.5px;
     z-index: 0;
     border-radius: inherit;
-    background: conic-gradient(from 180deg at 50% 50%, hsl(var(--bb-green)) 0deg, hsl(var(--bb-blue)) 180deg, hsl(var(--bb-green)) 360deg);
+    background: conic-gradient(from 180deg at 50% 50%, hsl(var(--super-blue)) 0deg, hsl(var(--super-pink)) 180deg, hsl(var(--super-blue)) 360deg);
     animation: spin 5s linear infinite;
     filter: blur(5px);
   }
