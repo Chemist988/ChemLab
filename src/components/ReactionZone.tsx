@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element, elements } from '../data/refactored-elements';
@@ -455,7 +454,6 @@ const getCategoryColor = (category: string): string => {
   return `hsl(var(--chemistry-${colorVar}))`;
 };
 
-// Helper function to get color based on reaction type
 const getReactionColor = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
@@ -479,7 +477,6 @@ const getReactionColor = (animationType: string): string => {
   }
 };
 
-// Helper function to get reaction type display name
 const getReactionTypeName = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
@@ -503,7 +500,6 @@ const getReactionTypeName = (animationType: string): string => {
   }
 };
 
-// Helper function to get reaction icon
 const getReactionIcon = (animationType: string): React.ReactNode => {
   switch (animationType) {
     case 'explosion':
