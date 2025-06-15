@@ -7,15 +7,17 @@ import { cn } from '@/lib/utils';
 interface ElementCardProps {
   element: Element;
   onClick: () => void;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xs';
   isDraggable?: boolean;
+  className?: string;
 }
 
 const ElementCard: React.FC<ElementCardProps> = ({ 
   element, 
   onClick, 
   size = 'md',
-  isDraggable = true
+  isDraggable = true,
+  className = ''
 }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'element',
@@ -27,31 +29,43 @@ const ElementCard: React.FC<ElementCardProps> = ({
   }));
 
   const sizeClasses = {
-    sm: 'w-12 h-12 text-xs',
-    md: 'w-16 h-16 text-sm',
-    lg: 'w-20 h-20 text-base',
+    xs: 'w-[36px] h-[36px] text-[0.6rem]',
+    sm: 'w-[54px] h-[54px] text-[0.7rem]',
+    md: 'w-[64px] h-[64px] text-xs',
+    lg: 'w-[80px] h-[80px] text-sm',
   };
 
   return (
     <div
       ref={isDraggable ? drag : undefined}
       className={cn(
-        `bg-${categoryColors[element.category]} rounded-md p-1 cursor-pointer transition-all`,
+        `bg-chemistry-${element.category} rounded-md overflow-hidden cursor-pointer transition-all duration-300`,
+        `backdrop-blur-sm border border-white/10 dark:border-black/10`,
+        `hover:shadow-lg hover:scale-110 hover:z-20`,
+        `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110' : ''}`,
         sizeClasses[size],
-        isDragging && 'opacity-50',
-        !isDraggable && 'cursor-default'
+        className
       )}
       onClick={onClick}
-      style={{ opacity: isDragging ? 0.5 : 1 }}
+      style={{ 
+        opacity: isDragging ? 0.7 : 1,
+        backgroundImage: `radial-gradient(circle at center, var(--element-center-color, rgba(255,255,255,0.2)) 0%, var(--element-edge-color, rgba(0,0,0,0.05)) 100%)`,
+        '--element-center-color': element.category === 'alkali-metal' || element.category === 'transition-metal' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.15)',
+        '--element-edge-color': 'rgba(0,0,0,0.1)'
+      } as React.CSSProperties}
     >
-      <div className="flex justify-between items-start">
-        <span className="font-mono text-xs">{element.atomicNumber}</span>
+      <div className="flex justify-between items-start px-1 pt-0.5">
+        <span className="font-mono text-[0.6rem] opacity-80">{element.atomicNumber}</span>
+        <span className="font-mono text-[0.6rem] opacity-70">{element.group || ""}</span>
       </div>
-      <div className="flex flex-col items-center justify-center h-2/3">
+      <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-1">
         <span className="font-bold">{element.symbol}</span>
-        <span className="text-xs truncate w-full text-center">
+        <span className="text-[0.6rem] max-w-full truncate opacity-90 px-0.5">
           {element.name}
         </span>
+      </div>
+      <div className="text-[0.55rem] text-center mt-[-2px] opacity-80">
+        {element.atomicMass.toFixed(1)}
       </div>
     </div>
   );

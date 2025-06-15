@@ -1,4 +1,3 @@
-
 export interface Element {
   id: number;
   symbol: string;
@@ -58,7 +57,31 @@ export const categoryNames: Record<ElementCategory, string> = {
   'unknown': 'Unknown',
 };
 
-// First 20 elements with detailed information
+// Define the periodic table layout
+export const periodicTableLayout: number[][] = [
+  // Period 1
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+  // Period 2
+  [3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 6, 7, 8, 9, 10],
+  // Period 3
+  [11, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 14, 15, 16, 17, 18],
+  // Period 4
+  [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+  // Period 5
+  [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54],
+  // Period 6
+  [55, 56, 57, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86],
+  // Period 7
+  [87, 88, 89, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118],
+  // Empty row
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // Lanthanides
+  [0, 0, 0, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 0],
+  // Actinides
+  [0, 0, 0, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 0],
+];
+
+// Elements with detailed information
 export const elements: Element[] = [
   {
     id: 1,
@@ -395,57 +418,621 @@ export const elements: Element[] = [
     discoveredBy: 'Humphry Davy',
     description: 'Essential for living organisms, particularly in cell physiology and for the mineralization of bones and teeth.'
   },
-  // Additional elements would be added here...
+  {
+    id: 21,
+    symbol: 'Sc',
+    name: 'Scandium',
+    atomicNumber: 21,
+    atomicMass: 44.956,
+    category: 'transition-metal',
+    group: 3,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹',
+    electronegativity: 1.36,
+    density: 2.985,
+    meltingPoint: 1541,
+    boilingPoint: 2830,
+    discoveredBy: 'Lars Fredrik Nilson',
+    description: 'Silvery-white metallic d-block element, has been historically classified as a rare earth element.'
+  },
+  {
+    id: 22,
+    symbol: 'Ti',
+    name: 'Titanium',
+    atomicNumber: 22,
+    atomicMass: 47.867,
+    category: 'transition-metal',
+    group: 4,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d²',
+    electronegativity: 1.54,
+    density: 4.507,
+    meltingPoint: 1668,
+    boilingPoint: 3287,
+    discoveredBy: 'William Gregor',
+    description: 'Lustrous transition metal with a silver color, low density and high strength. Resistant to corrosion in sea water, aqua regia, and chlorine.'
+  },
+  {
+    id: 23,
+    symbol: 'V',
+    name: 'Vanadium',
+    atomicNumber: 23,
+    atomicMass: 50.942,
+    category: 'transition-metal',
+    group: 5,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d³',
+    electronegativity: 1.63,
+    density: 6.11,
+    meltingPoint: 1910,
+    boilingPoint: 3407,
+    discoveredBy: 'Andrés Manuel del Río',
+    description: 'Soft, ductile, silvery-grey metal that is primarily used with iron to make metal alloys for high-speed tool applications.'
+  },
+  {
+    id: 24,
+    symbol: 'Cr',
+    name: 'Chromium',
+    atomicNumber: 24,
+    atomicMass: 51.996,
+    category: 'transition-metal',
+    group: 6,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s¹ 3d⁵',
+    electronegativity: 1.66,
+    density: 7.15,
+    meltingPoint: 1907,
+    boilingPoint: 2671,
+    discoveredBy: 'Louis Nicolas Vauquelin',
+    description: 'Steely-grey, lustrous, hard metal that takes a high polish, and has a high melting point.'
+  },
+  {
+    id: 25,
+    symbol: 'Mn',
+    name: 'Manganese',
+    atomicNumber: 25,
+    atomicMass: 54.938,
+    category: 'transition-metal',
+    group: 7,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d⁵',
+    electronegativity: 1.55,
+    density: 7.44,
+    meltingPoint: 1246,
+    boilingPoint: 2061,
+    discoveredBy: 'Torbern Olof Bergman',
+    description: 'Silvery-gray metal that resembles iron and is hard and very brittle, difficult to fuse, but easy to oxidize.'
+  },
+  {
+    id: 26,
+    symbol: 'Fe',
+    name: 'Iron',
+    atomicNumber: 26,
+    atomicMass: 55.845,
+    category: 'transition-metal',
+    group: 8,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d⁶',
+    electronegativity: 1.83,
+    density: 7.874,
+    meltingPoint: 1538,
+    boilingPoint: 2862,
+    discoveredBy: 'Ancient civilization',
+    description: 'Most common element on Earth (by mass), forming much of Earth\'s outer and inner core. It is the fourth most common element in the Earth\'s crust.'
+  },
+  {
+    id: 27,
+    symbol: 'Co',
+    name: 'Cobalt',
+    atomicNumber: 27,
+    atomicMass: 58.933,
+    category: 'transition-metal',
+    group: 9,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d⁷',
+    electronegativity: 1.88,
+    density: 8.90,
+    meltingPoint: 1495,
+    boilingPoint: 2927,
+    discoveredBy: 'Georg Brandt',
+    description: 'Hard, lustrous, silver-gray metal, a member of group 9 of the periodic table, used especially for heat-resistant and magnetic alloys.'
+  },
+  {
+    id: 28,
+    symbol: 'Ni',
+    name: 'Nickel',
+    atomicNumber: 28,
+    atomicMass: 58.693,
+    category: 'transition-metal',
+    group: 10,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d⁸',
+    electronegativity: 1.91,
+    density: 8.908,
+    meltingPoint: 1455,
+    boilingPoint: 2730,
+    discoveredBy: 'Axel Fredrik Cronstedt',
+    description: 'Silvery-white lustrous metal with a slight golden tinge, strong, ductile, and resistant to corrosion, used mainly in alloys.'
+  },
+  {
+    id: 29,
+    symbol: 'Cu',
+    name: 'Copper',
+    atomicNumber: 29,
+    atomicMass: 63.546,
+    category: 'transition-metal',
+    group: 11,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s¹ 3d¹⁰',
+    electronegativity: 1.9,
+    density: 8.96,
+    meltingPoint: 1084.62,
+    boilingPoint: 2562,
+    discoveredBy: 'Middle East',
+    description: 'Soft, malleable, and ductile metal with very high thermal and electrical conductivity. A freshly exposed surface of pure copper has a pinkish-orange color.'
+  },
+  {
+    id: 30,
+    symbol: 'Zn',
+    name: 'Zinc',
+    atomicNumber: 30,
+    atomicMass: 65.38,
+    category: 'transition-metal',
+    group: 12,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰',
+    electronegativity: 1.65,
+    density: 7.14,
+    meltingPoint: 419.53,
+    boilingPoint: 907,
+    discoveredBy: 'Indian metallurgists',
+    description: 'Slightly brittle metal at room temperature and has a blue-silvery appearance when oxidation is removed.'
+  },
+  {
+    id: 31,
+    symbol: 'Ga',
+    name: 'Gallium',
+    atomicNumber: 31,
+    atomicMass: 69.723,
+    category: 'post-transition-metal',
+    group: 13,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p¹',
+    electronegativity: 1.81,
+    density: 5.91,
+    meltingPoint: 29.76,
+    boilingPoint: 2400,
+    discoveredBy: 'Lecoq de Boisbaudran',
+    description: 'Soft, silvery metal that becomes liquid at room temperature, similar to aluminum in many properties.'
+  },
+  {
+    id: 32,
+    symbol: 'Ge',
+    name: 'Germanium',
+    atomicNumber: 32,
+    atomicMass: 72.630,
+    category: 'metalloid',
+    group: 14,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p²',
+    electronegativity: 2.01,
+    density: 5.323,
+    meltingPoint: 938.25,
+    boilingPoint: 2833,
+    discoveredBy: 'Clemens Winkler',
+    description: 'Hard-brittle crystalline metalloid, gray-white in color, and resembles silicon. Primarily used as a semiconductor material.'
+  },
+  {
+    id: 33,
+    symbol: 'As',
+    name: 'Arsenic',
+    atomicNumber: 33,
+    atomicMass: 74.922,
+    category: 'metalloid',
+    group: 15,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p³',
+    electronegativity: 2.18,
+    density: 5.727,
+    meltingPoint: 817,
+    boilingPoint: 614, // sublimation point
+    discoveredBy: 'Ancient',
+    description: 'Metalloid that occurs in many minerals. It was known to ancient civilizations but was first isolated as an element in the 1300s.'
+  },
+  {
+    id: 34,
+    symbol: 'Se',
+    name: 'Selenium',
+    atomicNumber: 34,
+    atomicMass: 78.971,
+    category: 'nonmetal',
+    group: 16,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁴',
+    electronegativity: 2.55,
+    density: 4.81,
+    meltingPoint: 221,
+    boilingPoint: 685,
+    discoveredBy: 'Jöns Jakob Berzelius',
+    description: 'Non-metal with properties similar to sulfur and tellurium, essential for humans in trace amounts but toxic in larger doses.'
+  },
+  {
+    id: 35,
+    symbol: 'Br',
+    name: 'Bromine',
+    atomicNumber: 35,
+    atomicMass: 79.904,
+    category: 'halogen',
+    group: 17,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁵',
+    electronegativity: 2.96,
+    density: 3.12,
+    meltingPoint: -7.2,
+    boilingPoint: 58.8,
+    discoveredBy: 'Antoine Jérôme Balard',
+    description: 'Reddish-brown liquid at room temperature, highly reactive and one of only two elements that are liquid under standard conditions.'
+  },
+  {
+    id: 36,
+    symbol: 'Kr',
+    name: 'Krypton',
+    atomicNumber: 36,
+    atomicMass: 83.798,
+    category: 'noble-gas',
+    group: 18,
+    period: 4,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶',
+    density: 0.003733,
+    meltingPoint: -157.36,
+    boilingPoint: -153.22,
+    discoveredBy: 'William Ramsay and Morris Travers',
+    description: 'Colorless, odorless, tasteless noble gas, used in lighting products and as an inert filling gas.'
+  },
+  {
+    id: 37,
+    symbol: 'Rb',
+    name: 'Rubidium',
+    atomicNumber: 37,
+    atomicMass: 85.468,
+    category: 'alkali-metal',
+    group: 1,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹',
+    electronegativity: 0.82,
+    density: 1.53,
+    meltingPoint: 39.31,
+    boilingPoint: 688,
+    discoveredBy: 'Robert Bunsen and Gustav Kirchhoff',
+    description: 'Soft, silvery-white metallic element that is highly reactive, can self-ignite in air at room temperature.'
+  },
+  {
+    id: 38,
+    symbol: 'Sr',
+    name: 'Strontium',
+    atomicNumber: 38,
+    atomicMass: 87.62,
+    category: 'alkaline-earth-metal',
+    group: 2,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s²',
+    electronegativity: 0.95,
+    density: 2.64,
+    meltingPoint: 777,
+    boilingPoint: 1377,
+    discoveredBy: 'William Cruickshank',
+    description: 'Soft silver-white yellowish metallic element, similar to calcium and barium, best known for the bright red color it gives to fireworks.'
+  },
+  {
+    id: 39,
+    symbol: 'Y',
+    name: 'Yttrium',
+    atomicNumber: 39,
+    atomicMass: 88.906,
+    category: 'transition-metal',
+    group: 3,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d¹',
+    electronegativity: 1.22,
+    density: 4.472,
+    meltingPoint: 1526,
+    boilingPoint: 3336,
+    discoveredBy: 'Johan Gadolin',
+    description: 'Silvery-metallic transition metal chemically similar to the lanthanides, has a high melting point and is often used in alloys.'
+  },
+  {
+    id: 40,
+    symbol: 'Zr',
+    name: 'Zirconium',
+    atomicNumber: 40,
+    atomicMass: 91.224,
+    category: 'transition-metal',
+    group: 4,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d²',
+    electronegativity: 1.33,
+    density: 6.52,
+    meltingPoint: 1855,
+    boilingPoint: 4409,
+    discoveredBy: 'Martin Heinrich Klaproth',
+    description: 'Lustrous, grey-white, strong transition metal resembles hafnium and titanium, used in nuclear reactors because of its low neutron absorption.'
+  },
+  {
+    id: 41,
+    symbol: 'Nb',
+    name: 'Niobium',
+    atomicNumber: 41,
+    atomicMass: 92.906,
+    category: 'transition-metal',
+    group: 5,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁴',
+    electronegativity: 1.6,
+    density: 8.57,
+    meltingPoint: 2477,
+    boilingPoint: 4744,
+    discoveredBy: 'Charles Hatchett',
+    description: 'Soft, grey, ductile transition metal, often used in alloys and superconductors due to its resistance to corrosion.'
+  },
+  {
+    id: 42,
+    symbol: 'Mo',
+    name: 'Molybdenum',
+    atomicNumber: 42,
+    atomicMass: 95.95,
+    category: 'transition-metal',
+    group: 6,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁵',
+    electronegativity: 2.16,
+    density: 10.28,
+    meltingPoint: 2623,
+    boilingPoint: 4639,
+    discoveredBy: 'Carl Wilhelm Scheele',
+    description: 'Silvery metal with a gray cast, valued for its strength and resistance to heat and corrosion, used in high-strength steel alloys.'
+  },
+  {
+    id: 43,
+    symbol: 'Tc',
+    name: 'Technetium',
+    atomicNumber: 43,
+    atomicMass: 98,
+    category: 'transition-metal',
+    group: 7,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d⁵',
+    electronegativity: 1.9,
+    density: 11.5,
+    meltingPoint: 2157,
+    boilingPoint: 4265,
+    discoveredBy: 'Carlo Perrier and Emilio Segrè',
+    description: 'Silvery-gray, radioactive metal that does not occur naturally on Earth, used primarily in medical diagnostic procedures.'
+  },
+  {
+    id: 44,
+    symbol: 'Ru',
+    name: 'Ruthenium',
+    atomicNumber: 44,
+    atomicMass: 101.07,
+    category: 'transition-metal',
+    group: 8,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁷',
+    electronegativity: 2.2,
+    density: 12.37,
+    meltingPoint: 2334,
+    boilingPoint: 4150,
+    discoveredBy: 'Karl Ernst Claus',
+    description: 'Hard, lustrous, silver-white metal from the platinum group, resistant to corrosion and used in alloys to increase hardness.'
+  },
+  {
+    id: 45,
+    symbol: 'Rh',
+    name: 'Rhodium',
+    atomicNumber: 45,
+    atomicMass: 102.91,
+    category: 'transition-metal',
+    group: 9,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d⁸',
+    electronegativity: 2.28,
+    density: 12.41,
+    meltingPoint: 1964,
+    boilingPoint: 3695,
+    discoveredBy: 'William Hyde Wollaston',
+    description: 'Silvery-white, hard, corrosion-resistant precious metal, used as catalytic converters in cars and for jewelry plating.'
+  },
+  {
+    id: 46,
+    symbol: 'Pd',
+    name: 'Palladium',
+    atomicNumber: 46,
+    atomicMass: 106.42,
+    category: 'transition-metal',
+    group: 10,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 4d¹⁰',
+    electronegativity: 2.2,
+    density: 12.02,
+    meltingPoint: 1555,
+    boilingPoint: 2963,
+    discoveredBy: 'William Hyde Wollaston',
+    description: 'Least dense and lowest melting of the platinum group metals, extensively used in catalytic converters and electronics.'
+  },
+  {
+    id: 47,
+    symbol: 'Ag',
+    name: 'Silver',
+    atomicNumber: 47,
+    atomicMass: 107.87,
+    category: 'transition-metal',
+    group: 11,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s¹ 4d¹⁰',
+    electronegativity: 1.93,
+    density: 10.49,
+    meltingPoint: 961.78,
+    boilingPoint: 2162,
+    discoveredBy: 'Ancient',
+    description: 'Soft, white, lustrous transition metal with the highest electrical conductivity of any element and the highest thermal conductivity of any metal.'
+  },
+  {
+    id: 48,
+    symbol: 'Cd',
+    name: 'Cadmium',
+    atomicNumber: 48,
+    atomicMass: 112.41,
+    category: 'transition-metal',
+    group: 12,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d¹⁰',
+    electronegativity: 1.69,
+    density: 8.65,
+    meltingPoint: 321.07,
+    boilingPoint: 767,
+    discoveredBy: 'Karl Samuel Leberecht Hermann and Friedrich Stromeyer',
+    description: 'Soft, bluish-white metal that is highly toxic and primarily used in batteries, pigments, coatings, and plating.'
+  },
+  {
+    id: 49,
+    symbol: 'In',
+    name: 'Indium',
+    atomicNumber: 49,
+    atomicMass: 114.82,
+    category: 'post-transition-metal',
+    group: 13,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d¹⁰ 5p¹',
+    electronegativity: 1.78,
+    density: 7.31,
+    meltingPoint: 156.6,
+    boilingPoint: 2072,
+    discoveredBy: 'Ferdinand Reich and Hieronymous Theodor Richter',
+    description: 'Soft, malleable post-transition metal with a bright luster, used primarily in LCD screens and semiconductor materials.'
+  },
+  {
+    id: 50,
+    symbol: 'Sn',
+    name: 'Tin',
+    atomicNumber: 50,
+    atomicMass: 118.71,
+    category: 'post-transition-metal',
+    group: 14,
+    period: 5,
+    electronConfiguration: '1s² 2s² 2p⁶ 3s² 3p² 4s² 3d¹⁰ 4p⁶ 5s² 4d¹⁰ 5p²',
+    electronegativity: 1.96,
+    density: 7.31,
+    meltingPoint: 231.93,
+    boilingPoint: 2602,
+    discoveredBy: 'Ancient',
+    description: 'Silvery metal that resists corrosion, used in solder, tin plating, and various alloys. When bent, it emits a characteristic "tin cry" sound.'
+  },
 ];
 
-// Complete periodic table structure - this represents positions
-export const periodicTableLayout = [
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-  [3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 6, 7, 8, 9, 10],
-  [11, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 14, 15, 16, 17, 18],
-  [19, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
-
-// Map of known reactions between elements
-export const knownReactions = {
-  // Hydrogen reactions
-  "H-O": {
-    result: "H₂O (Water)",
-    description: "Hydrogen and oxygen combine to form water, a vital compound for life.",
-    animationType: "combustion"
+// Common molecules for the reactions
+export const molecules = [
+  {
+    id: 1,
+    formula: 'H2O',
+    name: 'Water',
+    description: 'The most common compound on Earth\'s surface, essential for all known forms of life.',
+    composition: [
+      { elementId: 1, count: 2 }, // Hydrogen
+      { elementId: 8, count: 1 }  // Oxygen
+    ]
   },
-  "H-Cl": {
-    result: "HCl (Hydrogen Chloride)",
-    description: "Hydrogen and chlorine form hydrogen chloride, a strong acid when dissolved in water.",
-    animationType: "gasformation"
+  {
+    id: 2,
+    formula: 'NaCl',
+    name: 'Sodium Chloride (Table Salt)',
+    description: 'Essential for animal life, used as a food preservative and seasoning.',
+    composition: [
+      { elementId: 11, count: 1 }, // Sodium
+      { elementId: 17, count: 1 }  // Chlorine
+    ]
   },
-  
-  // Sodium reactions
-  "Na-Cl": {
-    result: "NaCl (Table Salt)",
-    description: "Sodium and chlorine react to form sodium chloride, common table salt.",
-    animationType: "crystallization"
+  {
+    id: 3,
+    formula: 'CO2',
+    name: 'Carbon Dioxide',
+    description: 'Used by plants for photosynthesis, a greenhouse gas, and important in Earth\'s carbon cycle.',
+    composition: [
+      { elementId: 6, count: 1 },  // Carbon
+      { elementId: 8, count: 2 }   // Oxygen
+    ]
   },
-  "Na-O": {
-    result: "Na₂O (Sodium Oxide)",
-    description: "Sodium reacts vigorously with oxygen to form sodium oxide.",
-    animationType: "oxidation"
+  {
+    id: 4,
+    formula: 'NH3',
+    name: 'Ammonia',
+    description: 'Used in fertilizers, cleaning products, and manufacturing processes.',
+    composition: [
+      { elementId: 7, count: 1 },  // Nitrogen
+      { elementId: 1, count: 3 }   // Hydrogen
+    ]
   },
-  
-  // Carbon reactions
-  "C-O": {
-    result: "CO₂ (Carbon Dioxide)",
-    description: "Carbon and oxygen combine to form carbon dioxide in complete combustion.",
-    animationType: "combustion"
+  {
+    id: 5,
+    formula: 'CH4',
+    name: 'Methane',
+    description: 'Simplest hydrocarbon and a potent greenhouse gas, used as a fuel.',
+    composition: [
+      { elementId: 6, count: 1 },  // Carbon
+      { elementId: 1, count: 4 }   // Hydrogen
+    ]
   },
-  
-  // Generic fallback for unknown combinations
-  "default": {
-    result: "Unknown Compound",
-    description: "Our AI doesn't have data on this specific reaction yet.",
-    animationType: "generic"
+  {
+    id: 6,
+    formula: 'C2H5OH',
+    name: 'Ethanol (Drinking Alcohol)',
+    description: 'Used in alcoholic beverages, as a solvent, and as a fuel.',
+    composition: [
+      { elementId: 6, count: 2 },  // Carbon
+      { elementId: 1, count: 6 },  // Hydrogen
+      { elementId: 8, count: 1 }   // Oxygen
+    ]
+  },
+  {
+    id: 7,
+    formula: 'C6H12O6',
+    name: 'Glucose',
+    description: 'Simple sugar used by cells for energy in the process of cellular respiration.',
+    composition: [
+      { elementId: 6, count: 6 },  // Carbon
+      { elementId: 1, count: 12 }, // Hydrogen
+      { elementId: 8, count: 6 }   // Oxygen
+    ]
+  },
+  {
+    id: 8,
+    formula: 'H2SO4',
+    name: 'Sulfuric Acid',
+    description: 'Strong mineral acid used in fertilizer manufacturing, chemical synthesis, and metal processing.',
+    composition: [
+      { elementId: 1, count: 2 },  // Hydrogen
+      { elementId: 16, count: 1 }, // Sulfur
+      { elementId: 8, count: 4 }   // Oxygen
+    ]
+  },
+  {
+    id: 9,
+    formula: 'HCl',
+    name: 'Hydrochloric Acid',
+    description: 'Strong corrosive acid found in gastric acid, used in metal cleaning and processing.',
+    composition: [
+      { elementId: 1, count: 1 },  // Hydrogen
+      { elementId: 17, count: 1 }  // Chlorine
+    ]
+  },
+  {
+    id: 10,
+    formula: 'NaOH',
+    name: 'Sodium Hydroxide (Lye)',
+    description: 'Strong base used in manufacturing soap, paper, and drain cleaners.',
+    composition: [
+      { elementId: 11, count: 1 }, // Sodium
+      { elementId: 8, count: 1 },  // Oxygen
+      { elementId: 1, count: 1 }   // Hydrogen
+    ]
   }
-};
+];
