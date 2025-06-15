@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Element } from '../data/elements';
+import { Element } from '../data/refactored-elements';
 import { useDrag } from 'react-dnd';
 import { cn } from '@/lib/utils';
 

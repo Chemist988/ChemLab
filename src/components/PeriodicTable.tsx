@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import ElementCard from './ElementCard';
-import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
+import { Element, elements, periodicTableLayout, categoryNames } from '../data/refactored-elements';
 import { useTheme } from '@/hooks/use-theme';
 import { Atom, ZoomIn, ZoomOut } from 'lucide-react';
 import { cn } from '@/lib/utils';

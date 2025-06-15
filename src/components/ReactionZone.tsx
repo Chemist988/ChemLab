@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
-import { Element, elements } from '../data/elements';
+import { Element, elements } from '../data/refactored-elements';
 import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';

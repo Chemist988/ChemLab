@@ -7,7 +7,7 @@ import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import EduBotAssistant from '@/components/EduBotAssistant';
-import { Element } from '@/data/elements';
+import { Element } from '@/data/refactored-elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 import { Apple, Beaker, BookOpen, Bot } from 'lucide-react';
