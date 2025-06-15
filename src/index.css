@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -269,4 +268,41 @@
   .animate-shake {
     animation: shake 0.5s ease-in-out;
   }
+  
+  .text-glow {
+    text-shadow: 0 0 8px hsl(var(--glow) / 0.8), 0 0 20px hsl(var(--glow) / 0.5);
+  }
+  
+  .card-border-glow {
+    position: relative;
+    overflow: visible;
+  }
+  .card-border-glow::before {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    z-index: 0;
+    border-radius: inherit;
+    background: conic-gradient(from 180deg at 50% 50%, hsl(var(--super-blue)) 0deg, hsl(var(--super-pink)) 180deg, hsl(var(--super-blue)) 360deg);
+    animation: spin 5s linear infinite;
+    filter: blur(5px);
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Chemistry Color Classes */
+  .bg-chemistry-alkali-metal { background-color: hsl(var(--chemistry-alkali)); }
+  .bg-chemistry-alkaline-earth-metal { background-color: hsl(var(--chemistry-alkaline)); }
+  .bg-chemistry-transition-metal { background-color: hsl(var(--chemistry-transition)); }
+  .bg-chemistry-post-transition-metal { background-color: hsl(var(--chemistry-post-transition)); }
+  .bg-chemistry-metalloid { background-color: hsl(var(--chemistry-metalloid)); }
+  .bg-chemistry-nonmetal { background-color: hsl(var(--chemistry-nonmetal)); }
+  .bg-chemistry-halogen { background-color: hsl(var(--chemistry-halogen)); }
+  .bg-chemistry-noble-gas { background-color: hsl(var(--chemistry-noble-gas)); }
+  .bg-chemistry-lanthanide { background-color: hsl(var(--chemistry-lanthanide)); }
+  .bg-chemistry-actinide { background-color: hsl(var(--chemistry-actinide)); }
+  .bg-chemistry-unknown { background-color: hsl(var(--chemistry-unknown)); }
 }

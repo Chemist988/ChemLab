@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Element, categoryColors } from '../data/elements';
+import { Element } from '../data/elements';
 import { useDrag } from 'react-dnd';
 import { cn } from '@/lib/utils';
 
@@ -29,43 +29,45 @@ const ElementCard: React.FC<ElementCardProps> = ({
   }));
 
   const sizeClasses = {
-    xs: 'w-[36px] h-[36px] text-[0.6rem]',
-    sm: 'w-[54px] h-[54px] text-[0.7rem]',
-    md: 'w-[64px] h-[64px] text-xs',
-    lg: 'w-[80px] h-[80px] text-sm',
+    xs: 'w-10 h-10 text-[0.6rem] p-0.5',
+    sm: 'w-14 h-14 text-[0.7rem] p-1',
+    md: 'w-16 h-16 text-xs p-1',
+    lg: 'w-20 h-20 text-sm p-2',
   };
 
   return (
     <div
       ref={isDraggable ? drag : undefined}
       className={cn(
-        `bg-chemistry-${element.category} rounded-md overflow-hidden cursor-pointer transition-all duration-300`,
-        `backdrop-blur-sm border border-white/10 dark:border-black/10`,
-        `hover:shadow-lg hover:scale-110 hover:z-20`,
+        `rounded-lg overflow-hidden cursor-pointer transition-all duration-300 relative group`,
+        `bg-card/50 backdrop-blur-sm`,
+        `hover:bg-card/80 hover:scale-105 hover:z-20`,
         `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110' : ''}`,
         sizeClasses[size],
         className
       )}
       onClick={onClick}
-      style={{ 
-        opacity: isDragging ? 0.7 : 1,
-        backgroundImage: `radial-gradient(circle at center, var(--element-center-color, rgba(255,255,255,0.2)) 0%, var(--element-edge-color, rgba(0,0,0,0.05)) 100%)`,
-        '--element-center-color': element.category === 'alkali-metal' || element.category === 'transition-metal' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.15)',
-        '--element-edge-color': 'rgba(0,0,0,0.1)'
-      } as React.CSSProperties}
+      style={{ opacity: isDragging ? 0.7 : 1 }}
     >
-      <div className="flex justify-between items-start px-1 pt-0.5">
-        <span className="font-mono text-[0.6rem] opacity-80">{element.atomicNumber}</span>
-        <span className="font-mono text-[0.6rem] opacity-70">{element.group || ""}</span>
-      </div>
-      <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-1">
-        <span className="font-bold">{element.symbol}</span>
-        <span className="text-[0.6rem] max-w-full truncate opacity-90 px-0.5">
-          {element.name}
-        </span>
-      </div>
-      <div className="text-[0.55rem] text-center mt-[-2px] opacity-80">
-        {element.atomicMass.toFixed(1)}
+      <div className={cn(
+        'absolute inset-0 rounded-lg opacity-30 group-hover:opacity-60 transition-opacity',
+        `bg-chemistry-${element.category}`
+      )} />
+      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-lg"></div>
+
+      <div className="relative z-10 flex flex-col justify-between h-full text-white p-1">
+        <div className="flex justify-between items-start">
+          <span className="font-mono text-[0.6rem] opacity-70">{element.atomicNumber}</span>
+        </div>
+        <div className="flex flex-col items-center justify-center text-center -mt-2">
+          <span className="font-bold text-lg">{element.symbol}</span>
+          <span className="text-[0.6rem] max-w-full truncate opacity-80">
+            {element.name}
+          </span>
+        </div>
+        <div className="text-[0.55rem] text-center opacity-70">
+          {element.atomicMass.toFixed(2)}
+        </div>
       </div>
     </div>
   );

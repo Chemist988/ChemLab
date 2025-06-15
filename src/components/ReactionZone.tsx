@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element } from '../data/elements';
@@ -215,8 +214,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         ref={drop}
         className={`
           relative h-96 p-6 rounded-xl flex flex-col items-center justify-center overflow-hidden
-          ${isOver ? 'border-primary/70 bg-primary/5' : 'border border-white/10'}
-          transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
+          ${isOver ? 'border-primary/70 bg-primary/10' : 'border border-white/10'}
+          transition-all duration-300 bg-card/50
         `}
       >
         {/* Element Suggestions Popup */}
@@ -335,24 +334,24 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-64 h-64">
             {/* Beaker body - More premium design */}
-            <div className="absolute bottom-0 w-full h-[85%] border-[1px] border-white/30 dark:border-white/10 rounded-b-lg bg-white/10 backdrop-blur-md dark:bg-black/10 shadow-lg">
+            <div className="absolute bottom-0 w-full h-[85%] border-[1px] border-white/10 rounded-b-lg bg-card/30 backdrop-blur-md shadow-lg">
               {/* Beaker liquid */}
               <div 
                 className={`
                   absolute bottom-0 w-full rounded-b-lg transition-all duration-700 ease-out overflow-hidden
                   ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}
-                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'}
+                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-gradient-to-b from-blue-900/30 to-blue-800/20'}
                   ${animating ? 'animate-pulse' : ''}
                 `}
               >
                 {/* Reflective surface */}
-                <div className="absolute inset-x-0 top-0 h-1 bg-white/40 dark:bg-white/20"></div>
+                <div className="absolute inset-x-0 top-0 h-1 bg-white/20"></div>
                 
                 {/* Bubbles */}
                 {bubbles.map((bubble, index) => (
                   <div 
                     key={index} 
-                    className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise"
+                    className="absolute rounded-full bg-white/50 animate-rise"
                     style={{
                       width: Math.max(4, Math.random() * 12) + 'px',
                       height: Math.max(4, Math.random() * 12) + 'px',
@@ -368,10 +367,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
               {/* Beaker content */}
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
                 {selectedElements.length === 0 ? (
-                  <div className="text-center text-muted-foreground">
-                    <Beaker className="mx-auto h-10 w-10 mb-2 opacity-70" />
+                  <div className="text-center text-neutral-400">
+                    <Beaker className="mx-auto h-10 w-10 mb-2 opacity-50" />
                     <p>Drag elements here to start a reaction</p>
-                    <p className="text-xs mt-2 text-muted-foreground/80">Try combining up to four elements!</p>
+                    <p className="text-xs mt-2 text-neutral-500">Try combining up to four elements!</p>
                   </div>
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center">
@@ -398,12 +397,12 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                     
                     {reaction && (
                       <div className={`text-center mt-4 ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
-                        <h3 className="text-xl font-bold">{reaction.result}</h3>
-                        <p className="text-sm mt-1">{reaction.description}</p>
+                        <h3 className="text-xl font-bold text-white">{reaction.result}</h3>
+                        <p className="text-sm mt-1 text-neutral-300">{reaction.description}</p>
                         
                         <div className="mt-3 flex items-center justify-center gap-2">
                           {getReactionIcon(reaction.animationType)}
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-neutral-400">
                             {getReactionTypeName(reaction.animationType)}
                           </span>
                         </div>
@@ -415,10 +414,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             </div>
             
             {/* Beaker top rim */}
-            <div className="absolute top-[15%] w-full h-[2px] bg-white/30 dark:bg-white/10"></div>
+            <div className="absolute top-[15%] w-full h-[2px] bg-white/10"></div>
             
             {/* Beaker neck */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-[1px] border-l-[1px] border-r-[1px] border-white/30 dark:border-white/10"></div>
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-[1px] border-l-[1px] border-r-[1px] border-white/10"></div>
           </div>
         </div>
       </div>
@@ -428,7 +427,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           variant="outline" 
           onClick={clearReaction}
           disabled={selectedElements.length === 0}
-          className="flex items-center gap-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 dark:bg-black/20 dark:hover:bg-black/30"
+          className="flex items-center gap-2 bg-card/50 backdrop-blur-sm hover:bg-card/80 border-white/10"
         >
           <RotateCw className="h-4 w-4" /> Clear Reaction
         </Button>
