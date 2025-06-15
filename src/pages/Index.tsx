@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -34,11 +33,10 @@ const Index = () => {
             </div>
             <div className="text-center space-y-6">
               <h1 className="text-6xl md:text-7xl font-thin tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-purple-700 dark:from-white dark:via-blue-200 dark:to-purple-300">
-                Interactive Chemistry
+                Heisenberg's Lab
               </h1>
               <p className="text-xl font-light text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                Explore the periodic table like never before. Drag elements, simulate reactions, 
-                and discover the beauty of chemistry with stunning visualizations.
+                Time to cook. Drag elements, simulate reactions, and build your chemical empire.
               </p>
               <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                 <Atom className="w-4 h-4" />
