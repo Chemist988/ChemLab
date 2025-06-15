@@ -38,11 +38,11 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-end gap-2 px-6 -mb-2 z-20 relative">
-        <Button variant="outline" size="icon" onClick={handleZoomOut} className="bg-card hover:bg-secondary h-8 w-8">
+        <Button variant="ghost" size="icon" onClick={handleZoomOut} className="h-8 w-8 rounded-full">
           <ZoomOut className="h-4 w-4" />
           <span className="sr-only">Zoom Out</span>
         </Button>
-        <Button variant="outline" size="icon" onClick={handleZoomIn} className="bg-card hover:bg-secondary h-8 w-8">
+        <Button variant="ghost" size="icon" onClick={handleZoomIn} className="h-8 w-8 rounded-full">
           <ZoomIn className="h-4 w-4" />
           <span className="sr-only">Zoom In</span>
         </Button>
@@ -127,12 +127,12 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
         {Object.entries(categoryNames).map(([category, name]) => (
           <button
             key={category} 
-            className={cn(`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 
-              bg-secondary hover:bg-background
-              border
+            className={cn(`px-3 py-1 rounded-full text-xs flex items-center gap-2 
+              bg-secondary/50 hover:bg-secondary
+              border border-transparent
               transition-all
               `,
-              selectedCategory === category ? 'ring-2 ring-primary' : ''
+              selectedCategory === category ? 'ring-2 ring-primary bg-secondary' : ''
             )}
             onClick={() => handleCategoryClick(category)}
           >

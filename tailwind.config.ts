@@ -63,21 +63,6 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Chemistry-specific colors
-				chemistry: {
-					alkali: '#ff8a65',
-					alkaline: '#ffb74d',
-					transition: '#ffd54f',
-					'post-transition': '#dce775',
-					metalloid: '#aed581',
-					nonmetal: '#81c784',
-					halogen: '#4db6ac',
-					'noble-gas': '#4dd0e1',
-					lanthanide: '#9575cd',
-					actinide: '#ba68c8',
-					unknown: '#e0e0e0',
-					highlight: '#ff4081',
-				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
