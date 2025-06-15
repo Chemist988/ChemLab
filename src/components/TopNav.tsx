@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Atom, Bot, Activity, Files, Zap } from 'lucide-react';
+import { Atom, Bot, Activity, Files, BrainCircuit } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ThemeSwitcher from './ThemeSwitcher';
 
@@ -10,7 +10,7 @@ const navItems = [
   { name: 'AI Assistant', href: '/analytics', icon: Bot },
   { name: 'Activity', href: '/activity', icon: Activity },
   { name: 'Sources', href: '/sources', icon: Files },
-  { name: 'Actions', href: '/actions', icon: Zap },
+  { name: 'Quizzes', href: '/quizzes', icon: BrainCircuit },
 ];
 
 const TopNav = () => {
