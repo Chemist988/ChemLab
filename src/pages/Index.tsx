@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -7,11 +6,10 @@ import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
 import EduBotAssistant from '@/components/EduBotAssistant';
-import MoleculeViewer from '@/components/MoleculeViewer';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
-import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight, Cuboid } from 'lucide-react';
+import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -116,10 +114,6 @@ const Index = () => {
                     <Beaker className="w-4 h-4 mr-2" />
                     Lab
                   </TabsTrigger>
-                  <TabsTrigger value="visualizer" className="flex-1 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700">
-                    <Cuboid className="w-4 h-4 mr-2" />
-                    Visualizer
-                  </TabsTrigger>
                   <TabsTrigger value="info" className="flex-1 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700">
                     <BookOpen className="w-4 h-4 mr-2" />
                     Guide
@@ -135,17 +129,6 @@ const Index = () => {
                   </div>
                   <Separator />
                   <ReactionZone onElementClick={handleElementClick} />
-                </TabsContent>
-
-                <TabsContent value="visualizer" className="space-y-6 h-full">
-                  <div>
-                    <h3 className="text-xl font-medium mb-2 font-orbitron">Molecule Visualizer</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                      Interact with 3D models of common molecules.
-                    </p>
-                  </div>
-                  <Separator />
-                  <MoleculeViewer />
                 </TabsContent>
                 
                 <TabsContent value="info" className="space-y-6">
