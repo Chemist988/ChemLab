@@ -325,101 +325,69 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* Beaker container - More realistic design */}
+        {/* Conical Flask container */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-56 h-72">
-            {/* Beaker Glass */}
-            <div className="absolute bottom-0 w-full h-full rounded-b-3xl rounded-t-lg border-2 border-gray-400/20 bg-gray-500/10 backdrop-blur-sm">
-              {/* Glossy highlight */}
-              <div className="absolute top-0 left-0 w-full h-full rounded-b-3xl rounded-t-lg overflow-hidden">
-                <div className="absolute -top-1/4 -left-1/2 w-full h-1/2 bg-white/10 dark:bg-white/5 transform -rotate-45"></div>
-              </div>
-
-              {/* Volume Markings */}
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="absolute left-2 right-2 border-t border-gray-400/30" style={{bottom: `${20 + i * 15}%`}}>
-                  <span className="absolute -left-1 top-0 -translate-y-1/2 text-xs text-gray-400/50">{100 * (i+1)}</span>
+            <div className="relative w-60 h-72">
+                {/* Flask Neck */}
+                <div className="absolute left-1/2 -translate-x-1/2 w-[30%] h-[25%] top-0 z-10 border-x-2 border-t-2 border-gray-400/20 bg-gray-500/10 backdrop-blur-sm rounded-t-lg">
+                    <div className="absolute top-2 left-2 w-1.5 h-[80%] bg-white/10 dark:bg-white/5 rounded-full"></div>
                 </div>
-              ))}
-              
-              {/* Beaker liquid */}
-              <div 
-                className={`
-                  absolute bottom-0 w-full rounded-b-3xl transition-all duration-700 ease-out overflow-hidden
-                  ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}
-                  ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'}
-                  ${animating ? 'animate-pulse' : ''}
-                `}
-              >
-                {/* Reflective surface */}
-                <div className="absolute inset-x-0 top-0 h-1 bg-white/40 dark:bg-white/20"></div>
-                
-                {/* Bubbles */}
-                {bubbles.map((bubble, index) => (
-                  <div 
-                    key={index} 
-                    className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise"
-                    style={{
-                      width: Math.max(4, Math.random() * 12) + 'px',
-                      height: Math.max(4, Math.random() * 12) + 'px',
-                      bottom: (bubble * 100) + '%',
-                      left: (Math.random() * 90 + 5) + '%',
-                      animationDuration: (Math.random() * 2 + 1) + 's',
-                      opacity: Math.random() * 0.6 + 0.2
-                    }}
-                  />
-                ))}
-              </div>
 
-              {/* Beaker content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                {selectedElements.length === 0 ? (
-                  <div className="text-center text-muted-foreground">
-                    <FlaskConical className="mx-auto h-12 w-12 mb-3 opacity-50" />
-                    <p>Drag elements here to start a reaction</p>
-                    <p className="text-xs mt-2 text-muted-foreground/80">Combine up to two elements</p>
-                  </div>
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center">
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                      {selectedElements.map((element, index) => (
-                        <div 
-                          key={index} 
-                          className={`
-                            ${index === 0 && animating ? 'animate-bounce-subtle' : ''}
-                            ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''}
-                            ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''}
-                            ${(explosion || gas) && 'animate-shake'}
-                          `}
-                        >
-                          <ElementCard 
-                            element={element} 
-                            onClick={() => onElementClick(element)}
-                            size="xs"
-                            isDraggable={false}
-                          />
+                {/* Flask Body */}
+                <div className="absolute bottom-0 w-full h-[85%]" style={{ clipPath: 'polygon(20% 0, 80% 0, 100% 100%, 0% 100%)' }}>
+                    <div className="relative w-full h-full border-2 border-t-0 border-gray-400/20 bg-gray-500/10 backdrop-blur-sm">
+                        {/* Glossy highlight */}
+                        <div className="absolute -top-1/4 -left-1/2 w-full h-1/2 bg-white/10 dark:bg-white/5 transform -rotate-45"></div>
+
+                        {/* Flask liquid */}
+                        <div className={`absolute bottom-0 w-full transition-all duration-700 ease-out overflow-hidden ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'} ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'} ${animating ? 'animate-pulse' : ''}`}>
+                            <div className="absolute inset-x-0 top-0 h-1 bg-white/40 dark:bg-white/20"></div>
+                            {bubbles.map((bubble, index) => (
+                                <div key={index} className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise" style={{
+                                    width: Math.max(4, Math.random() * 12) + 'px',
+                                    height: Math.max(4, Math.random() * 12) + 'px',
+                                    bottom: bubble * 100 + '%',
+                                    left: Math.random() * 80 + 10 + '%',
+                                    animationDuration: Math.random() * 2 + 1 + 's',
+                                    opacity: Math.random() * 0.6 + 0.2
+                                }} />
+                            ))}
                         </div>
-                      ))}
+
+                        {/* Flask content */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-between p-4 pt-8 pb-4">
+                            {selectedElements.length === 0 ? (
+                                <div className="text-center text-muted-foreground self-center mt-12">
+                                    <FlaskConical className="mx-auto h-12 w-12 mb-3 opacity-50" />
+                                    <p>Drag elements here</p>
+                                    <p className="text-xs mt-1 text-muted-foreground/80">to start a reaction</p>
+                                </div>
+                            ) : (
+                              <>
+                                {reaction ? (
+                                    <div className={`text-center ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
+                                        <h3 className="text-xl font-bold">{reaction.result}</h3>
+                                        <p className="text-sm mt-1">{reaction.description}</p>
+                                        <div className="mt-3 flex items-center justify-center gap-2">
+                                            {getReactionIcon(reaction.animationType)}
+                                            <span className="text-xs text-muted-foreground">{getReactionTypeName(reaction.animationType)}</span>
+                                        </div>
+                                    </div>
+                                ) : <div />}
+                                
+                                <div className="flex flex-wrap items-center justify-center gap-2">
+                                    {selectedElements.map((element, index) => (
+                                        <div key={index} className={`${index === 0 && animating ? 'animate-bounce-subtle' : ''} ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''} ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''} ${(explosion || gas) && 'animate-shake'}`}>
+                                            <ElementCard element={element} onClick={() => onElementClick(element)} size="xs" isDraggable={false} />
+                                        </div>
+                                    ))}
+                                </div>
+                              </>
+                            )}
+                        </div>
                     </div>
-                    
-                    {reaction && (
-                      <div className={`text-center mt-4 ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
-                        <h3 className="text-xl font-bold">{reaction.result}</h3>
-                        <p className="text-sm mt-1">{reaction.description}</p>
-                        
-                        <div className="mt-3 flex items-center justify-center gap-2">
-                          {getReactionIcon(reaction.animationType)}
-                          <span className="text-xs text-muted-foreground">
-                            {getReactionTypeName(reaction.animationType)}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+                </div>
             </div>
-          </div>
         </div>
       </div>
       
