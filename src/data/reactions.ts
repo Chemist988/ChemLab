@@ -1,3 +1,4 @@
+
 import * as THREE from 'three';
 
 export type AtomData = {
@@ -60,21 +61,6 @@ export const molecules: { [key: string]: Molecule } = {
       { from: 0, to: 4, style: 'single' },
     ],
   },
-  ammonia: {
-    name: 'Ammonia',
-    formula: 'NH₃',
-    atoms: [
-        { symbol: 'N', position: new THREE.Vector3(0, 0.1, 0), ...atomInfo.N },
-        { symbol: 'H', position: new THREE.Vector3(0, -0.3, 0.94), ...atomInfo.H },
-        { symbol: 'H', position: new THREE.Vector3(0.81, -0.3, -0.47), ...atomInfo.H },
-        { symbol: 'H', position: new THREE.Vector3(-0.81, -0.3, -0.47), ...atomInfo.H },
-    ],
-    bonds: [
-        { from: 0, to: 1, style: 'single' },
-        { from: 0, to: 2, style: 'single' },
-        { from: 0, to: 3, style: 'single' },
-    ]
-  },
   co2: {
     name: 'Carbon Dioxide',
     formula: 'CO₂',
@@ -88,19 +74,48 @@ export const molecules: { [key: string]: Molecule } = {
       { from: 0, to: 2, style: 'double' },
     ]
   },
-  hydrogenPeroxide: {
-    name: 'Hydrogen Peroxide',
-    formula: 'H₂O₂',
+  h2: {
+    name: 'Hydrogen Gas',
+    formula: 'H₂',
     atoms: [
-      { symbol: 'O', position: new THREE.Vector3(0, 0.74, 0.05), ...atomInfo.O },
-      { symbol: 'O', position: new THREE.Vector3(0, -0.74, 0.05), ...atomInfo.O },
-      { symbol: 'H', position: new THREE.Vector3(0.84, 0.9, -0.37), ...atomInfo.H },
-      { symbol: 'H', position: new THREE.Vector3(-0.84, -0.9, -0.37), ...atomInfo.H },
+      { symbol: 'H', position: new THREE.Vector3(0.37, 0, 0), ...atomInfo.H },
+      { symbol: 'H', position: new THREE.Vector3(-0.37, 0, 0), ...atomInfo.H },
     ],
     bonds: [
       { from: 0, to: 1, style: 'single' },
-      { from: 0, to: 2, style: 'single' },
-      { from: 1, to: 3, style: 'single' },
     ],
   },
+  o2: {
+    name: 'Oxygen Gas',
+    formula: 'O₂',
+    atoms: [
+      { symbol: 'O', position: new THREE.Vector3(0.6, 0, 0), ...atomInfo.O },
+      { symbol: 'O', position: new THREE.Vector3(-0.6, 0, 0), ...atomInfo.O },
+    ],
+    bonds: [
+      { from: 0, to: 1, style: 'double' },
+    ],
+  },
+};
+
+export type ReactionData = {
+  name: string;
+  equation: string;
+  reactants: { key: string; count: number }[];
+  products: { key: string; count: number }[];
+};
+
+export const reactions: { [key: string]: ReactionData } = {
+  water_formation: {
+    name: "Water Formation",
+    equation: "2H₂ + O₂ ⟶ 2H₂O",
+    reactants: [ { key: 'h2', count: 2 }, { key: 'o2', count: 1 } ],
+    products: [ { key: 'water', count: 2 } ],
+  },
+  methane_combustion: {
+    name: "Methane Combustion",
+    equation: "CH₄ + 2O₂ ⟶ CO₂ + 2H₂O",
+    reactants: [ { key: 'methane', count: 1 }, { key: 'o2', count: 2 } ],
+    products: [ { key: 'co2', count: 1 }, { key: 'water', count: 2 } ],
+  }
 };
