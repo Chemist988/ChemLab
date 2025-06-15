@@ -33,18 +33,18 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
     
-    /* Chemistry Element Colors */
-    --chemistry-alkali: 4 90% 58%;
-    --chemistry-alkaline: 30 90% 60%;
-    --chemistry-transition: 200 75% 55%;
-    --chemistry-post-transition: 265 51% 65%;
-    --chemistry-metalloid: 150 50% 60%;
-    --chemistry-nonmetal: 120 60% 70%;
-    --chemistry-halogen: 186 70% 50%;
-    --chemistry-noble-gas: 300 70% 70%;
-    --chemistry-lanthanide: 340 70% 50%;
-    --chemistry-actinide: 22 90% 50%;
-    --chemistry-unknown: 0 0% 75%;
+    /* Chemistry Element Colors - New & Vibrant */
+    --chemistry-alkali: 4 90% 65%; /* coral */
+    --chemistry-alkaline: 45 95% 60%; /* gold */
+    --chemistry-transition: 195 80% 55%; /* sky blue */
+    --chemistry-post-transition: 275 60% 70%; /* lavender */
+    --chemistry-metalloid: 140 55% 65%; /* sea green */
+    --chemistry-nonmetal: 100 60% 70%; /* light green */
+    --chemistry-halogen: 180 70% 50%; /* teal */
+    --chemistry-noble-gas: 290 80% 75%; /* lilac */
+    --chemistry-lanthanide: 330 80% 65%; /* rose */
+    --chemistry-actinide: 350 85% 60%; /* crimson */
+    --chemistry-unknown: 220 10% 75%; /* light slate */
   }
 
   .dark {
@@ -68,18 +68,18 @@
     --input: 215 27.9% 16.9%;
     --ring: 198 93% 60%; /* Vibrant Cyan */
     
-    /* Chemistry Element Colors - Dark Mode */
-    --chemistry-alkali: 4 80% 45%;
-    --chemistry-alkaline: 30 70% 45%;
-    --chemistry-transition: 200 70% 45%;
-    --chemistry-post-transition: 265 51% 55%;
-    --chemistry-metalloid: 150 50% 40%;
-    --chemistry-nonmetal: 120 60% 50%;
-    --chemistry-halogen: 186 70% 40%;
-    --chemistry-noble-gas: 300 70% 55%;
-    --chemistry-lanthanide: 340 70% 40%;
-    --chemistry-actinide: 22 80% 40%;
-    --chemistry-unknown: 0 0% 40%;
+    /* Chemistry Element Colors - Dark Mode - New & Vibrant */
+    --chemistry-alkali: 4 70% 55%;
+    --chemistry-alkaline: 45 75% 50%;
+    --chemistry-transition: 195 70% 45%;
+    --chemistry-post-transition: 275 50% 60%;
+    --chemistry-metalloid: 140 45% 55%;
+    --chemistry-nonmetal: 100 50% 60%;
+    --chemistry-halogen: 180 60% 40%;
+    --chemistry-noble-gas: 290 70% 65%;
+    --chemistry-lanthanide: 330 70% 55%;
+    --chemistry-actinide: 350 75% 50%;
+    --chemistry-unknown: 220 10% 40%;
   }
 }
 
@@ -114,17 +114,17 @@
   }
   
   /* Chemistry Color Classes */
-  .bg-chemistry-alkali-metal { @apply bg-red-400/80 dark:bg-red-500/90; }
-  .bg-chemistry-alkaline-earth-metal { @apply bg-orange-400/80 dark:bg-orange-500/90; }
-  .bg-chemistry-transition-metal { @apply bg-sky-400/80 dark:bg-sky-500/90; }
-  .bg-chemistry-post-transition-metal { @apply bg-indigo-400/80 dark:bg-indigo-500/90; }
-  .bg-chemistry-metalloid { @apply bg-teal-400/80 dark:bg-teal-500/90; }
-  .bg-chemistry-nonmetal { @apply bg-emerald-400/80 dark:bg-emerald-500/90; }
-  .bg-chemistry-halogen { @apply bg-cyan-400/80 dark:bg-cyan-500/90; }
-  .bg-chemistry-noble-gas { @apply bg-violet-400/80 dark:bg-violet-500/90; }
-  .bg-chemistry-lanthanide { @apply bg-fuchsia-400/80 dark:bg-fuchsia-500/90; }
-  .bg-chemistry-actinide { @apply bg-pink-400/80 dark:bg-pink-500/90; }
-  .bg-chemistry-unknown { @apply bg-slate-400/80 dark:bg-slate-500/90; }
+  .bg-chemistry-alkali-metal { @apply bg-chemistry-alkali-metal/80 dark:bg-chemistry-alkali-metal/90; }
+  .bg-chemistry-alkaline-earth-metal { @apply bg-chemistry-alkaline-earth-metal/80 dark:bg-chemistry-alkaline-earth-metal/90; }
+  .bg-chemistry-transition-metal { @apply bg-chemistry-transition-metal/80 dark:bg-chemistry-transition-metal/90; }
+  .bg-chemistry-post-transition-metal { @apply bg-chemistry-post-transition-metal/80 dark:bg-chemistry-post-transition-metal/90; }
+  .bg-chemistry-metalloid { @apply bg-chemistry-metalloid/80 dark:bg-chemistry-metalloid/90; }
+  .bg-chemistry-nonmetal { @apply bg-chemistry-nonmetal/80 dark:bg-chemistry-nonmetal/90; }
+  .bg-chemistry-halogen { @apply bg-chemistry-halogen/80 dark:bg-chemistry-halogen/90; }
+  .bg-chemistry-noble-gas { @apply bg-chemistry-noble-gas/80 dark:bg-chemistry-noble-gas/90; }
+  .bg-chemistry-lanthanide { @apply bg-chemistry-lanthanide/80 dark:bg-chemistry-lanthanide/90; }
+  .bg-chemistry-actinide { @apply bg-chemistry-actinide/80 dark:bg-chemistry-actinide/90; }
+  .bg-chemistry-unknown { @apply bg-chemistry-unknown/80 dark:bg-chemistry-unknown/90; }
   
   /* Chemistry Animation Classes */
   @keyframes rise {

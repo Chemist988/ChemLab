@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -65,18 +64,17 @@ export default {
 				},
 				// Chemistry-specific colors
 				chemistry: {
-					alkali: '#ff8a65',
-					alkaline: '#ffb74d',
-					transition: '#ffd54f',
-					'post-transition': '#dce775',
-					metalloid: '#aed581',
-					nonmetal: '#81c784',
-					halogen: '#4db6ac',
-					'noble-gas': '#4dd0e1',
-					lanthanide: '#9575cd',
-					actinide: '#ba68c8',
-					unknown: '#e0e0e0',
-					highlight: '#ff4081',
+					'alkali-metal': 'hsl(var(--chemistry-alkali))',
+					'alkaline-earth-metal': 'hsl(var(--chemistry-alkaline))',
+					'transition-metal': 'hsl(var(--chemistry-transition))',
+					'post-transition-metal': 'hsl(var(--chemistry-post-transition))',
+					'metalloid': 'hsl(var(--chemistry-metalloid))',
+					'nonmetal': 'hsl(var(--chemistry-nonmetal))',
+					'halogen': 'hsl(var(--chemistry-halogen))',
+					'noble-gas': 'hsl(var(--chemistry-noble-gas))',
+					'lanthanide': 'hsl(var(--chemistry-lanthanide))',
+					'actinide': 'hsl(var(--chemistry-actinide))',
+					'unknown': 'hsl(var(--chemistry-unknown))',
 				}
 			},
 			borderRadius: {
