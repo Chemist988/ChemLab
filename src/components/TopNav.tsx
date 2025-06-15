@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { name: 'Playground', href: '/', icon: Atom },
   { name: 'AI Assistant', href: '/analytics', icon: Bot },
-  { name: 'Balancer', href: '/balancer', icon: Scale },
   { name: 'Activity', href: '/activity', icon: Activity },
   { name: 'Sources', href: '/sources', icon: Files },
 ];
