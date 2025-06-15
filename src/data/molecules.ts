@@ -1,4 +1,3 @@
-
 import * as THREE from 'three';
 
 export type AtomData = {
@@ -88,5 +87,20 @@ export const molecules: { [key: string]: Molecule } = {
       { from: 0, to: 1, style: 'double' },
       { from: 0, to: 2, style: 'double' },
     ]
-  }
+  },
+  hydrogenPeroxide: {
+    name: 'Hydrogen Peroxide',
+    formula: 'H₂O₂',
+    atoms: [
+      { symbol: 'O', position: new THREE.Vector3(0, 0.74, 0.05), ...atomInfo.O },
+      { symbol: 'O', position: new THREE.Vector3(0, -0.74, 0.05), ...atomInfo.O },
+      { symbol: 'H', position: new THREE.Vector3(0.84, 0.9, -0.37), ...atomInfo.H },
+      { symbol: 'H', position: new THREE.Vector3(-0.84, -0.9, -0.37), ...atomInfo.H },
+    ],
+    bonds: [
+      { from: 0, to: 1, style: 'single' },
+      { from: 0, to: 2, style: 'single' },
+      { from: 1, to: 3, style: 'single' },
+    ],
+  },
 };

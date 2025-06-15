@@ -1,6 +1,5 @@
-
 import React, { useState, useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, Cylinder } from '@react-three/drei';
 import * as THREE from 'three';
 import { molecules, Molecule, BondData, AtomData } from '@/data/molecules';
@@ -52,12 +51,6 @@ const Bond = ({ bond, atoms }: { bond: BondData; atoms: AtomData[] }) => {
 const Molecule3D = ({ molecule }: { molecule: Molecule }) => {
   const groupRef = useRef<THREE.Group>(null!);
 
-  useFrame((state, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.2;
-    }
-  });
-
   return (
     <group ref={groupRef}>
       {molecule.atoms.map((atom, index) => (
@@ -96,11 +89,11 @@ const MoleculeBuilder = () => {
           ))}
         </div>
       </div>
-      <div className="flex-1 w-full h-[400px] md:h-[600px] rounded-lg bg-gray-900/10 dark:bg-gray-900/50 border border-border cursor-grab active:cursor-grabbing">
+      <div className="flex-1 w-full h-[400px] md:h-[600px] rounded-lg border border-border cursor-grab active:cursor-grabbing">
         <Canvas camera={{ position: [0, 2, 7], fov: 50 }}>
-          <ambientLight intensity={1.5} />
-          <pointLight position={[10, 10, 10]} intensity={3} />
-          <pointLight position={[-10, -10, -10]} intensity={1} />
+          <ambientLight intensity={2.5} />
+          <pointLight position={[10, 10, 10]} intensity={1.5} />
+          <pointLight position={[-10, -10, -10]} intensity={0.5} />
           <Molecule3D molecule={selectedMolecule} />
           <OrbitControls enableZoom={true} />
         </Canvas>
@@ -110,4 +103,3 @@ const MoleculeBuilder = () => {
 };
 
 export default MoleculeBuilder;
-
