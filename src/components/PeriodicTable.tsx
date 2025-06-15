@@ -3,6 +3,8 @@ import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames } from '../data/refactored-elements';
 import { useTheme } from '@/hooks/use-theme';
 import { Atom, ZoomIn, ZoomOut } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface PeriodicTableProps {
   onElementClick: (element: Element) => void;
