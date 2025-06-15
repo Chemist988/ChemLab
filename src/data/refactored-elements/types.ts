@@ -1,11 +1,24 @@
 
+export type ElementCategory = 
+  | 'alkali-metal' 
+  | 'alkaline-earth-metal' 
+  | 'transition-metal' 
+  | 'post-transition-metal' 
+  | 'metalloid' 
+  | 'nonmetal' 
+  | 'halogen' 
+  | 'noble-gas' 
+  | 'lanthanide' 
+  | 'actinide' 
+  | 'unknown';
+
 export interface Element {
   id: number;
   name: string;
   symbol: string;
   atomicNumber: number;
   atomicMass: number;
-  category: string;
+  category: ElementCategory;
   group: number;
   period: number;
   block?: string;
