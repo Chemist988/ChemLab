@@ -28,8 +28,8 @@ const Index = () => {
       <div className="min-h-screen bg-background transition-all duration-700">
         {/* Background glow effects */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-[10%] left-[10%] w-[500px] h-[500px] bg-super-blue/5 rounded-full blur-[100px] animate-[pulse_8s_cubic-bezier(0.4,0,0.6,1)_infinite]"></div>
-          <div className="absolute bottom-[5%] right-[5%] w-[400px] h-[400px] bg-super-pink/5 rounded-full blur-[100px] animate-[pulse_10s_cubic-bezier(0.4,0,0.6,1)_infinite_2s]"></div>
+          <div className="absolute top-[10%] left-[10%] w-[500px] h-[500px] bg-bb-green/10 rounded-full blur-[100px] animate-[pulse_8s_cubic-bezier(0.4,0,0.6,1)_infinite]"></div>
+          <div className="absolute bottom-[5%] right-[5%] w-[400px] h-[400px] bg-bb-blue/10 rounded-full blur-[100px] animate-[pulse_10s_cubic-bezier(0.4,0,0.6,1)_infinite_2s]"></div>
         </div>
       
         <div className="relative container mx-auto py-8 px-4 z-10">
@@ -51,14 +51,14 @@ const Index = () => {
             <div className="bg-card/80 backdrop-blur-xl rounded-3xl p-12 relative z-10">
               <div className="relative z-10 text-center">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="p-3 rounded-full bg-gradient-to-br from-super-blue/20 to-super-pink/20">
+                  <div className="p-3 rounded-full bg-gradient-to-br from-bb-green/20 to-bb-blue/20">
                     <div className="p-3 rounded-full bg-card">
-                      <Bot className="w-12 h-12 text-glow" style={{'--glow': 'hsl(var(--super-pink))'} as React.CSSProperties} />
+                      <Bot className="w-12 h-12 text-glow" style={{'--glow': 'hsl(var(--bb-blue))'} as React.CSSProperties} />
                     </div>
                   </div>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 text-glow" style={{'--glow': 'hsl(var(--super-blue))'} as React.CSSProperties}>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 text-glow" style={{'--glow': 'hsl(var(--bb-green))'} as React.CSSProperties}>
                   Meet Neutrino AI
                 </h2>
                 
@@ -153,7 +153,7 @@ const Index = () => {
         {showBot && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-lg">
             <div className="w-full max-w-5xl h-[85vh] bg-card/80 rounded-3xl shadow-2xl overflow-hidden border border-white/10 backdrop-blur-xl">
-              <div className="bg-gradient-to-r from-super-blue to-super-pink p-6 flex items-center justify-between">
+              <div className="bg-gradient-to-r from-bb-green to-bb-blue p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-white/10 rounded-full">
                     <Bot className="w-6 h-6 text-white" />
