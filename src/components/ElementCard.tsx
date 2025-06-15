@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Element } from '../data/elements';
 import { useDrag } from 'react-dnd';
@@ -43,10 +42,10 @@ const ElementCard: React.FC<ElementCardProps> = ({
   }));
 
   const sizeClasses = {
-    xs: 'w-[44px] h-[44px] text-[0.65rem]',
-    sm: 'w-[54px] h-[54px] text-[0.7rem]',
-    md: 'w-[64px] h-[64px] text-xs',
-    lg: 'w-[80px] h-[80px] text-sm',
+    xs: 'w-[58px] h-[58px] text-[0.65rem]',
+    sm: 'w-[68px] h-[68px] text-[0.7rem]',
+    md: 'w-[80px] h-[80px] text-xs',
+    lg: 'w-[100px] h-[100px] text-sm',
   };
 
   return (
@@ -73,13 +72,13 @@ const ElementCard: React.FC<ElementCardProps> = ({
         <span className="font-mono text-[0.65rem] opacity-80">{element.atomicNumber}</span>
         <span className="font-mono text-[0.65rem] opacity-70">{element.group || ""}</span>
       </div>
-      <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-1">
+      <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-0.5">
         <span className="font-bold">{element.symbol}</span>
         <span className="text-[0.7rem] max-w-full px-0.5 font-medium">
           {element.name}
         </span>
       </div>
-      <div className="text-[0.6rem] text-center mt-[-2px] opacity-80">
+      <div className="text-[0.6rem] text-center opacity-80">
         {element.atomicMass.toFixed(1)}
       </div>
     </div>

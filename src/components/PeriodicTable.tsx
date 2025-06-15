@@ -45,8 +45,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
               className="periodic-table-grid" 
               style={{ 
                 display: 'grid',
-                gridTemplateColumns: 'repeat(18, 48px)',
-                gridGap: '5px',
+                gridTemplateColumns: 'repeat(18, 60px)',
+                gridGap: '4px',
                 justifyContent: 'center',
               }}
             >
@@ -60,8 +60,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                         ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
                       `}
                       style={{
-                        width: '48px',
-                        height: '48px'
+                        width: '60px',
+                        height: '60px'
                       }}
                     >
                       {atomicNumber > 0 && getElementByAtomicNumber(atomicNumber) && (
