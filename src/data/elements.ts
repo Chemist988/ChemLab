@@ -14,9 +14,6 @@ export interface Element {
   description?: string;
   discoveredBy?: string;
   category: string;
-  color: string;
-  x: number;
-  y: number;
 }
 
 export type ElementCategory = 
@@ -102,9 +99,6 @@ export const elements: Element[] = [
     boilingPoint: -252.87,
     discoveredBy: 'Henry Cavendish',
     description: 'Colorless, odorless, tasteless, non-toxic, highly combustible gas with the molecular formula H₂.',
-    color: 'chemistry-nonmetal',
-    x: 0,
-    y: 0
   },
   {
     id: 2,
@@ -121,9 +115,6 @@ export const elements: Element[] = [
     boilingPoint: -268.93,
     discoveredBy: 'Pierre Janssen',
     description: 'Colorless, odorless, tasteless, non-toxic, inert, monatomic gas with very low chemical reactivity.',
-    color: 'chemistry-noble-gas',
-    x: 17,
-    y: 0
   },
   {
     id: 3,
@@ -141,9 +132,6 @@ export const elements: Element[] = [
     boilingPoint: 1342,
     discoveredBy: 'Johan August Arfwedson',
     description: 'Soft, silvery-white alkali metal that is highly reactive, forming strong bonds with anions.',
-    color: 'chemistry-alkali',
-    x: 0,
-    y: 1
   },
   {
     id: 4,
@@ -161,9 +149,6 @@ export const elements: Element[] = [
     boilingPoint: 2470,
     discoveredBy: 'Louis Nicolas Vauquelin',
     description: 'Relatively rare element in the universe, steel-gray, strong, lightweight, brittle alkaline earth metal.',
-    color: 'chemistry-alkaline',
-    x: 1,
-    y: 1
   },
   {
     id: 5,
@@ -181,9 +166,6 @@ export const elements: Element[] = [
     boilingPoint: 3927,
     discoveredBy: 'Joseph Louis Gay-Lussac',
     description: 'Occurs naturally as orthoboric acid in certain volcanic spring waters and as borates in borax and colemanite.',
-    color: 'chemistry-metalloid',
-    x: 12,
-    y: 1
   },
   {
     id: 6,
@@ -200,9 +182,6 @@ export const elements: Element[] = [
     meltingPoint: 3550,
     boilingPoint: 4027,
     description: 'Forms more compounds than any other element and serves as the fundamental building block of life.',
-    color: 'chemistry-nonmetal',
-    x: 13,
-    y: 1
   },
   {
     id: 7,
@@ -220,9 +199,6 @@ export const elements: Element[] = [
     boilingPoint: -195.79,
     discoveredBy: 'Daniel Rutherford',
     description: 'Colorless, odorless, tasteless gas that makes up about 78% of Earth\'s atmosphere.',
-    color: 'chemistry-nonmetal',
-    x: 14,
-    y: 1
   },
   {
     id: 8,
@@ -240,9 +216,6 @@ export const elements: Element[] = [
     boilingPoint: -182.95,
     discoveredBy: 'Carl Wilhelm Scheele',
     description: 'Highly reactive element that readily forms oxides with most other elements as well as with compounds.',
-    color: 'chemistry-nonmetal',
-    x: 15,
-    y: 1
   },
   {
     id: 9,
@@ -260,9 +233,6 @@ export const elements: Element[] = [
     boilingPoint: -188.11,
     discoveredBy: 'Henri Moissan',
     description: 'The most electronegative element, extremely reactive and forms strong bonds with many other elements.',
-    color: 'chemistry-halogen',
-    x: 16,
-    y: 1
   },
   {
     id: 10,
@@ -279,9 +249,6 @@ export const elements: Element[] = [
     boilingPoint: -246.08,
     discoveredBy: 'William Ramsay and Morris Travers',
     description: 'Colorless, odorless, inert monatomic gas with about two-thirds the density of air, known for its bright reddish-orange glow.',
-    color: 'chemistry-noble-gas',
-    x: 17,
-    y: 1
   },
   {
     id: 11,
@@ -299,9 +266,6 @@ export const elements: Element[] = [
     boilingPoint: 883,
     discoveredBy: 'Humphry Davy',
     description: 'Soft, silvery-white, highly reactive metal that is never found as a free element in nature.',
-    color: 'chemistry-alkali',
-    x: 0,
-    y: 2
   },
   {
     id: 12,
@@ -319,9 +283,6 @@ export const elements: Element[] = [
     boilingPoint: 1090,
     discoveredBy: 'Joseph Black',
     description: 'Shiny grey solid which bears a close physical resemblance to the other five elements in group 2.',
-    color: 'chemistry-alkaline',
-    x: 1,
-    y: 2
   },
   {
     id: 13,
@@ -339,9 +300,6 @@ export const elements: Element[] = [
     boilingPoint: 2519,
     discoveredBy: 'Hans Christian Ørsted',
     description: 'Silvery-white, soft, non-magnetic, ductile metal that resists corrosion due to a thin layer of oxide.',
-    color: 'chemistry-post-transition',
-    x: 12,
-    y: 2
   },
   {
     id: 14,
@@ -359,9 +317,6 @@ export const elements: Element[] = [
     boilingPoint: 3265,
     discoveredBy: 'Jöns Jacob Berzelius',
     description: 'Hard and brittle crystalline solid with a blue-grey metallic lustre, used in most electronic circuits.',
-    color: 'chemistry-metalloid',
-    x: 13,
-    y: 2
   },
   {
     id: 15,
@@ -379,9 +334,6 @@ export const elements: Element[] = [
     boilingPoint: 280.5,
     discoveredBy: 'Hennig Brand',
     description: 'Essential element for life, found in DNA, RNA, ATP, and the phospholipids that form cell membranes.',
-    color: 'chemistry-nonmetal',
-    x: 14,
-    y: 2
   },
   {
     id: 16,
@@ -398,9 +350,6 @@ export const elements: Element[] = [
     meltingPoint: 115.21,
     boilingPoint: 444.61,
     description: 'Abundant, multivalent non-metal, bright yellow crystalline solid when in pure form.',
-    color: 'chemistry-nonmetal',
-    x: 15,
-    y: 2
   },
   {
     id: 17,
@@ -418,9 +367,6 @@ export const elements: Element[] = [
     boilingPoint: -34.04,
     discoveredBy: 'Carl Wilhelm Scheele',
     description: 'Yellow-green gas that is a member of the halogen group of elements, highly reactive and irritating to the eyes.',
-    color: 'chemistry-halogen',
-    x: 16,
-    y: 2
   },
   {
     id: 18,
@@ -437,11 +383,8 @@ export const elements: Element[] = [
     boilingPoint: -185.85,
     discoveredBy: 'Lord Rayleigh and William Ramsay',
     description: 'Third most abundant gas in the Earth\'s atmosphere, colorless, odorless, and inert under standard conditions.',
-    color: 'chemistry-noble-gas',
-    x: 17,
-    y: 2
   },
-  // ... (continue with all other elements similarly, including id, discoveredBy, color, x, y)
+  // ... (continue with all other elements similarly, including id, discoveredBy, etc.)
 ];
 
 // Common molecules for the reactions
