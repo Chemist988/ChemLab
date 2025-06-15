@@ -1,13 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
-import { Element } from '../data/elements';
+import { Element, elements as elementsDatabase } from '@/data/elements';
 import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
-import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';
+import { simulateReaction, getAnimationClass, ReactionResult, reactions } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Beaker, Bomb, Flame, Sparkles, Droplets, FlaskConical, AtomIcon, Atom } from 'lucide-react';
+import { RotateCw, Beaker, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -35,40 +34,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }),
   }));
 
-  // Helper function to find compatible elements
-  const findCompatibleElements = (element: Element): Element[] => {
-    // This is a simplified approach - in a real app, you would have a more
-    // sophisticated algorithm or database of compatible elements
-    const elementsDatabase = require('../data/elements').elements;
-    
-    // Simple compatibility rules based on element categories and properties
-    const compatibleElements = elementsDatabase.filter((e: Element) => {
-      // Don't suggest the same element
-      if (e.symbol === element.symbol) return false;
-      
-      // Different categories tend to react interestingly
-      if (e.category !== element.category) {
-        return true;
-      }
-      
-      // Metals often react well with non-metals
-      if ((element.category.includes('metal') && !e.category.includes('metal')) ||
-          (!element.category.includes('metal') && e.category.includes('metal'))) {
-        return true;
-      }
-      
-      // Elements with very different atomic numbers sometimes react well
-      if (Math.abs(e.atomicNumber - element.atomicNumber) > 30) {
-        return true;
-      }
-      
-      return false;
-    });
-    
-    // Return a random selection of up to 4 compatible elements
-    return shuffleArray(compatibleElements).slice(0, 4);
-  };
-  
   // Shuffle array helper
   const shuffleArray = (array: any[]): any[] => {
     const newArray = [...array];
@@ -77,6 +42,29 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
+  };
+
+  // Helper function to find compatible elements
+  const findCompatibleElements = (element: Element): Element[] => {
+    const reactionKeys = Object.keys(reactions);
+    const compatibleSymbols = new Set<string>();
+
+    reactionKeys.forEach(key => {
+        const symbols = key.split('-');
+        if (symbols[0] === element.symbol) {
+            compatibleSymbols.add(symbols[1]);
+        } else if (symbols[1] === element.symbol) {
+            compatibleSymbols.add(symbols[0]);
+        }
+    });
+
+    const compatibleElements = elementsDatabase.filter((e: Element) => compatibleSymbols.has(e.symbol));
+    
+    // also don't suggest elements already in the beaker
+    const currentSymbols = new Set(selectedElements.map(e => e.symbol));
+    const finalSuggestions = compatibleElements.filter(e => !currentSymbols.has(e.symbol) && e.symbol !== element.symbol);
+
+    return shuffleArray(finalSuggestions).slice(0, 4);
   };
 
   const addElement = (element: Element) => {
@@ -184,10 +172,16 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   }, [bubbles]);
 
   useEffect(() => {
-    if (selectedElements.length >= 2 && selectedElements.length <= 4) {
+    if (selectedElements.length >= 2) {
       simulateCurrentReaction();
-    } else if (selectedElements.length === 0) {
+    } else {
+      // This will handle length 0 and 1, clearing any previous reaction.
       setReaction(null);
+    }
+    
+    if (selectedElements.length === 1) {
+      setSuggestedElements(findCompatibleElements(selectedElements[0]));
+    } else if (selectedElements.length === 0) {
       setSuggestedElements([]);
     }
   }, [selectedElements]);

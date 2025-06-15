@@ -61,7 +61,7 @@ const Index = () => {
                 </div>
                 
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                  Meet Neutrino AI
+                  Meet HeisenBot
                 </h2>
                 
                 <p className="text-xl text-white/90 mb-2 font-medium">

@@ -13,7 +13,7 @@ const AnalyticsPage = () => {
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold text-white">Neutrino AI</h2>
+              <h2 className="text-2xl font-semibold text-white">HeisenBot</h2>
               <p className="text-white/80 text-sm">Your intelligent chemistry companion for NCERT Class 10</p>
             </div>
           </div>
@@ -26,7 +26,7 @@ const AnalyticsPage = () => {
               src="https://www.chatbase.co/chatbot-iframe/COwMkAjIYb1meY0saCFK1"
               allow="clipboard-write; microphone;"
               className="w-full h-full border-none"
-              title="Neutrino AI Assistant"
+              title="HeisenBot Assistant"
             />
           </div>
         </div>
