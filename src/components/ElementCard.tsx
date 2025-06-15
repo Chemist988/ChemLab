@@ -76,10 +76,7 @@ const ElementCard: React.FC<ElementCardProps> = ({
         <span className="font-mono text-[0.6rem] opacity-70">{element.group || ""}</span>
       </div>
       <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-0.5">
-        <span className="font-bold">{element.symbol}</span>
-        <span className="text-[0.65rem] max-w-full px-0.5 font-medium">
-          {element.name}
-        </span>
+        <span className="font-bold text-base leading-none">{element.symbol}</span>
       </div>
       <div className="text-[0.55rem] text-center opacity-80">
         {element.atomicMass.toFixed(1)}
