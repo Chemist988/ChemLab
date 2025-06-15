@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -47,7 +48,8 @@ const ReactionBalancer = () => {
             onKeyDown={(e) => e.key === 'Enter' && handleBalance()}
           />
           <Button onClick={handleBalance} size="lg">
-            <>Balance <ChevronsRight className="w-4 h-4 ml-2" /></>
+            <span>Balance</span>
+            <ChevronsRight />
           </Button>
         </div>
         
