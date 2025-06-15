@@ -1,13 +1,12 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Atom, Bot, Activity, Files, Beaker, Scale } from 'lucide-react';
+import { Atom, Bot, Activity, Files, Scale } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { name: 'Playground', href: '/', icon: Atom },
   { name: 'AI Assistant', href: '/analytics', icon: Bot },
-  { name: 'Quizzes', href: '/quizzes', icon: Beaker },
   { name: 'Balancer', href: '/balancer', icon: Scale },
   { name: 'Activity', href: '/activity', icon: Activity },
   { name: 'Sources', href: '/sources', icon: Files },
