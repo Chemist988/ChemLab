@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Atom, Bot, Activity, Files, BrainCircuit } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import ThemeSwitcher from './ThemeSwitcher';
 
 const navItems = [
   { name: 'Playground', href: '/', icon: Atom },
@@ -35,7 +33,6 @@ const TopNav = () => {
             </NavLink>
           ))}
         </nav>
-        <ThemeSwitcher />
       </div>
     </header>
   );

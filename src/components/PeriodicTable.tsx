@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames, categoryColors } from '../data/elements';
@@ -45,8 +46,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
               className="periodic-table-grid" 
               style={{ 
                 display: 'grid',
-                gridTemplateColumns: 'repeat(18, 60px)',
-                gridGap: '4px',
+                gridTemplateColumns: 'repeat(18, 50px)',
+                gridGap: '3px',
                 justifyContent: 'center',
               }}
             >
@@ -60,8 +61,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                         ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
                       `}
                       style={{
-                        width: '60px',
-                        height: '60px'
+                        width: '50px',
+                        height: '50px'
                       }}
                     >
                       {atomicNumber > 0 && getElementByAtomicNumber(atomicNumber) && (

@@ -4,50 +4,6 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 220 8.9% 46.1%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220 8.9% 46.1%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 224 71.4% 4.1%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
-    --radius: 0.8rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    
-    /* Chemistry Element Colors - Inspired by classic periodic tables */
-    --chemistry-alkali: 160 50% 45%; /* teal */
-    --chemistry-alkaline: 15 50% 45%; /* reddish-brown */
-    --chemistry-transition: 260 50% 55%; /* purple */
-    --chemistry-post-transition: 210 30% 50%; /* steel blue */
-    --chemistry-metalloid: 170 40% 45%; /* greenish-teal */
-    --chemistry-nonmetal: 225 60% 50%; /* royal blue */
-    --chemistry-halogen: 130 50% 40%; /* forest green */
-    --chemistry-noble-gas: 280 40% 50%; /* deep purple */
-    --chemistry-lanthanide: 30 40% 50%; /* warm brown */
-    --chemistry-actinide: 30 50% 40%; /* darker warm brown */
-    --chemistry-unknown: 220 10% 75%; /* light slate */
-  }
-
-  .dark {
     --background: 224 71.4% 4.1%; /* Deep Navy */
     --foreground: 210 20% 98%; /* Almost White */
     --card: 224 71.4% 4.1%;
@@ -67,19 +23,32 @@
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
     --ring: 198 93% 60%; /* Vibrant Cyan */
+    --radius: 0.8rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
     
-    /* Chemistry Element Colors - Dark Mode - Inspired by classic periodic tables */
-    --chemistry-alkali: 160 50% 35%;
-    --chemistry-alkaline: 15 50% 35%;
-    --chemistry-transition: 260 50% 45%;
-    --chemistry-post-transition: 210 30% 40%;
-    --chemistry-metalloid: 170 40% 35%;
-    --chemistry-nonmetal: 225 60% 40%;
-    --chemistry-halogen: 130 50% 30%;
-    --chemistry-noble-gas: 280 40% 40%;
-    --chemistry-lanthanide: 30 40% 40%;
-    --chemistry-actinide: 30 50% 30%;
-    --chemistry-unknown: 220 10% 40%;
+    /* More vibrant Chemistry Element Colors */
+    --chemistry-alkali: 160 90% 60%;
+    --chemistry-alkaline: 15 90% 60%;
+    --chemistry-transition: 260 80% 65%;
+    --chemistry-post-transition: 210 60% 60%;
+    --chemistry-metalloid: 170 70% 55%;
+    --chemistry-nonmetal: 225 80% 60%;
+    --chemistry-halogen: 130 90% 50%;
+    --chemistry-noble-gas: 280 70% 60%;
+    --chemistry-lanthanide: 30 70% 60%;
+    --chemistry-actinide: 30 80% 50%;
+    --chemistry-unknown: 220 15% 70%;
+  }
+
+  .dark {
+    /* Variables moved to :root for permanent dark mode */
   }
 }
 
@@ -210,16 +179,16 @@
     animation: shake 0.5s ease-in-out;
   }
 
-  /* Neon Glow Effect */
-  .neon-glow-alkali-metal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-alkali))); }
-  .neon-glow-alkaline-earth-metal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-alkaline))); }
-  .neon-glow-transition-metal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-transition))); }
-  .neon-glow-post-transition-metal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-post-transition))); }
-  .neon-glow-metalloid { filter: drop-shadow(0 0 6px hsl(var(--chemistry-metalloid))); }
-  .neon-glow-nonmetal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-nonmetal))); }
-  .neon-glow-halogen { filter: drop-shadow(0 0 6px hsl(var(--chemistry-halogen))); }
-  .neon-glow-noble-gas { filter: drop-shadow(0 0 6px hsl(var(--chemistry-noble-gas))); }
-  .neon-glow-lanthanide { filter: drop-shadow(0 0 6px hsl(var(--chemistry-lanthanide))); }
-  .neon-glow-actinide { filter: drop-shadow(0 0 6px hsl(var(--chemistry-actinide))); }
-  .neon-glow-unknown { filter: drop-shadow(0 0 6px hsl(var(--chemistry-unknown))); }
+  /* Enhanced Neon Glow Effect */
+  .neon-glow-alkali-metal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-alkali))) drop-shadow(0 0 16px hsla(var(--chemistry-alkali), 0.5)); }
+  .neon-glow-alkaline-earth-metal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-alkaline))) drop-shadow(0 0 16px hsla(var(--chemistry-alkaline), 0.5)); }
+  .neon-glow-transition-metal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-transition))) drop-shadow(0 0 16px hsla(var(--chemistry-transition), 0.5)); }
+  .neon-glow-post-transition-metal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-post-transition))) drop-shadow(0 0 16px hsla(var(--chemistry-post-transition), 0.5)); }
+  .neon-glow-metalloid { filter: drop-shadow(0 0 8px hsl(var(--chemistry-metalloid))) drop-shadow(0 0 16px hsla(var(--chemistry-metalloid), 0.5)); }
+  .neon-glow-nonmetal { filter: drop-shadow(0 0 8px hsl(var(--chemistry-nonmetal))) drop-shadow(0 0 16px hsla(var(--chemistry-nonmetal), 0.5)); }
+  .neon-glow-halogen { filter: drop-shadow(0 0 8px hsl(var(--chemistry-halogen))) drop-shadow(0 0 16px hsla(var(--chemistry-halogen), 0.5)); }
+  .neon-glow-noble-gas { filter: drop-shadow(0 0 8px hsl(var(--chemistry-noble-gas))) drop-shadow(0 0 16px hsla(var(--chemistry-noble-gas), 0.5)); }
+  .neon-glow-lanthanide { filter: drop-shadow(0 0 8px hsl(var(--chemistry-lanthanide))) drop-shadow(0 0 16px hsla(var(--chemistry-lanthanide), 0.5)); }
+  .neon-glow-actinide { filter: drop-shadow(0 0 8px hsl(var(--chemistry-actinide))) drop-shadow(0 0 16px hsla(var(--chemistry-actinide), 0.5)); }
+  .neon-glow-unknown { filter: drop-shadow(0 0 8px hsl(var(--chemistry-unknown))) drop-shadow(0 0 16px hsla(var(--chemistry-unknown), 0.5)); }
 }
