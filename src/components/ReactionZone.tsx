@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
-import { Element } from '../data/elements';
+import { Element, elements } from '../data/elements';
 import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, getAnimationClass, ReactionResult } from '../utils/reactionUtils';
@@ -38,10 +38,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const findCompatibleElements = (element: Element): Element[] => {
     // This is a simplified approach - in a real app, you would have a more
     // sophisticated algorithm or database of compatible elements
-    const elementsDatabase = require('../data/elements').elements;
     
     // Simple compatibility rules based on element categories and properties
-    const compatibleElements = elementsDatabase.filter((e: Element) => {
+    const compatibleElements = elements.filter((e: Element) => {
       // Don't suggest the same element
       if (e.symbol === element.symbol) return false;
       
