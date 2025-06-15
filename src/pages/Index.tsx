@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -50,18 +49,7 @@ const Index = () => {
                   </header>
                 )}
                 <Tabs value={dashboardSection} onValueChange={setDashboardSection} className="w-full">
-                  <TabsList className="mx-6 my-4 border border-muted bg-muted/20 rounded-full flex-center shadow-sm">
-                    <TabsTrigger value="explore" className="flex-1 min-w-32 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">
-                      Explore Lab
-                    </TabsTrigger>
-                    <TabsTrigger value="heisenbot" className="flex-1 min-w-32 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">
-                      HeisenBot
-                    </TabsTrigger>
-                    <TabsTrigger value="guide" className="flex-1 min-w-24 rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-base font-medium">
-                      Lab Guide
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="explore" className="px-4 md:px-8 pb-12 pt-2">
+                  <TabsContent value="explore" className="px-4 md:px-8 pb-12 pt-8">
                     <div className="flex flex-col md:flex-row gap-8 w-full">
                       {/* Table left, simulator right */}
                       <div className="w-full md:w-1/2 flex flex-col">
@@ -83,7 +71,7 @@ const Index = () => {
                       </div>
                     </div>
                   </TabsContent>
-                  <TabsContent value="heisenbot" className="px-8 pb-12 pt-2">
+                  <TabsContent value="heisenbot" className="px-8 pb-12 pt-8">
                     <div className="bg-card rounded-2xl border border-border shadow-inner p-6 w-full flex flex-col items-center">
                       <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center flex items-center justify-center gap-2">
                         <Apple className="w-7 h-7 text-primary mb-1" />
@@ -101,7 +89,7 @@ const Index = () => {
                       </Button>
                     </div>
                   </TabsContent>
-                  <TabsContent value="guide" className="px-8 pb-12 pt-2">
+                  <TabsContent value="guide" className="px-8 pb-12 pt-8">
                     <div className="bg-card rounded-2xl border border-border shadow-inner p-8 w-full">
                       <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">Lab Guide</h2>
                       <Separator className="mb-6" />
