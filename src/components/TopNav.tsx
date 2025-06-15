@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Atom, Bot, Activity, Files, BrainCircuit } from 'lucide-react';
+import { Atom, Bot, Activity, Files } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -8,7 +9,6 @@ const navItems = [
   { name: 'AI Assistant', href: '/analytics', icon: Bot },
   { name: 'Activity', href: '/activity', icon: Activity },
   { name: 'Sources', href: '/sources', icon: Files },
-  { name: 'Quizzes', href: '/quizzes', icon: BrainCircuit },
 ];
 
 const TopNav = () => {
@@ -23,7 +23,7 @@ const TopNav = () => {
               end={item.href === '/'}
               className={({ isActive }) =>
                 cn(
-                  'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+                  'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground font-orbitron',
                   isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'
                 )
               }

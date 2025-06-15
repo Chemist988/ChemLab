@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Element } from '../data/elements';
 import { useDrag } from 'react-dnd';
@@ -9,6 +8,7 @@ interface ElementCardProps {
   onClick: () => void;
   size?: 'sm' | 'md' | 'lg' | 'xs';
   isDraggable?: boolean;
+  isDimmed?: boolean;
   className?: string;
 }
 
@@ -31,6 +31,7 @@ const ElementCard: React.FC<ElementCardProps> = ({
   onClick, 
   size = 'md',
   isDraggable = true,
+  isDimmed = false,
   className = ''
 }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -58,6 +59,7 @@ const ElementCard: React.FC<ElementCardProps> = ({
         `hover:shadow-lg hover:scale-110 hover:z-20`,
         neonGlowClasses[element.category as keyof typeof neonGlowClasses],
         `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110' : ''}`,
+        isDimmed && 'opacity-20 saturate-0 pointer-events-none',
         sizeClasses[size],
         className
       )}

@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				orbitron: ["Orbitron", "sans-serif"],
+				inter: ["Inter", "sans-serif"],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -140,7 +145,12 @@ export default {
 				'flame': {
 					'0%, 100%': { transform: 'scaleY(1)' },
 					'50%': { transform: 'scaleY(1.2)' }
-				}
+				},
+				'background-pan': {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -152,7 +162,8 @@ export default {
 				'shake': 'shake 0.5s ease-in-out',
 				'explosion-particle': 'explosion-particle 1s ease-out forwards',
 				'gas-rise': 'gas-rise 4s ease-out forwards',
-				'flame': 'flame 0.5s ease-in-out infinite'
+				'flame': 'flame 0.5s ease-in-out infinite',
+				'background-pan': 'background-pan 15s ease-in-out infinite',
 			}
 		}
 	},

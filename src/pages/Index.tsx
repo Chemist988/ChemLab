@@ -7,10 +7,11 @@ import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
 import EduBotAssistant from '@/components/EduBotAssistant';
+import MoleculeViewer from '@/components/MoleculeViewer';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
-import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight } from 'lucide-react';
+import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight, Cuboid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -30,7 +31,7 @@ const Index = () => {
           {/* Apple-inspired Header */}
           <header className="mb-16 flex flex-col items-center relative">
             <div className="text-center space-y-6">
-              <h1 className="text-6xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-purple-700 dark:from-white dark:via-blue-200 dark:to-purple-300">
+              <h1 className="text-6xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-purple-700 dark:from-white dark:via-blue-200 dark:to-purple-300 font-orbitron">
                 ChemLab
               </h1>
               <p className="text-xl font-light text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -101,7 +102,7 @@ const Index = () => {
             {/* Periodic Table - Larger and More Visible */}
             <div className="xl:col-span-3 bg-white/80 dark:bg-gray-900/80 rounded-3xl shadow-xl backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 p-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-3xl font-thin text-gray-900 dark:text-white">Periodic Table</h2>
+                <h2 className="text-3xl font-thin text-gray-900 dark:text-white font-orbitron">Periodic Table</h2>
                 <div className="text-sm text-gray-500 dark:text-gray-400">Click any element to explore</div>
               </div>
               <PeriodicTable onElementClick={handleElementClick} />
@@ -115,6 +116,10 @@ const Index = () => {
                     <Beaker className="w-4 h-4 mr-2" />
                     Lab
                   </TabsTrigger>
+                  <TabsTrigger value="visualizer" className="flex-1 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700">
+                    <Cuboid className="w-4 h-4 mr-2" />
+                    Visualizer
+                  </TabsTrigger>
                   <TabsTrigger value="info" className="flex-1 rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700">
                     <BookOpen className="w-4 h-4 mr-2" />
                     Guide
@@ -123,7 +128,7 @@ const Index = () => {
                 
                 <TabsContent value="reaction" className="space-y-6 h-full">
                   <div>
-                    <h3 className="text-xl font-medium mb-2">Reaction Simulator</h3>
+                    <h3 className="text-xl font-medium mb-2 font-orbitron">Reaction Simulator</h3>
                     <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                       Drag and drop elements to simulate chemical reactions
                     </p>
@@ -131,10 +136,21 @@ const Index = () => {
                   <Separator />
                   <ReactionZone onElementClick={handleElementClick} />
                 </TabsContent>
+
+                <TabsContent value="visualizer" className="space-y-6 h-full">
+                  <div>
+                    <h3 className="text-xl font-medium mb-2 font-orbitron">Molecule Visualizer</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                      Interact with 3D models of common molecules.
+                    </p>
+                  </div>
+                  <Separator />
+                  <MoleculeViewer />
+                </TabsContent>
                 
                 <TabsContent value="info" className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-medium mb-4">How to Use</h3>
+                    <h3 className="text-xl font-medium mb-4 font-orbitron">How to Use</h3>
                     <div className="space-y-4 text-sm">
                       <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-200/50 dark:border-blue-700/50">
                         <h4 className="font-medium text-blue-700 dark:text-blue-300 mb-2">Getting Started</h4>

@@ -1,19 +1,18 @@
 
 import React, { useState } from 'react';
 import ElementCard from './ElementCard';
-import { Element, elements, periodicTableLayout, categoryNames, categoryColors } from '../data/elements';
+import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Label } from '@/components/ui/label';
-import { useTheme } from '@/hooks/use-theme';
-import { Atom } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Atom, Search } from 'lucide-react';
 
 interface PeriodicTableProps {
   onElementClick: (element: Element) => void;
 }
 
 const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
-  const { theme } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getElementByAtomicNumber = (atomicNumber: number): Element | undefined => {
     return elements.find(element => element.atomicNumber === atomicNumber);
@@ -25,17 +24,31 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
     } else {
       setSelectedCategory(category);
     }
+    setSearchQuery(''); // Reset search when a category is clicked
   };
 
   const filteredElements = selectedCategory 
     ? elements.filter(element => element.category === selectedCategory)
     : [];
 
+  const lowerCaseQuery = searchQuery.toLowerCase();
+  const isSearching = lowerCaseQuery.length > 0;
+
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center">
-          <h3 className="text-md font-semibold">Interactive Periodic Table</h3>
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
+        <h3 className="text-md font-semibold font-orbitron">Interactive Periodic Table</h3>
+        <div className="relative w-full sm:w-64">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input 
+            placeholder="Search element (e.g., Iron)"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value)
+              setSelectedCategory(null); // Reset category filter when searching
+            }}
+            className="pl-10 bg-background/50"
+          />
         </div>
       </div>
 
@@ -53,28 +66,37 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
             >
               {periodicTableLayout.map((row, rowIndex) => (
                 <React.Fragment key={rowIndex}>
-                  {row.map((atomicNumber, colIndex) => (
-                    <div 
-                      key={`${rowIndex}-${colIndex}`} 
-                      className={`
-                        element-cell transition-all duration-300
-                        ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
-                      `}
-                      style={{
-                        width: '50px',
-                        height: '50px'
-                      }}
-                    >
-                      {atomicNumber > 0 && getElementByAtomicNumber(atomicNumber) && (
-                        <ElementCard
-                          element={getElementByAtomicNumber(atomicNumber)!}
-                          onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
-                          size="xs"
-                          className="animate-fade-in backdrop-blur-sm"
-                        />
-                      )}
-                    </div>
-                  ))}
+                  {row.map((atomicNumber, colIndex) => {
+                    const element = atomicNumber > 0 ? getElementByAtomicNumber(atomicNumber) : null;
+                    const isDimmed = isSearching && element && 
+                      !element.name.toLowerCase().includes(lowerCaseQuery) &&
+                      !element.symbol.toLowerCase().includes(lowerCaseQuery) &&
+                      !element.atomicNumber.toString().includes(lowerCaseQuery);
+
+                    return (
+                      <div 
+                        key={`${rowIndex}-${colIndex}`} 
+                        className={`
+                          element-cell transition-all duration-300
+                          ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
+                        `}
+                        style={{
+                          width: '50px',
+                          height: '50px'
+                        }}
+                      >
+                        {element && (
+                          <ElementCard
+                            element={element}
+                            onClick={() => onElementClick(element)}
+                            size="xs"
+                            isDimmed={isDimmed}
+                            className="animate-fade-in backdrop-blur-sm"
+                          />
+                        )}
+                      </div>
+                    )
+                  })}
                 </React.Fragment>
               ))}
             </div>
@@ -90,7 +112,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
       {/* Legend - Always show the categories */}
       <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm">
         <div className="w-full text-center mb-1">
-          <h4 className="text-sm font-medium">Element Categories</h4>
+          <h4 className="text-sm font-medium font-orbitron">Element Categories</h4>
         </div>
         {Object.entries(categoryNames).map(([category, name]) => (
           <div 
@@ -98,7 +120,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
             className={`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 
               bg-chemistry-${category} bg-opacity-30 dark:bg-opacity-50 
               border border-chemistry-${category}/20 shadow-sm hover:shadow-md 
-              transition-shadow cursor-pointer
+              transition-all cursor-pointer hover:ring-2 hover:ring-primary/50
               ${selectedCategory === category ? 'ring-2 ring-primary' : ''}
             `}
             onClick={() => handleCategoryClick(category)}

@@ -12,7 +12,6 @@ import Layout from "@/components/Layout";
 import AnalyticsPage from './pages/AnalyticsPage';
 import ActivityPage from './pages/ActivityPage';
 import SourcesPage from './pages/SourcesPage';
-import QuizzesPage from './pages/QuizzesPage';
 
 const queryClient = new QueryClient();
 
@@ -30,7 +29,6 @@ const App: React.FC = () => (
                 <Route path="/analytics" element={<AnalyticsPage />} />
                 <Route path="/activity" element={<ActivityPage />} />
                 <Route path="/sources" element={<SourcesPage />} />
-                <Route path="/quizzes" element={<QuizzesPage />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
