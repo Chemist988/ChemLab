@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useNavigate } from 'react-router-dom';
 import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
@@ -9,13 +9,13 @@ import EduBotAssistant from '@/components/EduBotAssistant';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
-import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight, X } from 'lucide-react';
+import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
-  const [showBot, setShowBot] = useState(false);
+  const navigate = useNavigate();
 
   const handleElementClick = (element: Element) => {
     setSelectedElement(element);
@@ -75,7 +75,7 @@ const Index = () => {
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <Button 
-                    onClick={() => setShowBot(true)}
+                    onClick={() => navigate('/analytics')}
                     size="lg"
                     className="bg-white text-indigo-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                   >
@@ -174,42 +174,6 @@ const Index = () => {
         {/* Neutrino AI Assistant */}
         <EduBotAssistant />
         
-        {/* Additional bot instance for guide integration */}
-        {showBot && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
-            <div className="w-full max-w-5xl h-[85vh] bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-900/95 dark:to-black/95 rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-xl">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-white/10 rounded-full">
-                    <Bot className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-semibold text-white">Neutrino AI</h2>
-                    <p className="text-white/80 text-sm">Precision meets intuition.</p>
-                  </div>
-                </div>
-                <Button
-                  onClick={() => setShowBot(false)}
-                  variant="ghost"
-                  size="sm"
-                  className="text-white hover:bg-white/10 rounded-full p-2"
-                >
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-              <div className="h-full bg-white/90 dark:bg-gray-900/90 p-6">
-                <div className="w-full h-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200/50 dark:border-gray-700/50">
-                  <iframe
-                    src="https://www.chatbase.co/chatbot-iframe/COwMkAjIYb1meY0saCFK1"
-                    allow="clipboard-write; microphone;"
-                    className="w-full h-full border-none"
-                    title="Neutrino AI Assistant"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </>
     </DndProvider>
   );
