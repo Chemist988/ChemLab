@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -34,17 +35,17 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
     
     /* More vibrant Chemistry Element Colors */
-    --chemistry-alkali: 160 90% 60%;
-    --chemistry-alkaline: 15 90% 60%;
-    --chemistry-transition: 260 80% 65%;
-    --chemistry-post-transition: 210 60% 60%;
-    --chemistry-metalloid: 170 70% 55%;
-    --chemistry-nonmetal: 225 80% 60%;
-    --chemistry-halogen: 130 90% 50%;
-    --chemistry-noble-gas: 280 70% 60%;
-    --chemistry-lanthanide: 30 70% 60%;
-    --chemistry-actinide: 30 80% 50%;
-    --chemistry-unknown: 220 15% 70%;
+    --chemistry-alkali: 0 90% 60%; /* Red */
+    --chemistry-alkaline: 220 90% 60%; /* Blue */
+    --chemistry-transition: 120 80% 50%; /* Green */
+    --chemistry-post-transition: 330 90% 70%; /* Pink */
+    --chemistry-metalloid: 220 10% 60%; /* Grey */
+    --chemistry-nonmetal: 0 0% 95%; /* White */
+    --chemistry-halogen: 30 90% 60%; /* Orange */
+    --chemistry-noble-gas: 270 80% 65%; /* Purple */
+    --chemistry-lanthanide: 230 70% 50%; /* Dark Blue */
+    --chemistry-actinide: 320 70% 50%; /* Dark Magenta */
+    --chemistry-unknown: 220 15% 70%; /* Kept as is */
   }
 
   .dark {
