@@ -45,8 +45,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
               className="periodic-table-grid" 
               style={{ 
                 display: 'grid',
-                gridTemplateColumns: 'repeat(18, 48px)',
-                gridGap: '2px',
+                gridTemplateColumns: 'repeat(18, 40px)',
+                gridGap: '4px',
                 justifyContent: 'center',
               }}
             >
@@ -60,15 +60,15 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                         ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
                       `}
                       style={{
-                        width: '48px',
-                        height: '48px'
+                        width: '40px',
+                        height: '40px'
                       }}
                     >
                       {atomicNumber > 0 && getElementByAtomicNumber(atomicNumber) && (
                         <ElementCard
                           element={getElementByAtomicNumber(atomicNumber)!}
                           onClick={() => onElementClick(getElementByAtomicNumber(atomicNumber)!)}
-                          size="sm"
+                          size="xs"
                           className="animate-fade-in backdrop-blur-sm"
                         />
                       )}
