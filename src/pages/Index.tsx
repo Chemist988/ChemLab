@@ -63,22 +63,22 @@ const Index = () => {
                       Lab Guide
                     </TabsTrigger>
                   </TabsList>
-
-                  {/* Combined Explore Tab: both Periodic Table and Reaction Simulator */}
+                  {/* Side-by-side layout for Explore */}
                   <TabsContent value="explore" className="px-8 pb-12 pt-2">
-                    <div className="bg-card rounded-2xl border border-border shadow-inner py-10 px-2 md:px-8 mb-8">
-                      <h2 className="text-3xl font-light text-foreground mb-3 text-center">
-                        Periodic Table
-                      </h2>
-                      <div className="text-center text-sm text-muted-foreground mb-4">Click an element to explore</div>
-                      <PeriodicTable onElementClick={handleElementClick} />
-                    </div>
-                    <div className="bg-card rounded-2xl border border-border shadow-inner px-2 md:px-10 py-10 min-h-[32rem]">
-                      <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">Reaction Simulator</h2>
-                      <ReactionZone onElementClick={handleElementClick} />
+                    <div className="flex flex-col md:flex-row gap-8">
+                      <div className="flex-1 bg-card rounded-2xl border border-border shadow-inner py-6 px-2 md:px-6 mb-8 md:mb-0">
+                        <h2 className="text-3xl font-light text-foreground mb-3 text-center">
+                          Periodic Table
+                        </h2>
+                        <div className="text-center text-sm text-muted-foreground mb-4">Click an element to explore</div>
+                        <PeriodicTable onElementClick={handleElementClick} />
+                      </div>
+                      <div className="flex-1 bg-card rounded-2xl border border-border shadow-inner px-2 md:px-8 py-6 min-h-[32rem]">
+                        <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 text-center">Reaction Simulator</h2>
+                        <ReactionZone onElementClick={handleElementClick} />
+                      </div>
                     </div>
                   </TabsContent>
-
                   {/* HeisenBot AI Assistant */}
                   <TabsContent value="heisenbot" className="px-8 pb-12 pt-2">
                     <div className="bg-card rounded-2xl border border-border shadow-inner p-6 w-full flex flex-col items-center">
@@ -98,7 +98,6 @@ const Index = () => {
                       </Button>
                     </div>
                   </TabsContent>
-
                   {/* Lab Guide */}
                   <TabsContent value="guide" className="px-8 pb-12 pt-2">
                     <div className="bg-card rounded-2xl border border-border shadow-inner p-8 w-full">

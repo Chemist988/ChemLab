@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element, elements } from '../data/refactored-elements';
 import ElementCard from './ElementCard';
@@ -34,38 +34,40 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }),
   }));
 
-  // Helper function to find compatible elements
-  const findCompatibleElements = (element: Element): Element[] => {
-    // This is a simplified approach - in a real app, you would have a more
-    // sophisticated algorithm or database of compatible elements
+  // Memoize suggestions to avoid unnecessary recomputation/renders
+  const findCompatibleElements = useMemo(() => {
+    return (element: Element): Element[] => {
+      // This is a simplified approach - in a real app, you would have a more
+      // sophisticated algorithm or database of compatible elements
     
-    // Simple compatibility rules based on element categories and properties
-    const compatibleElements = elements.filter((e: Element) => {
-      // Don't suggest the same element
-      if (e.symbol === element.symbol) return false;
+      // Simple compatibility rules based on element categories and properties
+      const compatibleElements = elements.filter((e: Element) => {
+        // Don't suggest the same element
+        if (e.symbol === element.symbol) return false;
+        
+        // Different categories tend to react interestingly
+        if (e.category !== element.category) {
+          return true;
+        }
+        
+        // Metals often react well with non-metals
+        if ((element.category.includes('metal') && !e.category.includes('metal')) ||
+            (!element.category.includes('metal') && e.category.includes('metal'))) {
+          return true;
+        }
+        
+        // Elements with very different atomic numbers sometimes react well
+        if (Math.abs(e.atomicNumber - element.atomicNumber) > 30) {
+          return true;
+        }
+        
+        return false;
+      });
       
-      // Different categories tend to react interestingly
-      if (e.category !== element.category) {
-        return true;
-      }
-      
-      // Metals often react well with non-metals
-      if ((element.category.includes('metal') && !e.category.includes('metal')) ||
-          (!element.category.includes('metal') && e.category.includes('metal'))) {
-        return true;
-      }
-      
-      // Elements with very different atomic numbers sometimes react well
-      if (Math.abs(e.atomicNumber - element.atomicNumber) > 30) {
-        return true;
-      }
-      
-      return false;
-    });
-    
-    // Return a random selection of up to 4 compatible elements
-    return shuffleArray(compatibleElements).slice(0, 4);
-  };
+      // Return a random selection of up to 4 compatible elements
+      return shuffleArray(compatibleElements).slice(0, 4);
+    };    
+  }, []); // Only recompute if elements never changes
   
   // Shuffle array helper
   const shuffleArray = (array: any[]): any[] => {
@@ -99,7 +101,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setSelectedElements((prev) => {
         const newElements = [...prev, element];
         
-        // Update suggested elements based on the last added element
+        // Use memoized version for better performance
         setSuggestedElements(findCompatibleElements(element));
         
         return newElements;
@@ -208,17 +210,15 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     return `hsl(var(--chemistry-${colorVar}))`;
   };
 
+  // Replace Beaker with a realistic conical beaker SVG with layered visuals (no raster images)
   return (
     <div className="flex flex-col gap-4 w-full">
       <div 
         ref={drop}
-        className={`
-          relative h-96 p-6 rounded-xl flex flex-col items-center justify-center overflow-hidden
+        className={`relative h-96 p-6 rounded-xl flex flex-col items-center justify-center overflow-hidden
           ${isOver ? 'border-primary/70 bg-primary/10' : 'border border-white/10'}
-          transition-all duration-300 bg-card/50
-        `}
+          transition-all duration-300 bg-card/50`}
       >
-        {/* Element Suggestions Popup */}
         {selectedElements.length > 0 && (
           <ElementSuggestions 
             element={selectedElements[selectedElements.length - 1]} 
@@ -226,7 +226,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             suggestedElements={suggestedElements}
           />
         )}
-        
         {/* Explosion effect */}
         {explosion && (
           <div className="absolute inset-0 z-10">
@@ -329,99 +328,100 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             })}
           </div>
         )}
-        
-        {/* Beaker container - More Apple-like with frosted glass effect */}
+
+        {/* === Realistic Conical Beaker SVG Below === */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-64 h-64">
-            {/* Beaker body - More premium design */}
-            <div className="absolute bottom-0 w-full h-[85%] border-[1px] border-white/10 rounded-b-lg bg-card/30 backdrop-blur-md shadow-lg">
-              {/* Beaker liquid */}
-              <div 
-                className={`
-                  absolute bottom-0 w-full rounded-b-lg transition-all duration-700 ease-out overflow-hidden
-                  ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}
-                  ${reaction ? getReactionColor(reaction.animationType) : 'bg-gradient-to-b from-blue-900/30 to-blue-800/20'}
-                  ${animating ? 'animate-pulse' : ''}
-                `}
-              >
-                {/* Reflective surface */}
-                <div className="absolute inset-x-0 top-0 h-1 bg-white/20"></div>
-                
-                {/* Bubbles */}
-                {bubbles.map((bubble, index) => (
-                  <div 
-                    key={index} 
-                    className="absolute rounded-full bg-white/50 animate-rise"
-                    style={{
-                      width: Math.max(4, Math.random() * 12) + 'px',
-                      height: Math.max(4, Math.random() * 12) + 'px',
-                      bottom: (bubble * 100) + '%',
-                      left: (Math.random() * 90 + 5) + '%',
-                      animationDuration: (Math.random() * 2 + 1) + 's',
-                      opacity: Math.random() * 0.6 + 0.2
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Beaker content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                {selectedElements.length === 0 ? (
-                  <div className="text-center text-neutral-400">
-                    <Beaker className="mx-auto h-10 w-10 mb-2 opacity-50" />
-                    <p>Drag elements here to start a reaction</p>
-                    <p className="text-xs mt-2 text-neutral-500">Try combining up to four elements!</p>
-                  </div>
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center">
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                      {selectedElements.map((element, index) => (
-                        <div 
-                          key={index} 
-                          className={`
-                            ${index === 0 && animating ? 'animate-bounce-subtle' : ''}
-                            ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''}
-                            ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''}
-                            ${(explosion || gas) && 'animate-shake'}
-                          `}
-                        >
-                          <ElementCard 
-                            element={element} 
-                            onClick={() => onElementClick(element)}
-                            size="xs"
-                            isDraggable={false}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {reaction && (
-                      <div className={`text-center mt-4 ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
-                        <h3 className="text-xl font-bold text-white">{reaction.result}</h3>
-                        <p className="text-sm mt-1 text-neutral-300">{reaction.description}</p>
-                        
-                        <div className="mt-3 flex items-center justify-center gap-2">
-                          {getReactionIcon(reaction.animationType)}
-                          <span className="text-xs text-neutral-400">
-                            {getReactionTypeName(reaction.animationType)}
-                          </span>
-                        </div>
+            {/* Realistic conical beaker SVG */}
+            <svg
+              viewBox="0 0 260 260"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[92%] h-[92%] z-10"
+              fill="none"
+            >
+              {/* Outer Beaker Shape */}
+              <path
+                d="M40 40 Q129 45 220 40 L205 245 Q129 255 55 245Z"
+                fill="#EDF3FA"
+                stroke="#B0B8C8"
+                strokeWidth="5"
+                filter="url(#inner-shadow)"
+              />
+              {/* Beaker Liquid Level */}
+              <path
+                d={`M55 180 Q129 190 205 180 Q181 245 129 250 Q77 243 55 180`}
+                fill={reaction ? getReactionSVGColor(reaction.animationType) : "url(#liquid-gradient)"}
+                opacity="0.80"
+              />
+              {/* Liquid reflections */}
+              <ellipse
+                cx="165" cy="200" rx="16" ry="3"
+                fill="#fff"
+                fillOpacity="0.38"
+              />
+              <ellipse
+                cx="115" cy="190" rx="25" ry="7"
+                fill="#fff"
+                fillOpacity="0.18"
+              />
+              <defs>
+                <linearGradient id="liquid-gradient" x1="129" y1="180" x2="129" y2="250" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#69aee4"/>
+                  <stop offset="1" stopColor="#4a72a6"/>
+                </linearGradient>
+                <filter id="inner-shadow" x="0" y="0" width="260" height="260" filterUnits="userSpaceOnUse">
+                  <feDropShadow dx="0" dy="-3" stdDeviation="3" floodColor="#B0B8C8" floodOpacity="0.18"/>
+                </filter>
+              </defs>
+            </svg>
+            {/* (optional) bubbles, reflections here as overlays */}
+            {/* Draggable element cards in front */}
+            <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center p-4 z-20">
+              {selectedElements.length === 0 ? (
+                <div className="text-center text-neutral-400">
+                  <Beaker className="mx-auto h-10 w-10 mb-2 opacity-50" />
+                  <p>Drag elements here to start a reaction</p>
+                  <p className="text-xs mt-2 text-neutral-500">Try combining up to four elements!</p>
+                </div>
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center">
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    {selectedElements.map((element, index) => (
+                      <div 
+                        key={index} 
+                        className={`
+                          ${index === 0 && animating ? 'animate-bounce-subtle' : ''}
+                          ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''}
+                          ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''}
+                          ${(explosion || gas) && 'animate-shake'}
+                        `}
+                      >
+                        <ElementCard 
+                          element={element} 
+                          onClick={() => onElementClick(element)}
+                          size="xs"
+                          isDraggable={false}
+                        />
                       </div>
-                    )}
+                    ))}
                   </div>
-                )}
-              </div>
+                  {reaction && (
+                    <div className={`text-center mt-4 ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
+                      <h3 className="text-xl font-bold text-white">{reaction.result}</h3>
+                      <p className="text-sm mt-1 text-neutral-300">{reaction.description}</p>
+                      <div className="mt-3 flex items-center justify-center gap-2">
+                        {getReactionIcon(reaction.animationType)}
+                        <span className="text-xs text-neutral-400">
+                          {getReactionTypeName(reaction.animationType)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-            
-            {/* Beaker top rim */}
-            <div className="absolute top-[15%] w-full h-[2px] bg-white/10"></div>
-            
-            {/* Beaker neck */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60%] h-[15%] border-t-[1px] border-l-[1px] border-r-[1px] border-white/10"></div>
           </div>
         </div>
       </div>
-      
       <div className="flex justify-center">
         <Button 
           variant="outline" 
@@ -435,23 +435,28 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     </div>
   );
 };
-
-// Helper function to get color based on element category
-const getCategoryColor = (category: string): string => {
-  const categoryMap: { [key: string]: string } = {
-    'alkali-metal': 'alkali',
-    'alkaline-earth-metal': 'alkaline',
-    'transition-metal': 'transition',
-    'post-transition-metal': 'post-transition',
-    'metalloid': 'metalloid',
-    'nonmetal': 'nonmetal',
-    'halogen': 'halogen',
-    'noble-gas': 'noble-gas',
-    'lanthanide': 'lanthanide',
-    'actinide': 'actinide',
-  };
-  const colorVar = categoryMap[category] || 'unknown';
-  return `hsl(var(--chemistry-${colorVar}))`;
+// Utility for SVG color based on animationType
+const getReactionSVGColor = (animationType: string): string => {
+  switch (animationType) {
+    case 'explosion':
+      return "url(#explosion-gradient)";
+    case 'gas':
+      return "url(#gas-gradient)";
+    case 'bubble':
+      return "url(#bubble-gradient)";
+    case 'fade':
+      return "url(#fade-gradient)";
+    case 'crystallization':
+      return "url(#crystal-gradient)";
+    case 'precipitation':
+      return "url(#precip-gradient)";
+    case 'combustion':
+      return "url(#combustion-gradient)";
+    case 'neutralization':
+      return "url(#neutral-gradient)";
+    default:
+      return "url(#liquid-gradient)";
+  }
 };
 
 const getReactionColor = (animationType: string): string => {
