@@ -241,6 +241,23 @@
   .liquid-particle {
     animation: liquid-drop 1s ease-in forwards;
   }
+
+  @keyframes bubble-rise {
+    from {
+      transform: translateY(0px) scale(0.6);
+      opacity: 0.9;
+    }
+    to {
+      transform: translateY(-80px) scale(1);
+      opacity: 0;
+    }
+  }
+
+  .animate-bubble-rise {
+    animation-name: bubble-rise;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
 }
 
 /* Apple-style scrollbar */

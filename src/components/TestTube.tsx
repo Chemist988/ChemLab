@@ -37,41 +37,68 @@ const TestTube: React.FC<TestTubeProps> = ({ element, isEmpty = false, className
     <div
       ref={element ? drag : undefined}
       className={`relative cursor-pointer transition-all duration-300 ${isDragging ? 'scale-110 rotate-3 opacity-80' : ''} ${className}`}
+      style={{ filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))' }}
     >
       {/* Test Tube Glass */}
-      <div className="relative w-16 h-32 mx-auto">
+      <div className="relative w-16 h-40 mx-auto">
+        {/* Glass reflection */}
+        <div className="absolute top-4 left-3 w-1 h-24 bg-white/40 rounded-full blur-[1px] -rotate-6" />
+
         {/* Main tube body */}
-        <div className="absolute bottom-0 w-full h-24 bg-gradient-to-t from-gray-100 to-transparent rounded-b-full border-2 border-gray-300 shadow-lg">
+        <div className="absolute bottom-0 w-full h-32 bg-gradient-to-r from-gray-200/30 via-white/20 to-gray-200/30 rounded-b-full border-2 border-gray-400/30 shadow-inner">
           {/* Liquid */}
           {element && (
-            <div 
-              className="absolute bottom-0 w-full h-16 rounded-b-full transition-all duration-1000"
-              style={{
-                background: `linear-gradient(to top, ${getLiquidColor(element)}, ${getLiquidColor(element)}80)`
-              }}
-            >
-              {/* Bubbles */}
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-1 h-1 bg-white/60 rounded-full animate-bounce"
-                  style={{
-                    left: `${30 + (i * 20)}%`,
-                    bottom: `${Math.random() * 40 + 10}%`,
-                    animationDelay: `${i * 0.5}s`,
-                    animationDuration: '2s'
+            <div className="absolute bottom-0 w-full h-[70%] rounded-b-full overflow-hidden">
+              <div
+                className="w-full h-full relative"
+                style={{
+                  background: `linear-gradient(to top, ${getLiquidColor(element)}B3, ${getLiquidColor(element)}E6)`
+                }}
+              >
+                {/* Meniscus (curved liquid surface) */}
+                <div 
+                  className="absolute top-0 left-0 w-full h-3"
+                  style={{ 
+                    borderRadius: '0 0 50% 50% / 0 0 100% 100%',
+                    boxShadow: `0 2px 4px ${getLiquidColor(element)}99 inset`,
+                    transform: 'translateY(-1px)'
                   }}
                 />
-              ))}
+
+                {/* Liquid surface highlight */}
+                 <div 
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-1.5 rounded-full"
+                  style={{ 
+                    background: `radial-gradient(ellipse, white, transparent 70%)`,
+                    opacity: 0.5,
+                  }}
+                />
+
+                {/* Bubbles */}
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1.5 h-1.5 rounded-full animate-bubble-rise"
+                    style={{
+                      left: `${20 + Math.random() * 60}%`,
+                      bottom: '5%',
+                      background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.1))',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      animationDelay: `${Math.random() * 3}s`,
+                      animationDuration: `${2 + Math.random() * 3}s`
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>
         
-        {/* Test tube neck */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-4 h-10 bg-gradient-to-t from-gray-100 to-gray-50 rounded-t-lg border-2 border-gray-300 shadow-md"></div>
+        {/* Test tube lip */}
+        <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-[110%] h-2.5 bg-gradient-to-b from-gray-300/70 via-white/40 to-gray-300/70 rounded-full border border-gray-400/50" />
         
-        {/* Cork/Stopper */}
-        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-5 h-3 bg-amber-800 rounded-t-lg border border-amber-900"></div>
+        {/* Test tube neck */}
+        <div className="absolute top-0 w-12 left-1/2 transform -translate-x-1/2 h-9 bg-gradient-to-r from-gray-200/30 via-white/10 to-gray-200/30 border-x-2 border-gray-400/30" />
       </div>
       
       {/* Element Label */}
