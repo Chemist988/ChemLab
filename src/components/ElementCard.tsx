@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Element, categoryColors } from '../data/elements';
+import { Element } from '../data/elements';
 import { useDrag } from 'react-dnd';
 import { cn } from '@/lib/utils';
 
@@ -11,6 +11,20 @@ interface ElementCardProps {
   isDraggable?: boolean;
   className?: string;
 }
+
+const neonGlowClasses: { [key: string]: string } = {
+    'alkali-metal': 'neon-glow-alkali-metal',
+    'alkaline-earth-metal': 'neon-glow-alkaline-earth-metal',
+    'transition-metal': 'neon-glow-transition-metal',
+    'post-transition-metal': 'neon-glow-post-transition-metal',
+    'metalloid': 'neon-glow-metalloid',
+    'nonmetal': 'neon-glow-nonmetal',
+    'halogen': 'neon-glow-halogen',
+    'noble-gas': 'neon-glow-noble-gas',
+    'lanthanide': 'neon-glow-lanthanide',
+    'actinide': 'neon-glow-actinide',
+    'unknown': 'neon-glow-unknown',
+};
 
 const ElementCard: React.FC<ElementCardProps> = ({ 
   element, 
@@ -39,9 +53,10 @@ const ElementCard: React.FC<ElementCardProps> = ({
     <div
       ref={isDraggable ? drag : undefined}
       className={cn(
-        `bg-chemistry-${element.category} rounded-md overflow-hidden cursor-pointer transition-all duration-300`,
+        `bg-chemistry-${element.category} rounded-md cursor-pointer transition-all duration-300`,
         `backdrop-blur-sm border border-white/10 dark:border-black/10`,
         `hover:shadow-lg hover:scale-110 hover:z-20`,
+        neonGlowClasses[element.category as keyof typeof neonGlowClasses],
         `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110' : ''}`,
         sizeClasses[size],
         className
@@ -60,7 +75,7 @@ const ElementCard: React.FC<ElementCardProps> = ({
       </div>
       <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-1">
         <span className="font-bold">{element.symbol}</span>
-        <span className="text-[0.6rem] max-w-full truncate opacity-90 px-0.5">
+        <span className="text-[0.65rem] max-w-full px-0.5 font-medium">
           {element.name}
         </span>
       </div>

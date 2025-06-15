@@ -209,4 +209,17 @@
   .animate-shake {
     animation: shake 0.5s ease-in-out;
   }
+
+  /* Neon Glow Effect */
+  .neon-glow-alkali-metal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-alkali))); }
+  .neon-glow-alkaline-earth-metal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-alkaline))); }
+  .neon-glow-transition-metal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-transition))); }
+  .neon-glow-post-transition-metal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-post-transition))); }
+  .neon-glow-metalloid { filter: drop-shadow(0 0 6px hsl(var(--chemistry-metalloid))); }
+  .neon-glow-nonmetal { filter: drop-shadow(0 0 6px hsl(var(--chemistry-nonmetal))); }
+  .neon-glow-halogen { filter: drop-shadow(0 0 6px hsl(var(--chemistry-halogen))); }
+  .neon-glow-noble-gas { filter: drop-shadow(0 0 6px hsl(var(--chemistry-noble-gas))); }
+  .neon-glow-lanthanide { filter: drop-shadow(0 0 6px hsl(var(--chemistry-lanthanide))); }
+  .neon-glow-actinide { filter: drop-shadow(0 0 6px hsl(var(--chemistry-actinide))); }
+  .neon-glow-unknown { filter: drop-shadow(0 0 6px hsl(var(--chemistry-unknown))); }
 }
