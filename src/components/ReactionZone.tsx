@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element, elements as elementsDatabase } from '@/data/elements';
@@ -25,6 +24,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [suggestedElements, setSuggestedElements] = useState<Element[]>([]);
   const [steam, setSteam] = useState(false);
   const [crystallization, setCrystallization] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [heatWaves, setHeatWaves] = useState(false);
+  const [colorChange, setColorChange] = useState(false);
+  const [precipitation, setPrecipitation] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -94,6 +97,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         
         // Update suggested elements based on the last added element
         setSuggestedElements(findCompatibleElements(element));
+        setShowSuggestions(true);
         
         return newElements;
       });
@@ -123,6 +127,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setSuggestedElements([]);
     setSteam(false);
     setCrystallization(false);
+    setShowSuggestions(true);
+    setHeatWaves(false);
+    setColorChange(false);
+    setPrecipitation(false);
   };
 
   const simulateCurrentReaction = () => {
@@ -130,34 +138,63 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setAnimating(true);
       
       // For simplicity, we'll use the first two elements for the reaction
-      // In a more complex implementation, you could consider all combinations
       const result = simulateReaction(selectedElements[0], selectedElements[1]);
       
       // Create intense bubble effect for reaction
       const newBubbles = [...bubbles];
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 20; i++) {
         newBubbles.push(Math.random());
       }
       setBubbles(newBubbles);
       
-      // Set special animation effects based on reaction type
+      // Set realistic chemical reaction effects based on reaction type
       if (result.animationType === 'explosion') {
         setExplosion(true);
-        setTimeout(() => setExplosion(false), 2000);
+        setHeatWaves(true);
+        setTimeout(() => {
+          setExplosion(false);
+          setHeatWaves(false);
+        }, 2500);
       } else if (result.animationType === 'gas') {
         setGas(true);
         setSteam(true);
-        setTimeout(() => setSteam(false), 3000);
+        setTimeout(() => {
+          setGas(false);
+          setSteam(false);
+        }, 4000);
       } else if (result.animationType === 'crystallization') {
         setCrystallization(true);
-        setTimeout(() => setCrystallization(false), 2000);
-      } else {
-        setGas(false);
+        setPrecipitation(true);
+        setTimeout(() => {
+          setCrystallization(false);
+          setPrecipitation(false);
+        }, 3000);
+      } else if (result.animationType === 'neutralization') {
+        setColorChange(true);
+        setSteam(true);
+        setTimeout(() => {
+          setColorChange(false);
+          setSteam(false);
+        }, 2000);
+      } else if (result.animationType === 'combustion') {
+        setExplosion(true);
+        setHeatWaves(true);
+        setGas(true);
+        setTimeout(() => {
+          setExplosion(false);
+          setHeatWaves(false);
+          setGas(false);
+        }, 3000);
       }
       
       // Create splash effect for reaction
       setSplash(true);
       setTimeout(() => setSplash(false), 700);
+      
+      // Hide suggestions 1ms after reaction completion
+      setTimeout(() => {
+        setShowSuggestions(false);
+      }, 2001); // 2000ms for reaction + 1ms delay
       
       // Delay setting reaction to allow animation to be visible
       setTimeout(() => {
@@ -207,8 +244,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     
     if (selectedElements.length === 1) {
       setSuggestedElements(findCompatibleElements(selectedElements[0]));
+      setShowSuggestions(true);
     } else if (selectedElements.length === 0) {
       setSuggestedElements([]);
+      setShowSuggestions(true);
     }
   }, [selectedElements]);
 
@@ -239,8 +278,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
         `}
       >
-        {/* Element Suggestions Popup */}
-        {selectedElements.length > 0 && (
+        {/* Element Suggestions Popup - Only show when showSuggestions is true */}
+        {selectedElements.length > 0 && showSuggestions && (
           <ElementSuggestions 
             element={selectedElements[selectedElements.length - 1]} 
             onSelectElement={addElement}
@@ -248,70 +287,74 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           />
         )}
         
-        {/* Explosion effect */}
-        {explosion && (
-          <div className="absolute inset-0 z-10">
-            <div className="absolute inset-0 bg-orange-500/20 animate-pulse"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <Bomb className="h-20 w-20 text-orange-500 animate-bounce" />
-                <div className="absolute top-0 left-1/2 w-6 h-12 -translate-x-1/2 -translate-y-full">
-                  <div className="w-full h-full bg-gradient-to-t from-orange-500 to-transparent animate-flame"></div>
-                </div>
-              </div>
-            </div>
-            {[...Array(30)].map((_, i) => (
-              <div 
-                key={i} 
-                className="absolute bg-orange-500 rounded-full animate-explosion-particle"
-                style={{
-                  width: Math.random() * 12 + 2 + 'px',
-                  height: Math.random() * 12 + 2 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
-                  opacity: Math.random() * 0.7 + 0.3,
-                  animationDuration: Math.random() * 1 + 0.5 + 's',
-                  animationDelay: Math.random() * 0.2 + 's'
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-        
-        {/* Gas effect */}
-        {gas && (
+        {/* Heat waves effect */}
+        {heatWaves && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-            {[...Array(25)].map((_, i) => (
+            {[...Array(15)].map((_, i) => (
               <div 
-                key={i} 
-                className="absolute bg-green-500/30 rounded-full animate-gas-rise dark:bg-green-400/30"
+                key={`heat-${i}`}
+                className="absolute bg-gradient-to-t from-orange-400/30 to-red-400/20 rounded-full"
                 style={{
-                  width: Math.random() * 50 + 20 + 'px',
-                  height: Math.random() * 50 + 20 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 30 + 70 + '%',
-                  animationDuration: Math.random() * 3 + 3 + 's',
-                  animationDelay: Math.random() * 2 + 's'
+                  width: Math.random() * 80 + 40 + 'px',
+                  height: Math.random() * 120 + 60 + 'px',
+                  left: Math.random() * 80 + 10 + '%',
+                  top: Math.random() * 60 + 20 + '%',
+                  animation: `gas-rise ${Math.random() * 2 + 1}s ease-out infinite`,
+                  animationDelay: Math.random() * 1 + 's',
+                  filter: 'blur(3px)'
                 }}
               ></div>
             ))}
           </div>
         )}
 
-        {/* Steam effect */}
-        {steam && (
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(40)].map((_, i) => (
+        {/* Explosion effect - More realistic */}
+        {explosion && (
+          <div className="absolute inset-0 z-10">
+            <div className="absolute inset-0 bg-gradient-radial from-orange-500/40 via-red-500/20 to-transparent animate-pulse"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative">
+                <div className="w-32 h-32 bg-gradient-radial from-yellow-300 via-orange-500 to-red-600 rounded-full animate-ping opacity-75"></div>
+                <div className="absolute top-1/2 left-1/2 w-20 h-20 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full animate-pulse"></div>
+              </div>
+            </div>
+            {/* Explosion particles */}
+            {[...Array(50)].map((_, i) => (
               <div 
-                key={`steam-${i}`}
-                className="absolute bg-white/60 rounded-full animate-gas-rise"
+                key={i} 
+                className="absolute rounded-full"
                 style={{
-                  width: Math.random() * 30 + 10 + 'px',
-                  height: Math.random() * 30 + 10 + 'px',
+                  width: Math.random() * 8 + 2 + 'px',
+                  height: Math.random() * 8 + 2 + 'px',
+                  left: 50 + Math.random() * 10 - 5 + '%',
+                  top: 50 + Math.random() * 10 - 5 + '%',
+                  background: `hsl(${Math.random() * 60 + 10}, 90%, 60%)`, // Orange to red
+                  opacity: Math.random() * 0.9 + 0.1,
+                  animation: `explosion-particle ${Math.random() * 1.5 + 0.5}s ease-out forwards`,
+                  '--x-move': `${(Math.random() - 0.5) * 400}px`,
+                  '--y-move': `${(Math.random() - 0.5) * 400}px`,
+                } as React.CSSProperties}
+              ></div>
+            ))}
+          </div>
+        )}
+        
+        {/* Gas effect - Enhanced */}
+        {gas && (
+          <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+            {[...Array(35)].map((_, i) => (
+              <div 
+                key={i} 
+                className="absolute rounded-full"
+                style={{
+                  width: Math.random() * 60 + 15 + 'px',
+                  height: Math.random() * 60 + 15 + 'px',
                   left: Math.random() * 80 + 10 + '%',
-                  top: Math.random() * 20 + 60 + '%',
+                  top: Math.random() * 30 + 60 + '%',
+                  background: `hsla(${Math.random() * 120 + 60}, 70%, 60%, 0.4)`, // Green to yellow gases
                   animationDuration: Math.random() * 4 + 2 + 's',
-                  animationDelay: Math.random() * 1 + 's',
+                  animationDelay: Math.random() * 2 + 's',
+                  animation: `gas-rise ${Math.random() * 4 + 2}s ease-out infinite`,
                   filter: 'blur(2px)'
                 }}
               ></div>
@@ -319,25 +362,62 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Crystallization effect */}
-        {crystallization && (
+        {/* Steam effect - More realistic */}
+        {steam && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(20)].map((_, i) => (
+            {[...Array(50)].map((_, i) => (
               <div 
-                key={`crystal-${i}`}
-                className="absolute animate-fall"
+                key={`steam-${i}`}
+                className="absolute bg-white/40 rounded-full"
                 style={{
-                  width: Math.random() * 8 + 4 + 'px',
-                  height: Math.random() * 8 + 4 + 'px',
-                  left: Math.random() * 80 + 10 + '%',
-                  top: Math.random() * 40 + 30 + '%',
-                  background: 'linear-gradient(45deg, #e0e7ff, #c7d2fe)',
-                  clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
-                  animationDuration: Math.random() * 2 + 1 + 's',
-                  animationDelay: Math.random() * 0.5 + 's'
+                  width: Math.random() * 40 + 8 + 'px',
+                  height: Math.random() * 40 + 8 + 'px',
+                  left: Math.random() * 70 + 15 + '%',
+                  top: Math.random() * 20 + 50 + '%',
+                  animationDuration: Math.random() * 5 + 2 + 's',
+                  animationDelay: Math.random() * 1 + 's',
+                  animation: `gas-rise ${Math.random() * 5 + 2}s ease-out infinite`,
+                  filter: 'blur(3px)',
+                  opacity: Math.random() * 0.6 + 0.2
                 }}
               ></div>
             ))}
+          </div>
+        )}
+
+        {/* Precipitation effect */}
+        {precipitation && (
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+            {[...Array(30)].map((_, i) => (
+              <div 
+                key={`precipitate-${i}`}
+                className="absolute animate-fall"
+                style={{
+                  width: Math.random() * 6 + 2 + 'px',
+                  height: Math.random() * 6 + 2 + 'px',
+                  left: Math.random() * 70 + 15 + '%',
+                  top: Math.random() * 40 + 20 + '%',
+                  background: 'linear-gradient(45deg, #f0f9ff, #dbeafe, #bfdbfe)',
+                  borderRadius: '50%',
+                  animationDuration: Math.random() * 3 + 1 + 's',
+                  animationDelay: Math.random() * 0.5 + 's',
+                  opacity: Math.random() * 0.8 + 0.3
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
+        {/* Color change effect */}
+        {colorChange && (
+          <div className="absolute inset-0 z-5 pointer-events-none">
+            <div 
+              className="absolute bottom-0 w-full h-3/4 rounded-b-2xl transition-all duration-2000"
+              style={{
+                background: 'linear-gradient(to top, #fef3c7, #fde68a, #fcd34d)',
+                animation: 'pulse 2s ease-in-out'
+              }}
+            ></div>
           </div>
         )}
 
@@ -464,7 +544,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                   ) : (
                     <>
                       {reaction ? (
-                          <div className={`text-center ${animating ? getAnimationClass(reaction.animationType) : 'animate-fade-in'}`}>
+                          <div className="text-center">
                               <h3 className="text-xl font-bold">{reaction.result}</h3>
                               <p className="text-sm mt-1">{reaction.description}</p>
                               <div className="mt-3 flex items-center justify-center gap-2">
@@ -476,7 +556,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                       
                       <div className="flex flex-wrap items-center justify-center gap-2">
                           {selectedElements.map((element, index) => (
-                              <div key={index} className={`${index === 0 && animating ? 'animate-bounce-subtle' : ''} ${index === 1 && animating ? 'animate-bounce-subtle delay-100' : ''} ${(index === 2 || index === 3) && animating ? 'animate-bounce-subtle delay-200' : ''} ${(explosion || gas) && 'animate-shake'}`}>
+                              <div key={index} className={`${animating ? 'animate-shake' : ''}`}>
                                   <ElementCard element={element} onClick={() => onElementClick(element)} size="xs" isDraggable={false} />
                               </div>
                           ))}
