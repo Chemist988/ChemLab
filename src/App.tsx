@@ -10,8 +10,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Layout from "@/components/Layout";
 import AnalyticsPage from './pages/AnalyticsPage';
-import ActivityPage from './pages/ActivityPage';
-import SourcesPage from './pages/SourcesPage';
+import FormulasPage from './pages/FormulasPage';
+import QuizPage from './pages/QuizPage';
 
 const queryClient = new QueryClient();
 
@@ -27,8 +27,8 @@ const App: React.FC = () => (
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="/activity" element={<ActivityPage />} />
-                <Route path="/sources" element={<SourcesPage />} />
+                <Route path="/formulas" element={<FormulasPage />} />
+                <Route path="/quiz" element={<QuizPage />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
