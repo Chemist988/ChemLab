@@ -30,14 +30,14 @@ const Index = () => {
           {/* Apple-inspired Header */}
           <header className="mb-16 flex flex-col items-center relative">
             <div className="text-center space-y-6">
-              <h1 className="text-6xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-purple-700 dark:from-white dark:via-blue-200 dark:to-purple-300 font-orbitron">
+              <h1 className="text-6xl md:text-7xl font-bold tracking-tight text-white font-orbitron drop-shadow-2xl">
                 ChemLab
               </h1>
-              <p className="text-xl font-light text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl font-light text-gray-300 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
                 An interactive chemistry playground. Drag elements, simulate reactions, 
                 and discover the building blocks of our world with stunning visualizations.
               </p>
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-400 dark:text-gray-400">
                 <Atom className="w-4 h-4" />
                 <span>118 Elements • Unlimited Possibilities</span>
               </div>
@@ -46,7 +46,7 @@ const Index = () => {
 
           {/* Neutrino AI Section - Inkwell inspired */}
           <section className="mb-12 relative overflow-hidden">
-            <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-8 relative">
+            <div className="bg-gradient-to-r from-green-700 via-green-600 to-teal-600 rounded-3xl p-8 relative">
               {/* Background pattern */}
               <div className="absolute inset-0 opacity-20">
                 <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
@@ -78,7 +78,7 @@ const Index = () => {
                   <Button 
                     onClick={() => navigate('/analytics')}
                     size="lg"
-                    className="bg-white text-indigo-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg neon-glow-primary"
+                    className="bg-white text-green-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg neon-glow-primary"
                   >
                     <Sparkles className="w-5 h-5 mr-2" />
                     Chat with HeisenBot

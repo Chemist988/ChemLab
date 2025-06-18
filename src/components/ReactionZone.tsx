@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Element, elements as elementsDatabase } from '@/data/elements';
@@ -22,6 +23,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [splash, setSplash] = useState(false);
   const [powderBurst, setPowderBurst] = useState<{active: boolean; color: string}>({active: false, color: 'white'});
   const [suggestedElements, setSuggestedElements] = useState<Element[]>([]);
+  const [steam, setSteam] = useState(false);
+  const [crystallization, setCrystallization] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -118,6 +121,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setSplash(false);
     setPowderBurst({active: false, color: 'white'});
     setSuggestedElements([]);
+    setSteam(false);
+    setCrystallization(false);
   };
 
   const simulateCurrentReaction = () => {
@@ -141,6 +146,11 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         setTimeout(() => setExplosion(false), 2000);
       } else if (result.animationType === 'gas') {
         setGas(true);
+        setSteam(true);
+        setTimeout(() => setSteam(false), 3000);
+      } else if (result.animationType === 'crystallization') {
+        setCrystallization(true);
+        setTimeout(() => setCrystallization(false), 2000);
       } else {
         setGas(false);
       }
@@ -288,6 +298,49 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
+        {/* Steam effect */}
+        {steam && (
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+            {[...Array(40)].map((_, i) => (
+              <div 
+                key={`steam-${i}`}
+                className="absolute bg-white/60 rounded-full animate-gas-rise"
+                style={{
+                  width: Math.random() * 30 + 10 + 'px',
+                  height: Math.random() * 30 + 10 + 'px',
+                  left: Math.random() * 80 + 10 + '%',
+                  top: Math.random() * 20 + 60 + '%',
+                  animationDuration: Math.random() * 4 + 2 + 's',
+                  animationDelay: Math.random() * 1 + 's',
+                  filter: 'blur(2px)'
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
+        {/* Crystallization effect */}
+        {crystallization && (
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+              <div 
+                key={`crystal-${i}`}
+                className="absolute animate-fall"
+                style={{
+                  width: Math.random() * 8 + 4 + 'px',
+                  height: Math.random() * 8 + 4 + 'px',
+                  left: Math.random() * 80 + 10 + '%',
+                  top: Math.random() * 40 + 30 + '%',
+                  background: 'linear-gradient(45deg, #e0e7ff, #c7d2fe)',
+                  clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+                  animationDuration: Math.random() * 2 + 1 + 's',
+                  animationDelay: Math.random() * 0.5 + 's'
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
         {/* Splash effect */}
         {splash && (
           <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
@@ -341,31 +394,62 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* Beaker container */}
+        {/* Ultra-realistic Beaker container */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-56 h-64">
-              {/* Beaker glass */}
-              <div className="absolute bottom-0 w-full h-full bg-gray-500/10 backdrop-blur-sm border-2 border-gray-400/20 rounded-b-3xl rounded-t-lg">
-                  {/* Glossy highlight */}
-                  <div className="absolute top-4 -left-4 w-1/2 h-3/4 bg-white/10 dark:bg-white/5 rounded-full transform -rotate-45"></div>
-                  {/* Spout */}
-                  <div className="absolute -top-[2px] left-[10%] w-[30%] h-4 border-t-2 border-l-2 border-r-2 border-transparent border-t-gray-400/20" style={{ transform: 'skewX(-30deg)' }}></div>
+              {/* Beaker glass with ultra-realistic effects */}
+              <div className="absolute bottom-0 w-full h-full rounded-b-3xl rounded-t-lg overflow-hidden">
+                {/* Main glass body with realistic transparency and refraction */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent border-2 border-gray-300/40 rounded-b-3xl rounded-t-lg backdrop-blur-sm">
+                  {/* Multiple light reflections for realism */}
+                  <div className="absolute top-8 left-4 w-16 h-32 bg-white/20 rounded-full transform -rotate-12 blur-sm"></div>
+                  <div className="absolute top-12 right-6 w-8 h-24 bg-white/15 rounded-full transform rotate-12 blur-sm"></div>
+                  <div className="absolute bottom-16 left-8 w-12 h-16 bg-white/10 rounded-full transform -rotate-45 blur-sm"></div>
+                  
+                  {/* Glass thickness simulation */}
+                  <div className="absolute inset-0 border border-gray-200/30 rounded-b-3xl rounded-t-lg"></div>
+                  <div className="absolute inset-1 border border-gray-100/20 rounded-b-3xl rounded-t-lg"></div>
+                </div>
+                
+                {/* Spout with realistic glass curvature */}
+                <div className="absolute -top-[1px] left-[8%] w-[35%] h-5 border-t-2 border-l-2 border-r-2 border-gray-300/40 bg-gradient-to-b from-white/5 to-transparent" 
+                     style={{ clipPath: 'polygon(0 0, 85% 0, 100% 100%, 15% 100%)' }}>
+                  <div className="absolute top-0 left-2 w-4 h-2 bg-white/10 rounded-full blur-sm"></div>
+                </div>
+                
+                {/* Base shadow for depth */}
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-black/10 rounded-full blur-lg"></div>
               </div>
 
-              {/* Liquid & Bubbles */}
+              {/* Enhanced Liquid & Bubbles with realistic physics */}
               <div className={`absolute bottom-0 w-full transition-all duration-700 ease-out overflow-hidden rounded-b-2xl ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}`}>
                 <div className={`w-full h-full relative ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'} ${animating ? 'animate-pulse' : ''}`}>
-                  <div className="absolute inset-x-0 top-0 h-1 bg-white/40 dark:bg-white/20"></div>
-                    {bubbles.map((bubble, index) => (
-                        <div key={index} className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise" style={{
-                            width: Math.max(4, Math.random() * 12) + 'px',
-                            height: Math.max(4, Math.random() * 12) + 'px',
-                            bottom: bubble * 100 + '%',
-                            left: Math.random() * 80 + 10 + '%',
-                            animationDuration: Math.random() * 2 + 1 + 's',
-                            opacity: Math.random() * 0.6 + 0.2
-                        }} />
-                    ))}
+                  {/* Liquid surface with realistic meniscus */}
+                  <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-b from-white/50 via-white/20 to-transparent rounded-full"></div>
+                  <div className="absolute inset-x-2 top-0 h-1 bg-white/30 rounded-full"></div>
+                  
+                  {/* Enhanced bubbles with realistic movement */}
+                  {bubbles.map((bubble, index) => (
+                      <div key={index} 
+                           className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise" 
+                           style={{
+                              width: Math.max(4, Math.random() * 12) + 'px',
+                              height: Math.max(4, Math.random() * 12) + 'px',
+                              bottom: bubble * 100 + '%',
+                              left: Math.random() * 80 + 10 + '%',
+                              animationDuration: Math.random() * 2 + 1 + 's',
+                              opacity: Math.random() * 0.6 + 0.2,
+                              boxShadow: 'inset 0 0 3px rgba(255,255,255,0.8), 0 0 3px rgba(0,0,0,0.1)'
+                           }} />
+                  ))}
+                  
+                  {/* Liquid density layers for complex reactions */}
+                  {selectedElements.length > 1 && (
+                    <>
+                      <div className="absolute bottom-0 w-full h-1/4 bg-gradient-to-t from-black/10 to-transparent"></div>
+                      <div className="absolute bottom-1/4 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                    </>
+                  )}
                 </div>
               </div>
 
