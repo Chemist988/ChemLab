@@ -191,10 +191,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setSplash(true);
       setTimeout(() => setSplash(false), 700);
       
-      // Hide suggestions 1ms after reaction completion
+      // Show suggestions after reaction completes (2000ms)
       setTimeout(() => {
-        setShowSuggestions(false);
-      }, 2001); // 2000ms for reaction + 1ms delay
+        setShowSuggestions(true);
+      }, 2000);
       
       // Delay setting reaction to allow animation to be visible
       setTimeout(() => {
@@ -278,12 +278,13 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
         `}
       >
-        {/* Element Suggestions Popup - Only show when showSuggestions is true */}
+        {/* Element Suggestions Popup - Hide during reactions */}
         {selectedElements.length > 0 && showSuggestions && (
           <ElementSuggestions 
             element={selectedElements[selectedElements.length - 1]} 
             onSelectElement={addElement}
             suggestedElements={suggestedElements}
+            isReacting={animating}
           />
         )}
         

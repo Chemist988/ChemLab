@@ -10,14 +10,16 @@ interface ElementSuggestionsProps {
   element: Element | null;
   onSelectElement: (element: Element) => void;
   suggestedElements: Element[];
+  isReacting?: boolean;
 }
 
 const ElementSuggestions: React.FC<ElementSuggestionsProps> = ({ 
   element, 
   onSelectElement, 
-  suggestedElements 
+  suggestedElements,
+  isReacting = false
 }) => {
-  if (!element || suggestedElements.length === 0) return null;
+  if (!element || suggestedElements.length === 0 || isReacting) return null;
 
   return (
     <div className="absolute top-2 right-2 z-20">
