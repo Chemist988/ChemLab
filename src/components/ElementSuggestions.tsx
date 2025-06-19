@@ -4,7 +4,7 @@ import { Element } from '@/data/elements';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import ElementCard from './ElementCard';
 import { Button } from '@/components/ui/button';
-import { Info, Atom, Molecule } from 'lucide-react';
+import { Info, Atom, Flask } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 interface ElementSuggestionsProps {
@@ -134,7 +134,7 @@ const ElementSuggestions: React.FC<ElementSuggestionsProps> = ({
             {elementMolecules.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <Molecule className="h-3.5 w-3.5 text-green-500" />
+                  <Flask className="h-3.5 w-3.5 text-green-500" />
                   <span className="text-xs font-medium text-muted-foreground">Common Molecules</span>
                 </div>
                 <p className="text-xs text-muted-foreground mb-2">
