@@ -1,26 +1,376 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>chem-ai-spark</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
-
-    <meta property="og:title" content="chem-ai-spark" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
-
-  <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemLab - Interactive Chemistry Playground</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .font-orbitron { font-family: 'Orbitron', monospace; }
+        .animated-gradient-bg {
+            background: linear-gradient(-45deg, #1e3a8a, #1e40af, #3b82f6, #60a5fa);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+        }
+        .element-card {
+            transition: all 0.3s ease;
+        }
+        .element-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .reaction-zone {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            border: 2px dashed rgba(59, 130, 246, 0.3);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            position: relative;
+        }
+        .element-alkali-metal { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .element-alkaline-earth-metal { background: linear-gradient(135deg, #f97316, #ea580c); }
+        .element-transition-metal { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .element-post-transition-metal { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .element-metalloid { background: linear-gradient(135deg, #10b981, #059669); }
+        .element-nonmetal { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .element-halogen { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .element-noble-gas { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+        .element-lanthanide { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .element-actinide { background: linear-gradient(135deg, #84cc16, #65a30d); }
+    </style>
+</head>
+<body>
     <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Elements data
+        const elements = [
+            { symbol: 'H', name: 'Hydrogen', atomicNumber: 1, atomicMass: 1.008, category: 'nonmetal' },
+            { symbol: 'He', name: 'Helium', atomicNumber: 2, atomicMass: 4.003, category: 'noble-gas' },
+            { symbol: 'Li', name: 'Lithium', atomicNumber: 3, atomicMass: 6.941, category: 'alkali-metal' },
+            { symbol: 'Be', name: 'Beryllium', atomicNumber: 4, atomicMass: 9.012, category: 'alkaline-earth-metal' },
+            { symbol: 'B', name: 'Boron', atomicNumber: 5, atomicMass: 10.811, category: 'metalloid' },
+            { symbol: 'C', name: 'Carbon', atomicNumber: 6, atomicMass: 12.011, category: 'nonmetal' },
+            { symbol: 'N', name: 'Nitrogen', atomicNumber: 7, atomicMass: 14.007, category: 'nonmetal' },
+            { symbol: 'O', name: 'Oxygen', atomicNumber: 8, atomicMass: 15.999, category: 'nonmetal' },
+            { symbol: 'F', name: 'Fluorine', atomicNumber: 9, atomicMass: 18.998, category: 'halogen' },
+            { symbol: 'Ne', name: 'Neon', atomicNumber: 10, atomicMass: 20.180, category: 'noble-gas' },
+            { symbol: 'Na', name: 'Sodium', atomicNumber: 11, atomicMass: 22.990, category: 'alkali-metal' },
+            { symbol: 'Mg', name: 'Magnesium', atomicNumber: 12, atomicMass: 24.305, category: 'alkaline-earth-metal' },
+            { symbol: 'Al', name: 'Aluminum', atomicNumber: 13, atomicMass: 26.982, category: 'post-transition-metal' },
+            { symbol: 'Si', name: 'Silicon', atomicNumber: 14, atomicMass: 28.086, category: 'metalloid' },
+            { symbol: 'P', name: 'Phosphorus', atomicNumber: 15, atomicMass: 30.974, category: 'nonmetal' },
+            { symbol: 'S', name: 'Sulfur', atomicNumber: 16, atomicMass: 32.065, category: 'nonmetal' },
+            { symbol: 'Cl', name: 'Chlorine', atomicNumber: 17, atomicMass: 35.453, category: 'halogen' },
+            { symbol: 'Ar', name: 'Argon', atomicNumber: 18, atomicMass: 39.948, category: 'noble-gas' },
+            { symbol: 'K', name: 'Potassium', atomicNumber: 19, atomicMass: 39.098, category: 'alkali-metal' },
+            { symbol: 'Ca', name: 'Calcium', atomicNumber: 20, atomicMass: 40.078, category: 'alkaline-earth-metal' },
+            { symbol: 'Fe', name: 'Iron', atomicNumber: 26, atomicMass: 55.845, category: 'transition-metal' },
+            { symbol: 'Cu', name: 'Copper', atomicNumber: 29, atomicMass: 63.546, category: 'transition-metal' },
+            { symbol: 'Zn', name: 'Zinc', atomicNumber: 30, atomicMass: 65.38, category: 'transition-metal' },
+            { symbol: 'Br', name: 'Bromine', atomicNumber: 35, atomicMass: 79.904, category: 'halogen' },
+            { symbol: 'Kr', name: 'Krypton', atomicNumber: 36, atomicMass: 83.798, category: 'noble-gas' },
+            { symbol: 'Ag', name: 'Silver', atomicNumber: 47, atomicMass: 107.868, category: 'transition-metal' },
+            { symbol: 'I', name: 'Iodine', atomicNumber: 53, atomicMass: 126.904, category: 'halogen' },
+            { symbol: 'Xe', name: 'Xenon', atomicNumber: 54, atomicMass: 131.293, category: 'noble-gas' },
+            { symbol: 'Au', name: 'Gold', atomicNumber: 79, atomicMass: 196.967, category: 'transition-metal' },
+            { symbol: 'Hg', name: 'Mercury', atomicNumber: 80, atomicMass: 200.592, category: 'transition-metal' }
+        ];
+
+        // Reaction simulation
+        const reactions = {
+            "H-O": { result: "H₂O (Water)", description: "Hydrogen and oxygen combine to form water." },
+            "Na-Cl": { result: "NaCl (Salt)", description: "Sodium and chlorine form table salt." },
+            "Fe-O": { result: "Fe₂O₃ (Rust)", description: "Iron and oxygen form rust." },
+            "Ca-O": { result: "CaO (Quicklime)", description: "Calcium and oxygen form quicklime." },
+            "Mg-O": { result: "MgO (Magnesium Oxide)", description: "Magnesium burns to form magnesium oxide." },
+            "C-O": { result: "CO₂ (Carbon Dioxide)", description: "Carbon and oxygen form carbon dioxide." },
+            "H-Cl": { result: "HCl (Hydrochloric Acid)", description: "Hydrogen and chlorine form hydrochloric acid." },
+            "K-Cl": { result: "KCl (Potassium Chloride)", description: "Potassium and chlorine form potassium chloride." }
+        };
+
+        const simulateReaction = (element1, element2) => {
+            const combo = `${element1.symbol}-${element2.symbol}`;
+            const reversedCombo = `${element2.symbol}-${element1.symbol}`;
+            
+            if (reactions[combo]) {
+                return reactions[combo];
+            } else if (reactions[reversedCombo]) {
+                return reactions[reversedCombo];
+            } else {
+                return {
+                    result: "No Reaction",
+                    description: `No common reaction between ${element1.symbol} and ${element2.symbol}.`
+                };
+            }
+        };
+
+        // Element Card Component
+        const ElementCard = ({ element, onClick, size = "md" }) => {
+            const sizeClasses = {
+                sm: "w-12 h-12 text-xs",
+                md: "w-16 h-16 text-sm",
+                lg: "w-20 h-20 text-base"
+            };
+
+            return (
+                <div
+                    className={`element-card element-${element.category} ${sizeClasses[size]} 
+                               rounded-lg cursor-pointer text-white font-bold 
+                               flex flex-col items-center justify-center shadow-lg 
+                               border border-white/20 backdrop-blur-sm`}
+                    onClick={() => onClick(element)}
+                >
+                    <div className="text-xs opacity-80">{element.atomicNumber}</div>
+                    <div className="font-orbitron">{element.symbol}</div>
+                    <div className="text-xs opacity-80 leading-tight">{element.atomicMass.toFixed(1)}</div>
+                </div>
+            );
+        };
+
+        // Element Modal Component
+        const ElementModal = ({ element, isOpen, onClose }) => {
+            if (!isOpen || !element) return null;
+
+            return (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full shadow-2xl">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-2xl font-bold font-orbitron">{element.name}</h2>
+                            <button
+                                onClick={onClose}
+                                className="text-gray-500 hover:text-gray-700 text-xl font-bold"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-center mb-4">
+                                <ElementCard element={element} onClick={() => {}} size="lg" />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span className="font-semibold">Symbol:</span> {element.symbol}
+                                </div>
+                                <div>
+                                    <span className="font-semibold">Atomic Number:</span> {element.atomicNumber}
+                                </div>
+                                <div>
+                                    <span className="font-semibold">Atomic Mass:</span> {element.atomicMass}
+                                </div>
+                                <div>
+                                    <span className="font-semibold">Category:</span> {element.category.replace('-', ' ')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Periodic Table Component
+        const PeriodicTable = ({ onElementClick }) => {
+            const mainElements = elements.slice(0, 20);
+            const transitionMetals = elements.slice(20, 26);
+            const otherElements = elements.slice(26);
+
+            return (
+                <div className="space-y-4">
+                    <div className="grid grid-cols-10 gap-2">
+                        {mainElements.map((element, index) => (
+                            <ElementCard
+                                key={element.symbol}
+                                element={element}
+                                onClick={onElementClick}
+                            />
+                        ))}
+                    </div>
+                    <div className="grid grid-cols-6 gap-2">
+                        {transitionMetals.map((element) => (
+                            <ElementCard
+                                key={element.symbol}
+                                element={element}
+                                onClick={onElementClick}
+                            />
+                        ))}
+                    </div>
+                    <div className="grid grid-cols-4 gap-2">
+                        {otherElements.map((element) => (
+                            <ElementCard
+                                key={element.symbol}
+                                element={element}
+                                onClick={onElementClick}
+                            />
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // Reaction Zone Component
+        const ReactionZone = () => {
+            const [selectedElements, setSelectedElements] = useState([]);
+            const [reactionResult, setReactionResult] = useState(null);
+            const [showResult, setShowResult] = useState(false);
+
+            const handleElementDrop = (element) => {
+                if (selectedElements.length < 2) {
+                    const newElements = [...selectedElements, element];
+                    setSelectedElements(newElements);
+                    
+                    if (newElements.length === 2) {
+                        const reaction = simulateReaction(newElements[0], newElements[1]);
+                        setReactionResult(reaction);
+                        setShowResult(true);
+                        
+                        setTimeout(() => {
+                            setSelectedElements([]);
+                            setShowResult(false);
+                            setReactionResult(null);
+                        }, 4000);
+                    }
+                }
+            };
+
+            const handleReset = () => {
+                setSelectedElements([]);
+                setReactionResult(null);
+                setShowResult(false);
+            };
+
+            return (
+                <div className="space-y-4">
+                    <div className="reaction-zone">
+                        {selectedElements.length === 0 && (
+                            <div className="text-center text-gray-500">
+                                <div className="text-2xl mb-2">🧪</div>
+                                <p>Drag elements here to react</p>
+                            </div>
+                        )}
+                        
+                        {selectedElements.length > 0 && !showResult && (
+                            <div className="flex items-center gap-4">
+                                {selectedElements.map((element, index) => (
+                                    <ElementCard key={index} element={element} onClick={() => {}} />
+                                ))}
+                                {selectedElements.length === 1 && (
+                                    <div className="text-gray-400">+ ?</div>
+                                )}
+                            </div>
+                        )}
+                        
+                        {showResult && reactionResult && (
+                            <div className="text-center space-y-2 animate-pulse">
+                                <div className="text-2xl font-bold text-blue-600">
+                                    {reactionResult.result}
+                                </div>
+                                <p className="text-sm text-gray-600">
+                                    {reactionResult.description}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                    
+                    <div className="grid grid-cols-4 gap-2">
+                        {elements.slice(0, 8).map((element) => (
+                            <ElementCard
+                                key={element.symbol}
+                                element={element}
+                                onClick={handleElementDrop}
+                                size="sm"
+                            />
+                        ))}
+                    </div>
+                    
+                    {selectedElements.length > 0 && (
+                        <button
+                            onClick={handleReset}
+                            className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                        >
+                            Reset
+                        </button>
+                    )}
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            const [selectedElement, setSelectedElement] = useState(null);
+            const [modalOpen, setModalOpen] = useState(false);
+
+            const handleElementClick = (element) => {
+                setSelectedElement(element);
+                setModalOpen(true);
+            };
+
+            return (
+                <div className="min-h-screen animated-gradient-bg">
+                    <div className="container mx-auto py-8 px-4">
+                        {/* Header */}
+                        <header className="mb-16 text-center">
+                            <h1 className="text-6xl md:text-7xl font-bold tracking-tight text-white font-orbitron drop-shadow-2xl mb-6">
+                                ChemLab
+                            </h1>
+                            <p className="text-xl font-light text-gray-300 max-w-3xl mx-auto leading-relaxed mb-4">
+                                An interactive chemistry playground. Click elements, simulate reactions, 
+                                and discover the building blocks of our world with stunning visualizations.
+                            </p>
+                            <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+                                <span>⚛️</span>
+                                <span>118 Elements • Unlimited Possibilities</span>
+                            </div>
+                        </header>
+
+                        {/* Main Content */}
+                        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+                            {/* Periodic Table */}
+                            <div className="xl:col-span-3 bg-white/80 rounded-3xl shadow-xl backdrop-blur-xl border border-gray-200/50 p-8">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h2 className="text-3xl font-thin text-gray-900 font-orbitron">Periodic Table</h2>
+                                    <div className="text-sm text-gray-500">Click any element to explore</div>
+                                </div>
+                                <PeriodicTable onElementClick={handleElementClick} />
+                            </div>
+
+                            {/* Reaction Lab */}
+                            <div className="bg-white/80 rounded-3xl shadow-xl backdrop-blur-xl border border-gray-200/50 p-6">
+                                <h3 className="text-xl font-medium mb-4 font-orbitron">Reaction Lab</h3>
+                                <p className="text-gray-600 text-sm mb-4">
+                                    Click elements to simulate chemical reactions
+                                </p>
+                                <ReactionZone />
+                            </div>
+                        </div>
+                    </div>
+
+                    <ElementModal 
+                        element={selectedElement}
+                        isOpen={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                    />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
 </html>
