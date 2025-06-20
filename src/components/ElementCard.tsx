@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Element } from '../data/elements';
 import { useDrag } from 'react-dnd';
@@ -54,11 +55,12 @@ const ElementCard: React.FC<ElementCardProps> = ({
     <div
       ref={isDraggable ? drag : undefined}
       className={cn(
-        `bg-chemistry-${element.category} rounded-md cursor-pointer transition-all duration-300`,
-        `backdrop-blur-sm border border-white/10 dark:border-black/10`,
-        `hover:shadow-lg hover:scale-110 hover:z-20`,
+        `bg-chemistry-${element.category} rounded-xl cursor-pointer transition-all duration-500`,
+        `backdrop-blur-xl border border-white/20 dark:border-black/10`,
+        `hover:shadow-2xl hover:scale-110 hover:z-20 liquid-glass-element`,
+        `transform-gpu perspective-1000`,
         neonGlowClasses[element.category as keyof typeof neonGlowClasses],
-        `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110' : ''}`,
+        `${isDragging ? 'ring-2 ring-primary/50 shadow-2xl scale-110' : ''}`,
         isDimmed && 'opacity-20 saturate-0 pointer-events-none',
         sizeClasses[size],
         className
@@ -66,19 +68,30 @@ const ElementCard: React.FC<ElementCardProps> = ({
       onClick={onClick}
       style={{ 
         opacity: isDragging ? 0.7 : 1,
-        backgroundImage: `radial-gradient(circle at center, var(--element-center-color, rgba(255,255,255,0.2)) 0%, var(--element-edge-color, rgba(0,0,0,0.05)) 100%)`,
-        '--element-center-color': element.category === 'alkali-metal' || element.category === 'transition-metal' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.15)',
-        '--element-edge-color': 'rgba(0,0,0,0.1)'
+        background: `
+          radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 0%, transparent 50%),
+          radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 0%, transparent 50%),
+          linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)
+        `,
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        boxShadow: `
+          inset 0 1px 0 rgba(255,255,255,0.2),
+          inset 0 -1px 0 rgba(0,0,0,0.1),
+          0 8px 32px rgba(0,0,0,0.12),
+          0 2px 8px rgba(0,0,0,0.08)
+        `,
+        borderImage: 'linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1)) 1',
       } as React.CSSProperties}
     >
       <div className="flex justify-between items-start px-1 pt-0.5">
-        <span className="font-mono text-[0.6rem] opacity-80">{element.atomicNumber}</span>
-        <span className="font-mono text-[0.6rem] opacity-70">{element.group || ""}</span>
+        <span className="font-mono text-[0.6rem] opacity-90 text-shadow">{element.atomicNumber}</span>
+        <span className="font-mono text-[0.6rem] opacity-80 text-shadow">{element.group || ""}</span>
       </div>
       <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-0.5">
-        <span className="font-bold text-base leading-none">{element.symbol}</span>
+        <span className="font-bold text-base leading-none text-shadow-lg drop-shadow-sm">{element.symbol}</span>
       </div>
-      <div className="text-[0.55rem] text-center opacity-80">
+      <div className="text-[0.55rem] text-center opacity-90 text-shadow">
         {element.atomicMass.toFixed(1)}
       </div>
     </div>
