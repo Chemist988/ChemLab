@@ -19,7 +19,6 @@ interface AtomProps {
 
 const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, onClick }) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const { camera } = useThree();
   
   useFrame((state) => {
     if (meshRef.current && selected) {
@@ -28,7 +27,8 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
     }
   });
 
-  const atomicRadius = Math.max(0.3, Math.min(element.atomicRadius / 100, 1.5));
+  // Calculate atomic radius based on atomic number (fallback since atomicRadius doesn't exist)
+  const atomicRadius = Math.max(0.3, Math.min(element.atomicNumber / 50, 1.5));
   const color = getElementColor(element.category);
 
   return (
@@ -47,7 +47,6 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
           clearcoat={1}
           clearcoatRoughness={0.1}
           ior={1.5}
-          envMapIntensity={1}
         />
       </Sphere>
       
@@ -63,7 +62,6 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
         color="white"
         anchorX="center"
         anchorY="middle"
-        font="/fonts/orbitron.woff"
       >
         {element.symbol}
       </Text>
@@ -92,7 +90,7 @@ const ElectronOrbit: React.FC<{ radius: number; speed: number }> = ({ radius, sp
       
       {/* Electron */}
       <Sphere ref={electronRef} args={[0.05, 16, 16]} position={[radius, 0, 0]}>
-        <meshBasicMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={0.5} />
+        <meshBasicMaterial color="#00ffff" />
       </Sphere>
     </>
   );
@@ -106,8 +104,6 @@ const Bond: React.FC<{ start: [number, number, number]; end: [number, number, nu
       points={points}
       color="#ffff00"
       lineWidth={3}
-      transparent
-      opacity={0.8}
     />
   );
 };
@@ -144,6 +140,7 @@ const MolecularLabPage = () => {
       ];
       setSelectedAtoms([...selectedAtoms, element]);
       setAtomPositions([...atomPositions, newPosition]);
+      console.log(`Added ${element.name} at position:`, newPosition);
     }
   };
 
@@ -151,6 +148,12 @@ const MolecularLabPage = () => {
     setSelectedAtoms([]);
     setAtomPositions([]);
     setSelectedElement(null);
+    console.log('Cleared all atoms');
+  };
+
+  const handleAtomClick = (atom: Element) => {
+    setSelectedElement(atom);
+    console.log(`Selected atom: ${atom.name}`);
   };
 
   const commonElements = elements.slice(0, 20);
@@ -182,7 +185,7 @@ const MolecularLabPage = () => {
                     element={atom}
                     position={atomPositions[index]}
                     selected={selectedElement?.id === atom.id}
-                    onClick={() => setSelectedElement(atom)}
+                    onClick={() => handleAtomClick(atom)}
                   />
                 ))}
                 
@@ -191,6 +194,8 @@ const MolecularLabPage = () => {
                   selectedAtoms.slice(i + 1).map((atom2, j) => {
                     const pos1 = atomPositions[i];
                     const pos2 = atomPositions[i + j + 1];
+                    if (!pos1 || !pos2) return null;
+                    
                     const distance = Math.sqrt(
                       Math.pow(pos1[0] - pos2[0], 2) +
                       Math.pow(pos1[1] - pos2[1], 2) +
