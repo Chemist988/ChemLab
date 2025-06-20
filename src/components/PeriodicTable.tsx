@@ -37,35 +37,35 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
-        <h3 className="text-md font-semibold font-orbitron">Interactive Periodic Table</h3>
+        <h3 className="text-md font-semibold font-orbitron liquid-glass-heading">Interactive Periodic Table</h3>
         <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground liquid-glass-icon" />
           <Input 
             placeholder="Search element (e.g., Iron)"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value)
-              setSelectedCategory(null); // Reset category filter when searching
+              setSelectedCategory(null);
             }}
-            className="pl-10 pr-10 bg-background/50"
+            className="pl-10 pr-10 liquid-glass-input"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground liquid-glass-button-small"
               aria-label="Clear search"
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4 liquid-glass-icon" />
             </button>
           )}
         </div>
       </div>
 
-      <div className="relative rounded-xl overflow-hidden border shadow-md bg-gradient-to-br from-card to-background/80">
+      <div className="relative rounded-xl overflow-hidden border shadow-md liquid-glass-table-container">
         <ScrollArea className="h-auto w-full">
-          <div className="relative p-4 flex justify-center">
+          <div className="relative p-4 flex justify-center refractive-surface">
             <div 
-              className="periodic-table-grid" 
+              className="periodic-table-grid liquid-glass-grid" 
               style={{ 
                 display: 'grid',
                 gridTemplateColumns: 'repeat(18, 50px)',
@@ -91,8 +91,8 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                       <div 
                         key={`${rowIndex}-${colIndex}`} 
                         className={`
-                          element-cell transition-all duration-300
-                          ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
+                          element-cell transition-all duration-300 liquid-glass-cell
+                          ${atomicNumber > 0 ? 'caustic-element' : 'opacity-0 pointer-events-none'}
                         `}
                         style={{
                           width: '50px',
@@ -105,7 +105,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                             onClick={() => onElementClick(element)}
                             size="xs"
                             isDimmed={isDimmed}
-                            className="animate-fade-in backdrop-blur-sm"
+                            className="animate-fade-in backdrop-blur-sm liquid-glass-element"
                           />
                         )}
                       </div>
@@ -117,16 +117,16 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
           </div>
         </ScrollArea>
         
-        {/* Atom icon watermark */}
-        <div className="absolute bottom-2 right-2 opacity-5 pointer-events-none">
-          <Atom className="h-20 w-20" />
+        {/* Liquid Glass Atom icon watermark */}
+        <div className="absolute bottom-2 right-2 opacity-5 pointer-events-none liquid-glass-watermark">
+          <Atom className="h-20 w-20 liquid-glass-icon" />
         </div>
       </div>
       
-      {/* Legend - Always show the categories */}
-      <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm">
+      {/* Liquid Glass Legend */}
+      <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 liquid-glass-legend rounded-xl shadow-sm border border-white/10 backdrop-blur-sm refractive-surface">
         <div className="w-full text-center mb-1">
-          <h4 className="text-sm font-medium font-orbitron">Element Categories</h4>
+          <h4 className="text-sm font-medium font-orbitron liquid-glass-heading">Element Categories</h4>
         </div>
         {Object.entries(categoryNames).map(([category, name]) => (
           <div 
@@ -134,21 +134,22 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
             className={`px-3 py-1.5 rounded-full text-xs flex items-center gap-2 
               bg-chemistry-${category} bg-opacity-30 dark:bg-opacity-50 
               border border-chemistry-${category}/20 shadow-sm hover:shadow-md 
+              liquid-glass-category-badge caustic-element prismatic-border
               transition-all cursor-pointer hover:ring-2 hover:ring-primary/50
               ${selectedCategory === category ? `ring-2 ring-primary neon-glow-${category}` : ''}
             `}
             onClick={() => handleCategoryClick(category)}
           >
-            <div className={`w-3 h-3 rounded-full bg-chemistry-${category}`}></div>
+            <div className={`w-3 h-3 rounded-full bg-chemistry-${category} liquid-glass-dot`}></div>
             {name}
           </div>
         ))}
       </div>
       
-      {/* Display filtered elements when category is selected */}
+      {/* Liquid Glass filtered elements display */}
       {selectedCategory && (
-        <div className="mt-4 p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm animate-fade-in">
-          <h4 className="text-sm font-medium mb-3">
+        <div className="mt-4 p-4 liquid-glass-filtered-section rounded-xl shadow-sm border border-white/10 backdrop-blur-sm animate-fade-in refractive-surface">
+          <h4 className="text-sm font-medium mb-3 liquid-glass-heading">
             {categoryNames[selectedCategory as keyof typeof categoryNames]} Elements
           </h4>
           <div className="flex flex-wrap gap-2 justify-center">
@@ -158,11 +159,11 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                 element={element}
                 onClick={() => onElementClick(element)}
                 size="md"
-                className="animate-fade-in"
+                className="animate-fade-in liquid-glass-element"
               />
             ))}
             {filteredElements.length === 0 && (
-              <p className="text-sm text-muted-foreground">No elements found in this category.</p>
+              <p className="text-sm text-muted-foreground liquid-glass-text">No elements found in this category.</p>
             )}
           </div>
         </div>

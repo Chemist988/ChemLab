@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Element } from '../data/elements';
 import { useDrag } from 'react-dnd';
@@ -55,10 +56,11 @@ const ElementCard: React.FC<ElementCardProps> = ({
       ref={isDraggable ? drag : undefined}
       className={cn(
         `bg-chemistry-${element.category} rounded-md cursor-pointer transition-all duration-300`,
-        `backdrop-blur-sm border border-white/10 dark:border-black/10`,
-        `hover:shadow-lg hover:scale-110 hover:z-20`,
+        `liquid-glass-element backdrop-blur-sm border border-white/10 dark:border-black/10`,
+        `hover:shadow-lg hover:scale-110 hover:z-20 refractive-hover`,
+        `caustic-element prismatic-border rainbow-edge`,
         neonGlowClasses[element.category as keyof typeof neonGlowClasses],
-        `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110' : ''}`,
+        `${isDragging ? 'ring-2 ring-primary/50 shadow-lg scale-110 liquid-glass-dragging' : ''}`,
         isDimmed && 'opacity-20 saturate-0 pointer-events-none',
         sizeClasses[size],
         className
@@ -71,15 +73,24 @@ const ElementCard: React.FC<ElementCardProps> = ({
         '--element-edge-color': 'rgba(0,0,0,0.1)'
       } as React.CSSProperties}
     >
-      <div className="flex justify-between items-start px-1 pt-0.5">
-        <span className="font-mono text-[0.6rem] opacity-80">{element.atomicNumber}</span>
-        <span className="font-mono text-[0.6rem] opacity-70">{element.group || ""}</span>
+      {/* Liquid Glass Overlay */}
+      <div className="absolute inset-0 liquid-glass-overlay rounded-md">
+        <div className="absolute top-1 left-1 w-1/3 h-1/3 bg-white/20 rounded-full blur-sm refractive-highlight"></div>
+        <div className="absolute bottom-1 right-1 w-1/4 h-1/4 bg-white/10 rounded-full blur-sm secondary-highlight"></div>
+        <div className="absolute inset-0 rainbow-shimmer rounded-md"></div>
       </div>
-      <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-0.5">
-        <span className="font-bold text-base leading-none">{element.symbol}</span>
-      </div>
-      <div className="text-[0.55rem] text-center opacity-80">
-        {element.atomicMass.toFixed(1)}
+      
+      <div className="relative z-10">
+        <div className="flex justify-between items-start px-1 pt-0.5">
+          <span className="font-mono text-[0.6rem] opacity-80 liquid-glass-text">{element.atomicNumber}</span>
+          <span className="font-mono text-[0.6rem] opacity-70 liquid-glass-text">{element.group || ""}</span>
+        </div>
+        <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-0.5">
+          <span className="font-bold text-base leading-none liquid-glass-symbol">{element.symbol}</span>
+        </div>
+        <div className="text-[0.55rem] text-center opacity-80 liquid-glass-mass">
+          {element.atomicMass.toFixed(1)}
+        </div>
       </div>
     </div>
   );
