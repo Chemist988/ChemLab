@@ -27,16 +27,20 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
     }
   });
 
-  // Calculate atomic radius based on atomic number (fallback since atomicRadius doesn't exist)
   const atomicRadius = Math.max(0.3, Math.min(element.atomicNumber / 50, 1.5));
   const color = getElementColor(element.category);
+
+  const handleClick = (event: THREE.Event) => {
+    event.stopPropagation();
+    onClick();
+  };
 
   return (
     <group position={position}>
       <Sphere
         ref={meshRef}
         args={[atomicRadius, 32, 32]}
-        onClick={onClick}
+        onClick={handleClick}
       >
         <meshPhysicalMaterial
           color={color}
@@ -50,12 +54,10 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
         />
       </Sphere>
       
-      {/* Electron orbits */}
       {Array.from({ length: Math.min(3, Math.floor(element.atomicNumber / 10) + 1) }).map((_, i) => (
         <ElectronOrbit key={i} radius={atomicRadius + 0.5 + i * 0.3} speed={1 + i * 0.5} />
       ))}
       
-      {/* Element symbol */}
       <Text
         position={[0, 0, atomicRadius + 0.2]}
         fontSize={0.3}
@@ -82,13 +84,11 @@ const ElectronOrbit: React.FC<{ radius: number; speed: number }> = ({ radius, sp
 
   return (
     <>
-      {/* Orbit path */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <ringGeometry args={[radius - 0.01, radius + 0.01, 64]} />
         <meshBasicMaterial color="#444" transparent opacity={0.3} />
       </mesh>
       
-      {/* Electron */}
       <Sphere ref={electronRef} args={[0.05, 16, 16]} position={[radius, 0, 0]}>
         <meshBasicMaterial color="#00ffff" />
       </Sphere>
@@ -170,7 +170,6 @@ const MolecularLabPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* 3D Visualization */}
         <div className="lg:col-span-3">
           <Card className="h-[600px] liquid-glass">
             <CardContent className="p-0 h-full">
@@ -189,7 +188,6 @@ const MolecularLabPage = () => {
                   />
                 ))}
                 
-                {/* Bonds between nearby atoms */}
                 {selectedAtoms.map((atom1, i) =>
                   selectedAtoms.slice(i + 1).map((atom2, j) => {
                     const pos1 = atomPositions[i];
@@ -229,7 +227,6 @@ const MolecularLabPage = () => {
           </div>
         </div>
 
-        {/* Controls */}
         <div className="space-y-6">
           <Card className="liquid-glass">
             <CardHeader>
