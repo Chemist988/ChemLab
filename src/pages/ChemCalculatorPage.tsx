@@ -68,7 +68,7 @@ const ChemCalculatorPage = () => {
     
     if (molesVal && volumeVal) {
       const result = molesVal / volumeVal;
-      setMolarity({ ...molarity, result: result.to fixed(3) + ' M' });
+      setMolarity({ ...molarity, result: result.toFixed(3) + ' M' });
     } else {
       setMolarity({ ...molarity, result: 'Invalid input' });
     }
