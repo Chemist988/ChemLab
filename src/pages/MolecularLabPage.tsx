@@ -30,8 +30,10 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
   const atomicRadius = Math.max(0.3, Math.min(element.atomicNumber / 50, 1.5));
   const color = getElementColor(element.category);
 
-  const handleClick = (event: ThreeEvent<MouseEvent>) => {
-    event.stopPropagation();
+  const handleClick = (event: any) => {
+    if (event.stopPropagation) {
+      event.stopPropagation();
+    }
     onClick();
   };
 
