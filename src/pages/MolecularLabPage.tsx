@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useMemo } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useThree, ThreeEvent } from '@react-three/fiber';
 import { OrbitControls, Text, Sphere, Line } from '@react-three/drei';
 import * as THREE from 'three';
 import { Element, elements } from '@/data/elements';
@@ -30,7 +30,7 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
   const atomicRadius = Math.max(0.3, Math.min(element.atomicNumber / 50, 1.5));
   const color = getElementColor(element.category);
 
-  const handleClick = (event: THREE.Event) => {
+  const handleClick = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation();
     onClick();
   };
