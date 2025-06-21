@@ -6,7 +6,10 @@ import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, getAnimationClass, ReactionResult, reactions } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Slider } from '@/components/ui/slider';
+import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Thermometer, Zap, Clock, TrendingUp } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -28,6 +31,17 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [heatWaves, setHeatWaves] = useState(false);
   const [colorChange, setColorChange] = useState(false);
   const [precipitation, setPrecipitation] = useState(false);
+  
+  // New innovative features
+  const [temperature, setTemperature] = useState([25]);
+  const [pressure, setPressure] = useState([1]);
+  const [catalyst, setCatalyst] = useState<string | null>(null);
+  const [reactionSpeed, setReactionSpeed] = useState(1);
+  const [energyOutput, setEnergyOutput] = useState(0);
+  const [safetyLevel, setSafetyLevel] = useState<'safe' | 'caution' | 'danger'>('safe');
+  const [reactionEfficiency, setReactionEfficiency] = useState(100);
+
+  const availableCatalysts = ['Pt', 'Pd', 'Ni', 'Cu', 'Fe₂O₃', 'MnO₂'];
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -40,7 +54,45 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }),
   }));
 
-  // Shuffle array helper
+  // Calculate reaction parameters based on conditions
+  const calculateReactionParameters = (baseReaction: ReactionResult) => {
+    let speed = reactionSpeed;
+    let efficiency = reactionEfficiency;
+    let energy = energyOutput;
+    let safety: 'safe' | 'caution' | 'danger' = 'safe';
+
+    // Temperature effects
+    if (temperature[0] > 100) {
+      speed *= 1.5;
+      energy += 50;
+    }
+    if (temperature[0] > 500) {
+      speed *= 2;
+      energy += 100;
+      safety = 'caution';
+    }
+    if (temperature[0] > 1000) {
+      speed *= 3;
+      energy += 200;
+      safety = 'danger';
+    }
+
+    // Pressure effects
+    if (pressure[0] > 1) {
+      speed *= (1 + (pressure[0] - 1) * 0.5);
+      efficiency += (pressure[0] - 1) * 10;
+    }
+
+    // Catalyst effects
+    if (catalyst) {
+      speed *= 2.5;
+      efficiency += 25;
+      energy -= 20; // Lower activation energy
+    }
+
+    return { speed, efficiency, energy: Math.max(energy, 0), safety };
+  };
+
   const shuffleArray = (array: any[]): any[] => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -50,7 +102,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     return newArray;
   };
 
-  // Helper function to find compatible elements
   const findCompatibleElements = (element: Element): Element[] => {
     const reactionKeys = Object.keys(reactions);
     const compatibleSymbols = new Set<string>();
@@ -66,7 +117,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
     const compatibleElements = elementsDatabase.filter((e: Element) => compatibleSymbols.has(e.symbol));
     
-    // also don't suggest elements already in the beaker
     const currentSymbols = new Set(selectedElements.map(e => e.symbol));
     const finalSuggestions = compatibleElements.filter(e => !currentSymbols.has(e.symbol) && e.symbol !== element.symbol);
 
@@ -75,42 +125,34 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
   const addElement = (element: Element) => {
     if (selectedElements.length < 4) {
-      // Create splash effect when adding element to beaker
       setSplash(true);
       setTimeout(() => setSplash(false), 700);
       
-      // Create powder burst effect based on element category
       const burstColor = getCategoryColor(element.category);
       setPowderBurst({active: true, color: burstColor});
       setTimeout(() => setPowderBurst({active: false, color: burstColor}), 1000);
       
-      // Create bubble effect when adding element to beaker
       const newBubbles = [...bubbles];
       for (let i = 0; i < 5; i++) {
         newBubbles.push(Math.random());
       }
       setBubbles(newBubbles);
       
-      // Add element with animation delay
       setSelectedElements((prev) => {
         const newElements = [...prev, element];
-        
-        // Update suggested elements based on the last added element
         setSuggestedElements(findCompatibleElements(element));
         setShowSuggestions(true);
-        
         return newElements;
       });
       
-      // Show toast
       toast({
         title: `${element.name} added`,
-        description: "Element added to reaction beaker",
+        description: "Element added to reaction chamber",
       });
     } else {
       toast({
-        title: "Reaction zone full",
-        description: "Please clear the current reaction first.",
+        title: "Chamber full",
+        description: "Maximum 4 elements allowed",
       });
     }
   };
@@ -131,51 +173,64 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setHeatWaves(false);
     setColorChange(false);
     setPrecipitation(false);
+    setEnergyOutput(0);
+    setSafetyLevel('safe');
+    setReactionEfficiency(100);
+    setCatalyst(null);
+    setTemperature([25]);
+    setPressure([1]);
+    setReactionSpeed(1);
   };
 
   const simulateCurrentReaction = () => {
     if (selectedElements.length >= 2) {
       setAnimating(true);
       
-      // For simplicity, we'll use the first two elements for the reaction
       const result = simulateReaction(selectedElements[0], selectedElements[1]);
+      const params = calculateReactionParameters(result);
       
-      // Create intense bubble effect for reaction
+      setReactionSpeed(params.speed);
+      setEnergyOutput(params.energy);
+      setSafetyLevel(params.safety);
+      setReactionEfficiency(params.efficiency);
+      
+      // Enhanced animations based on conditions
+      const animationIntensity = Math.min(params.speed, 3);
+      
       const newBubbles = [...bubbles];
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 20 * animationIntensity; i++) {
         newBubbles.push(Math.random());
       }
       setBubbles(newBubbles);
       
-      // Set realistic chemical reaction effects based on reaction type
       if (result.animationType === 'explosion') {
         setExplosion(true);
         setHeatWaves(true);
         setTimeout(() => {
           setExplosion(false);
           setHeatWaves(false);
-        }, 2500);
+        }, 2500 / params.speed);
       } else if (result.animationType === 'gas') {
         setGas(true);
         setSteam(true);
         setTimeout(() => {
           setGas(false);
           setSteam(false);
-        }, 4000);
+        }, 4000 / params.speed);
       } else if (result.animationType === 'crystallization') {
         setCrystallization(true);
         setPrecipitation(true);
         setTimeout(() => {
           setCrystallization(false);
           setPrecipitation(false);
-        }, 3000);
+        }, 3000 / params.speed);
       } else if (result.animationType === 'neutralization') {
         setColorChange(true);
         setSteam(true);
         setTimeout(() => {
           setColorChange(false);
           setSteam(false);
-        }, 2000);
+        }, 2000 / params.speed);
       } else if (result.animationType === 'combustion') {
         setExplosion(true);
         setHeatWaves(true);
@@ -184,47 +239,24 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           setExplosion(false);
           setHeatWaves(false);
           setGas(false);
-        }, 3000);
+        }, 3000 / params.speed);
       }
       
-      // Create splash effect for reaction
       setSplash(true);
       setTimeout(() => setSplash(false), 700);
       
-      // Show suggestions after reaction completes (2000ms)
-      setTimeout(() => {
-        setShowSuggestions(true);
-      }, 2000);
-      
-      // Delay setting reaction to allow animation to be visible
       setTimeout(() => {
         setReaction(result);
-
-        // Log the reaction to localStorage
-        try {
-          const reactionLog = JSON.parse(localStorage.getItem('reactionLog') || '[]');
-          const newLogEntry = {
-            id: new Date().toISOString(),
-            reactants: selectedElements.slice(0, 2).map(e => ({ name: e.name, symbol: e.symbol })),
-            product: result.result,
-            description: result.description,
-            timestamp: new Date().toISOString()
-          };
-          const updatedLog = [newLogEntry, ...reactionLog].slice(0, 20); // Keep last 20
-          localStorage.setItem('reactionLog', JSON.stringify(updatedLog));
-        } catch (error) {
-          console.error("Failed to write to localStorage", error);
-        }
+        setShowSuggestions(true);
       }, 600);
       
       setTimeout(() => {
         setAnimating(false);
-      }, 2000);
+      }, 2000 / params.speed);
     }
   };
 
   useEffect(() => {
-    // Clean up bubbles over time
     const timer = setTimeout(() => {
       if (bubbles.length > 0) {
         setBubbles(prev => prev.slice(Math.floor(prev.length / 2)));
@@ -238,7 +270,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     if (selectedElements.length >= 2) {
       simulateCurrentReaction();
     } else {
-      // This will handle length 0 and 1, clearing any previous reaction.
       setReaction(null);
     }
     
@@ -249,27 +280,79 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setSuggestedElements([]);
       setShowSuggestions(true);
     }
-  }, [selectedElements]);
+  }, [selectedElements, temperature, pressure, catalyst]);
 
-  // Helper function to get color based on element category
   const getCategoryColor = (category: string): string => {
     switch (category) {
-      case 'alkali-metal': return '#f87171'; // red
-      case 'alkaline-earth-metal': return '#fb923c'; // orange
-      case 'transition-metal': return '#3b82f6'; // blue
-      case 'post-transition-metal': return '#a78bfa'; // purple
-      case 'metalloid': return '#34d399'; // emerald
-      case 'nonmetal': return '#4ade80'; // green
-      case 'halogen': return '#22d3ee'; // cyan
-      case 'noble-gas': return '#d946ef'; // fuchsia
-      case 'lanthanide': return '#ec4899'; // pink
-      case 'actinide': return '#f59e0b'; // amber
-      default: return '#d1d5db'; // gray
+      case 'alkali-metal': return '#f87171';
+      case 'alkaline-earth-metal': return '#fb923c';
+      case 'transition-metal': return '#3b82f6';
+      case 'post-transition-metal': return '#a78bfa';
+      case 'metalloid': return '#34d399';
+      case 'nonmetal': return '#4ade80';
+      case 'halogen': return '#22d3ee';
+      case 'noble-gas': return '#d946ef';
+      case 'lanthanide': return '#ec4899';
+      case 'actinide': return '#f59e0b';
+      default: return '#d1d5db';
     }
   };
 
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-6 w-full">
+      {/* Enhanced Reaction Conditions Panel */}
+      <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center gap-2">
+            <Thermometer className="w-5 h-5" />
+            Reaction Conditions
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-white text-sm mb-2 block">Temperature: {temperature[0]}°C</label>
+              <Slider
+                value={temperature}
+                onValueChange={setTemperature}
+                max={2000}
+                min={-100}
+                step={25}
+                className="w-full"
+              />
+            </div>
+            <div>
+              <label className="text-white text-sm mb-2 block">Pressure: {pressure[0]} atm</label>
+              <Slider
+                value={pressure}
+                onValueChange={setPressure}
+                max={10}
+                min={0.1}
+                step={0.1}
+                className="w-full"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label className="text-white text-sm mb-2 block">Catalyst</label>
+            <div className="flex gap-2 flex-wrap">
+              {availableCatalysts.map((cat) => (
+                <Badge
+                  key={cat}
+                  variant={catalyst === cat ? "default" : "outline"}
+                  className={`cursor-pointer ${catalyst === cat ? 'bg-blue-600' : 'border-white/30 text-white hover:bg-white/10'}`}
+                  onClick={() => setCatalyst(catalyst === cat ? null : cat)}
+                >
+                  {cat}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Enhanced Reaction Zone */}
       <div 
         ref={drop}
         className={`
@@ -278,16 +361,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
         `}
       >
-        {/* Element Suggestions Popup - Hide during reactions */}
-        {selectedElements.length > 0 && showSuggestions && (
-          <ElementSuggestions 
-            element={selectedElements[selectedElements.length - 1]} 
-            onSelectElement={addElement}
-            suggestedElements={suggestedElements}
-            isReacting={animating}
-          />
-        )}
-        
         {/* Heat waves effect */}
         {heatWaves && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
@@ -309,7 +382,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Explosion effect - More realistic */}
+        {/* Explosion effect */}
         {explosion && (
           <div className="absolute inset-0 z-10">
             <div className="absolute inset-0 bg-gradient-radial from-orange-500/40 via-red-500/20 to-transparent animate-pulse"></div>
@@ -319,7 +392,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                 <div className="absolute top-1/2 left-1/2 w-20 h-20 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full animate-pulse"></div>
               </div>
             </div>
-            {/* Explosion particles */}
             {[...Array(50)].map((_, i) => (
               <div 
                 key={i} 
@@ -329,7 +401,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                   height: Math.random() * 8 + 2 + 'px',
                   left: 50 + Math.random() * 10 - 5 + '%',
                   top: 50 + Math.random() * 10 - 5 + '%',
-                  background: `hsl(${Math.random() * 60 + 10}, 90%, 60%)`, // Orange to red
+                  background: `hsl(${Math.random() * 60 + 10}, 90%, 60%)`,
                   opacity: Math.random() * 0.9 + 0.1,
                   animation: `explosion-particle ${Math.random() * 1.5 + 0.5}s ease-out forwards`,
                   '--x-move': `${(Math.random() - 0.5) * 400}px`,
@@ -340,7 +412,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* Gas effect - Enhanced */}
+        {/* Gas effect */}
         {gas && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
             {[...Array(35)].map((_, i) => (
@@ -352,7 +424,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                   height: Math.random() * 60 + 15 + 'px',
                   left: Math.random() * 80 + 10 + '%',
                   top: Math.random() * 30 + 60 + '%',
-                  background: `hsla(${Math.random() * 120 + 60}, 70%, 60%, 0.4)`, // Green to yellow gases
+                  background: `hsla(${Math.random() * 120 + 60}, 70%, 60%, 0.4)`,
                   animationDuration: Math.random() * 4 + 2 + 's',
                   animationDelay: Math.random() * 2 + 's',
                   animation: `gas-rise ${Math.random() * 4 + 2}s ease-out infinite`,
@@ -363,7 +435,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Steam effect - More realistic */}
+        {/* Steam effect */}
         {steam && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
             {[...Array(50)].map((_, i) => (
@@ -481,7 +553,11 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
               {/* Beaker glass with ultra-realistic effects */}
               <div className="absolute bottom-0 w-full h-full rounded-b-3xl rounded-t-lg overflow-hidden">
                 {/* Main glass body with realistic transparency and refraction */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent border-2 border-gray-300/40 rounded-b-3xl rounded-t-lg backdrop-blur-sm">
+                <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent border-2 rounded-b-3xl rounded-t-lg backdrop-blur-sm ${
+                  safetyLevel === 'danger' ? 'border-red-500/60' : 
+                  safetyLevel === 'caution' ? 'border-yellow-500/60' : 
+                  'border-gray-300/40'
+                }`}>
                   {/* Multiple light reflections for realism */}
                   <div className="absolute top-8 left-4 w-16 h-32 bg-white/20 rounded-full transform -rotate-12 blur-sm"></div>
                   <div className="absolute top-12 right-6 w-8 h-24 bg-white/15 rounded-full transform rotate-12 blur-sm"></div>
@@ -504,7 +580,13 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
               {/* Enhanced Liquid & Bubbles with realistic physics */}
               <div className={`absolute bottom-0 w-full transition-all duration-700 ease-out overflow-hidden rounded-b-2xl ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}`}>
-                <div className={`w-full h-full relative ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'} ${animating ? 'animate-pulse' : ''}`}>
+                <div className={`w-full h-full relative ${
+                  temperature[0] > 1000 ? 'bg-gradient-to-b from-red-400/60 to-orange-600/40' :
+                  temperature[0] > 500 ? 'bg-gradient-to-b from-orange-300/50 to-yellow-500/30' :
+                  temperature[0] < 0 ? 'bg-gradient-to-b from-blue-200/40 to-cyan-300/20' :
+                  reaction?.productColor ? reaction.productColor : 
+                  'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'
+                } ${animating ? 'animate-pulse' : ''}`}>
                   {/* Liquid surface with realistic meniscus */}
                   <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-b from-white/50 via-white/20 to-transparent rounded-full"></div>
                   <div className="absolute inset-x-2 top-0 h-1 bg-white/30 rounded-full"></div>
@@ -518,7 +600,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                               height: Math.max(4, Math.random() * 12) + 'px',
                               bottom: bubble * 100 + '%',
                               left: Math.random() * 80 + 10 + '%',
-                              animationDuration: Math.random() * 2 + 1 + 's',
+                              animationDuration: Math.random() * 2 / reactionSpeed + 1 + 's',
                               opacity: Math.random() * 0.6 + 0.2,
                               boxShadow: 'inset 0 0 3px rgba(255,255,255,0.8), 0 0 3px rgba(0,0,0,0.1)'
                            }} />
@@ -540,7 +622,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                       <div className="text-center text-muted-foreground self-center mt-12">
                           <Beaker className="mx-auto h-12 w-12 mb-3 opacity-50" />
                           <p>Drag elements here</p>
-                          <p className="text-xs mt-1 text-muted-foreground/80">to start a reaction</p>
+                          <p className="text-xs mt-1 text-muted-foreground/80">Advanced reaction simulation</p>
                       </div>
                   ) : (
                     <>
@@ -548,9 +630,16 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                           <div className="text-center">
                               <h3 className="text-xl font-bold">{reaction.result}</h3>
                               <p className="text-sm mt-1">{reaction.description}</p>
-                              <div className="mt-3 flex items-center justify-center gap-2">
+                              <div className="mt-3 flex items-center justify-center gap-3 flex-wrap">
                                   {getReactionIcon(reaction.animationType)}
-                                  <span className="text-xs text-muted-foreground">{getReactionTypeName(reaction.animationType)}</span>
+                                  <Badge variant="outline" className="text-xs">
+                                    <Clock className="w-3 h-3 mr-1" />
+                                    {reactionSpeed.toFixed(1)}x speed
+                                  </Badge>
+                                  <Badge variant="outline" className="text-xs">
+                                    <TrendingUp className="w-3 h-3 mr-1" />
+                                    {reactionEfficiency.toFixed(0)}% efficiency
+                                  </Badge>
                               </div>
                           </div>
                       ) : <div />}
@@ -567,6 +656,16 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
               </div>
           </div>
         </div>
+
+        {/* Element Suggestions */}
+        {selectedElements.length > 0 && showSuggestions && (
+          <ElementSuggestions 
+            element={selectedElements[selectedElements.length - 1]} 
+            onSelectElement={addElement}
+            suggestedElements={suggestedElements}
+            isReacting={animating}
+          />
+        )}
       </div>
       
       <div className="flex justify-center">
@@ -579,11 +678,30 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           <RotateCw className="h-4 w-4" /> Clear Reaction
         </Button>
       </div>
+
+      {/* Safety Indicator */}
+      <div className="absolute top-4 right-4 z-30">
+        <Badge 
+          variant={safetyLevel === 'safe' ? 'default' : safetyLevel === 'caution' ? 'secondary' : 'destructive'}
+          className={`${safetyLevel === 'safe' ? 'bg-green-600' : safetyLevel === 'caution' ? 'bg-yellow-600' : 'bg-red-600'}`}
+        >
+          {safetyLevel.toUpperCase()}
+        </Badge>
+      </div>
+
+      {/* Energy Output Indicator */}
+      {energyOutput > 0 && (
+        <div className="absolute top-4 left-4 z-30">
+          <Badge variant="outline" className="border-orange-500 text-orange-300">
+            <Zap className="w-3 h-3 mr-1" />
+            {energyOutput} kJ
+          </Badge>
+        </div>
+      )}
     </div>
   );
 };
 
-// Helper function to get reaction type display name
 const getReactionTypeName = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
@@ -607,7 +725,6 @@ const getReactionTypeName = (animationType: string): string => {
   }
 };
 
-// Helper function to get reaction icon
 const getReactionIcon = (animationType: string): React.ReactNode => {
   switch (animationType) {
     case 'explosion':
