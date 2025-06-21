@@ -13,8 +13,8 @@ const AnalyticsPage = () => {
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold text-white">Heisenberg AI</h2>
-              <p className="text-white/80 text-sm">Your personal chemistry lab partner</p>
+              <h2 className="text-2xl font-semibold text-white">Chemistry AI Assistant</h2>
+              <p className="text-white/80 text-sm">Your intelligent chemistry companion</p>
             </div>
           </div>
         </div>
@@ -23,10 +23,10 @@ const AnalyticsPage = () => {
         <div className="flex-grow bg-white/90 dark:bg-gray-900/90 p-6">
           <div className="w-full h-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200/50 dark:border-gray-700/50">
             <iframe
-              src="https://www.chatbase.co/chatbot-iframe/COwMkAjIYb1meY0saCFK1"
-              allow="clipboard-write; microphone;"
+              src="https://6000-firebase-studio-1750437538618.cluster-zkm2jrwbnbd4awuedc2alqxrpk.cloudworkstations.dev"
+              allow="clipboard-write; microphone; camera;"
               className="w-full h-full border-none"
-              title="Heisenberg AI Assistant"
+              title="Chemistry AI Assistant"
             />
           </div>
         </div>

@@ -10,10 +10,10 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Layout from "@/components/Layout";
 import AnalyticsPage from './pages/AnalyticsPage';
-import MolecularLabPage from './pages/MolecularLabPage';
-import QuantumSimulatorPage from './pages/QuantumSimulatorPage';
-import NanoExplorerPage from './pages/NanoExplorerPage';
-import BioReactorPage from './pages/BioReactorPage';
+import ReactionLabPage from './pages/ReactionLabPage';
+import ElementQuizPage from './pages/ElementQuizPage';
+import StudyGuidePage from './pages/StudyGuidePage';
+import ChemCalculatorPage from './pages/ChemCalculatorPage';
 
 const queryClient = new QueryClient();
 
@@ -29,10 +29,10 @@ const App: React.FC = () => (
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="/molecular-lab" element={<MolecularLabPage />} />
-                <Route path="/quantum-simulator" element={<QuantumSimulatorPage />} />
-                <Route path="/nano-explorer" element={<NanoExplorerPage />} />
-                <Route path="/bio-reactor" element={<BioReactorPage />} />
+                <Route path="/reaction-lab" element={<ReactionLabPage />} />
+                <Route path="/element-quiz" element={<ElementQuizPage />} />
+                <Route path="/study-guide" element={<StudyGuidePage />} />
+                <Route path="/chem-calculator" element={<ChemCalculatorPage />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

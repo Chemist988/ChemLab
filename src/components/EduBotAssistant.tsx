@@ -29,8 +29,8 @@ const EduBotAssistant = () => {
                   <Bot className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-semibold text-white">Heisenberg AI</h2>
-                  <p className="text-white/80 text-sm">Your personal chemistry lab partner</p>
+                  <h2 className="text-2xl font-semibold text-white">Chemistry AI Assistant</h2>
+                  <p className="text-white/80 text-sm">Your intelligent chemistry companion</p>
                 </div>
               </div>
               <Button
@@ -47,10 +47,10 @@ const EduBotAssistant = () => {
             <div className="h-full bg-white/90 dark:bg-gray-900/90 p-6">
               <div className="w-full h-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200/50 dark:border-gray-700/50">
                 <iframe
-                  src="https://www.chatbase.co/chatbot-iframe/COwMkAjIYb1meY0saCFK1"
-                  allow="clipboard-write; microphone;"
+                  src="https://6000-firebase-studio-1750437538618.cluster-zkm2jrwbnbd4awuedc2alqxrpk.cloudworkstations.dev"
+                  allow="clipboard-write; microphone; camera;"
                   className="w-full h-full border-none"
-                  title="Heisenberg AI Assistant"
+                  title="Chemistry AI Assistant"
                 />
               </div>
             </div>
@@ -59,8 +59,8 @@ const EduBotAssistant = () => {
             <div className="bg-white/90 dark:bg-gray-900/90 p-6 border-t border-gray-200/50 dark:border-gray-700/50">
               <div className="grid grid-cols-1 gap-4">
                 <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 p-4 rounded-xl border border-green-200/50 dark:border-green-700/50">
-                  <p className="text-green-700 dark:text-green-300 text-sm font-medium">Chemistry Mastery</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-xs">Explore reactions, periodic trends, and molecular structures</p>
+                  <p className="text-green-700 dark:text-green-300 text-sm font-medium">Chemistry Assistant</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-xs">Ask about reactions, formulas, and chemistry concepts</p>
                 </div>
               </div>
             </div>

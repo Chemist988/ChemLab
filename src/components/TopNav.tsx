@@ -1,16 +1,16 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Atom, Bot, Boxes, Zap, Microscope, Dna } from 'lucide-react';
+import { Atom, Bot, FlaskConical, Zap, BookOpen, Calculator } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { name: 'Playground', href: '/', icon: Atom },
   { name: 'AI Assistant', href: '/analytics', icon: Bot },
-  { name: '3D Molecular Lab', href: '/molecular-lab', icon: Boxes },
-  { name: 'Quantum Simulator', href: '/quantum-simulator', icon: Zap },
-  { name: 'Nano Explorer', href: '/nano-explorer', icon: Microscope },
-  { name: 'Bio Reactor', href: '/bio-reactor', icon: Dna },
+  { name: 'Reaction Lab', href: '/reaction-lab', icon: FlaskConical },
+  { name: 'Element Quiz', href: '/element-quiz', icon: Zap },
+  { name: 'Study Guide', href: '/study-guide', icon: BookOpen },
+  { name: 'Chem Calculator', href: '/chem-calculator', icon: Calculator },
 ];
 
 const TopNav = () => {
