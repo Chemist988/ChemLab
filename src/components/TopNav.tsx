@@ -1,16 +1,16 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Atom, Bot, FlaskConical, Zap, BookOpen, Calculator } from 'lucide-react';
+import { Atom, Bot, FlaskConical, FileText, TrendingUp, Calculator } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { name: 'Playground', href: '/', icon: Atom },
   { name: 'AI Assistant', href: '/analytics', icon: Bot },
   { name: 'Reaction Lab', href: '/reaction-lab', icon: FlaskConical },
-  { name: 'Element Quiz', href: '/element-quiz', icon: Zap },
-  { name: 'Study Guide', href: '/study-guide', icon: BookOpen },
-  { name: 'Chem Calculator', href: '/chem-calculator', icon: Calculator },
+  { name: 'Element Facts', href: '/element-facts', icon: FileText },
+  { name: 'Periodic Trends', href: '/periodic-trends', icon: TrendingUp },
+  { name: 'Equations', href: '/chem-equations', icon: Calculator },
 ];
 
 const TopNav = () => {

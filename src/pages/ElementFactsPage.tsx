@@ -125,7 +125,7 @@ const ElementFactsPage = () => {
                     </Badge>
                   </div>
                   <div>
-                    <span className="text-gray-600">Phase (25°C):</span>
+                    <span className="text-gray-600">Phase at 25°C:</span>
                     <p className="font-semibold">{getPhaseAtRoomTemp(selectedElement)}</p>
                   </div>
                 </div>
