@@ -60,7 +60,6 @@ const PeriodicTrendsPage = () => {
           <p className="text-gray-300">Understand how properties change across the periodic table</p>
         </div>
 
-        {/* Trend Selection */}
         <div className="flex flex-wrap gap-3 justify-center mb-8">
           {Object.entries(trends).map(([key, trend]) => (
             <Button
@@ -76,7 +75,6 @@ const PeriodicTrendsPage = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Trend Visualization */}
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
@@ -107,7 +105,6 @@ const PeriodicTrendsPage = () => {
             </CardContent>
           </Card>
 
-          {/* Explanation and Examples */}
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
               <CardTitle className="text-white">Why This Happens</CardTitle>
@@ -130,7 +127,6 @@ const PeriodicTrendsPage = () => {
           </Card>
         </div>
 
-        {/* Visual Guide */}
         <Card className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 backdrop-blur-lg border-white/20 mt-8">
           <CardHeader>
             <CardTitle className="text-white">Quick Reference Guide</CardTitle>
@@ -142,7 +138,7 @@ const PeriodicTrendsPage = () => {
                 <div className="space-y-1 text-gray-300">
                   <p>• Largest: Bottom-left (Cs, Fr)</p>
                   <p>• Smallest: Top-right (He, F)</p>
-                  <p>• Metals > Nonmetals</p>
+                  <p>• Metals {'>'} Nonmetals</p>
                 </div>
               </div>
               
@@ -151,7 +147,7 @@ const PeriodicTrendsPage = () => {
                 <div className="space-y-1 text-gray-300">
                   <p>• Highest: Noble gases</p>
                   <p>• Lowest: Alkali metals</p>
-                  <p>• Nonmetals > Metals</p>
+                  <p>• Nonmetals {'>'} Metals</p>
                 </div>
               </div>
               
@@ -160,7 +156,7 @@ const PeriodicTrendsPage = () => {
                 <div className="space-y-1 text-gray-300">
                   <p>• Highest: Fluorine (4.0)</p>
                   <p>• Lowest: Francium</p>
-                  <p>• Halogens > Metals</p>
+                  <p>• Halogens {'>'} Metals</p>
                 </div>
               </div>
             </div>
