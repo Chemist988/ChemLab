@@ -10,7 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Layout from "@/components/Layout";
 import AnalyticsPage from './pages/AnalyticsPage';
-import MolecularLabPage from './pages/MolecularLabPage';
+import FormulaBuilderPage from './pages/FormulaBuilderPage';
 
 const queryClient = new QueryClient();
 
@@ -26,7 +26,7 @@ const App: React.FC = () => (
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="/molecular-lab" element={<MolecularLabPage />} />
+                <Route path="/formula-builder" element={<FormulaBuilderPage />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
