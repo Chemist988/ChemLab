@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import Layout from "@/components/Layout";
 import AnalyticsPage from './pages/AnalyticsPage';
 import FormulaBuilderPage from './pages/FormulaBuilderPage';
+import ReactionSimulatorPage from './pages/ReactionSimulatorPage';
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App: React.FC = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
                 <Route path="/formula-builder" element={<FormulaBuilderPage />} />
+                <Route path="/reaction-simulator" element={<ReactionSimulatorPage />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
