@@ -11,8 +11,8 @@ import NotFound from "./pages/NotFound";
 import Layout from "@/components/Layout";
 import AnalyticsPage from './pages/AnalyticsPage';
 import ReactionLabPage from './pages/ReactionLabPage';
-import ElementQuizPage from './pages/ElementQuizPage';
-import StudyGuidePage from './pages/StudyGuidePage';
+import ElementFactsPage from './pages/ElementFactsPage';
+import QuickGuidePage from './pages/QuickGuidePage';
 import ChemCalculatorPage from './pages/ChemCalculatorPage';
 
 const queryClient = new QueryClient();
@@ -30,8 +30,8 @@ const App: React.FC = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
                 <Route path="/reaction-lab" element={<ReactionLabPage />} />
-                <Route path="/element-quiz" element={<ElementQuizPage />} />
-                <Route path="/study-guide" element={<StudyGuidePage />} />
+                <Route path="/element-facts" element={<ElementFactsPage />} />
+                <Route path="/quick-guide" element={<QuickGuidePage />} />
                 <Route path="/chem-calculator" element={<ChemCalculatorPage />} />
               </Route>
               <Route path="*" element={<NotFound />} />

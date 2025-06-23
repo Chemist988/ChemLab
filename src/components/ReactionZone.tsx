@@ -1,312 +1,383 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
-import { Element } from '../data/elements';
+import { Element } from '@/data/elements';
 import ElementCard from './ElementCard';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { Card } from './ui/card';
-import { Separator } from './ui/separator';
-import { Beaker, Zap, AlertTriangle, Thermometer, Clock, Activity } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Slider } from '@/components/ui/slider';
+import { 
+  FlaskConical, 
+  Zap, 
+  Flame, 
+  Droplets, 
+  Wind, 
+  Thermometer, 
+  AlertTriangle, 
+  CheckCircle, 
+  RotateCcw,
+  Play,
+  Pause,
+  Sparkles
+} from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
+  onReactionComplete?: () => void;
 }
 
-interface Reaction {
-  id: string;
-  reactants: Element[];
-  products: string;
+interface ReactionResult {
+  equation: string;
+  products: string[];
+  type: string;
+  energy: 'endothermic' | 'exothermic';
   conditions: string;
-  energy: number;
-  safety: 'low' | 'medium' | 'high';
-  time: number;
+  safetyLevel: 'safe' | 'caution' | 'dangerous';
+  color?: string;
+  temperature?: number;
 }
 
-const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
-  const [elements, setElements] = useState<Element[]>([]);
+const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick, onReactionComplete }) => {
+  const [droppedElements, setDroppedElements] = useState<Element[]>([]);
+  const [reactionResult, setReactionResult] = useState<ReactionResult | null>(null);
   const [isReacting, setIsReacting] = useState(false);
-  const [reactionResult, setReactionResult] = useState<string | null>(null);
-  const [temperature, setTemperature] = useState(25);
-  const [pressure, setPressure] = useState(1);
-  const [catalyst, setCatalyst] = useState<string>('none');
-  const [reactionHistory, setReactionHistory] = useState<Reaction[]>([]);
+  const [temperature, setTemperature] = useState([25]);
+  const [pressure, setPressure] = useState([1]);
+  const [catalyst, setCatalyst] = useState<string | null>(null);
+  const [reactionHistory, setReactionHistory] = useState<ReactionResult[]>([]);
 
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [{ isOver }, drop] = useDrop({
     accept: 'element',
     drop: (item: { element: Element }) => {
-      if (elements.find((el) => el.id === item.element.id)) return;
-      setElements(prev => [...prev, item.element]);
+      if (droppedElements.length < 4 && !droppedElements.find(el => el.id === item.element.id)) {
+        setDroppedElements(prev => [...prev, item.element]);
+      }
     },
     collect: (monitor) => ({
-      isOver: monitor.isOver(),
+      isOver: !!monitor.isOver(),
     }),
-  }));
+  });
 
-  const removeElement = (elementId: number) => {
-    setElements(prev => prev.filter(el => el.id !== elementId));
-  };
-
-  const clearAll = () => {
-    setElements([]);
-    setReactionResult(null);
-  };
-
-  const getReactionProduct = (reactantElements: Element[]): { product: string; energy: number; safety: 'low' | 'medium' | 'high'; conditions: string } => {
-    const symbols = reactantElements.map(el => el.symbol).sort();
-    
-    // Common reactions with more detailed analysis
-    const reactions: Record<string, { product: string; energy: number; safety: 'low' | 'medium' | 'high'; conditions: string }> = {
-      'H,O': { 
-        product: 'H₂O (Water)', 
-        energy: -286, 
-        safety: 'medium', 
-        conditions: 'Requires ignition, explosive mixture' 
-      },
-      'Na,Cl': { 
-        product: 'NaCl (Sodium Chloride)', 
-        energy: -411, 
-        safety: 'high', 
-        conditions: 'Vigorous reaction, heat and light produced' 
-      },
-      'C,O': { 
-        product: 'CO₂ (Carbon Dioxide)', 
-        energy: -394, 
-        safety: 'low', 
-        conditions: 'Combustion reaction, requires heat' 
-      },
-      'H,N': { 
-        product: 'NH₃ (Ammonia)', 
-        energy: -46, 
-        safety: 'medium', 
-        conditions: 'High pressure and temperature required (Haber process)' 
-      },
-      'Fe,O': { 
-        product: 'Fe₂O₃ (Iron Oxide/Rust)', 
-        energy: -824, 
-        safety: 'low', 
-        conditions: 'Slow oxidation, accelerated by moisture' 
-      },
-      'Ca,O': { 
-        product: 'CaO (Calcium Oxide)', 
-        energy: -635, 
-        safety: 'medium', 
-        conditions: 'High temperature required, produces quicklime' 
-      },
-      'Mg,O': { 
-        product: 'MgO (Magnesium Oxide)', 
-        energy: -602, 
-        safety: 'medium', 
-        conditions: 'Burns with bright white light' 
-      },
-      'Al,O': { 
-        product: 'Al₂O₃ (Aluminum Oxide)', 
-        energy: -1676, 
-        safety: 'medium', 
-        conditions: 'Thermite reaction, extremely exothermic' 
-      }
-    };
-
-    const key = symbols.join(',');
-    return reactions[key] || { 
-      product: `${symbols.join(' + ')} → Complex mixture`, 
-      energy: Math.random() * 200 - 100, 
-      safety: 'medium', 
-      conditions: 'Reaction conditions vary' 
-    };
-  };
-
-  const startReaction = () => {
-    if (elements.length < 2) return;
-    
-    setIsReacting(true);
-    
-    // Simulate reaction time based on conditions
-    const baseTime = 2000;
-    const tempFactor = temperature > 100 ? 0.5 : temperature < 0 ? 2 : 1;
-    const pressureFactor = pressure > 1 ? 0.8 : 1.2;
-    const catalystFactor = catalyst !== 'none' ? 0.6 : 1;
-    
-    const reactionTime = baseTime * tempFactor * pressureFactor * catalystFactor;
-    
-    setTimeout(() => {
-      const result = getReactionProduct(elements);
-      setReactionResult(result.product);
-      
-      // Add to history
-      const newReaction: Reaction = {
-        id: Date.now().toString(),
-        reactants: [...elements],
-        products: result.product,
-        conditions: `${temperature}°C, ${pressure} atm, ${catalyst}`,
-        energy: result.energy,
-        safety: result.safety,
-        time: Date.now()
-      };
-      
-      setReactionHistory(prev => [newReaction, ...prev.slice(0, 4)]);
-      setIsReacting(false);
-    }, reactionTime);
-  };
-
-  const getSafetyColor = (safety: 'low' | 'medium' | 'high') => {
-    switch (safety) {
-      case 'low': return 'text-green-600 bg-green-50';
-      case 'medium': return 'text-yellow-600 bg-yellow-50';
-      case 'high': return 'text-red-600 bg-red-50';
+  const commonReactions: { [key: string]: ReactionResult } = {
+    'H,O': {
+      equation: '2H₂ + O₂ → 2H₂O',
+      products: ['Water', 'Heat', 'Steam'],
+      type: 'Combustion',
+      energy: 'exothermic',
+      conditions: 'Spark ignition required',
+      safetyLevel: 'dangerous',
+      color: 'Blue flame',
+      temperature: 2000
+    },
+    'Na,Cl': {
+      equation: 'Na + Cl₂ → NaCl',
+      products: ['Sodium Chloride', 'Light'],
+      type: 'Synthesis',
+      energy: 'exothermic',
+      conditions: 'High temperature',
+      safetyLevel: 'caution',
+      color: 'Yellow flame',
+      temperature: 800
+    },
+    'Fe,O': {
+      equation: '4Fe + 3O₂ → 2Fe₂O₃',
+      products: ['Iron Oxide', 'Rust'],
+      type: 'Oxidation',
+      energy: 'exothermic',
+      conditions: 'Moisture present',
+      safetyLevel: 'safe',
+      color: 'Red-brown',
+      temperature: 25
+    },
+    'C,O': {
+      equation: 'C + O₂ → CO₂',
+      products: ['Carbon Dioxide', 'Heat'],
+      type: 'Combustion',
+      energy: 'exothermic',
+      conditions: 'High temperature',
+      safetyLevel: 'caution',
+      color: 'Orange flame',
+      temperature: 1000
     }
   };
 
-  const getEnergyColor = (energy: number) => {
-    if (energy < -200) return 'text-red-600';
-    if (energy < 0) return 'text-orange-600';
-    return 'text-blue-600';
+  const simulateReaction = () => {
+    if (droppedElements.length < 2) return;
+    
+    setIsReacting(true);
+    
+    setTimeout(() => {
+      const elementSymbols = droppedElements.map(el => el.symbol).sort().join(',');
+      const reaction = commonReactions[elementSymbols];
+      
+      if (reaction) {
+        // Apply environmental conditions
+        const modifiedReaction = {
+          ...reaction,
+          temperature: reaction.temperature + (temperature[0] - 25) * 0.1,
+          conditions: `${reaction.conditions} | Temp: ${temperature[0]}°C | Pressure: ${pressure[0]} atm${catalyst ? ` | Catalyst: ${catalyst}` : ''}`
+        };
+        
+        setReactionResult(modifiedReaction);
+        setReactionHistory(prev => [modifiedReaction, ...prev.slice(0, 4)]);
+        onReactionComplete?.();
+      } else {
+        setReactionResult({
+          equation: 'No reaction observed',
+          products: ['No products formed'],
+          type: 'None',
+          energy: 'exothermic',
+          conditions: 'Stable under current conditions',
+          safetyLevel: 'safe'
+        });
+      }
+      setIsReacting(false);
+    }, 2000);
   };
 
+  const clearReaction = () => {
+    setDroppedElements([]);
+    setReactionResult(null);
+    setIsReacting(false);
+  };
+
+  const getSafetyColor = (level: string) => {
+    switch (level) {
+      case 'safe': return 'text-green-400 border-green-400';
+      case 'caution': return 'text-yellow-400 border-yellow-400';
+      case 'dangerous': return 'text-red-400 border-red-400';
+      default: return 'text-gray-400 border-gray-400';
+    }
+  };
+
+  const catalysts = ['Pt', 'Pd', 'Ni', 'Cu', 'Fe'];
+
   return (
-    <div className="space-y-6">
-      {/* Reaction Chamber */}
-      <Card className="p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Beaker className="w-5 h-5 text-blue-600" />
-          <h3 className="text-lg font-semibold">Reaction Chamber</h3>
-          {isReacting && <Activity className="w-4 h-4 text-blue-600 animate-spin" />}
-        </div>
-        
-        <div
-          ref={drop}
-          className={`min-h-32 border-2 border-dashed rounded-lg p-4 transition-colors ${
-            isOver ? 'border-blue-400 bg-blue-50' : 'border-gray-300'
-          } ${isReacting ? 'animate-pulse bg-yellow-50' : ''}`}
-        >
-          {elements.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">
-              <Beaker className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              <p>Drag elements here to create reactions</p>
-              <p className="text-sm">Need at least 2 elements to start</p>
-            </div>
-          ) : (
-            <div className="flex flex-wrap gap-2">
-              {elements.map((element) => (
-                <div key={element.id} className="relative group">
-                  <ElementCard
-                    element={element}
-                    onClick={() => onElementClick(element)}
-                    size="sm"
-                    isDraggable={false}
-                  />
-                  <button
-                    onClick={() => removeElement(element.id)}
-                    className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    ×
-                  </button>
-                </div>
+    <div className="space-y-4">
+      {/* Environmental Controls */}
+      <Card className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-blue-400/30">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm flex items-center gap-2">
+            <Thermometer className="w-4 h-4" />
+            Reaction Conditions
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div>
+            <label className="text-xs text-gray-300 mb-1 block">Temperature: {temperature[0]}°C</label>
+            <Slider
+              value={temperature}
+              onValueChange={setTemperature}
+              max={3000}
+              min={-200}
+              step={10}
+              className="h-1"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-300 mb-1 block">Pressure: {pressure[0]} atm</label>
+            <Slider
+              value={pressure}
+              onValueChange={setPressure}
+              max={10}
+              min={0.1}
+              step={0.1}
+              className="h-1"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-gray-300 mb-1 block">Catalyst</label>
+            <div className="flex gap-1">
+              {catalysts.map((cat) => (
+                <Button
+                  key={cat}
+                  variant={catalyst === cat ? "default" : "outline"}
+                  size="sm"
+                  className="h-6 px-2 text-xs"
+                  onClick={() => setCatalyst(catalyst === cat ? null : cat)}
+                >
+                  {cat}
+                </Button>
               ))}
             </div>
-          )}
-        </div>
-        
-        {/* Controls */}
-        <div className="flex flex-wrap gap-4 mt-4">
-          <div className="flex items-center gap-2">
-            <Thermometer className="w-4 h-4" />
-            <span className="text-sm">Temp:</span>
-            <input
-              type="range"
-              min="-50"
-              max="200"
-              value={temperature}
-              onChange={(e) => setTemperature(Number(e.target.value))}
-              className="w-16"
-            />
-            <span className="text-sm font-mono">{temperature}°C</span>
           </div>
-          
-          <div className="flex items-center gap-2">
-            <span className="text-sm">Pressure:</span>
-            <select
-              value={pressure}
-              onChange={(e) => setPressure(Number(e.target.value))}
-              className="text-sm border rounded px-2 py-1"
-            >
-              <option value={0.1}>0.1 atm</option>
-              <option value={1}>1 atm</option>
-              <option value={5}>5 atm</option>
-              <option value={10}>10 atm</option>
-            </select>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <span className="text-sm">Catalyst:</span>
-            <select
-              value={catalyst}
-              onChange={(e) => setCatalyst(e.target.value)}
-              className="text-sm border rounded px-2 py-1"
-            >
-              <option value="none">None</option>
-              <option value="platinum">Platinum</option>
-              <option value="iron">Iron</option>
-              <option value="enzyme">Enzyme</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex gap-2 mt-4">
-          <Button
-            onClick={startReaction}
-            disabled={elements.length < 2 || isReacting}
-            className="flex items-center gap-2"
-          >
-            <Zap className="w-4 h-4" />
-            {isReacting ? 'Reacting...' : 'Start Reaction'}
-          </Button>
-          <Button variant="outline" onClick={clearAll}>
-            Clear All
-          </Button>
-        </div>
-        
-        {/* Result Display */}
-        {reactionResult && (
-          <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <div className="flex items-center gap-2 mb-2">
-              <Zap className="w-5 h-5 text-green-600" />
-              <span className="font-semibold text-green-800">Reaction Complete!</span>
-            </div>
-            <p className="text-green-700">{reactionResult}</p>
-          </div>
-        )}
+        </CardContent>
       </Card>
+
+      {/* Reaction Zone */}
+      <Card className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-dashed border-2 border-gray-400/50">
+        <CardContent className="p-6">
+          <div
+            ref={drop}
+            className={`min-h-[200px] rounded-xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center p-4 ${
+              isOver 
+                ? 'border-blue-400 bg-blue-900/20' 
+                : isReacting
+                ? 'border-orange-400 bg-orange-900/20 animate-pulse'
+                : 'border-gray-600 bg-gray-900/30'
+            }`}
+          >
+            {droppedElements.length === 0 ? (
+              <div className="text-center">
+                <FlaskConical className="w-12 h-12 mx-auto text-gray-400 mb-3" />
+                <p className="text-gray-400 text-sm">Drag elements here to create reactions</p>
+                <p className="text-gray-500 text-xs mt-1">Mix 2-4 elements for best results</p>
+              </div>
+            ) : (
+              <div className="w-full">
+                <div className="flex flex-wrap gap-2 justify-center mb-4">
+                  {droppedElements.map((element) => (
+                    <ElementCard
+                      key={element.id}
+                      element={element}
+                      onClick={() => onElementClick(element)}
+                      size="sm"
+                      className={`transition-all duration-300 ${isReacting ? 'animate-pulse scale-110' : ''}`}
+                    />
+                  ))}
+                </div>
+                
+                {isReacting && (
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <Sparkles className="w-5 h-5 text-yellow-400 animate-spin" />
+                      <p className="text-yellow-400 font-medium">Reaction in Progress...</p>
+                      <Sparkles className="w-5 h-5 text-yellow-400 animate-spin" />
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-1">
+                      <div className="bg-gradient-to-r from-yellow-400 to-orange-400 h-1 rounded-full animate-pulse" style={{ width: '70%' }}></div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          
+          <div className="flex gap-2 mt-4">
+            <Button 
+              onClick={simulateReaction}
+              disabled={droppedElements.length < 2 || isReacting}
+              className="flex-1 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+            >
+              {isReacting ? (
+                <>
+                  <Pause className="w-4 h-4 mr-2" />
+                  Reacting...
+                </>
+              ) : (
+                <>
+                  <Play className="w-4 h-4 mr-2" />
+                  Start Reaction
+                </>
+              )}
+            </Button>
+            <Button 
+              onClick={clearReaction}
+              variant="outline"
+              className="border-white/30 text-white hover:bg-white/10"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Reaction Results */}
+      {reactionResult && (
+        <Card className={`animate-fade-in ${
+          reactionResult.equation === 'No reaction observed' 
+            ? 'bg-yellow-900/20 border-yellow-400/50' 
+            : 'bg-green-900/20 border-green-400/50'
+        }`}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
+              {reactionResult.equation === 'No reaction observed' ? (
+                <AlertTriangle className="w-4 h-4 text-yellow-400" />
+              ) : (
+                <CheckCircle className="w-4 h-4 text-green-400" />
+              )}
+              Reaction Analysis
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="font-mono text-lg text-center py-2 bg-gray-800/50 rounded">
+              {reactionResult.equation}
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <span className="text-gray-400">Type:</span>
+                <div className="text-white font-medium">{reactionResult.type}</div>
+              </div>
+              <div>
+                <span className="text-gray-400">Energy:</span>
+                <Badge variant={reactionResult.energy === 'exothermic' ? 'default' : 'secondary'} className="ml-1">
+                  <Flame className="w-3 h-3 mr-1" />
+                  {reactionResult.energy}
+                </Badge>
+              </div>
+              <div>
+                <span className="text-gray-400">Safety:</span>
+                <Badge variant="outline" className={`ml-1 ${getSafetyColor(reactionResult.safetyLevel)}`}>
+                  {reactionResult.safetyLevel}
+                </Badge>
+              </div>
+              {reactionResult.color && (
+                <div>
+                  <span className="text-gray-400">Color:</span>
+                  <div className="text-white font-medium">{reactionResult.color}</div>
+                </div>
+              )}
+            </div>
+            
+            <Separator />
+            
+            <div>
+              <span className="text-gray-400 text-xs">Products:</span>
+              <div className="flex flex-wrap gap-1 mt-1">
+                {reactionResult.products.map((product, idx) => (
+                  <Badge key={idx} variant="outline" className="text-xs">
+                    {product}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <span className="text-gray-400 text-xs">Conditions:</span>
+              <p className="text-gray-300 text-xs mt-1">{reactionResult.conditions}</p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Reaction History */}
       {reactionHistory.length > 0 && (
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Clock className="w-4 h-4" />
-            <h4 className="font-medium">Recent Reactions</h4>
-          </div>
-          <div className="space-y-2">
-            {reactionHistory.map((reaction) => (
-              <div key={reaction.id} className="text-sm p-2 bg-gray-50 rounded border">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">{reaction.products}</span>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline" className={getSafetyColor(reaction.safety)}>
-                      <AlertTriangle className="w-3 h-3 mr-1" />
-                      {reaction.safety}
+        <Card className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 border-purple-400/30">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <FlaskConical className="w-4 h-4" />
+              Recent Reactions ({reactionHistory.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2 max-h-32 overflow-y-auto">
+              {reactionHistory.map((reaction, idx) => (
+                <div key={idx} className="text-xs p-2 bg-gray-800/50 rounded border border-gray-600/30">
+                  <div className="font-mono text-gray-300">{reaction.equation}</div>
+                  <div className="flex gap-2 mt-1">
+                    <Badge variant="outline" className="text-xs">
+                      {reaction.type}
                     </Badge>
-                    <span className={`text-sm font-mono ${getEnergyColor(reaction.energy)}`}>
-                      {reaction.energy > 0 ? '+' : ''}{reaction.energy.toFixed(0)} kJ
-                    </span>
+                    <Badge variant="outline" className={`text-xs ${getSafetyColor(reaction.safetyLevel)}`}>
+                      {reaction.safetyLevel}
+                    </Badge>
                   </div>
                 </div>
-                <div className="text-gray-600 text-xs mt-1">
-                  Reactants: {reaction.reactants.map(r => r.symbol).join(' + ')} | {reaction.conditions}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </CardContent>
         </Card>
       )}
     </div>

@@ -1,212 +1,254 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { elements, Element } from '@/data/elements';
-import ElementCard from '@/components/ElementCard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Atom, Search, Thermometer, Zap, Weight } from 'lucide-react';
+import { Lightbulb, RefreshCw, Heart, Zap, Star, Globe, Clock, Award } from 'lucide-react';
 
 const ElementFactsPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedElement, setSelectedElement] = useState<Element | null>(null);
+  const [currentElement, setCurrentElement] = useState<Element>(elements[0]);
+  const [funFacts, setFunFacts] = useState<string[]>([]);
+  const [streak, setStreak] = useState(0);
+  const [favorites, setFavorites] = useState<string[]>([]);
 
-  const filteredElements = elements.filter(element =>
-    element.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    element.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    element.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const getPhaseAtRoomTemp = (element: Element) => {
-    if (!element.meltingPoint || !element.boilingPoint) return 'Unknown';
-    
-    const roomTemp = 25; // 25°C
-    
-    if (roomTemp < element.meltingPoint) return 'Solid';
-    if (roomTemp < element.boilingPoint) return 'Liquid';
-    return 'Gas';
+  const elementFacts = {
+    'H': [
+      'Most abundant element in the universe (75%)',
+      'Can exist as a metal under extreme pressure',
+      'Powers the sun through nuclear fusion',
+      'Essential for all life forms',
+      'Lightest element on the periodic table'
+    ],
+    'He': [
+      'Second most abundant element in universe',
+      'Named after the Greek god of the sun, Helios',
+      'Makes your voice squeaky when inhaled',
+      'Used in party balloons and airships',
+      'Never forms chemical compounds naturally'
+    ],
+    'Li': [
+      'Lightest metal that exists',
+      'Used in rechargeable batteries',
+      'Can float on water like oil',
+      'Essential for some medications',
+      'Burns with a bright red flame'
+    ],
+    'C': [
+      'Forms more compounds than any other element',
+      'Diamond and graphite are both pure carbon',
+      'Essential building block of all life',
+      'Can form chains millions of atoms long',
+      'Carbon dating helps determine age of fossils'
+    ],
+    'O': [
+      'Most abundant element in Earth\'s crust',
+      'Makes up 21% of the air you breathe',
+      'Essential for combustion and fire',
+      'Ozone layer protects us from UV radiation',
+      'Liquid oxygen is magnetic and blue'
+    ],
+    'Na': [
+      'Explodes when it touches water',
+      'Essential for nerve function in your body',
+      'Pure sodium is stored under oil',
+      'Burns with a bright yellow flame',
+      'Ancient Romans used it as currency (salary comes from salt)'
+    ],
+    'Fe': [
+      'Makes up 35% of Earth\'s mass',
+      'Essential for carrying oxygen in blood',
+      'Can be magnetized permanently',
+      'Most recycled metal on Earth',
+      'Red color of Mars comes from iron oxide'
+    ],
+    'Au': [
+      'Doesn\'t tarnish or rust ever',
+      'So soft you can shape it with your hands',
+      'All gold on Earth came from dying stars',
+      'One ounce can be stretched into 50 miles of wire',
+      'Your smartphone contains tiny amounts of gold'
+    ]
   };
 
-  const getInterestingFact = (element: Element) => {
-    const facts: Record<string, string> = {
-      'Hydrogen': 'Most abundant element in the universe, making up about 75% of normal matter.',
-      'Helium': 'Second lightest element and is used to fill balloons because it\'s lighter than air.',
-      'Carbon': 'Forms the basis of all organic life and can exist as diamond or graphite.',
-      'Oxygen': 'Essential for combustion and respiration, makes up 21% of Earth\'s atmosphere.',
-      'Gold': 'So unreactive that it can be found in pure form in nature.',
-      'Iron': 'Makes up most of Earth\'s core and is essential for red blood cells.',
-      'Uranium': 'Used in nuclear power plants and has the highest atomic mass of naturally occurring elements.',
-    };
-    
-    return facts[element.name] || `${element.name} belongs to the ${element.category.replace('-', ' ')} group.`;
+  const getRandomElement = () => {
+    const randomIndex = Math.floor(Math.random() * elements.length);
+    return elements[randomIndex];
   };
+
+  const getElementFacts = (symbol: string) => {
+    return elementFacts[symbol as keyof typeof elementFacts] || [
+      'This element has unique properties',
+      'Found in various compounds in nature',
+      'Has important industrial applications',
+      'Discovered through scientific research',
+      'Part of the periodic table family'
+    ];
+  };
+
+  const nextElement = () => {
+    const newElement = getRandomElement();
+    setCurrentElement(newElement);
+    setFunFacts(getElementFacts(newElement.symbol));
+    setStreak(prev => prev + 1);
+  };
+
+  const toggleFavorite = () => {
+    if (favorites.includes(currentElement.symbol)) {
+      setFavorites(prev => prev.filter(f => f !== currentElement.symbol));
+    } else {
+      setFavorites(prev => [...prev, currentElement.symbol]);
+    }
+  };
+
+  useEffect(() => {
+    setFunFacts(getElementFacts(currentElement.symbol));
+  }, [currentElement]);
+
+  const isFavorite = favorites.includes(currentElement.symbol);
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-7xl">
-      <header className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-white mb-4 font-orbitron">Element Facts</h1>
-        <p className="text-gray-300 max-w-2xl mx-auto">
-          Discover fascinating facts about all 118 elements in the periodic table
-        </p>
-      </header>
-
-      {/* Search */}
-      <div className="mb-6">
-        <div className="relative max-w-md mx-auto">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <Input
-            type="text"
-            placeholder="Search elements..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-white/90"
-          />
+    <div className="container mx-auto py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-4 font-orbitron">Element Facts Explorer</h1>
+          <p className="text-gray-300">Discover amazing facts about the elements around us</p>
+          
+          <div className="flex justify-center gap-4 mt-4">
+            <Badge variant="outline" className="text-white border-white/30">
+              <Star className="w-4 h-4 mr-1" />
+              Streak: {streak}
+            </Badge>
+            <Badge variant="outline" className="text-white border-white/30">
+              <Heart className="w-4 h-4 mr-1" />
+              Favorites: {favorites.length}
+            </Badge>
+          </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Element Grid */}
-        <div className="lg:col-span-2">
-          <Card className="bg-white/90">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Element Display */}
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+            <CardHeader className="text-center">
+              <div className={`w-32 h-32 mx-auto rounded-full flex items-center justify-center text-4xl font-bold bg-chemistry-${currentElement.category} bg-opacity-30 border-4 border-chemistry-${currentElement.category}/50 neon-glow-${currentElement.category}`}>
+                {currentElement.symbol}
+              </div>
+              <CardTitle className="text-white text-2xl font-orbitron mt-4">
+                {currentElement.name}
+              </CardTitle>
+              <div className="flex justify-center gap-2 mt-2">
+                <Badge variant="outline" className="text-white border-white/30">
+                  #{currentElement.atomicNumber}
+                </Badge>
+                <Badge variant="outline" className="text-white border-white/30">
+                  {currentElement.atomicMass}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="text-center">
+              <div className="flex justify-center gap-2 mb-4">
+                <Button
+                  onClick={toggleFavorite}
+                  variant={isFavorite ? "default" : "outline"}
+                  size="sm"
+                  className={isFavorite ? "bg-red-600 hover:bg-red-700" : "border-white/30 text-white"}
+                >
+                  <Heart className={`w-4 h-4 mr-1 ${isFavorite ? 'fill-current' : ''}`} />
+                  {isFavorite ? 'Favorited' : 'Add to Favorites'}
+                </Button>
+              </div>
+              
+              <div className="space-y-2 text-sm text-gray-300">
+                <div className="flex justify-between">
+                  <span>Category:</span>
+                  <Badge className={`bg-chemistry-${currentElement.category}/30`}>
+                    {currentElement.category}
+                  </Badge>
+                </div>
+                <div className="flex justify-between">
+                  <span>Phase:</span>
+                  <span className="text-white">{currentElement.phase}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Group:</span>
+                  <span className="text-white">{currentElement.group || 'N/A'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Period:</span>
+                  <span className="text-white">{currentElement.period}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Fun Facts */}
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Atom className="w-5 h-5" />
-                Elements ({filteredElements.length})
+              <CardTitle className="text-white flex items-center gap-2">
+                <Lightbulb className="w-5 h-5 text-yellow-400" />
+                Amazing Facts
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
-                {filteredElements.map((element) => (
-                  <div
-                    key={element.id}
-                    onClick={() => setSelectedElement(element)}
-                    className="cursor-pointer transform hover:scale-105 transition-transform"
+              <div className="space-y-4">
+                {funFacts.map((fact, index) => (
+                  <div 
+                    key={index}
+                    className="p-3 bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-lg border border-blue-400/30 animate-fade-in"
+                    style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <ElementCard
-                      element={element}
-                      onClick={() => setSelectedElement(element)}
-                      size="sm"
-                      isDraggable={false}
-                    />
+                    <div className="flex items-start gap-2">
+                      <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-xs font-bold text-white mt-0.5">
+                        {index + 1}
+                      </div>
+                      <p className="text-gray-200 text-sm leading-relaxed">{fact}</p>
+                    </div>
                   </div>
                 ))}
+              </div>
+              
+              <div className="mt-6 flex gap-2">
+                <Button 
+                  onClick={nextElement}
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                >
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Discover Another Element
+                </Button>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Element Details */}
-        <div>
-          {selectedElement ? (
-            <Card className="bg-white/90 sticky top-4">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                    {selectedElement.symbol}
-                  </div>
-                  {selectedElement.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Basic Info */}
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-gray-600">Atomic Number:</span>
-                    <p className="font-semibold">{selectedElement.atomicNumber}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Atomic Mass:</span>
-                    <p className="font-semibold">{selectedElement.atomicMass}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Category:</span>
-                    <Badge variant="outline" className="mt-1">
-                      {selectedElement.category.replace('-', ' ')}
-                    </Badge>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Phase at 25°C:</span>
-                    <p className="font-semibold">{getPhaseAtRoomTemp(selectedElement)}</p>
-                  </div>
-                </div>
-
-                {/* Physical Properties */}
-                <div className="space-y-3">
-                  <h4 className="font-semibold text-gray-800">Physical Properties</h4>
-                  
-                  {selectedElement.density && (
-                    <div className="flex items-center gap-2">
-                      <Weight className="w-4 h-4 text-gray-600" />
-                      <span className="text-sm">Density: {selectedElement.density} g/cm³</span>
-                    </div>
-                  )}
-                  
-                  {selectedElement.meltingPoint && (
-                    <div className="flex items-center gap-2">
-                      <Thermometer className="w-4 h-4 text-blue-600" />
-                      <span className="text-sm">Melting Point: {selectedElement.meltingPoint}°C</span>
-                    </div>
-                  )}
-                  
-                  {selectedElement.boilingPoint && (
-                    <div className="flex items-center gap-2">
-                      <Thermometer className="w-4 h-4 text-red-600" />
-                      <span className="text-sm">Boiling Point: {selectedElement.boilingPoint}°C</span>
-                    </div>
-                  )}
-                  
-                  {selectedElement.electronegativity && (
-                    <div className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-yellow-600" />
-                      <span className="text-sm">Electronegativity: {selectedElement.electronegativity}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Electron Configuration */}
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">Electron Configuration</h4>
-                  <code className="text-xs bg-gray-100 px-2 py-1 rounded block">
-                    {selectedElement.electronConfiguration}
-                  </code>
-                </div>
-
-                {/* Discovery */}
-                {selectedElement.discoveredBy && (
-                  <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">Discovery</h4>
-                    <p className="text-sm text-gray-600">
-                      Discovered by: {selectedElement.discoveredBy}
-                    </p>
-                  </div>
-                )}
-
-                {/* Fun Fact */}
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">Interesting Fact</h4>
-                  <p className="text-sm text-gray-600 italic">
-                    {getInterestingFact(selectedElement)}
-                  </p>
-                </div>
-
-                {/* Description */}
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">Description</h4>
-                  <p className="text-sm text-gray-600">
-                    {selectedElement.description}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card className="bg-white/90">
-              <CardContent className="text-center py-12">
-                <Atom className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                <p className="text-gray-600">Select an element to view its facts and properties</p>
-              </CardContent>
-            </Card>
-          )}
+        {/* Quick Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+          <Card className="bg-gradient-to-br from-green-700/20 to-green-600/20 backdrop-blur-lg border-green-400/30 p-4 text-center">
+            <Globe className="w-8 h-8 mx-auto text-green-400 mb-2" />
+            <div className="text-2xl font-bold text-white">{elements.length}</div>
+            <div className="text-xs text-green-200">Elements Total</div>
+          </Card>
+          
+          <Card className="bg-gradient-to-br from-blue-700/20 to-blue-600/20 backdrop-blur-lg border-blue-400/30 p-4 text-center">
+            <Zap className="w-8 h-8 mx-auto text-blue-400 mb-2" />
+            <div className="text-2xl font-bold text-white">{streak}</div>
+            <div className="text-xs text-blue-200">Learning Streak</div>
+          </Card>
+          
+          <Card className="bg-gradient-to-br from-purple-700/20 to-purple-600/20 backdrop-blur-lg border-purple-400/30 p-4 text-center">
+            <Heart className="w-8 h-8 mx-auto text-purple-400 mb-2" />
+            <div className="text-2xl font-bold text-white">{favorites.length}</div>
+            <div className="text-xs text-purple-200">Favorites</div>
+          </Card>
+          
+          <Card className="bg-gradient-to-br from-orange-700/20 to-orange-600/20 backdrop-blur-lg border-orange-400/30 p-4 text-center">
+            <Award className="w-8 h-8 mx-auto text-orange-400 mb-2" />
+            <div className="text-2xl font-bold text-white">
+              {Math.floor((streak / elements.length) * 100)}%
+            </div>
+            <div className="text-xs text-orange-200">Progress</div>
+          </Card>
         </div>
+        
       </div>
     </div>
   );

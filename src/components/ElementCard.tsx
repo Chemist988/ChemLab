@@ -13,6 +13,20 @@ interface ElementCardProps {
   className?: string;
 }
 
+const neonGlowClasses: { [key: string]: string } = {
+    'alkali-metal': 'neon-glow-alkali-metal',
+    'alkaline-earth-metal': 'neon-glow-alkaline-earth-metal',
+    'transition-metal': 'neon-glow-transition-metal',
+    'post-transition-metal': 'neon-glow-post-transition-metal',
+    'metalloid': 'neon-glow-metalloid',
+    'nonmetal': 'neon-glow-nonmetal',
+    'halogen': 'neon-glow-halogen',
+    'noble-gas': 'neon-glow-noble-gas',
+    'lanthanide': 'neon-glow-lanthanide',
+    'actinide': 'neon-glow-actinide',
+    'unknown': 'neon-glow-unknown',
+};
+
 const ElementCard: React.FC<ElementCardProps> = ({ 
   element, 
   onClick, 
@@ -37,50 +51,48 @@ const ElementCard: React.FC<ElementCardProps> = ({
     lg: 'w-[100px] h-[100px] text-sm',
   };
 
-  const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
-      'alkali-metal': 'from-red-400 to-red-600',
-      'alkaline-earth-metal': 'from-blue-400 to-blue-600',
-      'transition-metal': 'from-green-400 to-green-600',
-      'post-transition-metal': 'from-pink-400 to-pink-600',
-      'metalloid': 'from-gray-400 to-gray-600',
-      'nonmetal': 'from-slate-200 to-slate-400',
-      'halogen': 'from-orange-400 to-orange-600',
-      'noble-gas': 'from-purple-400 to-purple-600',
-      'lanthanide': 'from-indigo-400 to-indigo-600',
-      'actinide': 'from-violet-400 to-violet-600',
-      'unknown': 'from-gray-300 to-gray-500',
-    };
-    return colors[category] || 'from-gray-300 to-gray-500';
-  };
-
   return (
     <div
       ref={isDraggable ? drag : undefined}
       className={cn(
-        `bg-gradient-to-br ${getCategoryColor(element.category)} rounded-xl cursor-pointer transition-all duration-300`,
-        `backdrop-blur-sm border border-white/30 shadow-lg`,
-        `hover:shadow-xl hover:scale-105 hover:z-10`,
-        `transform-gpu`,
+        `bg-chemistry-${element.category} rounded-xl cursor-pointer transition-all duration-500`,
+        `backdrop-blur-xl border border-white/20 dark:border-black/10`,
+        `hover:shadow-2xl hover:scale-110 hover:z-20 liquid-glass-element`,
+        `transform-gpu perspective-1000`,
+        neonGlowClasses[element.category as keyof typeof neonGlowClasses],
         `${isDragging ? 'ring-2 ring-primary/50 shadow-2xl scale-110' : ''}`,
-        isDimmed && 'opacity-30 saturate-0 pointer-events-none',
+        isDimmed && 'opacity-20 saturate-0 pointer-events-none',
         sizeClasses[size],
         className
       )}
       onClick={onClick}
       style={{ 
         opacity: isDragging ? 0.7 : 1,
-      }}
+        background: `
+          radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 0%, transparent 50%),
+          radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 0%, transparent 50%),
+          linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)
+        `,
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        boxShadow: `
+          inset 0 1px 0 rgba(255,255,255,0.2),
+          inset 0 -1px 0 rgba(0,0,0,0.1),
+          0 8px 32px rgba(0,0,0,0.12),
+          0 2px 8px rgba(0,0,0,0.08)
+        `,
+        borderImage: 'linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1)) 1',
+      } as React.CSSProperties}
     >
-      <div className="flex justify-between items-start px-2 pt-1">
-        <span className="font-mono text-[0.6rem] opacity-90 text-white font-bold">{element.atomicNumber}</span>
-        <span className="font-mono text-[0.6rem] opacity-80 text-white">{element.group || ""}</span>
+      <div className="flex justify-between items-start px-1 pt-0.5">
+        <span className="font-mono text-[0.6rem] opacity-90 text-shadow">{element.atomicNumber}</span>
+        <span className="font-mono text-[0.6rem] opacity-80 text-shadow">{element.group || ""}</span>
       </div>
-      <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-1">
-        <span className="font-bold text-lg leading-none text-white drop-shadow-lg">{element.symbol}</span>
+      <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-0.5">
+        <span className="font-bold text-base leading-none text-shadow-lg drop-shadow-sm">{element.symbol}</span>
       </div>
-      <div className="text-[0.55rem] text-center opacity-90 text-white font-medium px-1">
-        {element.name.length > 10 ? element.name.substring(0, 8) + '...' : element.name}
+      <div className="text-[0.55rem] text-center opacity-90 text-shadow">
+        {element.atomicMass.toFixed(1)}
       </div>
     </div>
   );
