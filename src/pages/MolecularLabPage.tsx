@@ -28,7 +28,8 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
     }
   });
 
-  const atomicRadius = Math.max(0.3, Math.min(element.atomicRadius / 100, 1.5));
+  // Use atomicMass as fallback for atomicRadius since it doesn't exist in Element type
+  const atomicRadius = Math.max(0.3, Math.min(element.atomicMass / 100, 1.5));
   const color = getElementColor(element.category);
 
   return (
@@ -63,7 +64,6 @@ const AtomVisualization: React.FC<AtomProps> = ({ element, position, selected, o
         color="white"
         anchorX="center"
         anchorY="middle"
-        font="/fonts/orbitron.woff"
       >
         {element.symbol}
       </Text>
@@ -90,9 +90,13 @@ const ElectronOrbit: React.FC<{ radius: number; speed: number }> = ({ radius, sp
         <meshBasicMaterial color="#444" transparent opacity={0.3} />
       </mesh>
       
-      {/* Electron */}
+      {/* Electron - Fixed material properties */}
       <Sphere ref={electronRef} args={[0.05, 16, 16]} position={[radius, 0, 0]}>
-        <meshBasicMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={0.5} />
+        <meshBasicMaterial 
+          color="#00ffff"
+          emissive="#00ffff"
+          emissiveIntensity={0.5}
+        />
       </Sphere>
     </>
   );
@@ -162,7 +166,7 @@ const MolecularLabPage = () => {
           3D Molecular Visualizer
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Build molecules in real-time 3D space with physics simulation and electron orbital visualization
+          Build molecules in real-time 3D space with WebGL physics simulation and electron orbital visualization
         </p>
       </div>
 
@@ -171,7 +175,14 @@ const MolecularLabPage = () => {
         <div className="lg:col-span-3">
           <Card className="h-[600px] liquid-glass">
             <CardContent className="p-0 h-full">
-              <Canvas camera={{ position: [10, 10, 10], fov: 60 }}>
+              <Canvas 
+                camera={{ position: [10, 10, 10], fov: 60 }}
+                gl={{ 
+                  antialias: true,
+                  alpha: true,
+                  powerPreference: "high-performance"
+                }}
+              >
                 <ambientLight intensity={0.3} />
                 <pointLight position={[10, 10, 10]} intensity={1} />
                 <spotLight position={[-10, 10, 5]} angle={0.3} penumbra={1} intensity={0.5} />
@@ -191,6 +202,8 @@ const MolecularLabPage = () => {
                   selectedAtoms.slice(i + 1).map((atom2, j) => {
                     const pos1 = atomPositions[i];
                     const pos2 = atomPositions[i + j + 1];
+                    if (!pos1 || !pos2) return null;
+                    
                     const distance = Math.sqrt(
                       Math.pow(pos1[0] - pos2[0], 2) +
                       Math.pow(pos1[1] - pos2[1], 2) +
@@ -292,7 +305,7 @@ const MolecularLabPage = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Zap className="w-5 h-5" />
-                Molecule Stats
+                WebGL Stats
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -323,6 +336,12 @@ const MolecularLabPage = () => {
                   <span>Simulation:</span>
                   <Badge variant={isSimulating ? "default" : "secondary"} className="liquid-glass">
                     {isSimulating ? "Active" : "Paused"}
+                  </Badge>
+                </div>
+                <div className="flex justify-between">
+                  <span>Renderer:</span>
+                  <Badge variant="default" className="liquid-glass">
+                    WebGL
                   </Badge>
                 </div>
               </div>
