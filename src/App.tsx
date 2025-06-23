@@ -10,10 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Layout from "@/components/Layout";
 import AnalyticsPage from './pages/AnalyticsPage';
-import ReactionLabPage from './pages/ReactionLabPage';
-import ElementFactsPage from './pages/ElementFactsPage';
-import QuickGuidePage from './pages/QuickGuidePage';
-import ChemCalculatorPage from './pages/ChemCalculatorPage';
+import MolecularLabPage from './pages/MolecularLabPage';
 
 const queryClient = new QueryClient();
 
@@ -29,11 +26,9 @@ const App: React.FC = () => (
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="/reaction-lab" element={<ReactionLabPage />} />
-                <Route path="/element-facts" element={<ElementFactsPage />} />
-                <Route path="/quick-guide" element={<QuickGuidePage />} />
-                <Route path="/chem-calculator" element={<ChemCalculatorPage />} />
+                <Route path="/molecular-lab" element={<MolecularLabPage />} />
               </Route>
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

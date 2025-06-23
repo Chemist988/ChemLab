@@ -1,16 +1,13 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Atom, Bot, FlaskConical, BookOpen, Calculator, Lightbulb } from 'lucide-react';
+import { Atom, Bot, Boxes } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { name: 'Playground', href: '/', icon: Atom },
   { name: 'AI Assistant', href: '/analytics', icon: Bot },
-  { name: 'Reaction Lab', href: '/reaction-lab', icon: FlaskConical },
-  { name: 'Element Facts', href: '/element-facts', icon: Lightbulb },
-  { name: 'Quick Guide', href: '/quick-guide', icon: BookOpen },
-  { name: 'Chem Calculator', href: '/chem-calculator', icon: Calculator },
+  { name: '3D Molecular Lab', href: '/molecular-lab', icon: Boxes },
 ];
 
 const TopNav = () => {
@@ -25,8 +22,8 @@ const TopNav = () => {
               end={item.href === '/'}
               className={({ isActive }) =>
                 cn(
-                  'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-500 hover:bg-accent hover:text-accent-foreground font-orbitron liquid-glass-transition',
-                  isActive ? 'bg-accent text-accent-foreground liquid-glass scale-105' : 'text-muted-foreground'
+                  'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground font-orbitron',
+                  isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'
                 )
               }
             >

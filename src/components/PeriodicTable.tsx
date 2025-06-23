@@ -34,17 +34,6 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
   const lowerCaseQuery = searchQuery.toLowerCase();
   const isSearching = lowerCaseQuery.length > 0;
 
-  // Fixed search functionality
-  const matchesSearch = (element: Element): boolean => {
-    if (!isSearching) return false;
-    return (
-      element.name.toLowerCase().includes(lowerCaseQuery) ||
-      element.symbol.toLowerCase().includes(lowerCaseQuery) ||
-      element.atomicNumber.toString().includes(lowerCaseQuery) ||
-      element.category.toLowerCase().includes(lowerCaseQuery)
-    );
-  };
-
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
@@ -52,7 +41,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
         <div className="relative w-full sm:w-64">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
-            placeholder="Search element (e.g., Iron, Fe, 26)"
+            placeholder="Search element (e.g., Iron)"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value)
@@ -90,13 +79,12 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                     const element = atomicNumber > 0 ? getElementByAtomicNumber(atomicNumber) : null;
                     
                     let isDimmed = false;
-                    let isHighlighted = false;
-                    
-                    if (element) {
-                      if (isSearching) {
-                        isHighlighted = matchesSearch(element);
-                        isDimmed = !isHighlighted;
-                      }
+                    if (isSearching && element) {
+                      const matchesQuery = 
+                        element.name.toLowerCase().includes(lowerCaseQuery) ||
+                        element.symbol.toLowerCase().includes(lowerCaseQuery) ||
+                        element.atomicNumber.toString().includes(lowerCaseQuery);
+                      isDimmed = !matchesQuery;
                     }
 
                     return (
@@ -105,7 +93,6 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                         className={`
                           element-cell transition-all duration-300
                           ${atomicNumber > 0 ? '' : 'opacity-0 pointer-events-none'}
-                          ${isHighlighted ? 'ring-2 ring-primary shadow-lg scale-110 z-10' : ''}
                         `}
                         style={{
                           width: '50px',
@@ -118,7 +105,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
                             onClick={() => onElementClick(element)}
                             size="xs"
                             isDimmed={isDimmed}
-                            className={`animate-fade-in backdrop-blur-sm ${isHighlighted ? 'neon-glow-primary' : ''}`}
+                            className="animate-fade-in backdrop-blur-sm"
                           />
                         )}
                       </div>
@@ -135,29 +122,6 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
           <Atom className="h-20 w-20" />
         </div>
       </div>
-      
-      {/* Search Results Display */}
-      {isSearching && (
-        <div className="mt-4 p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm animate-fade-in">
-          <h4 className="text-sm font-medium mb-3">
-            Search Results for "{searchQuery}"
-          </h4>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {elements.filter(matchesSearch).map(element => (
-              <ElementCard
-                key={element.id}
-                element={element}
-                onClick={() => onElementClick(element)}
-                size="md"
-                className="animate-fade-in ring-2 ring-primary/50"
-              />
-            ))}
-            {elements.filter(matchesSearch).length === 0 && (
-              <p className="text-sm text-muted-foreground">No elements found matching your search.</p>
-            )}
-          </div>
-        </div>
-      )}
       
       {/* Legend - Always show the categories */}
       <div className="mt-4 flex flex-wrap gap-2 justify-center p-4 bg-gradient-to-br from-card/70 to-card/30 rounded-xl shadow-sm border border-white/10 backdrop-blur-sm">
