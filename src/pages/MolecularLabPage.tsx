@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Text, Sphere, Line } from '@react-three/drei';
@@ -90,9 +89,9 @@ const ElectronOrbit: React.FC<{ radius: number; speed: number }> = ({ radius, sp
         <meshBasicMaterial color="#444" transparent opacity={0.3} />
       </mesh>
       
-      {/* Electron - Fixed material properties */}
+      {/* Electron - Fixed to use meshStandardMaterial for emissive properties */}
       <Sphere ref={electronRef} args={[0.05, 16, 16]} position={[radius, 0, 0]}>
-        <meshBasicMaterial 
+        <meshStandardMaterial 
           color="#00ffff"
           emissive="#00ffff"
           emissiveIntensity={0.5}
