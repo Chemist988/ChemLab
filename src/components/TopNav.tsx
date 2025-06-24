@@ -1,14 +1,14 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Atom, Bot, Calculator, Beaker } from 'lucide-react';
+import { Atom, Bot, Calculator, Microscope } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { name: 'Playground', href: '/', icon: Atom },
   { name: 'AI Assistant', href: '/analytics', icon: Bot },
   { name: 'Formula Builder', href: '/formula-builder', icon: Calculator },
-  { name: 'Reaction Simulator', href: '/reaction-simulator', icon: Beaker },
+  { name: 'Molecule Visualizer', href: '/molecule-visualizer', icon: Microscope },
 ];
 
 const TopNav = () => {

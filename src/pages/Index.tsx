@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Atom, Beaker, BookOpen, Bot, Sparkles, ArrowRight, Calculator } from 'lucide-react';
+import { Atom, Beaker, BookOpen, Bot, ArrowRight, Calculator, Microscope } from 'lucide-react';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
@@ -36,46 +36,46 @@ const Index = () => {
           </div>
           
           <div className="container mx-auto py-8 px-4 relative z-10">
-            {/* Apple-inspired Header */}
+            {/* Header */}
             <header className="mb-16 flex flex-col items-center text-center">
               <div className="space-y-6 max-w-4xl mx-auto">
                 <h1 className="text-6xl md:text-7xl font-bold tracking-tight text-white font-orbitron drop-shadow-2xl">
                   ChemLab
                 </h1>
                 <p className="text-xl font-light text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                  An interactive chemistry playground. Drag elements, simulate reactions, 
-                  and discover the building blocks of our world with stunning visualizations.
+                  Interactive chemistry tools for exploring elements, building molecules, 
+                  and understanding chemical reactions.
                 </p>
                 <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
                   <Atom className="w-4 h-4" />
-                  <span>118 Elements • Unlimited Possibilities</span>
+                  <span>118 Elements • Modern Chemistry Tools</span>
                 </div>
               </div>
             </header>
 
             {/* Feature Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-6xl mx-auto">
-              {/* HeisenBot Card */}
+              {/* AI Assistant Card */}
               <Card className="bg-gradient-to-br from-green-600 to-teal-600 border-0 text-white relative overflow-hidden hover:scale-105 transition-transform duration-300">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-8 translate-x-8"></div>
                 <CardHeader className="relative z-10">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
                     <Bot className="w-6 h-6" />
                   </div>
-                  <CardTitle className="text-xl">HeisenBot AI</CardTitle>
+                  <CardTitle className="text-xl">AI Assistant</CardTitle>
                   <CardDescription className="text-white/80">
-                    Your intelligent chemistry companion
+                    Get help with chemistry concepts
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
                   <p className="text-sm text-white/90 mb-4">
-                    Get instant help with reactions, molecular structures, and complex chemistry concepts.
+                    Ask questions about reactions, molecular structures, and chemical properties.
                   </p>
                   <Button 
                     onClick={() => navigate('/analytics')}
                     className="bg-white text-green-600 hover:bg-gray-100 w-full"
                   >
-                    Chat Now
+                    Start Chat
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </CardContent>
@@ -90,44 +90,44 @@ const Index = () => {
                   </div>
                   <CardTitle className="text-xl">Formula Builder</CardTitle>
                   <CardDescription className="text-white/80">
-                    Build molecular formulas interactively
+                    Build molecular formulas
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
                   <p className="text-sm text-white/90 mb-4">
-                    Construct chemical formulas, calculate molecular masses, and save compounds.
+                    Create chemical formulas, calculate molecular masses, and save compounds.
                   </p>
                   <Button 
                     onClick={() => navigate('/formula-builder')}
                     className="bg-white text-purple-600 hover:bg-gray-100 w-full"
                   >
-                    Start Building
+                    Build Formula
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </CardContent>
               </Card>
 
-              {/* Reaction Simulator Card */}
-              <Card className="bg-gradient-to-br from-orange-600 to-red-600 border-0 text-white relative overflow-hidden hover:scale-105 transition-transform duration-300">
+              {/* Molecule Visualizer Card */}
+              <Card className="bg-gradient-to-br from-blue-600 to-indigo-600 border-0 text-white relative overflow-hidden hover:scale-105 transition-transform duration-300">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-8 translate-x-8"></div>
                 <CardHeader className="relative z-10">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                    <Beaker className="w-6 h-6" />
+                    <Microscope className="w-6 h-6" />
                   </div>
-                  <CardTitle className="text-xl">Reaction Simulator</CardTitle>
+                  <CardTitle className="text-xl">Molecule Visualizer</CardTitle>
                   <CardDescription className="text-white/80">
-                    Balance equations and simulate reactions
+                    Explore molecular structures
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
                   <p className="text-sm text-white/90 mb-4">
-                    Build chemical reactions, check balance, and explore transformations.
+                    View molecular structures, understand bonding patterns, and analyze geometry.
                   </p>
                   <Button 
-                    onClick={() => navigate('/reaction-simulator')}
-                    className="bg-white text-orange-600 hover:bg-gray-100 w-full"
+                    onClick={() => navigate('/molecule-visualizer')}
+                    className="bg-white text-blue-600 hover:bg-gray-100 w-full"
                   >
-                    Simulate Now
+                    Explore Molecules
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </CardContent>
@@ -161,9 +161,9 @@ const Index = () => {
                   
                   <TabsContent value="reaction" className="space-y-6 h-full">
                     <div>
-                      <h3 className="text-xl font-medium mb-2 font-orbitron">Reaction Simulator</h3>
+                      <h3 className="text-xl font-medium mb-2 font-orbitron">Reaction Lab</h3>
                       <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                        Drag and drop elements to simulate chemical reactions
+                        Drag elements to simulate reactions
                       </p>
                     </div>
                     <Separator />
@@ -177,14 +177,14 @@ const Index = () => {
                         <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-200/50 dark:border-blue-700/50">
                           <h4 className="font-medium text-blue-700 dark:text-blue-300 mb-2">Getting Started</h4>
                           <ul className="space-y-1 text-gray-600 dark:text-gray-400">
-                            <li>• Click any element for detailed information</li>
+                            <li>• Click elements for detailed information</li>
                             <li>• Drag elements to the reaction zone</li>
-                            <li>• Watch chemical reactions come to life</li>
+                            <li>• Explore molecular structures</li>
                           </ul>
                         </div>
                         
                         <div className="p-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50">
-                          <h4 className="font-medium text-emerald-700 dark:text-emerald-300 mb-2">Popular Reactions</h4>
+                          <h4 className="font-medium text-emerald-700 dark:text-emerald-300 mb-2">Common Reactions</h4>
                           <ul className="space-y-1 text-gray-600 dark:text-gray-400 text-xs">
                             <li>• H + O → Water formation</li>
                             <li>• Na + Cl → Salt formation</li>
