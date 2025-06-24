@@ -55,8 +55,8 @@ const ElementCard: React.FC<ElementCardProps> = ({
     <div
       ref={isDraggable ? drag : undefined}
       className={cn(
-        `bg-chemistry-${element.category} rounded-xl cursor-pointer transition-all duration-500`,
-        `backdrop-blur-xl border border-white/20 dark:border-black/10`,
+        `bg-chemistry-${element.category} rounded-lg cursor-pointer transition-all duration-500`,
+        `backdrop-blur-xl border-2 border-white/30 dark:border-black/20`,
         `hover:shadow-2xl hover:scale-110 hover:z-20 liquid-glass-element`,
         `transform-gpu perspective-1000`,
         neonGlowClasses[element.category as keyof typeof neonGlowClasses],
@@ -69,29 +69,27 @@ const ElementCard: React.FC<ElementCardProps> = ({
       style={{ 
         opacity: isDragging ? 0.7 : 1,
         background: `
-          radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 0%, transparent 50%),
-          radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 0%, transparent 50%),
-          linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)
+          linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 100%),
+          linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%)
         `,
         backdropFilter: 'blur(20px) saturate(180%)',
         WebkitBackdropFilter: 'blur(20px) saturate(180%)',
         boxShadow: `
-          inset 0 1px 0 rgba(255,255,255,0.2),
-          inset 0 -1px 0 rgba(0,0,0,0.1),
-          0 8px 32px rgba(0,0,0,0.12),
-          0 2px 8px rgba(0,0,0,0.08)
+          inset 0 2px 0 rgba(255,255,255,0.3),
+          inset 0 -2px 0 rgba(0,0,0,0.1),
+          0 8px 32px rgba(0,0,0,0.15),
+          0 4px 12px rgba(0,0,0,0.1)
         `,
-        borderImage: 'linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1)) 1',
       } as React.CSSProperties}
     >
       <div className="flex justify-between items-start px-1 pt-0.5">
-        <span className="font-mono text-[0.6rem] opacity-90 text-shadow">{element.atomicNumber}</span>
+        <span className="font-mono text-[0.6rem] opacity-90 text-shadow font-bold">{element.atomicNumber}</span>
         <span className="font-mono text-[0.6rem] opacity-80 text-shadow">{element.group || ""}</span>
       </div>
       <div className="flex flex-col items-center justify-center text-center h-[60%] -mt-0.5">
         <span className="font-bold text-base leading-none text-shadow-lg drop-shadow-sm">{element.symbol}</span>
       </div>
-      <div className="text-[0.55rem] text-center opacity-90 text-shadow">
+      <div className="text-[0.55rem] text-center opacity-90 text-shadow font-medium">
         {element.atomicMass.toFixed(1)}
       </div>
     </div>

@@ -11,7 +11,7 @@ import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Atom, Beaker, BookOpen, Bot, ArrowRight, Calculator, Microscope } from 'lucide-react';
+import { Atom, Beaker, BookOpen, Bot, ArrowRight, Calculator, Brain, Sparkles, Zap, FlaskConical } from 'lucide-react';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
@@ -26,7 +26,7 @@ const Index = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="relative">
-        {/* Hero Section with Background */}
+        {/* Main Content - Periodic Table and Reaction Lab First */}
         <section className="relative min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-20">
@@ -35,85 +35,20 @@ const Index = () => {
           </div>
           
           <div className="container mx-auto py-8 px-4 relative z-10">
-            {/* Header */}
-            <header className="mb-16 flex flex-col items-center text-center">
-              <div className="space-y-6 max-w-4xl mx-auto">
-                <h1 className="text-6xl md:text-7xl font-bold tracking-tight text-white font-orbitron drop-shadow-2xl">
+            {/* Compact Header */}
+            <header className="mb-8 flex flex-col items-center text-center">
+              <div className="space-y-4 max-w-4xl mx-auto">
+                <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white font-orbitron drop-shadow-2xl">
                   ChemLab
                 </h1>
-                <p className="text-xl font-light text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                  Interactive chemistry tools for exploring elements, building molecules, 
-                  and understanding chemical reactions.
+                <p className="text-lg font-light text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                  Interactive chemistry lab for exploring elements and reactions
                 </p>
-                <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
-                  <Atom className="w-4 h-4" />
-                  <span>118 Elements • Modern Chemistry Tools</span>
-                </div>
               </div>
             </header>
 
-            {/* Feature Cards - Without outer containers */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-6xl mx-auto">
-              {/* AI Assistant */}
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Bot className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-semibold text-white">AI Assistant</h3>
-                <p className="text-gray-300 mb-4">Get help with chemistry concepts</p>
-                <p className="text-sm text-gray-400 mb-6">
-                  Ask questions about reactions, molecular structures, and chemical properties.
-                </p>
-                <Button 
-                  onClick={() => navigate('/analytics')}
-                  className="bg-green-600 text-white hover:bg-green-700 w-full"
-                >
-                  Start Chat
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-
-              {/* Formula Builder */}
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calculator className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-semibold text-white">Formula Builder</h3>
-                <p className="text-gray-300 mb-4">Build molecular formulas</p>
-                <p className="text-sm text-gray-400 mb-6">
-                  Create chemical formulas, calculate molecular masses, and save compounds.
-                </p>
-                <Button 
-                  onClick={() => navigate('/formula-builder')}
-                  className="bg-purple-600 text-white hover:bg-purple-700 w-full"
-                >
-                  Build Formula
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-
-              {/* Molecule Visualizer */}
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Microscope className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-semibold text-white">Molecule Visualizer</h3>
-                <p className="text-gray-300 mb-4">Explore molecular structures</p>
-                <p className="text-sm text-gray-400 mb-6">
-                  View molecular structures, understand bonding patterns, and analyze geometry.
-                </p>
-                <Button 
-                  onClick={() => navigate('/molecule-visualizer')}
-                  className="bg-blue-600 text-white hover:bg-blue-700 w-full"
-                >
-                  Explore Molecules
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Main Content Grid */}
-            <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+            {/* Main Content Grid - PT and Lab First */}
+            <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-12">
               {/* Periodic Table */}
               <div className="xl:col-span-3 bg-white/95 dark:bg-gray-900/95 rounded-3xl shadow-2xl backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 p-8">
                 <div className="flex items-center justify-between mb-6">
@@ -157,7 +92,7 @@ const Index = () => {
                           <ul className="space-y-1 text-gray-600 dark:text-gray-400">
                             <li>• Click elements for detailed information</li>
                             <li>• Drag elements to the reaction zone</li>
-                            <li>• Explore molecular structures</li>
+                            <li>• Click compounds in suggestions to add them</li>
                           </ul>
                         </div>
                         
@@ -174,6 +109,66 @@ const Index = () => {
                     </div>
                   </TabsContent>
                 </Tabs>
+              </div>
+            </div>
+
+            {/* Enhanced AI Assistant Section */}
+            <div className="bg-gradient-to-r from-emerald-900/20 via-teal-900/20 to-cyan-900/20 rounded-3xl shadow-2xl backdrop-blur-xl border border-emerald-200/30 dark:border-emerald-700/30 p-8 mb-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div className="lg:col-span-2 space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-xl">
+                        <Brain className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center animate-pulse">
+                        <Sparkles className="w-3 h-3 text-yellow-900" />
+                      </div>
+                    </div>
+                    <div>
+                      <h2 className="text-3xl font-bold text-white mb-2">AI Chemistry Assistant</h2>
+                      <p className="text-emerald-200">Get instant help with reactions, formulas, and concepts</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Zap className="w-4 h-4 text-yellow-400" />
+                        <span className="text-sm font-medium text-white">Reaction Predictions</span>
+                      </div>
+                      <p className="text-xs text-gray-300">Predict outcomes of chemical reactions</p>
+                    </div>
+                    
+                    <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
+                      <div className="flex items-center gap-2 mb-2">
+                        <FlaskConical className="w-4 h-4 text-blue-400" />
+                        <span className="text-sm font-medium text-white">Formula Help</span>
+                      </div>
+                      <p className="text-xs text-gray-300">Assistance with molecular formulas</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col items-center space-y-4">
+                  <Button 
+                    onClick={() => navigate('/analytics')}
+                    className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 w-full py-6 text-lg font-semibold rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-200"
+                  >
+                    <Bot className="w-5 h-5 mr-2" />
+                    Start Chat
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                  
+                  <Button 
+                    onClick={() => navigate('/formula-builder')}
+                    variant="outline"
+                    className="bg-white/10 text-white border-white/30 hover:bg-white/20 w-full rounded-xl backdrop-blur-sm"
+                  >
+                    <Calculator className="w-4 h-4 mr-2" />
+                    Formula Builder
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

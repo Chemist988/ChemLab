@@ -1,43 +1,45 @@
 
-import * as React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "@/hooks/use-theme";
+import { useTheme } from "@/hooks/use-theme";
+import Layout from "./components/Layout";
 import Index from "./pages/Index";
+import FormulaBuilderPage from "./pages/FormulaBuilderPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import ActivityPage from "./pages/ActivityPage";
+import SourcesPage from "./pages/SourcesPage";
 import NotFound from "./pages/NotFound";
-import Layout from "@/components/Layout";
-import AnalyticsPage from './pages/AnalyticsPage';
-import FormulaBuilderPage from './pages/FormulaBuilderPage';
-import MoleculeVisualizerPage from './pages/MoleculeVisualizerPage';
 
 const queryClient = new QueryClient();
 
-const App: React.FC = () => (
-  <React.Fragment>
-    <ThemeProvider defaultTheme="system">
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
+const App = () => {
+  const { theme } = useTheme();
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <div className={theme}>
           <Toaster />
-          <Sonner position="top-center" />
+          <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route element={<Layout />}>
+            <Layout>
+              <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/analytics" element={<AnalyticsPage />} />
                 <Route path="/formula-builder" element={<FormulaBuilderPage />} />
-                <Route path="/molecule-visualizer" element={<MoleculeVisualizerPage />} />
-              </Route>
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+                <Route path="/analytics" element={<AnalyticsPage />} />
+                <Route path="/activity" element={<ActivityPage />} />
+                <Route path="/sources" element={<SourcesPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Layout>
           </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
-  </React.Fragment>
-);
+        </div>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

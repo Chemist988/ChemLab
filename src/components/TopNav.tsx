@@ -1,40 +1,56 @@
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Atom, Bot, Calculator, Microscope } from 'lucide-react';
-import { cn } from '@/lib/utils';
-
-const navItems = [
-  { name: 'Playground', href: '/', icon: Atom },
-  { name: 'AI Assistant', href: '/analytics', icon: Bot },
-  { name: 'Formula Builder', href: '/formula-builder', icon: Calculator },
-  { name: 'Molecule Visualizer', href: '/molecule-visualizer', icon: Microscope },
-];
+import { Link, useLocation } from 'react-router-dom';
+import { Atom, Beaker, Calculator, Bot, BookOpen, BarChart3 } from 'lucide-react';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 const TopNav = () => {
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
+  const navItems = [
+    { path: '/', icon: Atom, label: 'Periodic Table' },
+    { path: '/formula-builder', icon: Calculator, label: 'Formula Builder' },
+    { path: '/analytics', icon: Bot, label: 'AI Assistant' },
+    { path: '/activity', icon: BarChart3, label: 'Activity' },
+    { path: '/sources', icon: BookOpen, label: 'Sources' }
+  ];
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between">
-        <nav className="flex items-center space-x-6">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.href}
-              end={item.href === '/'}
-              className={({ isActive }) =>
-                cn(
-                  'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground font-orbitron',
-                  isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'
-                )
-              }
-            >
-              <item.icon className="h-4 w-4" />
-              <span>{item.name}</span>
-            </NavLink>
-          ))}
-        </nav>
+    <nav className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <Link to="/" className="flex items-center space-x-2">
+            <Beaker className="h-8 w-8 text-primary" />
+            <span className="text-2xl font-bold font-orbitron bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+              ChemLab
+            </span>
+          </Link>
+          
+          <div className="hidden md:flex items-center space-x-1">
+            {navItems.map(({ path, icon: Icon, label }) => (
+              <Link
+                key={path}
+                to={path}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                  isActive(path)
+                    ? 'bg-primary text-primary-foreground shadow-lg'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                <span className="text-sm font-medium">{label}</span>
+              </Link>
+            ))}
+          </div>
+
+          <ThemeSwitcher />
+        </div>
       </div>
-    </header>
+    </nav>
   );
 };
 

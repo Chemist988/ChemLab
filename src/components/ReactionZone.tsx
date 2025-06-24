@@ -6,7 +6,7 @@ import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, getAnimationClass, ReactionResult, reactions } from '../utils/reactionUtils';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker } from 'lucide-react';
+import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Wind } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -28,6 +28,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [heatWaves, setHeatWaves] = useState(false);
   const [colorChange, setColorChange] = useState(false);
   const [precipitation, setPrecipitation] = useState(false);
+  const [electricArcs, setElectricArcs] = useState(false);
+  const [flames, setFlames] = useState(false);
+  const [windEffect, setWindEffect] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -40,7 +43,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }),
   }));
 
-  // Shuffle array helper
   const shuffleArray = (array: any[]): any[] => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -50,7 +52,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     return newArray;
   };
 
-  // Helper function to find compatible elements
   const findCompatibleElements = (element: Element): Element[] => {
     const reactionKeys = Object.keys(reactions);
     const compatibleSymbols = new Set<string>();
@@ -66,7 +67,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
     const compatibleElements = elementsDatabase.filter((e: Element) => compatibleSymbols.has(e.symbol));
     
-    // also don't suggest elements already in the beaker
     const currentSymbols = new Set(selectedElements.map(e => e.symbol));
     const finalSuggestions = compatibleElements.filter(e => !currentSymbols.has(e.symbol) && e.symbol !== element.symbol);
 
@@ -75,34 +75,26 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
   const addElement = (element: Element) => {
     if (selectedElements.length < 4) {
-      // Create splash effect when adding element to beaker
       setSplash(true);
       setTimeout(() => setSplash(false), 700);
       
-      // Create powder burst effect based on element category
       const burstColor = getCategoryColor(element.category);
       setPowderBurst({active: true, color: burstColor});
       setTimeout(() => setPowderBurst({active: false, color: burstColor}), 1000);
       
-      // Create bubble effect when adding element to beaker
       const newBubbles = [...bubbles];
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 8; i++) {
         newBubbles.push(Math.random());
       }
       setBubbles(newBubbles);
       
-      // Add element with animation delay
       setSelectedElements((prev) => {
         const newElements = [...prev, element];
-        
-        // Update suggested elements based on the last added element
         setSuggestedElements(findCompatibleElements(element));
         setShowSuggestions(true);
-        
         return newElements;
       });
       
-      // Show toast
       toast({
         title: `${element.name} added`,
         description: "Element added to reaction beaker",
@@ -111,8 +103,32 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       toast({
         title: "Reaction zone full",
         description: "Please clear the current reaction first.",
+        variant: "destructive"
       });
     }
+  };
+
+  const addCompound = (compound: { name: string; formula: string; description: string }) => {
+    setColorChange(true);
+    setSteam(true);
+    setElectricArcs(true);
+    
+    const newBubbles = [...bubbles];
+    for (let i = 0; i < 15; i++) {
+      newBubbles.push(Math.random());
+    }
+    setBubbles(newBubbles);
+
+    setTimeout(() => {
+      setColorChange(false);
+      setSteam(false);
+      setElectricArcs(false);
+    }, 2000);
+
+    toast({
+      title: `${compound.name} added`,
+      description: `${compound.formula} - ${compound.description}`,
+    });
   };
 
   const clearReaction = () => {
@@ -131,76 +147,86 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setHeatWaves(false);
     setColorChange(false);
     setPrecipitation(false);
+    setElectricArcs(false);
+    setFlames(false);
+    setWindEffect(false);
   };
 
   const simulateCurrentReaction = () => {
     if (selectedElements.length >= 2) {
       setAnimating(true);
       
-      // For simplicity, we'll use the first two elements for the reaction
       const result = simulateReaction(selectedElements[0], selectedElements[1]);
       
-      // Create intense bubble effect for reaction
       const newBubbles = [...bubbles];
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 25; i++) {
         newBubbles.push(Math.random());
       }
       setBubbles(newBubbles);
       
-      // Set realistic chemical reaction effects based on reaction type
       if (result.animationType === 'explosion') {
         setExplosion(true);
         setHeatWaves(true);
+        setFlames(true);
+        setWindEffect(true);
         setTimeout(() => {
           setExplosion(false);
           setHeatWaves(false);
-        }, 2500);
+          setFlames(false);
+          setWindEffect(false);
+        }, 3000);
       } else if (result.animationType === 'gas') {
         setGas(true);
         setSteam(true);
+        setWindEffect(true);
         setTimeout(() => {
           setGas(false);
           setSteam(false);
+          setWindEffect(false);
         }, 4000);
       } else if (result.animationType === 'crystallization') {
         setCrystallization(true);
         setPrecipitation(true);
+        setElectricArcs(true);
         setTimeout(() => {
           setCrystallization(false);
           setPrecipitation(false);
-        }, 3000);
+          setElectricArcs(false);
+        }, 3500);
       } else if (result.animationType === 'neutralization') {
         setColorChange(true);
         setSteam(true);
+        setElectricArcs(true);
         setTimeout(() => {
           setColorChange(false);
           setSteam(false);
-        }, 2000);
+          setElectricArcs(false);
+        }, 2500);
       } else if (result.animationType === 'combustion') {
         setExplosion(true);
         setHeatWaves(true);
         setGas(true);
+        setFlames(true);
+        setWindEffect(true);
         setTimeout(() => {
           setExplosion(false);
           setHeatWaves(false);
           setGas(false);
-        }, 3000);
+          setFlames(false);
+          setWindEffect(false);
+        }, 3500);
       }
       
-      // Create splash effect for reaction
       setSplash(true);
       setTimeout(() => setSplash(false), 700);
       
-      // Show suggestions after reaction completes (2000ms)
       setTimeout(() => {
         setShowSuggestions(true);
       }, 2000);
       
-      // Delay setting reaction to allow animation to be visible
       setTimeout(() => {
         setReaction(result);
 
-        // Log the reaction to localStorage
         try {
           const reactionLog = JSON.parse(localStorage.getItem('reactionLog') || '[]');
           const newLogEntry = {
@@ -210,7 +236,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             description: result.description,
             timestamp: new Date().toISOString()
           };
-          const updatedLog = [newLogEntry, ...reactionLog].slice(0, 20); // Keep last 20
+          const updatedLog = [newLogEntry, ...reactionLog].slice(0, 20);
           localStorage.setItem('reactionLog', JSON.stringify(updatedLog));
         } catch (error) {
           console.error("Failed to write to localStorage", error);
@@ -224,7 +250,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   };
 
   useEffect(() => {
-    // Clean up bubbles over time
     const timer = setTimeout(() => {
       if (bubbles.length > 0) {
         setBubbles(prev => prev.slice(Math.floor(prev.length / 2)));
@@ -238,7 +263,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     if (selectedElements.length >= 2) {
       simulateCurrentReaction();
     } else {
-      // This will handle length 0 and 1, clearing any previous reaction.
       setReaction(null);
     }
     
@@ -251,20 +275,19 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }
   }, [selectedElements]);
 
-  // Helper function to get color based on element category
   const getCategoryColor = (category: string): string => {
     switch (category) {
-      case 'alkali-metal': return '#f87171'; // red
-      case 'alkaline-earth-metal': return '#fb923c'; // orange
-      case 'transition-metal': return '#3b82f6'; // blue
-      case 'post-transition-metal': return '#a78bfa'; // purple
-      case 'metalloid': return '#34d399'; // emerald
-      case 'nonmetal': return '#4ade80'; // green
-      case 'halogen': return '#22d3ee'; // cyan
-      case 'noble-gas': return '#d946ef'; // fuchsia
-      case 'lanthanide': return '#ec4899'; // pink
-      case 'actinide': return '#f59e0b'; // amber
-      default: return '#d1d5db'; // gray
+      case 'alkali-metal': return '#f87171';
+      case 'alkaline-earth-metal': return '#fb923c';
+      case 'transition-metal': return '#3b82f6';
+      case 'post-transition-metal': return '#a78bfa';
+      case 'metalloid': return '#34d399';
+      case 'nonmetal': return '#4ade80';
+      case 'halogen': return '#22d3ee';
+      case 'noble-gas': return '#d946ef';
+      case 'lanthanide': return '#ec4899';
+      case 'actinide': return '#f59e0b';
+      default: return '#d1d5db';
     }
   };
 
@@ -278,17 +301,79 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           transition-all duration-300 shadow-lg bg-gradient-to-b from-blue-50/10 to-blue-100/20 dark:from-blue-900/10 dark:to-blue-800/5
         `}
       >
-        {/* Element Suggestions Popup - Hide during reactions */}
         {selectedElements.length > 0 && showSuggestions && (
           <ElementSuggestions 
             element={selectedElements[selectedElements.length - 1]} 
             onSelectElement={addElement}
+            onAddCompound={addCompound}
             suggestedElements={suggestedElements}
             isReacting={animating}
           />
         )}
         
-        {/* Heat waves effect */}
+        {electricArcs && (
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+            {[...Array(8)].map((_, i) => (
+              <div 
+                key={`arc-${i}`}
+                className="absolute"
+                style={{
+                  width: '2px',
+                  height: Math.random() * 100 + 50 + 'px',
+                  left: Math.random() * 80 + 10 + '%',
+                  top: Math.random() * 60 + 20 + '%',
+                  background: 'linear-gradient(to bottom, #60a5fa, #3b82f6, #1d4ed8)',
+                  boxShadow: '0 0 10px #3b82f6, 0 0 20px #60a5fa',
+                  animation: `electric-arc ${Math.random() * 0.5 + 0.2}s ease-in-out infinite alternate`,
+                  transform: `rotate(${Math.random() * 60 - 30}deg)`,
+                  opacity: Math.random() * 0.8 + 0.2
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
+        {flames && (
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+            {[...Array(12)].map((_, i) => (
+              <div 
+                key={`flame-${i}`}
+                className="absolute"
+                style={{
+                  width: Math.random() * 20 + 10 + 'px',
+                  height: Math.random() * 40 + 20 + 'px',
+                  left: Math.random() * 60 + 20 + '%',
+                  bottom: Math.random() * 30 + 10 + '%',
+                  background: 'linear-gradient(to top, #dc2626, #f97316, #fbbf24)',
+                  borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+                  animation: `flame-flicker ${Math.random() * 0.5 + 0.3}s ease-in-out infinite alternate`,
+                  filter: 'blur(1px)',
+                  opacity: Math.random() * 0.9 + 0.1
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
+        {windEffect && (
+          <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+              <div 
+                key={`wind-${i}`}
+                className="absolute bg-white/20 rounded-full"
+                style={{
+                  width: Math.random() * 4 + 1 + 'px',
+                  height: Math.random() * 4 + 1 + 'px',
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 100 + '%',
+                  animation: `wind-blow ${Math.random() * 2 + 1}s linear infinite`,
+                  animationDelay: Math.random() * 1 + 's'
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
         {heatWaves && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
             {[...Array(15)].map((_, i) => (
@@ -309,7 +394,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Explosion effect - More realistic */}
         {explosion && (
           <div className="absolute inset-0 z-10">
             <div className="absolute inset-0 bg-gradient-radial from-orange-500/40 via-red-500/20 to-transparent animate-pulse"></div>
@@ -319,7 +403,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                 <div className="absolute top-1/2 left-1/2 w-20 h-20 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full animate-pulse"></div>
               </div>
             </div>
-            {/* Explosion particles */}
             {[...Array(50)].map((_, i) => (
               <div 
                 key={i} 
@@ -329,7 +412,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                   height: Math.random() * 8 + 2 + 'px',
                   left: 50 + Math.random() * 10 - 5 + '%',
                   top: 50 + Math.random() * 10 - 5 + '%',
-                  background: `hsl(${Math.random() * 60 + 10}, 90%, 60%)`, // Orange to red
+                  background: `hsl(${Math.random() * 60 + 10}, 90%, 60%)`,
                   opacity: Math.random() * 0.9 + 0.1,
                   animation: `explosion-particle ${Math.random() * 1.5 + 0.5}s ease-out forwards`,
                   '--x-move': `${(Math.random() - 0.5) * 400}px`,
@@ -340,7 +423,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* Gas effect - Enhanced */}
         {gas && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
             {[...Array(35)].map((_, i) => (
@@ -352,7 +434,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                   height: Math.random() * 60 + 15 + 'px',
                   left: Math.random() * 80 + 10 + '%',
                   top: Math.random() * 30 + 60 + '%',
-                  background: `hsla(${Math.random() * 120 + 60}, 70%, 60%, 0.4)`, // Green to yellow gases
+                  background: `hsla(${Math.random() * 120 + 60}, 70%, 60%, 0.4)`,
                   animationDuration: Math.random() * 4 + 2 + 's',
                   animationDelay: Math.random() * 2 + 's',
                   animation: `gas-rise ${Math.random() * 4 + 2}s ease-out infinite`,
@@ -363,7 +445,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Steam effect - More realistic */}
         {steam && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
             {[...Array(50)].map((_, i) => (
@@ -386,7 +467,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Precipitation effect */}
         {precipitation && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
             {[...Array(30)].map((_, i) => (
@@ -409,7 +489,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Color change effect */}
         {colorChange && (
           <div className="absolute inset-0 z-5 pointer-events-none">
             <div 
@@ -422,7 +501,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Splash effect */}
         {splash && (
           <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
             {[...Array(20)].map((_, i) => (
@@ -444,7 +522,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {/* Powder Burst effect */}
         {powderBurst.active && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
             {[...Array(40)].map((_, i) => {
@@ -475,66 +552,54 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* Ultra-realistic Beaker container */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-56 h-64">
-              {/* Beaker glass with ultra-realistic effects */}
               <div className="absolute bottom-0 w-full h-full rounded-b-3xl rounded-t-lg overflow-hidden">
-                {/* Main glass body with realistic transparency and refraction */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent border-2 border-gray-300/40 rounded-b-3xl rounded-t-lg backdrop-blur-sm">
-                  {/* Multiple light reflections for realism */}
-                  <div className="absolute top-8 left-4 w-16 h-32 bg-white/20 rounded-full transform -rotate-12 blur-sm"></div>
-                  <div className="absolute top-12 right-6 w-8 h-24 bg-white/15 rounded-full transform rotate-12 blur-sm"></div>
-                  <div className="absolute bottom-16 left-8 w-12 h-16 bg-white/10 rounded-full transform -rotate-45 blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent border-2 border-gray-300/50 rounded-b-3xl rounded-t-lg backdrop-blur-sm shadow-2xl">
+                  <div className="absolute top-8 left-4 w-16 h-32 bg-white/25 rounded-full transform -rotate-12 blur-sm"></div>
+                  <div className="absolute top-12 right-6 w-8 h-24 bg-white/20 rounded-full transform rotate-12 blur-sm"></div>
+                  <div className="absolute bottom-16 left-8 w-12 h-16 bg-white/15 rounded-full transform -rotate-45 blur-sm"></div>
                   
-                  {/* Glass thickness simulation */}
-                  <div className="absolute inset-0 border border-gray-200/30 rounded-b-3xl rounded-t-lg"></div>
-                  <div className="absolute inset-1 border border-gray-100/20 rounded-b-3xl rounded-t-lg"></div>
+                  <div className="absolute inset-0 border border-gray-200/40 rounded-b-3xl rounded-t-lg"></div>
+                  <div className="absolute inset-1 border border-gray-100/30 rounded-b-3xl rounded-t-lg"></div>
                 </div>
                 
-                {/* Spout with realistic glass curvature */}
-                <div className="absolute -top-[1px] left-[8%] w-[35%] h-5 border-t-2 border-l-2 border-r-2 border-gray-300/40 bg-gradient-to-b from-white/5 to-transparent" 
+                <div className="absolute -top-[1px] left-[8%] w-[35%] h-5 border-t-2 border-l-2 border-r-2 border-gray-300/50 bg-gradient-to-b from-white/8 to-transparent" 
                      style={{ clipPath: 'polygon(0 0, 85% 0, 100% 100%, 15% 100%)' }}>
-                  <div className="absolute top-0 left-2 w-4 h-2 bg-white/10 rounded-full blur-sm"></div>
+                  <div className="absolute top-0 left-2 w-4 h-2 bg-white/15 rounded-full blur-sm"></div>
                 </div>
                 
-                {/* Base shadow for depth */}
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-black/10 rounded-full blur-lg"></div>
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-black/15 rounded-full blur-lg"></div>
               </div>
 
-              {/* Enhanced Liquid & Bubbles with realistic physics */}
               <div className={`absolute bottom-0 w-full transition-all duration-700 ease-out overflow-hidden rounded-b-2xl ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}`}>
-                <div className={`w-full h-full relative ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-blue-100/40 to-blue-200/30 dark:from-blue-800/30 dark:to-blue-700/20'} ${animating ? 'animate-pulse' : ''}`}>
-                  {/* Liquid surface with realistic meniscus */}
-                  <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-b from-white/50 via-white/20 to-transparent rounded-full"></div>
-                  <div className="absolute inset-x-2 top-0 h-1 bg-white/30 rounded-full"></div>
+                <div className={`w-full h-full relative ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-blue-100/50 to-blue-200/40 dark:from-blue-800/40 dark:to-blue-700/30'} ${animating ? 'animate-pulse' : ''}`}>
+                  <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-b from-white/60 via-white/30 to-transparent rounded-full"></div>
+                  <div className="absolute inset-x-2 top-0 h-1 bg-white/40 rounded-full"></div>
                   
-                  {/* Enhanced bubbles with realistic movement */}
                   {bubbles.map((bubble, index) => (
                       <div key={index} 
-                           className="absolute rounded-full bg-white/80 dark:bg-white/50 animate-rise" 
+                           className="absolute rounded-full bg-white/90 dark:bg-white/60 animate-rise shadow-lg" 
                            style={{
                               width: Math.max(4, Math.random() * 12) + 'px',
                               height: Math.max(4, Math.random() * 12) + 'px',
                               bottom: bubble * 100 + '%',
                               left: Math.random() * 80 + 10 + '%',
                               animationDuration: Math.random() * 2 + 1 + 's',
-                              opacity: Math.random() * 0.6 + 0.2,
-                              boxShadow: 'inset 0 0 3px rgba(255,255,255,0.8), 0 0 3px rgba(0,0,0,0.1)'
+                              opacity: Math.random() * 0.8 + 0.2,
+                              boxShadow: 'inset 0 0 4px rgba(255,255,255,0.9), 0 0 4px rgba(0,0,0,0.2)'
                            }} />
                   ))}
                   
-                  {/* Liquid density layers for complex reactions */}
                   {selectedElements.length > 1 && (
                     <>
-                      <div className="absolute bottom-0 w-full h-1/4 bg-gradient-to-t from-black/10 to-transparent"></div>
-                      <div className="absolute bottom-1/4 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                      <div className="absolute bottom-0 w-full h-1/4 bg-gradient-to-t from-black/15 to-transparent"></div>
+                      <div className="absolute bottom-1/4 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
                     </>
                   )}
                 </div>
               </div>
 
-              {/* Content (elements and reaction text) */}
               <div className="absolute inset-0 flex flex-col items-center justify-between p-4 pt-8 pb-4">
                   {selectedElements.length === 0 ? (
                       <div className="text-center text-muted-foreground self-center mt-12">
@@ -583,7 +648,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   );
 };
 
-// Helper function to get reaction type display name
 const getReactionTypeName = (animationType: string): string => {
   switch (animationType) {
     case 'explosion':
@@ -607,7 +671,6 @@ const getReactionTypeName = (animationType: string): string => {
   }
 };
 
-// Helper function to get reaction icon
 const getReactionIcon = (animationType: string): React.ReactNode => {
   switch (animationType) {
     case 'explosion':
