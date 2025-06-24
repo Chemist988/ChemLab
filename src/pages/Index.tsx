@@ -11,7 +11,6 @@ import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Atom, Beaker, BookOpen, Bot, ArrowRight, Calculator, Microscope } from 'lucide-react';
 
 const Index = () => {
@@ -53,85 +52,64 @@ const Index = () => {
               </div>
             </header>
 
-            {/* Feature Cards */}
+            {/* Feature Cards - Without outer containers */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-6xl mx-auto">
-              {/* AI Assistant Card */}
-              <Card className="bg-gradient-to-br from-green-600 to-teal-600 border-0 text-white relative overflow-hidden hover:scale-105 transition-transform duration-300">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-8 translate-x-8"></div>
-                <CardHeader className="relative z-10">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                    <Bot className="w-6 h-6" />
-                  </div>
-                  <CardTitle className="text-xl">AI Assistant</CardTitle>
-                  <CardDescription className="text-white/80">
-                    Get help with chemistry concepts
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <p className="text-sm text-white/90 mb-4">
-                    Ask questions about reactions, molecular structures, and chemical properties.
-                  </p>
-                  <Button 
-                    onClick={() => navigate('/analytics')}
-                    className="bg-white text-green-600 hover:bg-gray-100 w-full"
-                  >
-                    Start Chat
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </CardContent>
-              </Card>
+              {/* AI Assistant */}
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Bot className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-semibold text-white">AI Assistant</h3>
+                <p className="text-gray-300 mb-4">Get help with chemistry concepts</p>
+                <p className="text-sm text-gray-400 mb-6">
+                  Ask questions about reactions, molecular structures, and chemical properties.
+                </p>
+                <Button 
+                  onClick={() => navigate('/analytics')}
+                  className="bg-green-600 text-white hover:bg-green-700 w-full"
+                >
+                  Start Chat
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
 
-              {/* Formula Builder Card */}
-              <Card className="bg-gradient-to-br from-purple-600 to-pink-600 border-0 text-white relative overflow-hidden hover:scale-105 transition-transform duration-300">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-8 translate-x-8"></div>
-                <CardHeader className="relative z-10">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                    <Calculator className="w-6 h-6" />
-                  </div>
-                  <CardTitle className="text-xl">Formula Builder</CardTitle>
-                  <CardDescription className="text-white/80">
-                    Build molecular formulas
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <p className="text-sm text-white/90 mb-4">
-                    Create chemical formulas, calculate molecular masses, and save compounds.
-                  </p>
-                  <Button 
-                    onClick={() => navigate('/formula-builder')}
-                    className="bg-white text-purple-600 hover:bg-gray-100 w-full"
-                  >
-                    Build Formula
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </CardContent>
-              </Card>
+              {/* Formula Builder */}
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calculator className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-semibold text-white">Formula Builder</h3>
+                <p className="text-gray-300 mb-4">Build molecular formulas</p>
+                <p className="text-sm text-gray-400 mb-6">
+                  Create chemical formulas, calculate molecular masses, and save compounds.
+                </p>
+                <Button 
+                  onClick={() => navigate('/formula-builder')}
+                  className="bg-purple-600 text-white hover:bg-purple-700 w-full"
+                >
+                  Build Formula
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
 
-              {/* Molecule Visualizer Card */}
-              <Card className="bg-gradient-to-br from-blue-600 to-indigo-600 border-0 text-white relative overflow-hidden hover:scale-105 transition-transform duration-300">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-8 translate-x-8"></div>
-                <CardHeader className="relative z-10">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                    <Microscope className="w-6 h-6" />
-                  </div>
-                  <CardTitle className="text-xl">Molecule Visualizer</CardTitle>
-                  <CardDescription className="text-white/80">
-                    Explore molecular structures
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <p className="text-sm text-white/90 mb-4">
-                    View molecular structures, understand bonding patterns, and analyze geometry.
-                  </p>
-                  <Button 
-                    onClick={() => navigate('/molecule-visualizer')}
-                    className="bg-white text-blue-600 hover:bg-gray-100 w-full"
-                  >
-                    Explore Molecules
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </CardContent>
-              </Card>
+              {/* Molecule Visualizer */}
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Microscope className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-semibold text-white">Molecule Visualizer</h3>
+                <p className="text-gray-300 mb-4">Explore molecular structures</p>
+                <p className="text-sm text-gray-400 mb-6">
+                  View molecular structures, understand bonding patterns, and analyze geometry.
+                </p>
+                <Button 
+                  onClick={() => navigate('/molecule-visualizer')}
+                  className="bg-blue-600 text-white hover:bg-blue-700 w-full"
+                >
+                  Explore Molecules
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
             </div>
 
             {/* Main Content Grid */}
