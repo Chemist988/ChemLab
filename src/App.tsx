@@ -25,16 +25,38 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Layout>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/formula-builder" element={<FormulaBuilderPage />} />
-                <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="/activity" element={<ActivityPage />} />
-                <Route path="/sources" element={<SourcesPage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Layout>
+            <Routes>
+              <Route path="/" element={
+                <Layout>
+                  <Index />
+                </Layout>
+              } />
+              <Route path="/formula-builder" element={
+                <Layout>
+                  <FormulaBuilderPage />
+                </Layout>
+              } />
+              <Route path="/analytics" element={
+                <Layout>
+                  <AnalyticsPage />
+                </Layout>
+              } />
+              <Route path="/activity" element={
+                <Layout>
+                  <ActivityPage />
+                </Layout>
+              } />
+              <Route path="/sources" element={
+                <Layout>
+                  <SourcesPage />
+                </Layout>
+              } />
+              <Route path="*" element={
+                <Layout>
+                  <NotFound />
+                </Layout>
+              } />
+            </Routes>
           </BrowserRouter>
         </div>
       </TooltipProvider>

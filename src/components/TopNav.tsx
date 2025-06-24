@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Atom, Beaker, Calculator, Bot, BookOpen, BarChart3 } from 'lucide-react';
-import { ThemeSwitcher } from './ThemeSwitcher';
+import ThemeSwitcher from './ThemeSwitcher';
 
 const TopNav = () => {
   const location = useLocation();
