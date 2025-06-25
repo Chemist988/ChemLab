@@ -1,14 +1,17 @@
 
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 import TopNav from './TopNav';
 
-const Layout = () => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen animated-gradient-bg transition-all duration-700">
       <TopNav />
       <main>
-        <Outlet />
+        {children}
       </main>
     </div>
   );
