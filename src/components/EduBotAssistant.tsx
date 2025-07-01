@@ -1,21 +1,19 @@
-
 import React, { useState } from 'react';
 import { Bot, X } from 'lucide-react';
-import { Button } from './ui/button';
 
-const EduBotAssistant = () => {
+const BlueMatter = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       {/* Floating Button */}
       <div className="fixed bottom-6 right-6 z-50">
-        <Button
+        <button
           onClick={() => setIsOpen(!isOpen)}
           className="w-16 h-16 rounded-full bg-gradient-to-r from-green-700 to-teal-600 hover:from-green-800 hover:to-teal-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center border border-white/20 backdrop-blur-xl transform hover:scale-105"
         >
           {isOpen ? <X className="w-7 h-7 text-white" /> : <Bot className="w-7 h-7 text-white" />}
-        </Button>
+        </button>
       </div>
 
       {/* Chatbot Modal */}
@@ -29,18 +27,16 @@ const EduBotAssistant = () => {
                   <Bot className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-semibold text-white">Heisenberg AI</h2>
+                  <h2 className="text-2xl font-semibold text-white">BlueMatter</h2>
                   <p className="text-white/80 text-sm">Your personal chemistry lab partner</p>
                 </div>
               </div>
-              <Button
+              <button
                 onClick={() => setIsOpen(false)}
-                variant="ghost"
-                size="sm"
                 className="text-white hover:bg-white/10 rounded-full p-2"
               >
                 <X className="w-5 h-5" />
-              </Button>
+              </button>
             </div>
 
             {/* Chatbot Container */}
@@ -50,7 +46,7 @@ const EduBotAssistant = () => {
                   src="https://www.chatbase.co/chatbot-iframe/COwMkAjIYb1meY0saCFK1"
                   allow="clipboard-write; microphone;"
                   className="w-full h-full border-none"
-                  title="Heisenberg AI Assistant"
+                  title="BlueMatter AI Assistant"
                 />
               </div>
             </div>
@@ -71,4 +67,4 @@ const EduBotAssistant = () => {
   );
 };
 
-export default EduBotAssistant;
+export default BlueMatter;
