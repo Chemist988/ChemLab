@@ -29,52 +29,52 @@
     --radius: 0.5rem;
     
     /* Light mode chemistry colors */
-    --chemistry-alkali: 0 70% 60%;
-    --chemistry-alkaline: 45 75% 55%;
-    --chemistry-transition: 120 60% 45%;
-    --chemistry-post-transition: 280 60% 55%;
-    --chemistry-metalloid: 200 35% 55%;
-    --chemistry-nonmetal: 120 25% 70%;
-    --chemistry-halogen: 60 70% 55%;
-    --chemistry-noble-gas: 300 55% 60%;
-    --chemistry-lanthanide: 180 60% 50%;
-    --chemistry-actinide: 20 70% 55%;
-    --chemistry-unknown: 120 25% 60%;
+    --chemistry-alkali: 0 80% 65%;
+    --chemistry-alkaline: 45 85% 60%;
+    --chemistry-transition: 120 70% 50%;
+    --chemistry-post-transition: 280 70% 65%;
+    --chemistry-metalloid: 200 40% 60%;
+    --chemistry-nonmetal: 120 30% 80%;
+    --chemistry-halogen: 60 80% 60%;
+    --chemistry-noble-gas: 300 60% 70%;
+    --chemistry-lanthanide: 180 70% 55%;
+    --chemistry-actinide: 20 80% 60%;
+    --chemistry-unknown: 120 30% 70%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 142 76% 36%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 120 50% 4%;
+    --foreground: 120 40% 95%;
+    --card: 120 50% 5%;
+    --card-foreground: 120 40% 95%;
+    --popover: 120 50% 5%;
+    --popover-foreground: 120 40% 95%;
+    --primary: 120 60% 50%;
+    --primary-foreground: 120 50% 5%;
+    --secondary: 120 30% 8%;
+    --secondary-foreground: 120 40% 95%;
+    --muted: 120 30% 8%;
+    --muted-foreground: 120 20% 70%;
+    --accent: 120 30% 8%;
+    --accent-foreground: 120 60% 50%;
+    --destructive: 0 84% 50%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 142 76% 36%;
+    --border: 120 30% 12%;
+    --input: 120 30% 12%;
+    --ring: 120 60% 50%;
     
-    /* Dark mode chemistry colors */
-    --chemistry-alkali: 0 60% 50%;
-    --chemistry-alkaline: 45 65% 45%;
-    --chemistry-transition: 120 50% 35%;
-    --chemistry-post-transition: 280 50% 45%;
-    --chemistry-metalloid: 200 30% 45%;
-    --chemistry-nonmetal: 120 20% 60%;
-    --chemistry-halogen: 60 60% 45%;
-    --chemistry-noble-gas: 300 45% 50%;
-    --chemistry-lanthanide: 180 50% 40%;
-    --chemistry-actinide: 20 60% 45%;
-    --chemistry-unknown: 120 20% 50%;
+    /* Dark mode chemistry colors - lighter neon */
+    --chemistry-alkali: 0 70% 60%;
+    --chemistry-alkaline: 45 75% 55%;
+    --chemistry-transition: 120 60% 45%;
+    --chemistry-post-transition: 280 60% 60%;
+    --chemistry-metalloid: 200 35% 55%;
+    --chemistry-nonmetal: 120 25% 75%;
+    --chemistry-halogen: 60 70% 55%;
+    --chemistry-noble-gas: 300 55% 65%;
+    --chemistry-lanthanide: 180 60% 50%;
+    --chemistry-actinide: 20 70% 55%;
+    --chemistry-unknown: 120 25% 65%;
   }
 }
 
@@ -91,24 +91,24 @@
 }
 
 @layer utilities {
-  /* Glass morphism effects */
-  .glass-morphism {
-    background: rgba(255, 255, 255, 0.08);
+  /* Lighter glass effects */
+  .ios-liquid-glass {
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px) saturate(150%);
     -webkit-backdrop-filter: blur(20px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 8px 32px rgba(0, 0, 0, 0.1);
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
   }
   
-  .glass-morphism:hover {
-    background: rgba(255, 255, 255, 0.12);
-    transform: translateY(-1px);
+  .ios-liquid-glass:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
     box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.25),
-      0 12px 40px rgba(0, 0, 0, 0.15);
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 15px 40px rgba(0, 0, 0, 0.15);
   }
 
   .element-card-enhanced {
@@ -137,7 +137,18 @@
     z-index: 50 !important;
   }
 
-  /* Chemistry color classes */
+  .section-transition {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+  
+  .section-transition.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Chemistry color classes - lighter */
   .bg-chemistry-alkali-metal { @apply bg-chemistry-alkali/60; }
   .bg-chemistry-alkaline-earth-metal { @apply bg-chemistry-alkaline/60; }
   .bg-chemistry-transition-metal { @apply bg-chemistry-transition/60; }
@@ -149,14 +160,9 @@
   .bg-chemistry-lanthanide { @apply bg-chemistry-lanthanide/60; }
   .bg-chemistry-actinide { @apply bg-chemistry-actinide/60; }
   .bg-chemistry-unknown { @apply bg-chemistry-unknown/60; }
-}
 
-/* Dark mode specific adjustments */
-.dark .glass-morphism {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark .glass-morphism:hover {
-  background: rgba(0, 0, 0, 0.4);
+  .text-glow-primary {
+    color: hsl(var(--primary));
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.3);
+  }
 }

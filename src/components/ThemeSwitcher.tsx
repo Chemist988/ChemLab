@@ -27,28 +27,16 @@ const ThemeSwitcher: React.FC = () => {
         return <Monitor className="h-5 w-5" />;
     }
   };
-
-  const getThemeLabel = () => {
-    switch (theme) {
-      case 'light':
-        return 'Light Mode';
-      case 'dark':
-        return 'Dark Mode';
-      default:
-        return 'System';
-    }
-  };
   
   return (
     <Button
       variant="ghost"
-      size="sm"
+      size="icon"
       onClick={cycleTheme}
-      className="rounded-full hover:bg-primary/10 flex items-center gap-2 px-3 py-2"
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'} mode`}
+      className="rounded-full hover:bg-primary/10"
+      aria-label="Toggle theme"
     >
       {getIcon()}
-      <span className="text-xs font-medium hidden sm:inline">{getThemeLabel()}</span>
     </Button>
   );
 };
