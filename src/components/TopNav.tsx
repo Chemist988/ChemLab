@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Atom, Beaker, Calculator, Bot, BookOpen, BarChart3, Sparkles } from 'lucide-react';
@@ -24,9 +23,7 @@ const TopNav = () => {
   const navItems = [
     { path: '/', icon: Atom, label: 'Element Table' },
     { path: '/formula-builder', icon: Calculator, label: 'Formula Lab' },
-    { path: '/analytics', icon: Bot, label: 'AI Assistant' },
-    { path: '/activity', icon: BarChart3, label: 'Lab Reports' },
-    { path: '/sources', icon: BookOpen, label: 'References' }
+    { path: '/analytics', icon: Bot, label: 'AI Assistant' }
   ];
 
   return (

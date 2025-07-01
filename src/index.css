@@ -7,51 +7,74 @@
 
 @layer base {
   :root {
-    --background: 120 100% 2%; /* Very Dark Green/Black */
-    --foreground: 120 50% 95%; /* Light Green-tinted White */
-    --card: 120 100% 3%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 142 76% 36%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142 76% 36%;
+    --radius: 0.5rem;
+    
+    /* Light mode chemistry colors */
+    --chemistry-alkali: 0 80% 65%;
+    --chemistry-alkaline: 45 85% 60%;
+    --chemistry-transition: 120 70% 50%;
+    --chemistry-post-transition: 280 70% 65%;
+    --chemistry-metalloid: 200 40% 60%;
+    --chemistry-nonmetal: 120 30% 80%;
+    --chemistry-halogen: 60 80% 60%;
+    --chemistry-noble-gas: 300 60% 70%;
+    --chemistry-lanthanide: 180 70% 55%;
+    --chemistry-actinide: 20 80% 60%;
+    --chemistry-unknown: 120 30% 70%;
+  }
+
+  .dark {
+    --background: 120 50% 4%;
+    --foreground: 120 40% 95%;
+    --card: 120 50% 5%;
     --card-foreground: 120 40% 95%;
-    --popover: 120 100% 3%;
+    --popover: 120 50% 5%;
     --popover-foreground: 120 40% 95%;
-    --primary: 120 100% 50%; /* Bright Neon Green */
-    --primary-foreground: 120 100% 5%;
-    --secondary: 120 30% 8%; /* Dark Green */
+    --primary: 120 60% 50%;
+    --primary-foreground: 120 50% 5%;
+    --secondary: 120 30% 8%;
     --secondary-foreground: 120 40% 95%;
     --muted: 120 30% 8%;
     --muted-foreground: 120 20% 70%;
     --accent: 120 30% 8%;
-    --accent-foreground: 120 100% 50%; /* Bright Neon Green */
+    --accent-foreground: 120 60% 50%;
     --destructive: 0 84% 50%;
     --destructive-foreground: 210 40% 98%;
     --border: 120 30% 12%;
     --input: 120 30% 12%;
-    --ring: 120 100% 50%; /* Bright Neon Green */
-    --radius: 0.8rem;
-    --sidebar-background: 120 100% 2%;
-    --sidebar-foreground: 120 40% 95%;
-    --sidebar-primary: 120 100% 50%;
-    --sidebar-primary-foreground: 120 100% 5%;
-    --sidebar-accent: 120 30% 8%;
-    --sidebar-accent-foreground: 120 100% 50%;
-    --sidebar-border: 120 30% 12%;
-    --sidebar-ring: 120 100% 50%;
+    --ring: 120 60% 50%;
     
-    /* Breaking Bad Chemistry Element Colors */
-    --chemistry-alkali: 0 100% 60%; /* Red */
-    --chemistry-alkaline: 45 100% 55%; /* Yellow-Orange */
-    --chemistry-transition: 120 100% 45%; /* Bright Green */
-    --chemistry-post-transition: 280 100% 70%; /* Purple */
-    --chemistry-metalloid: 200 30% 50%; /* Blue-Grey */
-    --chemistry-nonmetal: 120 20% 90%; /* Light Green-Grey */
-    --chemistry-halogen: 60 100% 50%; /* Yellow */
-    --chemistry-noble-gas: 300 80% 60%; /* Magenta */
-    --chemistry-lanthanide: 180 100% 40%; /* Cyan */
-    --chemistry-actinide: 20 100% 50%; /* Orange */
-    --chemistry-unknown: 120 20% 60%; /* Green-Grey */
-  }
-
-  .dark {
-    /* Variables are now set in :root for Breaking Bad theme */
+    /* Dark mode chemistry colors - lighter neon */
+    --chemistry-alkali: 0 70% 60%;
+    --chemistry-alkaline: 45 75% 55%;
+    --chemistry-transition: 120 60% 45%;
+    --chemistry-post-transition: 280 60% 60%;
+    --chemistry-metalloid: 200 35% 55%;
+    --chemistry-nonmetal: 120 25% 75%;
+    --chemistry-halogen: 60 70% 55%;
+    --chemistry-noble-gas: 300 55% 65%;
+    --chemistry-lanthanide: 180 60% 50%;
+    --chemistry-actinide: 20 70% 55%;
+    --chemistry-unknown: 120 25% 65%;
   }
 }
 
@@ -63,126 +86,61 @@
   body {
     @apply bg-background text-foreground antialiased font-inter;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(0, 255, 65, 0.15) 0%, transparent 60%),
-      radial-gradient(circle at 80% 20%, rgba(0, 255, 65, 0.12) 0%, transparent 60%),
-      radial-gradient(circle at 40% 80%, rgba(0, 255, 65, 0.08) 0%, transparent 60%),
-      linear-gradient(135deg, hsl(120, 100%, 1%) 0%, hsl(120, 80%, 2%) 50%, hsl(120, 100%, 1%) 100%);
-    background-attachment: fixed;
-  }
-  
-  .periodic-element {
-    @apply transition-all hover:scale-110 hover:z-20;
+    transition: all 0.3s ease;
   }
 }
 
 @layer utilities {
-  /* iOS Liquid Glass Effects */
+  /* Lighter glass effects */
   .ios-liquid-glass {
-    background: 
-      linear-gradient(135deg, rgba(0, 255, 65, 0.25) 0%, rgba(0, 255, 65, 0.05) 100%),
-      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
-      radial-gradient(circle at 70% 70%, rgba(0, 255, 65, 0.3) 0%, transparent 50%);
-    backdrop-filter: blur(40px) saturate(200%) brightness(1.1);
-    -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.1);
-    border: 1px solid rgba(0, 255, 65, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.5),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 20px 60px rgba(0, 255, 65, 0.2),
-      0 8px 25px rgba(0, 0, 0, 0.3);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .ios-liquid-glass::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.4),
-      transparent
-    );
-    transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .ios-liquid-glass:hover::before {
-    left: 100%;
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
   }
   
   .ios-liquid-glass:hover {
-    background: 
-      linear-gradient(135deg, rgba(0, 255, 65, 0.35) 0%, rgba(0, 255, 65, 0.15) 100%),
-      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 50%),
-      radial-gradient(circle at 70% 70%, rgba(0, 255, 65, 0.4) 0%, transparent 50%);
-    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
     box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 30px 80px rgba(0, 255, 65, 0.3),
-      0 12px 35px rgba(0, 0, 0, 0.4);
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 15px 40px rgba(0, 0, 0, 0.15);
   }
 
-  /* Enhanced Element Card with Mass Display */
   .element-card-enhanced {
-    background: 
-      linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%),
-      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 40%);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border: 1px solid rgba(0, 255, 65, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px) saturate(120%);
+    -webkit-backdrop-filter: blur(15px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 
-      inset 0 2px 4px rgba(255, 255, 255, 0.3),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.2),
-      0 15px 35px rgba(0, 255, 65, 0.15),
-      0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .element-card-enhanced::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      45deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.1) 50%,
-      transparent 70%
-    );
-    transform: translateX(-100%);
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .element-card-enhanced:hover::after {
-    transform: translateX(100%);
+      inset 0 1px 2px rgba(255, 255, 255, 0.2),
+      0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
   }
   
   .element-card-enhanced:hover {
-    transform: translateY(-4px) scale(1.05);
+    transform: translateY(-2px) scale(1.05);
     box-shadow: 
-      inset 0 2px 4px rgba(255, 255, 255, 0.4),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.2),
-      0 25px 50px rgba(0, 255, 65, 0.25),
-      0 10px 25px rgba(0, 0, 0, 0.3);
+      inset 0 1px 2px rgba(255, 255, 255, 0.3),
+      0 12px 30px rgba(0, 0, 0, 0.15);
   }
 
-  /* Animated Section Transitions */
+  .element-highlighted {
+    background: hsl(var(--primary) / 0.3) !important;
+    border: 2px solid hsl(var(--primary)) !important;
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.5) !important;
+    transform: scale(1.1) !important;
+    z-index: 50 !important;
+  }
+
   .section-transition {
     opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(30px);
+    transition: all 0.6s ease;
   }
   
   .section-transition.in-view {
@@ -190,84 +148,21 @@
     transform: translateY(0);
   }
 
-  /* Advanced Breaking Bad Effects */
-  .breaking-bad-glow-enhanced {
-    box-shadow: 
-      0 0 30px rgba(0, 255, 65, 0.6),
-      0 0 60px rgba(0, 255, 65, 0.4),
-      inset 0 0 30px rgba(0, 255, 65, 0.1);
-    animation: pulse-glow 3s ease-in-out infinite alternate;
-  }
-  
-  @keyframes pulse-glow {
-    0% { 
-      box-shadow: 
-        0 0 30px rgba(0, 255, 65, 0.6),
-        0 0 60px rgba(0, 255, 65, 0.4),
-        inset 0 0 30px rgba(0, 255, 65, 0.1);
-    }
-    100% { 
-      box-shadow: 
-        0 0 40px rgba(0, 255, 65, 0.8),
-        0 0 80px rgba(0, 255, 65, 0.6),
-        inset 0 0 40px rgba(0, 255, 65, 0.2);
-    }
-  }
+  /* Chemistry color classes - lighter */
+  .bg-chemistry-alkali-metal { @apply bg-chemistry-alkali/60; }
+  .bg-chemistry-alkaline-earth-metal { @apply bg-chemistry-alkaline/60; }
+  .bg-chemistry-transition-metal { @apply bg-chemistry-transition/60; }
+  .bg-chemistry-post-transition-metal { @apply bg-chemistry-post-transition/60; }
+  .bg-chemistry-metalloid { @apply bg-chemistry-metalloid/60; }
+  .bg-chemistry-nonmetal { @apply bg-chemistry-nonmetal/60; }
+  .bg-chemistry-halogen { @apply bg-chemistry-halogen/60; }
+  .bg-chemistry-noble-gas { @apply bg-chemistry-noble-gas/60; }
+  .bg-chemistry-lanthanide { @apply bg-chemistry-lanthanide/60; }
+  .bg-chemistry-actinide { @apply bg-chemistry-actinide/60; }
+  .bg-chemistry-unknown { @apply bg-chemistry-unknown/60; }
 
-  /* Chemistry Color Classes */
-  .bg-chemistry-alkali-metal { @apply bg-chemistry-alkali/70; }
-  .bg-chemistry-alkaline-earth-metal { @apply bg-chemistry-alkaline/70; }
-  .bg-chemistry-transition-metal { @apply bg-chemistry-transition/70; }
-  .bg-chemistry-post-transition-metal { @apply bg-chemistry-post-transition/70; }
-  .bg-chemistry-metalloid { @apply bg-chemistry-metalloid/70; }
-  .bg-chemistry-nonmetal { @apply bg-chemistry-nonmetal/70; }
-  .bg-chemistry-halogen { @apply bg-chemistry-halogen/70; }
-  .bg-chemistry-noble-gas { @apply bg-chemistry-noble-gas/70; }
-  .bg-chemistry-lanthanide { @apply bg-chemistry-lanthanide/70; }
-  .bg-chemistry-actinide { @apply bg-chemistry-actinide/70; }
-  .bg-chemistry-unknown { @apply bg-chemistry-unknown/70; }
-  
-  /* Neon Glow Effects */
-  .neon-glow-alkali-metal { filter: drop-shadow(0 0 20px hsl(var(--chemistry-alkali))) drop-shadow(0 0 40px hsla(var(--chemistry-alkali), 0.8)); }
-  .neon-glow-alkaline-earth-metal { filter: drop-shadow(0 0 20px hsl(var(--chemistry-alkaline))) drop-shadow(0 0 40px hsla(var(--chemistry-alkaline), 0.8)); }
-  .neon-glow-transition-metal { filter: drop-shadow(0 0 20px hsl(var(--chemistry-transition))) drop-shadow(0 0 40px hsla(var(--chemistry-transition), 0.8)); }
-  .neon-glow-post-transition-metal { filter: drop-shadow(0 0 20px hsl(var(--chemistry-post-transition))) drop-shadow(0 0 40px hsla(var(--chemistry-post-transition), 0.8)); }
-  .neon-glow-metalloid { filter: drop-shadow(0 0 20px hsl(var(--chemistry-metalloid))) drop-shadow(0 0 40px hsla(var(--chemistry-metalloid), 0.8)); }
-  .neon-glow-nonmetal { filter: drop-shadow(0 0 20px hsl(var(--chemistry-nonmetal))) drop-shadow(0 0 40px hsla(var(--chemistry-nonmetal), 0.8)); }
-  .neon-glow-halogen { filter: drop-shadow(0 0 20px hsl(var(--chemistry-halogen))) drop-shadow(0 0 40px hsla(var(--chemistry-halogen), 0.8)); }
-  .neon-glow-noble-gas { filter: drop-shadow(0 0 20px hsl(var(--chemistry-noble-gas))) drop-shadow(0 0 40px hsla(var(--chemistry-noble-gas), 0.8)); }
-  .neon-glow-lanthanide { filter: drop-shadow(0 0 20px hsl(var(--chemistry-lanthanide))) drop-shadow(0 0 40px hsla(var(--chemistry-lanthanide), 0.8)); }
-  .neon-glow-actinide { filter: drop-shadow(0 0 20px hsl(var(--chemistry-actinide))) drop-shadow(0 0 40px hsla(var(--chemistry-actinide), 0.8)); }
-  .neon-glow-unknown { filter: drop-shadow(0 0 20px hsl(var(--chemistry-unknown))) drop-shadow(0 0 40px hsla(var(--chemistry-unknown), 0.8)); }
-  .neon-glow-primary { filter: drop-shadow(0 0 20px hsl(var(--primary))) drop-shadow(0 0 40px hsla(var(--primary), 0.8)); }
-  
-  /* Lab Container Enhanced */
-  .lab-container-enhanced {
-    background: 
-      radial-gradient(circle at 50% 50%, rgba(0, 255, 65, 0.08) 0%, transparent 70%),
-      linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 80, 30, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%);
-    border: 2px solid rgba(0, 255, 65, 0.4);
-    backdrop-filter: blur(30px) saturate(150%);
-    -webkit-backdrop-filter: blur(30px) saturate(150%);
-    box-shadow: 
-      inset 0 2px 0 rgba(0, 255, 65, 0.3),
-      inset 0 -2px 0 rgba(0, 0, 0, 0.5),
-      0 20px 60px rgba(0, 0, 0, 0.4);
-  }
-
-  /* Text Effects */
-  .text-shadow-enhanced {
-    text-shadow: 
-      0 0 10px rgba(0, 255, 65, 0.8),
-      0 2px 4px rgba(0, 0, 0, 0.9),
-      0 4px 8px rgba(0, 0, 0, 0.6);
-  }
-  
   .text-glow-primary {
     color: hsl(var(--primary));
-    text-shadow: 
-      0 0 20px rgba(0, 255, 65, 0.8),
-      0 0 40px rgba(0, 255, 65, 0.6),
-      0 2px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.3);
   }
 }

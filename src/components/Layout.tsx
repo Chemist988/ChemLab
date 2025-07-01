@@ -8,7 +8,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen animated-gradient-bg transition-all duration-700">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/50 transition-all duration-700">
       <TopNav />
       <main>
         {children}
