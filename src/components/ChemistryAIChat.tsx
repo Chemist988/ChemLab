@@ -337,4 +337,4 @@ const ChemistryAIChat: React.FC = () => {
   );
 };
 
-export default ChemistryAIChat;
+export default BlueMatterAI;
