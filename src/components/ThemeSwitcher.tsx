@@ -1,44 +1,8 @@
 
 import React from 'react';
-import { Button } from "@/components/ui/button";
-import { useTheme } from "@/hooks/use-theme";
-import { Moon, Sun, Monitor } from "lucide-react";
 
 const ThemeSwitcher: React.FC = () => {
-  const { theme, setTheme } = useTheme();
-  
-  const cycleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else if (theme === 'dark') {
-      setTheme('system');
-    } else {
-      setTheme('light');
-    }
-  };
-
-  const getIcon = () => {
-    switch (theme) {
-      case 'light':
-        return <Sun className="h-5 w-5" />;
-      case 'dark':
-        return <Moon className="h-5 w-5" />;
-      default:
-        return <Monitor className="h-5 w-5" />;
-    }
-  };
-  
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={cycleTheme}
-      className="rounded-full hover:bg-primary/10"
-      aria-label="Toggle theme"
-    >
-      {getIcon()}
-    </Button>
-  );
+  return null; // No theme switcher needed since we only support dark mode
 };
 
 export default ThemeSwitcher;

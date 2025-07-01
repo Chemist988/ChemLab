@@ -7,74 +7,40 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 142 76% 36%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 142 76% 36%;
-    --radius: 0.5rem;
-    
-    /* Light mode chemistry colors */
-    --chemistry-alkali: 0 80% 65%;
-    --chemistry-alkaline: 45 85% 60%;
-    --chemistry-transition: 120 70% 50%;
-    --chemistry-post-transition: 280 70% 65%;
-    --chemistry-metalloid: 200 40% 60%;
-    --chemistry-nonmetal: 120 30% 80%;
-    --chemistry-halogen: 60 80% 60%;
-    --chemistry-noble-gas: 300 60% 70%;
-    --chemistry-lanthanide: 180 70% 55%;
-    --chemistry-actinide: 20 80% 60%;
-    --chemistry-unknown: 120 30% 70%;
-  }
-
-  .dark {
-    --background: 120 50% 4%;
-    --foreground: 120 40% 95%;
-    --card: 120 50% 5%;
-    --card-foreground: 120 40% 95%;
-    --popover: 120 50% 5%;
-    --popover-foreground: 120 40% 95%;
-    --primary: 120 60% 50%;
-    --primary-foreground: 120 50% 5%;
-    --secondary: 120 30% 8%;
-    --secondary-foreground: 120 40% 95%;
-    --muted: 120 30% 8%;
-    --muted-foreground: 120 20% 70%;
-    --accent: 120 30% 8%;
-    --accent-foreground: 120 60% 50%;
+    /* Dark mode only - Breaking Bad inspired colors */
+    --background: 120 20% 8%;
+    --foreground: 120 15% 95%;
+    --card: 120 25% 10%;
+    --card-foreground: 120 15% 95%;
+    --popover: 120 25% 10%;
+    --popover-foreground: 120 15% 95%;
+    --primary: 64 91% 58%; /* Breaking Bad yellow-green */
+    --primary-foreground: 120 25% 10%;
+    --secondary: 120 20% 15%;
+    --secondary-foreground: 120 15% 95%;
+    --muted: 120 20% 15%;
+    --muted-foreground: 120 10% 60%;
+    --accent: 120 20% 15%;
+    --accent-foreground: 64 91% 58%;
     --destructive: 0 84% 50%;
     --destructive-foreground: 210 40% 98%;
-    --border: 120 30% 12%;
-    --input: 120 30% 12%;
-    --ring: 120 60% 50%;
+    --border: 120 15% 20%;
+    --input: 120 15% 20%;
+    --ring: 64 91% 58%;
+    --radius: 0.5rem;
     
-    /* Dark mode chemistry colors - lighter neon */
-    --chemistry-alkali: 0 70% 60%;
-    --chemistry-alkaline: 45 75% 55%;
-    --chemistry-transition: 120 60% 45%;
-    --chemistry-post-transition: 280 60% 60%;
-    --chemistry-metalloid: 200 35% 55%;
-    --chemistry-nonmetal: 120 25% 75%;
-    --chemistry-halogen: 60 70% 55%;
-    --chemistry-noble-gas: 300 55% 65%;
-    --chemistry-lanthanide: 180 60% 50%;
-    --chemistry-actinide: 20 70% 55%;
-    --chemistry-unknown: 120 25% 65%;
+    /* Breaking Bad chemistry colors */
+    --chemistry-alkali: 45 85% 55%;
+    --chemistry-alkaline: 60 80% 50%;
+    --chemistry-transition: 180 60% 45%;
+    --chemistry-post-transition: 280 55% 55%;
+    --chemistry-metalloid: 200 40% 50%;
+    --chemistry-nonmetal: 64 91% 58%;
+    --chemistry-halogen: 120 70% 45%;
+    --chemistry-noble-gas: 300 50% 60%;
+    --chemistry-lanthanide: 200 70% 50%;
+    --chemistry-actinide: 20 70% 50%;
+    --chemistry-unknown: 120 25% 60%;
   }
 }
 
@@ -87,82 +53,68 @@
     @apply bg-background text-foreground antialiased font-inter;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
     transition: all 0.3s ease;
+    /* Breaking Bad background pattern */
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--primary) / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--primary) / 0.03) 0%, transparent 50%);
   }
 }
 
 @layer utilities {
-  /* Lighter glass effects */
-  .ios-liquid-glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  .glass-effect {
+    background: rgba(20, 30, 20, 0.8);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    border: 1px solid rgba(185, 242, 72, 0.2);
     box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 10px 30px rgba(0, 0, 0, 0.1);
+      inset 0 1px 0 rgba(185, 242, 72, 0.1),
+      0 4px 20px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
   }
   
-  .ios-liquid-glass:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
+  .glass-effect:hover {
+    background: rgba(25, 35, 25, 0.9);
+    border-color: rgba(185, 242, 72, 0.3);
     box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.4),
-      0 15px 40px rgba(0, 0, 0, 0.15);
+      inset 0 1px 0 rgba(185, 242, 72, 0.2),
+      0 8px 30px rgba(0, 0, 0, 0.4);
   }
 
   .element-card-enhanced {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px) saturate(120%);
-    -webkit-backdrop-filter: blur(15px) saturate(120%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 
-      inset 0 1px 2px rgba(255, 255, 255, 0.2),
-      0 8px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    @apply glass-effect;
   }
   
   .element-card-enhanced:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 
-      inset 0 1px 2px rgba(255, 255, 255, 0.3),
-      0 12px 30px rgba(0, 0, 0, 0.15);
   }
 
   .element-highlighted {
-    background: hsl(var(--primary) / 0.3) !important;
+    background: hsl(var(--primary) / 0.4) !important;
     border: 2px solid hsl(var(--primary)) !important;
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.5) !important;
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.6) !important;
     transform: scale(1.1) !important;
     z-index: 50 !important;
   }
 
-  .section-transition {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
-  }
-  
-  .section-transition.in-view {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* Chemistry color classes */
+  .bg-chemistry-alkali-metal { background-color: hsl(var(--chemistry-alkali) / 0.7); }
+  .bg-chemistry-alkaline-earth-metal { background-color: hsl(var(--chemistry-alkaline) / 0.7); }
+  .bg-chemistry-transition-metal { background-color: hsl(var(--chemistry-transition) / 0.7); }
+  .bg-chemistry-post-transition-metal { background-color: hsl(var(--chemistry-post-transition) / 0.7); }
+  .bg-chemistry-metalloid { background-color: hsl(var(--chemistry-metalloid) / 0.7); }
+  .bg-chemistry-nonmetal { background-color: hsl(var(--chemistry-nonmetal) / 0.7); }
+  .bg-chemistry-halogen { background-color: hsl(var(--chemistry-halogen) / 0.7); }
+  .bg-chemistry-noble-gas { background-color: hsl(var(--chemistry-noble-gas) / 0.7); }
+  .bg-chemistry-lanthanide { background-color: hsl(var(--chemistry-lanthanide) / 0.7); }
+  .bg-chemistry-actinide { background-color: hsl(var(--chemistry-actinide) / 0.7); }
+  .bg-chemistry-unknown { background-color: hsl(var(--chemistry-unknown) / 0.7); }
 
-  /* Chemistry color classes - lighter */
-  .bg-chemistry-alkali-metal { @apply bg-chemistry-alkali/60; }
-  .bg-chemistry-alkaline-earth-metal { @apply bg-chemistry-alkaline/60; }
-  .bg-chemistry-transition-metal { @apply bg-chemistry-transition/60; }
-  .bg-chemistry-post-transition-metal { @apply bg-chemistry-post-transition/60; }
-  .bg-chemistry-metalloid { @apply bg-chemistry-metalloid/60; }
-  .bg-chemistry-nonmetal { @apply bg-chemistry-nonmetal/60; }
-  .bg-chemistry-halogen { @apply bg-chemistry-halogen/60; }
-  .bg-chemistry-noble-gas { @apply bg-chemistry-noble-gas/60; }
-  .bg-chemistry-lanthanide { @apply bg-chemistry-lanthanide/60; }
-  .bg-chemistry-actinide { @apply bg-chemistry-actinide/60; }
-  .bg-chemistry-unknown { @apply bg-chemistry-unknown/60; }
-
-  .text-glow-primary {
+  .text-breaking-bad {
     color: hsl(var(--primary));
     text-shadow: 0 0 10px hsl(var(--primary) / 0.3);
+  }
+
+  .breaking-bad-glow {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
   }
 }
