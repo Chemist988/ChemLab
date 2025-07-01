@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { Atom, Search, X, Sparkles, Zap } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface PeriodicTableProps {
   onElementClick: (element: Element) => void;
