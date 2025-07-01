@@ -4,7 +4,7 @@ import ElementCard from './ElementCard';
 import { Element, elements, periodicTableLayout, categoryNames } from '../data/elements';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
-import { Atom, Search, X, Flask } from 'lucide-react';
+import { Atom, Search, X, Beaker } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface PeriodicTableProps {
@@ -74,7 +74,7 @@ const PeriodicTable: React.FC<PeriodicTableProps> = ({ onElementClick }) => {
       {/* Search Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-3">
-          <Flask className="h-6 w-6 text-primary" />
+          <Beaker className="h-6 w-6 text-primary" />
           <h3 className="text-xl font-bold font-orbitron text-breaking-bad">Periodic Table</h3>
         </div>
         
