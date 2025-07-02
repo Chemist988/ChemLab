@@ -5,7 +5,7 @@ import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, ReactionResult, reactions } from '../utils/reactionUtils';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap } from 'lucide-react';
+import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Hexagon } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -622,8 +622,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
+        {/* Perfectly Centered Beaker */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-56 h-64">
+          <div className="relative w-56 h-64 mx-auto">
               <div className="absolute bottom-0 w-full h-full rounded-b-3xl rounded-t-lg overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent border-2 border-gray-300/50 rounded-b-3xl rounded-t-lg backdrop-blur-sm shadow-2xl">
                   <div className="absolute top-8 left-4 w-16 h-32 bg-white/25 rounded-full transform -rotate-12 blur-sm"></div>

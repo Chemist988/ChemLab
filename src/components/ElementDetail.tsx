@@ -2,7 +2,6 @@
 import React from 'react';
 import { Element, categoryNames } from '../data/elements';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface ElementDetailProps {
   element: Element | null;
@@ -27,7 +26,7 @@ const ElementDetail: React.FC<ElementDetailProps> = ({ element, isOpen, onClose 
             <span>- {element.name}</span>
           </DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[60vh] pr-4">
+        <div className="max-h-[60vh] overflow-y-auto pr-4 custom-scrollbar">
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-2">
               <div className="bg-muted/50 p-2 rounded">
@@ -87,7 +86,7 @@ const ElementDetail: React.FC<ElementDetailProps> = ({ element, isOpen, onClose 
               <p className="text-sm leading-relaxed">{element.description}</p>
             </div>
           </div>
-        </ScrollArea>
+        </div>
       </DialogContent>
     </Dialog>
   );

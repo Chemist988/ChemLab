@@ -11,7 +11,7 @@ import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Atom, Beaker, Bot, ArrowRight, Brain, FlaskConical, Flame, Zap } from 'lucide-react';
+import { Atom, Beaker, Bot, ArrowRight, Brain, FlaskConical, Flame, Zap, Hexagon } from 'lucide-react';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
@@ -128,11 +128,13 @@ const Index = () => {
                     <TabsContent value="reaction" className="space-y-6">
                       <div>
                         <div className="flex items-center gap-3 mb-3">
-                          <Flame className="w-5 h-5 text-primary" />
-                          <h3 className="text-lg font-bold font-orbitron text-primary">RV Laboratory</h3>
+                          <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/30">
+                            <Hexagon className="w-4 h-4 text-primary" />
+                          </div>
+                          <h3 className="text-lg font-bold font-orbitron text-foreground">Chemical Reactor</h3>
                         </div>
                         <p className="text-muted-foreground text-sm mb-4">
-                          "We're gonna need a bigger RV"
+                          "We're gonna need precise measurements"
                         </p>
                       </div>
                       <Separator className="bg-primary/30" />
@@ -179,8 +181,12 @@ const Index = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center relative z-10">
                 <div className="lg:col-span-2 space-y-6">
                   <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 bg-primary/20 rounded-2xl flex items-center justify-center border border-primary/30">
-                      <Brain className="w-7 h-7 text-primary" />
+                    <div className="w-14 h-14 bg-primary/20 rounded-2xl flex items-center justify-center border border-primary/30 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/20 to-primary/10 animate-pulse"></div>
+                      <div className="relative z-10 flex items-center justify-center w-full h-full">
+                        <div className="w-6 h-6 bg-primary rounded-full animate-pulse shadow-lg shadow-primary/50"></div>
+                        <div className="absolute inset-0 rounded-2xl border border-primary/50 animate-pulse"></div>
+                      </div>
                     </div>
                     <div>
                       <h2 className="text-3xl font-black text-breaking-bad mb-2 font-orbitron">TheBlueMatterAI</h2>

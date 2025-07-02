@@ -97,6 +97,16 @@
     z-index: 50 !important;
   }
 
+  /* Custom scrollbar for element details */
+  .custom-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none; /* WebKit */
+  }
+
   /* Chemistry color classes with green theme */
   .bg-chemistry-alkali-metal { background-color: hsl(var(--chemistry-alkali) / 0.8); }
   .bg-chemistry-alkaline-earth-metal { background-color: hsl(var(--chemistry-alkaline) / 0.8); }
