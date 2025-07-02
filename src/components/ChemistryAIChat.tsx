@@ -1,15 +1,19 @@
+
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, SendHorizontal, Skull, Zap } from 'lucide-react';
+import { Bot, SendHorizontal, Share, Copy, Bookmark, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { toast } from '@/hooks/use-toast';
 
 interface Message {
   id: string;
   text: string;
   isUser: boolean;
   timestamp: Date;
+  isBookmarked?: boolean;
+  isLiked?: boolean;
 }
 
 // Slang language mapping for common terms
@@ -80,6 +84,18 @@ const ChemistryAIChat: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Add haptic feedback for iOS
+  const hapticFeedback = (type: 'light' | 'medium' | 'heavy' = 'light') => {
+    if ('vibrate' in navigator) {
+      const patterns = {
+        light: [10],
+        medium: [20],
+        heavy: [30]
+      };
+      navigator.vibrate(patterns[type]);
+    }
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -247,6 +263,8 @@ const ChemistryAIChat: React.FC = () => {
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
     
+    hapticFeedback('light');
+    
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -270,15 +288,66 @@ const ChemistryAIChat: React.FC = () => {
     };
     
     setMessages(prev => [...prev, aiMessage]);
+    hapticFeedback('medium');
+  };
+
+  const shareMessage = async (message: Message) => {
+    hapticFeedback('light');
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'TheBlueMatterAI Response',
+          text: message.text,
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+      }
+    } else {
+      // Fallback for browsers that don't support Web Share API
+      navigator.clipboard.writeText(message.text);
+      toast({
+        title: "Copied to clipboard",
+        description: "Message copied successfully!",
+      });
+    }
+  };
+
+  const copyMessage = async (text: string) => {
+    hapticFeedback('light');
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: "Copied!",
+        description: "Message copied to clipboard",
+      });
+    } catch (error) {
+      console.error('Failed to copy:', error);
+    }
+  };
+
+  const toggleBookmark = (messageId: string) => {
+    hapticFeedback('medium');
+    setMessages(prev => prev.map(msg => 
+      msg.id === messageId 
+        ? { ...msg, isBookmarked: !msg.isBookmarked }
+        : msg
+    ));
+  };
+
+  const toggleLike = (messageId: string) => {
+    hapticFeedback('light');
+    setMessages(prev => prev.map(msg => 
+      msg.id === messageId 
+        ? { ...msg, isLiked: !msg.isLiked }
+        : msg
+    ));
   };
 
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-2 mb-4">
         <Bot className="h-5 w-5 text-primary" />
-        <Skull className="h-4 w-4 text-primary/70" />
         <h3 className="text-lg font-semibold">TheBlueMatterAI</h3>
-        <Zap className="h-4 w-4 text-primary/70 animate-pulse" />
       </div>
       
       <ScrollArea className="flex-1 p-4 border rounded-md mb-4 bg-card/50">
@@ -287,22 +356,61 @@ const ChemistryAIChat: React.FC = () => {
             <div
               key={message.id}
               className={cn(
-                "flex gap-2 items-start",
+                "flex gap-2 items-start group",
                 message.isUser ? "justify-end" : "justify-start"
               )}
             >
               <div
                 className={cn(
-                  "max-w-[80%] rounded-lg p-3",
+                  "max-w-[80%] rounded-lg p-3 relative",
                   message.isUser
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted"
                 )}
               >
                 <p className="text-sm whitespace-pre-line">{message.text}</p>
-                <span className="text-[10px] opacity-70 block text-right mt-1">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-[10px] opacity-70">
+                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  
+                  {/* iOS-style action buttons */}
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => toggleLike(message.id)}
+                      className={cn(
+                        "p-1 rounded-full hover:bg-background/20 transition-colors",
+                        message.isLiked && "text-red-500"
+                      )}
+                    >
+                      <Heart className="h-3 w-3" fill={message.isLiked ? "currentColor" : "none"} />
+                    </button>
+                    
+                    <button
+                      onClick={() => toggleBookmark(message.id)}
+                      className={cn(
+                        "p-1 rounded-full hover:bg-background/20 transition-colors",
+                        message.isBookmarked && "text-yellow-500"
+                      )}
+                    >
+                      <Bookmark className="h-3 w-3" fill={message.isBookmarked ? "currentColor" : "none"} />
+                    </button>
+                    
+                    <button
+                      onClick={() => copyMessage(message.text)}
+                      className="p-1 rounded-full hover:bg-background/20 transition-colors"
+                    >
+                      <Copy className="h-3 w-3" />
+                    </button>
+                    
+                    <button
+                      onClick={() => shareMessage(message)}
+                      className="p-1 rounded-full hover:bg-background/20 transition-colors"
+                    >
+                      <Share className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           ))}

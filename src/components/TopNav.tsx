@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Atom, Bot, FlaskConical, Skull, Zap } from 'lucide-react';
+import { Atom, Bot, Beaker } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const TopNav = () => {
@@ -35,13 +35,11 @@ const TopNav = () => {
           {/* Breaking Bad inspired title */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="flex items-center gap-2">
-              <FlaskConical className="h-8 w-8 text-primary group-hover:animate-pulse" />
-              <Skull className="h-4 w-4 text-primary/70" />
+              <Beaker className="h-8 w-8 text-primary group-hover:animate-pulse" />
             </div>
             <span className="text-2xl font-black font-orbitron text-breaking-bad group-hover:scale-105 transition-transform duration-300">
               ChemLab
             </span>
-            <Zap className="h-4 w-4 text-primary/70 animate-pulse" />
           </Link>
           
           {/* Navigation */}
@@ -59,7 +57,6 @@ const TopNav = () => {
               >
                 <Icon className="h-4 w-4" />
                 <span className="text-sm font-semibold">{label}</span>
-                {path === '/analytics' && <Skull className="h-3 w-3 text-primary/70" />}
               </Link>
             ))}
           </div>

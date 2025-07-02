@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Bot, Skull, Zap } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 const AnalyticsPage = () => {
   return (
@@ -32,11 +32,7 @@ const AnalyticsPage = () => {
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="flex items-center gap-3">
-                <h2 className="text-2xl font-semibold text-white font-orbitron">TheBlueMatterAI</h2>
-                <Skull className="w-5 h-5 text-white/80 animate-pulse" />
-                <Zap className="w-5 h-5 text-white/80 animate-pulse" />
-              </div>
+              <h2 className="text-2xl font-semibold text-white font-orbitron">TheBlueMatterAI</h2>
               <p className="text-white/80 text-sm">"Say my name... I'm the danger in chemistry"</p>
             </div>
           </div>

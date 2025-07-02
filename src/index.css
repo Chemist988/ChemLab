@@ -118,4 +118,15 @@
   .breaking-bad-glow {
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
   }
+
+  /* Hide Chatbase branding */
+  iframe[src*="chatbase"] {
+    /* Custom styles to integrate better with our theme */
+    border-radius: 12px;
+  }
+}
+
+/* Global styles to hide external branding if it leaks through */
+[class*="powered"], [class*="chatbase"], [id*="powered"], [id*="chatbase"] {
+  display: none !important;
 }

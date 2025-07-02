@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Bot, X, Skull, Zap } from 'lucide-react';
+import { Bot, X } from 'lucide-react';
 
 const TheBlueMatterAI = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +14,6 @@ const TheBlueMatterAI = () => {
           className="w-16 h-16 rounded-full bg-gradient-to-r from-green-700 to-teal-600 hover:from-green-800 hover:to-teal-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center border border-primary/30 backdrop-blur-xl transform hover:scale-105 relative"
         >
           {isOpen ? <X className="w-7 h-7 text-white" /> : <Bot className="w-7 h-7 text-white" />}
-          <Skull className="w-3 h-3 text-white/70 absolute top-1 right-1" />
         </button>
       </div>
 
@@ -24,7 +23,7 @@ const TheBlueMatterAI = () => {
           <div className="w-full max-w-5xl h-[85vh] bg-gradient-to-br from-black/95 to-gray-900/95 rounded-3xl shadow-2xl overflow-hidden border border-primary/50 backdrop-blur-xl">
             {/* Header with Breaking Bad styling */}
             <div className="bg-gradient-to-r from-green-700 to-teal-600 p-6 flex items-center justify-between relative">
-              {/* Background pattern */}
+              {/* Blue crystal background */}
               <div 
                 className="absolute inset-0 opacity-10"
                 style={{
@@ -38,10 +37,7 @@ const TheBlueMatterAI = () => {
                   <Bot className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-2xl font-semibold text-white font-orbitron">TheBlueMatterAI</h2>
-                    <Zap className="w-5 h-5 text-white animate-pulse" />
-                  </div>
+                  <h2 className="text-2xl font-semibold text-white font-orbitron">TheBlueMatterAI</h2>
                   <p className="text-white/80 text-sm">"I am the one who knocks... on chemistry's door"</p>
                 </div>
               </div>
@@ -78,21 +74,20 @@ const TheBlueMatterAI = () => {
             <div className="bg-black/90 p-6 border-t border-primary/50">
               <div className="grid grid-cols-1 gap-4">
                 <div className="bg-gradient-to-br from-green-900/30 to-teal-900/30 p-4 rounded-xl border border-green-500/30 relative overflow-hidden">
-                  {/* Yellow lights background */}
+                  {/* RV background */}
                   <div 
-                    className="absolute inset-0 opacity-10"
+                    className="absolute inset-0 opacity-20"
                     style={{
-                      backgroundImage: `url('https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=500&q=80')`,
+                      backgroundImage: `url('/lovable-uploads/d216d585-0f35-442a-9b4c-e5e456e8825b.png')`,
                       backgroundSize: 'cover',
                     }}
                   />
                   
                   <div className="relative z-10">
                     <div className="flex items-center gap-2 mb-2">
-                      <Skull className="w-4 h-4 text-green-400" />
-                      <p className="text-green-300 text-sm font-medium">99.1% Pure Chemistry</p>
+                      <p className="text-green-300 text-sm font-medium">99.1% Pure Chemistry Knowledge</p>
                     </div>
-                    <p className="text-gray-300 text-xs">"Yeah, Science!" - Explore reactions, molecular structures, and the danger zone</p>
+                    <p className="text-gray-300 text-xs">"Yeah, Science!" - Explore reactions, molecular structures, and chemical processes</p>
                   </div>
                 </div>
               </div>
