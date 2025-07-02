@@ -1,6 +1,5 @@
-
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, SendHorizontal } from 'lucide-react';
+import { Bot, SendHorizontal, Skull, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -69,7 +68,7 @@ const ChemistryAIChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! I\'m your AI assistant. Ask me anything about chemistry, science, or any other topic!',
+      text: 'Hello! I\'m TheBlueMatterAI. "Say my name..." Ask me anything about chemistry or science, and I\'ll cook up the perfect answer!',
       isUser: false,
       timestamp: new Date()
     }
@@ -217,7 +216,7 @@ const ChemistryAIChat: React.FC = () => {
     } else {
       // Handle common questions that might not contain specific keywords
       if (lowercaseQuestion.includes("hello") || lowercaseQuestion.includes("hi") || lowercaseQuestion.includes("hey")) {
-        response = "Hello! I'm your AI assistant. How can I help you today?";
+        response = "Hello! I'm TheBlueMatterAI. " + "Say my name..." + " Ask me anything about chemistry or science, and I'll cook up the perfect answer!";
       } else if (lowercaseQuestion.includes("how are you")) {
         response = "I'm functioning well, thank you for asking! How can I assist you today?";
       } else if (lowercaseQuestion.includes("your name") || lowercaseQuestion.includes("who are you")) {
@@ -277,7 +276,9 @@ const ChemistryAIChat: React.FC = () => {
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-2 mb-4">
         <Bot className="h-5 w-5 text-primary" />
-        <h3 className="text-lg font-semibold">AI Assistant</h3>
+        <Skull className="h-4 w-4 text-primary/70" />
+        <h3 className="text-lg font-semibold">TheBlueMatterAI</h3>
+        <Zap className="h-4 w-4 text-primary/70 animate-pulse" />
       </div>
       
       <ScrollArea className="flex-1 p-4 border rounded-md mb-4 bg-card/50">
@@ -337,4 +338,4 @@ const ChemistryAIChat: React.FC = () => {
   );
 };
 
-export default BlueMatterAI;
+export default ChemistryAIChat;

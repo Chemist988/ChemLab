@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Atom, Calculator, Bot, Beaker, FlaskConical } from 'lucide-react';
+import { Atom, Bot, FlaskConical, Skull, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const TopNav = () => {
@@ -22,7 +22,7 @@ const TopNav = () => {
 
   const navItems = [
     { path: '/', icon: Atom, label: 'Periodic Table' },
-    { path: '/analytics', icon: Bot, label: 'Chemistry AI' }
+    { path: '/analytics', icon: Bot, label: 'TheBlueMatterAI' }
   ];
 
   return (
@@ -34,10 +34,14 @@ const TopNav = () => {
         <div className="flex items-center justify-between h-16">
           {/* Breaking Bad inspired title */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <FlaskConical className="h-8 w-8 text-primary group-hover:animate-pulse" />
+            <div className="flex items-center gap-2">
+              <FlaskConical className="h-8 w-8 text-primary group-hover:animate-pulse" />
+              <Skull className="h-4 w-4 text-primary/70" />
+            </div>
             <span className="text-2xl font-black font-orbitron text-breaking-bad group-hover:scale-105 transition-transform duration-300">
               ChemLab
             </span>
+            <Zap className="h-4 w-4 text-primary/70 animate-pulse" />
           </Link>
           
           {/* Navigation */}
@@ -49,12 +53,13 @@ const TopNav = () => {
                 className={cn(
                   'flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300',
                   isActive(path)
-                    ? 'glass-effect text-primary breaking-bad-glow'
+                    ? 'glass-effect text-primary breaking-bad-glow border border-primary/30'
                     : 'text-foreground/80 hover:text-primary hover:bg-primary/10'
                 )}
               >
                 <Icon className="h-4 w-4" />
                 <span className="text-sm font-semibold">{label}</span>
+                {path === '/analytics' && <Skull className="h-3 w-3 text-primary/70" />}
               </Link>
             ))}
           </div>
@@ -68,7 +73,7 @@ const TopNav = () => {
                 className={cn(
                   'flex items-center space-x-2 px-3 py-2 rounded-lg text-xs transition-all duration-300',
                   isActive(path)
-                    ? 'glass-effect text-primary'
+                    ? 'glass-effect text-primary border border-primary/30'
                     : 'text-foreground/80 hover:text-primary hover:bg-primary/10'
                 )}
               >
