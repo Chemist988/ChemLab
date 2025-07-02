@@ -7,7 +7,6 @@ import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
 import EduBotAssistant from '@/components/EduBotAssistant';
-import BreakingBadCharacters from '@/components/BreakingBadCharacters';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
@@ -83,9 +82,6 @@ const Index = () => {
                 </div>
               </div>
             </header>
-
-            {/* Breaking Bad Characters Section */}
-            <BreakingBadCharacters />
 
             {/* Main Content */}
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-16">
