@@ -3,10 +3,9 @@ import { useDrop } from 'react-dnd';
 import { Element, elements as elementsDatabase } from '@/data/elements';
 import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
-import { simulateReaction, getAnimationClass, ReactionResult, reactions } from '../utils/reactionUtils';
-import { toast } from '@/components/ui/use-toast';
+import { simulateReaction, ReactionResult, reactions } from '../utils/reactionUtils';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Wind } from 'lucide-react';
+import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -20,7 +19,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [explosion, setExplosion] = useState(false);
   const [gas, setGas] = useState(false);
   const [splash, setSplash] = useState(false);
-  const [powderBurst, setPowderBurst] = useState<{active: boolean; color: string}>({active: false, color: 'white'});
   const [suggestedElements, setSuggestedElements] = useState<Element[]>([]);
   const [steam, setSteam] = useState(false);
   const [crystallization, setCrystallization] = useState(false);
@@ -31,6 +29,11 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [electricArcs, setElectricArcs] = useState(false);
   const [flames, setFlames] = useState(false);
   const [windEffect, setWindEffect] = useState(false);
+  const [plasmaBurst, setPlasmaBurst] = useState(false);
+  const [radioactiveGlow, setRadioactiveGlow] = useState(false);
+  const [chemicalSpiral, setChemicalSpiral] = useState(false);
+  const [molecularDance, setMolecularDance] = useState(false);
+  const [quantumFlicker, setQuantumFlicker] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -78,10 +81,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setSplash(true);
       setTimeout(() => setSplash(false), 700);
       
-      const burstColor = getCategoryColor(element.category);
-      setPowderBurst({active: true, color: burstColor});
-      setTimeout(() => setPowderBurst({active: false, color: burstColor}), 1000);
-      
       const newBubbles = [...bubbles];
       for (let i = 0; i < 8; i++) {
         newBubbles.push(Math.random());
@@ -93,17 +92,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         setSuggestedElements(findCompatibleElements(element));
         setShowSuggestions(true);
         return newElements;
-      });
-      
-      toast({
-        title: `${element.name} added`,
-        description: "Element added to reaction beaker",
-      });
-    } else {
-      toast({
-        title: "Reaction zone full",
-        description: "Please clear the current reaction first.",
-        variant: "destructive"
       });
     }
   };
@@ -124,11 +112,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       setSteam(false);
       setElectricArcs(false);
     }, 2000);
-
-    toast({
-      title: `${compound.name} added`,
-      description: `${compound.formula} - ${compound.description}`,
-    });
   };
 
   const clearReaction = () => {
@@ -139,7 +122,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setExplosion(false);
     setGas(false);
     setSplash(false);
-    setPowderBurst({active: false, color: 'white'});
     setSuggestedElements([]);
     setSteam(false);
     setCrystallization(false);
@@ -150,6 +132,11 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setElectricArcs(false);
     setFlames(false);
     setWindEffect(false);
+    setPlasmaBurst(false);
+    setRadioactiveGlow(false);
+    setChemicalSpiral(false);
+    setMolecularDance(false);
+    setQuantumFlicker(false);
   };
 
   const simulateCurrentReaction = () => {
@@ -159,62 +146,82 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       const result = simulateReaction(selectedElements[0], selectedElements[1]);
       
       const newBubbles = [...bubbles];
-      for (let i = 0; i < 25; i++) {
+      for (let i = 0; i < 35; i++) {
         newBubbles.push(Math.random());
       }
       setBubbles(newBubbles);
       
+      // Enhanced animations based on reaction type
       if (result.animationType === 'explosion') {
         setExplosion(true);
         setHeatWaves(true);
         setFlames(true);
         setWindEffect(true);
+        setPlasmaBurst(true);
         setTimeout(() => {
           setExplosion(false);
           setHeatWaves(false);
           setFlames(false);
           setWindEffect(false);
-        }, 3000);
+          setPlasmaBurst(false);
+        }, 4000);
       } else if (result.animationType === 'gas') {
         setGas(true);
         setSteam(true);
         setWindEffect(true);
+        setChemicalSpiral(true);
         setTimeout(() => {
           setGas(false);
           setSteam(false);
           setWindEffect(false);
-        }, 4000);
+          setChemicalSpiral(false);
+        }, 5000);
       } else if (result.animationType === 'crystallization') {
         setCrystallization(true);
         setPrecipitation(true);
         setElectricArcs(true);
+        setMolecularDance(true);
         setTimeout(() => {
           setCrystallization(false);
           setPrecipitation(false);
           setElectricArcs(false);
-        }, 3500);
+          setMolecularDance(false);
+        }, 4500);
       } else if (result.animationType === 'neutralization') {
         setColorChange(true);
         setSteam(true);
         setElectricArcs(true);
+        setQuantumFlicker(true);
         setTimeout(() => {
           setColorChange(false);
           setSteam(false);
           setElectricArcs(false);
-        }, 2500);
+          setQuantumFlicker(false);
+        }, 3500);
       } else if (result.animationType === 'combustion') {
         setExplosion(true);
         setHeatWaves(true);
         setGas(true);
         setFlames(true);
         setWindEffect(true);
+        setPlasmaBurst(true);
         setTimeout(() => {
           setExplosion(false);
           setHeatWaves(false);
           setGas(false);
           setFlames(false);
           setWindEffect(false);
-        }, 3500);
+          setPlasmaBurst(false);
+        }, 4500);
+      } else if (result.animationType === 'radioactive') {
+        setRadioactiveGlow(true);
+        setElectricArcs(true);
+        setQuantumFlicker(true);
+        setTimeout(() => {
+          setRadioactiveGlow(false);
+          setElectricArcs(false);
+          setQuantumFlicker(false);
+        }, 6000);
       }
       
       setSplash(true);
@@ -245,7 +252,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       
       setTimeout(() => {
         setAnimating(false);
-      }, 2000);
+      }, 2500);
     }
   };
 
@@ -275,22 +282,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     }
   }, [selectedElements]);
 
-  const getCategoryColor = (category: string): string => {
-    switch (category) {
-      case 'alkali-metal': return '#f87171';
-      case 'alkaline-earth-metal': return '#fb923c';
-      case 'transition-metal': return '#3b82f6';
-      case 'post-transition-metal': return '#a78bfa';
-      case 'metalloid': return '#34d399';
-      case 'nonmetal': return '#4ade80';
-      case 'halogen': return '#22d3ee';
-      case 'noble-gas': return '#d946ef';
-      case 'lanthanide': return '#ec4899';
-      case 'actinide': return '#f59e0b';
-      default: return '#d1d5db';
-    }
-  };
-
   return (
     <div className="flex flex-col gap-4 w-full">
       <div 
@@ -311,22 +302,130 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           />
         )}
         
+        {/* Enhanced Animation Effects */}
+        {plasmaBurst && (
+          <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+            {[...Array(25)].map((_, i) => (
+              <div 
+                key={`plasma-${i}`}
+                className="absolute rounded-full"
+                style={{
+                  width: Math.random() * 12 + 6 + 'px',
+                  height: Math.random() * 12 + 6 + 'px',
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 100 + '%',
+                  background: `radial-gradient(circle, #60a5fa, #3b82f6, #1d4ed8)`,
+                  boxShadow: '0 0 20px #3b82f6, 0 0 40px #60a5fa',
+                  animation: `plasma-pulse ${Math.random() * 1 + 0.5}s ease-in-out infinite alternate`,
+                  opacity: Math.random() * 0.9 + 0.1
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
+        {radioactiveGlow && (
+          <div className="absolute inset-0 z-15 pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-radial from-green-400/30 via-yellow-400/20 to-transparent animate-pulse"></div>
+            {[...Array(30)].map((_, i) => (
+              <div 
+                key={`radiation-${i}`}
+                className="absolute bg-green-400/60 rounded-full"
+                style={{
+                  width: Math.random() * 8 + 3 + 'px',
+                  height: Math.random() * 8 + 3 + 'px',
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 100 + '%',
+                  animation: `radioactive-glow ${Math.random() * 2 + 1}s ease-in-out infinite`,
+                  boxShadow: '0 0 15px #4ade80',
+                  opacity: Math.random() * 0.8 + 0.2
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
+        {chemicalSpiral && (
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+            {[...Array(20)].map((_, i) => {
+              const angle = (i / 20) * Math.PI * 2;
+              const radius = 50 + Math.sin(Date.now() * 0.001 + i) * 30;
+              return (
+                <div 
+                  key={`spiral-${i}`}
+                  className="absolute bg-purple-400/50 rounded-full"
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    left: `calc(50% + ${Math.cos(angle) * radius}px)`,
+                    top: `calc(50% + ${Math.sin(angle) * radius}px)`,
+                    animation: `chemical-spiral ${3 + Math.random()}s linear infinite`,
+                    animationDelay: `${i * 0.1}s`,
+                    boxShadow: '0 0 10px #a855f7'
+                  }}
+                ></div>
+              );
+            })}
+          </div>
+        )}
+
+        {molecularDance && (
+          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+            {[...Array(15)].map((_, i) => (
+              <div 
+                key={`molecule-${i}`}
+                className="absolute bg-indigo-400/70 rounded-full"
+                style={{
+                  width: Math.random() * 10 + 5 + 'px',
+                  height: Math.random() * 10 + 5 + 'px',
+                  left: Math.random() * 80 + 10 + '%',
+                  top: Math.random() * 80 + 10 + '%',
+                  animation: `molecular-dance ${Math.random() * 3 + 2}s ease-in-out infinite`,
+                  animationDelay: Math.random() * 1 + 's',
+                  boxShadow: '0 0 15px #6366f1'
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
+        {quantumFlicker && (
+          <div className="absolute inset-0 z-15 pointer-events-none">
+            {[...Array(40)].map((_, i) => (
+              <div 
+                key={`quantum-${i}`}
+                className="absolute bg-cyan-400/60 rounded-full"
+                style={{
+                  width: Math.random() * 4 + 2 + 'px',
+                  height: Math.random() * 4 + 2 + 'px',
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 100 + '%',
+                  animation: `quantum-flicker ${Math.random() * 0.5 + 0.2}s ease-in-out infinite`,
+                  animationDelay: Math.random() * 0.5 + 's',
+                  boxShadow: '0 0 8px #22d3ee',
+                  opacity: Math.random() * 0.9 + 0.1
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+
         {electricArcs && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(8)].map((_, i) => (
+            {[...Array(12)].map((_, i) => (
               <div 
                 key={`arc-${i}`}
                 className="absolute"
                 style={{
-                  width: '2px',
-                  height: Math.random() * 100 + 50 + 'px',
+                  width: '3px',
+                  height: Math.random() * 120 + 60 + 'px',
                   left: Math.random() * 80 + 10 + '%',
                   top: Math.random() * 60 + 20 + '%',
                   background: 'linear-gradient(to bottom, #60a5fa, #3b82f6, #1d4ed8)',
-                  boxShadow: '0 0 10px #3b82f6, 0 0 20px #60a5fa',
-                  animation: `electric-arc ${Math.random() * 0.5 + 0.2}s ease-in-out infinite alternate`,
+                  boxShadow: '0 0 15px #3b82f6, 0 0 30px #60a5fa',
+                  animation: `electric-arc ${Math.random() * 0.3 + 0.1}s ease-in-out infinite alternate`,
                   transform: `rotate(${Math.random() * 60 - 30}deg)`,
-                  opacity: Math.random() * 0.8 + 0.2
+                  opacity: Math.random() * 0.9 + 0.1
                 }}
               ></div>
             ))}
@@ -335,20 +434,21 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
         {flames && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(12)].map((_, i) => (
+            {[...Array(18)].map((_, i) => (
               <div 
                 key={`flame-${i}`}
                 className="absolute"
                 style={{
-                  width: Math.random() * 20 + 10 + 'px',
-                  height: Math.random() * 40 + 20 + 'px',
+                  width: Math.random() * 25 + 12 + 'px',
+                  height: Math.random() * 50 + 25 + 'px',
                   left: Math.random() * 60 + 20 + '%',
                   bottom: Math.random() * 30 + 10 + '%',
-                  background: 'linear-gradient(to top, #dc2626, #f97316, #fbbf24)',
+                  background: 'linear-gradient(to top, #dc2626, #f97316, #fbbf24, #fef3c7)',
                   borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
-                  animation: `flame-flicker ${Math.random() * 0.5 + 0.3}s ease-in-out infinite alternate`,
+                  animation: `flame-flicker ${Math.random() * 0.4 + 0.2}s ease-in-out infinite alternate`,
                   filter: 'blur(1px)',
-                  opacity: Math.random() * 0.9 + 0.1
+                  opacity: Math.random() * 0.9 + 0.1,
+                  boxShadow: '0 0 20px #f97316'
                 }}
               ></div>
             ))}
@@ -521,36 +621,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             ))}
           </div>
         )}
-
-        {powderBurst.active && (
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(40)].map((_, i) => {
-              const size = Math.random() * 6 + 1;
-              const angle = Math.random() * Math.PI * 2;
-              const distance = Math.random() * 40 + 30;
-              const duration = Math.random() * 1 + 0.5;
-              
-              return (
-                <div 
-                  key={`powder-${i}`}
-                  className="absolute rounded-full"
-                  style={{
-                    width: size + 'px',
-                    height: size + 'px',
-                    left: 'calc(50% - ' + size/2 + 'px)',
-                    top: '50%',
-                    backgroundColor: powderBurst.color,
-                    opacity: Math.random() * 0.9 + 0.2,
-                    transform: `translateY(-50%)`,
-                    animation: `powder-burst ${duration}s ease-out forwards`,
-                    '--x-move': `${Math.cos(angle) * distance}px`,
-                    '--y-move': `${Math.sin(angle) * distance}px`,
-                  } as React.CSSProperties}
-                ></div>
-              );
-            })}
-          </div>
-        )}
         
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-56 h-64">
@@ -600,9 +670,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                 </div>
               </div>
 
-              <div className="absolute inset-0 flex flex-col items-center justify-between p-4 pt-8 pb-4">
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 pt-8 pb-4">
                   {selectedElements.length === 0 ? (
-                      <div className="text-center text-muted-foreground self-center mt-12">
+                      <div className="text-center text-muted-foreground">
                           <Beaker className="mx-auto h-12 w-12 mb-3 opacity-50" />
                           <p>Drag elements here</p>
                           <p className="text-xs mt-1 text-muted-foreground/80">to start a reaction</p>
@@ -610,7 +680,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
                   ) : (
                     <>
                       {reaction ? (
-                          <div className="text-center">
+                          <div className="text-center mb-4">
                               <h3 className="text-xl font-bold">{reaction.result}</h3>
                               <p className="text-sm mt-1">{reaction.description}</p>
                               <div className="mt-3 flex items-center justify-center gap-2">
@@ -666,6 +736,8 @@ const getReactionTypeName = (animationType: string): string => {
       return 'Combustion Reaction';
     case 'neutralization':
       return 'Neutralization';
+    case 'radioactive':
+      return 'Nuclear Reaction';
     default:
       return 'Chemical Reaction';
   }
@@ -689,6 +761,8 @@ const getReactionIcon = (animationType: string): React.ReactNode => {
       return <Flame className="h-4 w-4 text-red-500" />;
     case 'neutralization':
       return <Atom className="h-4 w-4 text-teal-500" />;
+    case 'radioactive':
+      return <Zap className="h-4 w-4 text-green-500" />;
     default:
       return <FlaskConical className="h-4 w-4 text-gray-500" />;
   }

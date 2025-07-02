@@ -7,11 +7,12 @@ import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
 import EduBotAssistant from '@/components/EduBotAssistant';
+import BreakingBadCharacters from '@/components/BreakingBadCharacters';
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Atom, Beaker, Bot, ArrowRight, Brain, FlaskConical, Flame, Zap, Skull } from 'lucide-react';
+import { Atom, Beaker, Bot, ArrowRight, Brain, FlaskConical, Flame, Zap } from 'lucide-react';
 
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
@@ -57,18 +58,16 @@ const Index = () => {
             <header className="mb-12 text-center">
               <div className="space-y-6 max-w-4xl mx-auto">
                 <div className="flex items-center justify-center gap-4 mb-6">
-                  <Skull className="w-12 h-12 text-primary animate-pulse" />
                   <h1 className="text-5xl md:text-6xl font-black tracking-tight font-orbitron text-breaking-bad">
                     ChemLab
                   </h1>
-                  <Zap className="w-12 h-12 text-primary animate-pulse" />
                 </div>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                   "Chemistry is the study of change" - Enter the danger zone of science
                 </p>
                 
-                {/* Breaking Bad inspired stats */}
-                <div className="flex justify-center gap-8 mt-8">
+                {/* Breaking Bad inspired stats - centered */}
+                <div className="flex justify-center items-center gap-8 mt-8">
                   <div className="text-center glass-effect px-4 py-3 rounded-xl border border-primary/50">
                     <div className="text-xl font-bold text-primary">118</div>
                     <div className="text-xs text-muted-foreground">Elements</div>
@@ -84,6 +83,9 @@ const Index = () => {
                 </div>
               </div>
             </header>
+
+            {/* Breaking Bad Characters Section */}
+            <BreakingBadCharacters />
 
             {/* Main Content */}
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-16">
@@ -194,7 +196,7 @@ const Index = () => {
                     <div className="glass-effect rounded-xl p-4 border border-primary/30">
                       <div className="flex items-center gap-3 mb-2">
                         <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center">
-                          <Skull className="w-3 h-3 text-primary" />
+                          <Atom className="w-3 h-3 text-primary" />
                         </div>
                         <span className="font-bold text-primary text-sm">99.1% Pure Analysis</span>
                       </div>
@@ -262,7 +264,7 @@ const Index = () => {
                     
                     <div className="glass-effect rounded-xl p-4 border border-primary/30">
                       <h4 className="font-bold text-primary mb-2 flex items-center gap-2">
-                        <Skull className="w-4 h-4" />
+                        <Atom className="w-4 h-4" />
                         Danger Zone
                       </h4>
                       <p className="text-sm text-muted-foreground">Explore the most reactive elements and compounds</p>
