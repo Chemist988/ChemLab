@@ -7,40 +7,76 @@
 
 @layer base {
   :root {
-    /* Green and black theme with white text */
-    --background: 0 0% 5%; /* Very dark black */
-    --foreground: 0 0% 98%; /* Pure white text */
-    --card: 0 0% 8%; /* Dark card background */
-    --card-foreground: 0 0% 98%; /* White text on cards */
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 120 100% 50%; /* Bright green */
-    --primary-foreground: 0 0% 0%; /* Black text on green */
-    --secondary: 0 0% 12%; /* Dark secondary */
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%; /* Muted background */
-    --muted-foreground: 0 0% 85%; /* Light gray text */
-    --accent: 0 0% 12%;
-    --accent-foreground: 120 100% 50%; /* Green accent text */
-    --destructive: 0 84% 50%;
+    /* Clean minimalistic scientific theme */
+    --background: 210 20% 98%; /* Clean white */
+    --foreground: 210 40% 8%; /* Dark text */
+    --card: 210 20% 96%; /* Light card background */
+    --card-foreground: 210 40% 8%; /* Dark text on cards */
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 40% 8%;
+    --primary: 217 91% 60%; /* Clean blue */
+    --primary-foreground: 0 0% 98%; /* White text on blue */
+    --secondary: 210 40% 92%; /* Light secondary */
+    --secondary-foreground: 210 40% 8%;
+    --muted: 210 40% 96%; /* Muted background */
+    --muted-foreground: 210 40% 40%; /* Medium gray text */
+    --accent: 210 40% 94%;
+    --accent-foreground: 217 91% 60%; /* Blue accent text */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%; /* Dark borders */
-    --input: 0 0% 12%; /* Dark input background */
-    --ring: 120 100% 50%; /* Green focus ring */
-    --radius: 0.5rem;
+    --border: 210 40% 88%; /* Light borders */
+    --input: 210 40% 96%; /* Light input background */
+    --ring: 217 91% 60%; /* Blue focus ring */
+    --radius: 0.75rem;
     
-    /* Chemistry colors with green theme */
-    --chemistry-alkali: 120 80% 45%;
-    --chemistry-alkaline: 140 70% 40%;
-    --chemistry-transition: 160 60% 35%;
-    --chemistry-post-transition: 100 65% 40%;
-    --chemistry-metalloid: 80 55% 45%;
-    --chemistry-nonmetal: 120 100% 50%;
-    --chemistry-halogen: 140 85% 45%;
-    --chemistry-noble-gas: 160 70% 40%;
-    --chemistry-lanthanide: 100 75% 40%;
-    --chemistry-actinide: 80 80% 45%;
-    --chemistry-unknown: 0 0% 40%;
+    /* Clean chemistry colors - soft, minimalistic */
+    --chemistry-alkali: 340 75% 85%;
+    --chemistry-alkaline: 45 85% 85%;
+    --chemistry-transition: 220 40% 85%;
+    --chemistry-post-transition: 160 35% 85%;
+    --chemistry-metalloid: 280 40% 85%;
+    --chemistry-nonmetal: 120 35% 85%;
+    --chemistry-halogen: 60 45% 85%;
+    --chemistry-noble-gas: 200 45% 85%;
+    --chemistry-lanthanide: 25 55% 85%;
+    --chemistry-actinide: 10 60% 85%;
+    --chemistry-unknown: 0 0% 88%;
+  }
+
+  .dark {
+    /* Dark mode with soft contrast */
+    --background: 210 40% 6%;
+    --foreground: 210 20% 98%;
+    --card: 210 40% 8%;
+    --card-foreground: 210 20% 98%;
+    --popover: 210 40% 8%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 217 91% 70%;
+    --primary-foreground: 210 40% 6%;
+    --secondary: 210 40% 12%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 210 40% 12%;
+    --muted-foreground: 210 20% 65%;
+    --accent: 210 40% 14%;
+    --accent-foreground: 217 91% 70%;
+    --destructive: 0 84% 70%;
+    --destructive-foreground: 210 40% 6%;
+    --border: 210 40% 18%;
+    --input: 210 40% 12%;
+    --ring: 217 91% 70%;
+    
+    /* Dark mode chemistry colors */
+    --chemistry-alkali: 340 60% 60%;
+    --chemistry-alkaline: 45 70% 60%;
+    --chemistry-transition: 220 40% 65%;
+    --chemistry-post-transition: 160 35% 65%;
+    --chemistry-metalloid: 280 40% 65%;
+    --chemistry-nonmetal: 120 35% 65%;
+    --chemistry-halogen: 60 45% 65%;
+    --chemistry-noble-gas: 200 45% 65%;
+    --chemistry-lanthanide: 25 55% 65%;
+    --chemistry-actinide: 10 60% 65%;
+    --chemistry-unknown: 0 0% 50%;
   }
 }
 
@@ -52,48 +88,60 @@
   body {
     @apply bg-background text-foreground antialiased font-inter;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
-    transition: all 0.3s ease;
-    /* Green and black gradient background */
-    background: linear-gradient(135deg, #000000 0%, #0a0a0a 25%, #001100 50%, #0a0a0a 75%, #000000 100%);
-    background-size: 400% 400%;
+    transition: all 0.2s ease;
+    /* Clean minimalistic background */
+    background: linear-gradient(135deg, hsl(210 20% 98%) 0%, hsl(210 25% 96%) 100%);
+  }
+  
+  .dark body {
+    background: linear-gradient(135deg, hsl(210 40% 6%) 0%, hsl(210 40% 8%) 100%);
   }
 }
 
 @layer utilities {
   .glass-effect {
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px) saturate(120%);
-    -webkit-backdrop-filter: blur(10px) saturate(120%);
-    border: 1px solid rgba(0, 255, 0, 0.2);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px) saturate(110%);
+    -webkit-backdrop-filter: blur(8px) saturate(110%);
+    border: 1px solid hsl(var(--border));
     box-shadow: 
-      inset 0 1px 0 rgba(0, 255, 0, 0.1),
-      0 4px 20px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease;
   }
   
   .glass-effect:hover {
-    background: rgba(0, 0, 0, 0.8);
-    border-color: rgba(0, 255, 0, 0.3);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: hsl(var(--primary) / 0.3);
     box-shadow: 
-      inset 0 1px 0 rgba(0, 255, 0, 0.2),
-      0 8px 30px rgba(0, 0, 0, 0.6);
+      0 4px 6px rgba(0, 0, 0, 0.1),
+      0 2px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid hsl(var(--border));
+  }
+  
+  .dark .glass-effect:hover {
+    background: rgba(0, 0, 0, 0.6);
   }
 
   .element-card-enhanced {
     @apply glass-effect;
-    border: 1px solid rgba(0, 255, 0, 0.3);
+    border: 1px solid hsl(var(--border));
   }
   
   .element-card-enhanced:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   }
 
   .element-highlighted {
-    background: rgba(0, 255, 0, 0.3) !important;
-    border: 2px solid rgb(0, 255, 0) !important;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.6) !important;
-    transform: scale(1.1) !important;
+    background: hsl(var(--primary) / 0.1) !important;
+    border: 2px solid hsl(var(--primary)) !important;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2) !important;
+    transform: scale(1.05) !important;
     z-index: 50 !important;
   }
 
@@ -120,13 +168,12 @@
   .bg-chemistry-actinide { background-color: hsl(var(--chemistry-actinide) / 0.8); }
   .bg-chemistry-unknown { background-color: hsl(var(--chemistry-unknown) / 0.8); }
 
-  .text-breaking-bad {
+  .text-clean-accent {
     color: hsl(var(--primary));
-    text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
   }
 
-  .breaking-bad-glow {
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  .clean-highlight {
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
   }
 
   /* Enhanced Reaction Animations */

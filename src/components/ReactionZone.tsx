@@ -345,149 +345,46 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {chemicalSpiral && (
+        {steam && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(20)].map((_, i) => {
-              const angle = (i / 20) * Math.PI * 2;
-              const radius = 50 + Math.sin(Date.now() * 0.001 + i) * 30;
-              return (
-                <div 
-                  key={`spiral-${i}`}
-                  className="absolute bg-purple-400/50 rounded-full"
-                  style={{
-                    width: '6px',
-                    height: '6px',
-                    left: `calc(50% + ${Math.cos(angle) * radius}px)`,
-                    top: `calc(50% + ${Math.sin(angle) * radius}px)`,
-                    animation: `chemical-spiral ${3 + Math.random()}s linear infinite`,
-                    animationDelay: `${i * 0.1}s`,
-                    boxShadow: '0 0 10px #a855f7'
-                  }}
-                ></div>
-              );
-            })}
-          </div>
-        )}
-
-        {molecularDance && (
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(15)].map((_, i) => (
-              <div 
-                key={`molecule-${i}`}
-                className="absolute bg-indigo-400/70 rounded-full"
-                style={{
-                  width: Math.random() * 10 + 5 + 'px',
-                  height: Math.random() * 10 + 5 + 'px',
-                  left: Math.random() * 80 + 10 + '%',
-                  top: Math.random() * 80 + 10 + '%',
-                  animation: `molecular-dance ${Math.random() * 3 + 2}s ease-in-out infinite`,
-                  animationDelay: Math.random() * 1 + 's',
-                  boxShadow: '0 0 15px #6366f1'
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {quantumFlicker && (
-          <div className="absolute inset-0 z-15 pointer-events-none">
-            {[...Array(40)].map((_, i) => (
-              <div 
-                key={`quantum-${i}`}
-                className="absolute bg-cyan-400/60 rounded-full"
-                style={{
-                  width: Math.random() * 4 + 2 + 'px',
-                  height: Math.random() * 4 + 2 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
-                  animation: `quantum-flicker ${Math.random() * 0.5 + 0.2}s ease-in-out infinite`,
-                  animationDelay: Math.random() * 0.5 + 's',
-                  boxShadow: '0 0 8px #22d3ee',
-                  opacity: Math.random() * 0.9 + 0.1
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {electricArcs && (
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(12)].map((_, i) => (
-              <div 
-                key={`arc-${i}`}
-                className="absolute"
-                style={{
-                  width: '3px',
-                  height: Math.random() * 120 + 60 + 'px',
-                  left: Math.random() * 80 + 10 + '%',
-                  top: Math.random() * 60 + 20 + '%',
-                  background: 'linear-gradient(to bottom, #60a5fa, #3b82f6, #1d4ed8)',
-                  boxShadow: '0 0 15px #3b82f6, 0 0 30px #60a5fa',
-                  animation: `electric-arc ${Math.random() * 0.3 + 0.1}s ease-in-out infinite alternate`,
-                  transform: `rotate(${Math.random() * 60 - 30}deg)`,
-                  opacity: Math.random() * 0.9 + 0.1
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {flames && (
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(18)].map((_, i) => (
-              <div 
-                key={`flame-${i}`}
-                className="absolute"
-                style={{
-                  width: Math.random() * 25 + 12 + 'px',
-                  height: Math.random() * 50 + 25 + 'px',
-                  left: Math.random() * 60 + 20 + '%',
-                  bottom: Math.random() * 30 + 10 + '%',
-                  background: 'linear-gradient(to top, #dc2626, #f97316, #fbbf24, #fef3c7)',
-                  borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
-                  animation: `flame-flicker ${Math.random() * 0.4 + 0.2}s ease-in-out infinite alternate`,
-                  filter: 'blur(1px)',
-                  opacity: Math.random() * 0.9 + 0.1,
-                  boxShadow: '0 0 20px #f97316'
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {windEffect && (
-          <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
             {[...Array(20)].map((_, i) => (
               <div 
-                key={`wind-${i}`}
-                className="absolute bg-white/20 rounded-full"
+                key={`steam-${i}`}
+                className="absolute bg-primary/20 rounded-full"
                 style={{
-                  width: Math.random() * 4 + 1 + 'px',
-                  height: Math.random() * 4 + 1 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
-                  animation: `wind-blow ${Math.random() * 2 + 1}s linear infinite`,
-                  animationDelay: Math.random() * 1 + 's'
+                  width: Math.random() * 20 + 8 + 'px',
+                  height: Math.random() * 20 + 8 + 'px',
+                  left: Math.random() * 70 + 15 + '%',
+                  top: Math.random() * 20 + 50 + '%',
+                  animation: `gas-rise ${Math.random() * 3 + 2}s ease-out infinite`,
+                  animationDelay: Math.random() * 1 + 's',
+                  opacity: Math.random() * 0.4 + 0.2
                 }}
               ></div>
             ))}
           </div>
         )}
 
-        {heatWaves && (
-          <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-            {[...Array(15)].map((_, i) => (
+        {explosion && (
+          <div className="absolute inset-0 z-10">
+            <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-primary/10 to-transparent animate-pulse"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative">
+                <div className="w-20 h-20 bg-gradient-radial from-primary/30 to-primary/10 rounded-full animate-ping opacity-75"></div>
+                <div className="absolute top-1/2 left-1/2 w-12 h-12 -translate-x-1/2 -translate-y-1/2 bg-primary/20 rounded-full animate-pulse"></div>
+              </div>
+            </div>
+            {[...Array(20)].map((_, i) => (
               <div 
-                key={`heat-${i}`}
-                className="absolute bg-gradient-to-t from-orange-400/30 to-red-400/20 rounded-full"
+                key={i} 
+                className="absolute rounded-full bg-primary/30"
                 style={{
-                  width: Math.random() * 80 + 40 + 'px',
-                  height: Math.random() * 120 + 60 + 'px',
-                  left: Math.random() * 80 + 10 + '%',
-                  top: Math.random() * 60 + 20 + '%',
-                  animation: `gas-rise ${Math.random() * 2 + 1}s ease-out infinite`,
-                  animationDelay: Math.random() * 1 + 's',
-                  filter: 'blur(3px)'
+                  width: Math.random() * 6 + 2 + 'px',
+                  height: Math.random() * 6 + 2 + 'px',
+                  left: 50 + Math.random() * 10 - 5 + '%',
+                  top: 50 + Math.random() * 10 - 5 + '%',
+                  opacity: Math.random() * 0.7 + 0.3,
+                  animation: `gas-rise ${Math.random() * 1.5 + 0.5}s ease-out forwards`,
                 }}
               ></div>
             ))}
@@ -525,42 +422,19 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         
         {gas && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-            {[...Array(35)].map((_, i) => (
+            {[...Array(15)].map((_, i) => (
               <div 
                 key={i} 
-                className="absolute rounded-full"
+                className="absolute rounded-full bg-primary/20"
                 style={{
-                  width: Math.random() * 60 + 15 + 'px',
-                  height: Math.random() * 60 + 15 + 'px',
+                  width: Math.random() * 30 + 10 + 'px',
+                  height: Math.random() * 30 + 10 + 'px',
                   left: Math.random() * 80 + 10 + '%',
                   top: Math.random() * 30 + 60 + '%',
-                  background: `hsla(${Math.random() * 120 + 60}, 70%, 60%, 0.4)`,
-                  animationDuration: Math.random() * 4 + 2 + 's',
-                  animationDelay: Math.random() * 2 + 's',
-                  animation: `gas-rise ${Math.random() * 4 + 2}s ease-out infinite`,
-                  filter: 'blur(2px)'
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {steam && (
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(50)].map((_, i) => (
-              <div 
-                key={`steam-${i}`}
-                className="absolute bg-white/40 rounded-full"
-                style={{
-                  width: Math.random() * 40 + 8 + 'px',
-                  height: Math.random() * 40 + 8 + 'px',
-                  left: Math.random() * 70 + 15 + '%',
-                  top: Math.random() * 20 + 50 + '%',
-                  animationDuration: Math.random() * 5 + 2 + 's',
+                  animationDuration: Math.random() * 3 + 2 + 's',
                   animationDelay: Math.random() * 1 + 's',
-                  animation: `gas-rise ${Math.random() * 5 + 2}s ease-out infinite`,
-                  filter: 'blur(3px)',
-                  opacity: Math.random() * 0.6 + 0.2
+                  animation: `gas-rise ${Math.random() * 3 + 2}s ease-out infinite`,
+                  opacity: Math.random() * 0.4 + 0.2
                 }}
               ></div>
             ))}
@@ -569,20 +443,20 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
         {precipitation && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(30)].map((_, i) => (
+            {[...Array(12)].map((_, i) => (
               <div 
                 key={`precipitate-${i}`}
-                className="absolute animate-fall"
+                className="absolute"
                 style={{
-                  width: Math.random() * 6 + 2 + 'px',
-                  height: Math.random() * 6 + 2 + 'px',
+                  width: Math.random() * 4 + 2 + 'px',
+                  height: Math.random() * 4 + 2 + 'px',
                   left: Math.random() * 70 + 15 + '%',
                   top: Math.random() * 40 + 20 + '%',
-                  background: 'linear-gradient(45deg, #f0f9ff, #dbeafe, #bfdbfe)',
+                  background: 'hsl(var(--primary) / 0.3)',
                   borderRadius: '50%',
-                  animationDuration: Math.random() * 3 + 1 + 's',
+                  animation: `gas-rise ${Math.random() * 2 + 1}s ease-out infinite`,
                   animationDelay: Math.random() * 0.5 + 's',
-                  opacity: Math.random() * 0.8 + 0.3
+                  opacity: Math.random() * 0.6 + 0.3
                 }}
               ></div>
             ))}
@@ -592,10 +466,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         {colorChange && (
           <div className="absolute inset-0 z-5 pointer-events-none">
             <div 
-              className="absolute bottom-0 w-full h-3/4 rounded-b-2xl transition-all duration-2000"
+              className="absolute bottom-0 w-full h-3/4 rounded-b-2xl transition-all duration-1000"
               style={{
-                background: 'linear-gradient(to top, #fef3c7, #fde68a, #fcd34d)',
-                animation: 'pulse 2s ease-in-out'
+                background: 'linear-gradient(to top, hsl(var(--primary) / 0.2), hsl(var(--primary) / 0.1), transparent)',
+                animation: 'pulse 1.5s ease-in-out'
               }}
             ></div>
           </div>
@@ -603,19 +477,19 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
         {splash && (
           <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
-            {[...Array(20)].map((_, i) => (
+            {[...Array(10)].map((_, i) => (
               <div 
                 key={`splash-${i}`}
-                className="absolute bg-blue-400/70 dark:bg-blue-500/50"
+                className="absolute bg-primary/40"
                 style={{
-                  width: Math.random() * 8 + 2 + 'px',
-                  height: Math.random() * 16 + 10 + 'px',
+                  width: Math.random() * 6 + 2 + 'px',
+                  height: Math.random() * 12 + 8 + 'px',
                   left: 40 + Math.random() * 20 + '%',
                   top: 40 + Math.random() * 10 + '%',
                   borderRadius: '50% 50% 0 0',
                   transform: `rotate(${Math.random() * 360}deg)`,
-                  opacity: Math.random() * 0.8 + 0.3,
-                  animation: `splash-rise ${Math.random() * 0.8 + 0.5}s ease-out forwards`,
+                  opacity: Math.random() * 0.6 + 0.3,
+                  animation: `gas-rise ${Math.random() * 0.8 + 0.5}s ease-out forwards`,
                 }}
               ></div>
             ))}
@@ -626,46 +500,45 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-56 h-64 mx-auto">
               <div className="absolute bottom-0 w-full h-full rounded-b-3xl rounded-t-lg overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent border-2 border-gray-300/50 rounded-b-3xl rounded-t-lg backdrop-blur-sm shadow-2xl">
-                  <div className="absolute top-8 left-4 w-16 h-32 bg-white/25 rounded-full transform -rotate-12 blur-sm"></div>
-                  <div className="absolute top-12 right-6 w-8 h-24 bg-white/20 rounded-full transform rotate-12 blur-sm"></div>
-                  <div className="absolute bottom-16 left-8 w-12 h-16 bg-white/15 rounded-full transform -rotate-45 blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/10 to-transparent border-2 border-border rounded-b-3xl rounded-t-lg backdrop-blur-sm shadow-lg">
+                  <div className="absolute top-8 left-4 w-16 h-32 bg-foreground/5 rounded-full transform -rotate-12"></div>
+                  <div className="absolute top-12 right-6 w-8 h-24 bg-foreground/5 rounded-full transform rotate-12"></div>
+                  <div className="absolute bottom-16 left-8 w-12 h-16 bg-foreground/5 rounded-full transform -rotate-45"></div>
                   
-                  <div className="absolute inset-0 border border-gray-200/40 rounded-b-3xl rounded-t-lg"></div>
-                  <div className="absolute inset-1 border border-gray-100/30 rounded-b-3xl rounded-t-lg"></div>
+                  <div className="absolute inset-0 border border-border/40 rounded-b-3xl rounded-t-lg"></div>
+                  <div className="absolute inset-1 border border-border/20 rounded-b-3xl rounded-t-lg"></div>
                 </div>
                 
-                <div className="absolute -top-[1px] left-[8%] w-[35%] h-5 border-t-2 border-l-2 border-r-2 border-gray-300/50 bg-gradient-to-b from-white/8 to-transparent" 
+                <div className="absolute -top-[1px] left-[8%] w-[35%] h-5 border-t-2 border-l-2 border-r-2 border-border bg-gradient-to-b from-background/10 to-transparent" 
                      style={{ clipPath: 'polygon(0 0, 85% 0, 100% 100%, 15% 100%)' }}>
-                  <div className="absolute top-0 left-2 w-4 h-2 bg-white/15 rounded-full blur-sm"></div>
+                  <div className="absolute top-0 left-2 w-4 h-2 bg-foreground/5 rounded-full"></div>
                 </div>
                 
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-black/15 rounded-full blur-lg"></div>
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-foreground/10 rounded-full blur-sm"></div>
               </div>
 
-              <div className={`absolute bottom-0 w-full transition-all duration-700 ease-out overflow-hidden rounded-b-2xl ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}`}>
-                <div className={`w-full h-full relative ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-blue-100/50 to-blue-200/40 dark:from-blue-800/40 dark:to-blue-700/30'} ${animating ? 'animate-pulse' : ''}`}>
-                  <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-b from-white/60 via-white/30 to-transparent rounded-full"></div>
-                  <div className="absolute inset-x-2 top-0 h-1 bg-white/40 rounded-full"></div>
+              <div className={`absolute bottom-0 w-full transition-all duration-500 ease-out overflow-hidden rounded-b-2xl ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}`}>
+                <div className={`w-full h-full relative ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-primary/20 to-primary/30'} ${animating ? 'animate-pulse' : ''}`}>
+                  <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-b from-background/30 via-background/15 to-transparent rounded-full"></div>
+                  <div className="absolute inset-x-2 top-0 h-1 bg-background/20 rounded-full"></div>
                   
                   {bubbles.map((bubble, index) => (
                       <div key={index} 
-                           className="absolute rounded-full bg-white/90 dark:bg-white/60 animate-rise shadow-lg" 
+                           className="absolute rounded-full bg-background/80 animate-rise shadow-sm" 
                            style={{
-                              width: Math.max(4, Math.random() * 12) + 'px',
-                              height: Math.max(4, Math.random() * 12) + 'px',
+                              width: Math.max(3, Math.random() * 8) + 'px',
+                              height: Math.max(3, Math.random() * 8) + 'px',
                               bottom: bubble * 100 + '%',
                               left: Math.random() * 80 + 10 + '%',
                               animationDuration: Math.random() * 2 + 1 + 's',
-                              opacity: Math.random() * 0.8 + 0.2,
-                              boxShadow: 'inset 0 0 4px rgba(255,255,255,0.9), 0 0 4px rgba(0,0,0,0.2)'
+                              opacity: Math.random() * 0.6 + 0.3,
                            }} />
                   ))}
                   
                   {selectedElements.length > 1 && (
                     <>
-                      <div className="absolute bottom-0 w-full h-1/4 bg-gradient-to-t from-black/15 to-transparent"></div>
-                      <div className="absolute bottom-1/4 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                      <div className="absolute bottom-0 w-full h-1/4 bg-gradient-to-t from-foreground/10 to-transparent"></div>
+                      <div className="absolute bottom-1/4 w-full h-1 bg-gradient-to-r from-transparent via-background/20 to-transparent"></div>
                     </>
                   )}
                 </div>
@@ -710,7 +583,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           variant="outline" 
           onClick={clearReaction}
           disabled={selectedElements.length === 0}
-          className="flex items-center gap-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 dark:bg-black/20 dark:hover:bg-black/30"
+          className="flex items-center gap-2"
         >
           <RotateCw className="h-4 w-4" /> Clear Reaction
         </Button>
