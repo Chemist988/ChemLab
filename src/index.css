@@ -7,26 +7,26 @@
 
 @layer base {
   :root {
-    /* Clean minimalistic scientific theme */
-    --background: 210 20% 98%; /* Clean white */
-    --foreground: 210 40% 8%; /* Dark text */
-    --card: 210 20% 96%; /* Light card background */
-    --card-foreground: 210 40% 8%; /* Dark text on cards */
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 40% 8%;
-    --primary: 217 91% 60%; /* Clean blue */
-    --primary-foreground: 0 0% 98%; /* White text on blue */
-    --secondary: 210 40% 92%; /* Light secondary */
-    --secondary-foreground: 210 40% 8%;
-    --muted: 210 40% 96%; /* Muted background */
-    --muted-foreground: 210 40% 40%; /* Medium gray text */
-    --accent: 210 40% 94%;
-    --accent-foreground: 217 91% 60%; /* Blue accent text */
+    /* Clean dark theme */
+    --background: 0 0% 8%; /* Deep black */
+    --foreground: 0 0% 98%; /* Clean white text */
+    --card: 0 0% 12%; /* Dark card background */
+    --card-foreground: 0 0% 98%; /* White text on cards */
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 210 100% 60%; /* Clean blue */
+    --primary-foreground: 0 0% 8%; /* Dark text on blue */
+    --secondary: 0 0% 15%; /* Dark secondary */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14%; /* Dark muted background */
+    --muted-foreground: 0 0% 65%; /* Light gray text */
+    --accent: 0 0% 16%;
+    --accent-foreground: 210 100% 60%; /* Blue accent text */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 210 40% 88%; /* Light borders */
-    --input: 210 40% 96%; /* Light input background */
-    --ring: 217 91% 60%; /* Blue focus ring */
+    --border: 0 0% 20%; /* Dark borders */
+    --input: 0 0% 14%; /* Dark input background */
+    --ring: 210 100% 60%; /* Blue focus ring */
     --radius: 0.75rem;
     
     /* Clean chemistry colors - soft, minimalistic */
@@ -44,26 +44,26 @@
   }
 
   .dark {
-    /* Dark mode with soft contrast */
-    --background: 210 40% 6%;
-    --foreground: 210 20% 98%;
-    --card: 210 40% 8%;
-    --card-foreground: 210 20% 98%;
-    --popover: 210 40% 8%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 217 91% 70%;
-    --primary-foreground: 210 40% 6%;
-    --secondary: 210 40% 12%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 210 40% 12%;
-    --muted-foreground: 210 20% 65%;
-    --accent: 210 40% 14%;
-    --accent-foreground: 217 91% 70%;
-    --destructive: 0 84% 70%;
-    --destructive-foreground: 210 40% 6%;
-    --border: 210 40% 18%;
-    --input: 210 40% 12%;
-    --ring: 217 91% 70%;
+    /* Dark mode - same as root */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 210 100% 60%;
+    --primary-foreground: 0 0% 8%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 0% 16%;
+    --accent-foreground: 210 100% 60%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 14%;
+    --ring: 210 100% 60%;
     
     /* Dark mode chemistry colors */
     --chemistry-alkali: 340 60% 60%;
@@ -89,12 +89,7 @@
     @apply bg-background text-foreground antialiased font-inter;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
     transition: all 0.2s ease;
-    /* Clean minimalistic background */
-    background: linear-gradient(135deg, hsl(210 20% 98%) 0%, hsl(210 25% 96%) 100%);
-  }
-  
-  .dark body {
-    background: linear-gradient(135deg, hsl(210 40% 6%) 0%, hsl(210 40% 8%) 100%);
+    background: hsl(var(--background));
   }
 }
 

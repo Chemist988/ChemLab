@@ -302,46 +302,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           />
         )}
         
-        {/* Enhanced Animation Effects */}
-        {plasmaBurst && (
-          <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
-            {[...Array(25)].map((_, i) => (
-              <div 
-                key={`plasma-${i}`}
-                className="absolute rounded-full"
-                style={{
-                  width: Math.random() * 12 + 6 + 'px',
-                  height: Math.random() * 12 + 6 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
-                  background: `radial-gradient(circle, #60a5fa, #3b82f6, #1d4ed8)`,
-                  boxShadow: '0 0 20px #3b82f6, 0 0 40px #60a5fa',
-                  animation: `plasma-pulse ${Math.random() * 1 + 0.5}s ease-in-out infinite alternate`,
-                  opacity: Math.random() * 0.9 + 0.1
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {radioactiveGlow && (
-          <div className="absolute inset-0 z-15 pointer-events-none">
-            <div className="absolute inset-0 bg-gradient-radial from-green-400/30 via-yellow-400/20 to-transparent animate-pulse"></div>
-            {[...Array(30)].map((_, i) => (
-              <div 
-                key={`radiation-${i}`}
-                className="absolute bg-green-400/60 rounded-full"
-                style={{
-                  width: Math.random() * 8 + 3 + 'px',
-                  height: Math.random() * 8 + 3 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
-                  animation: `radioactive-glow ${Math.random() * 2 + 1}s ease-in-out infinite`,
-                  boxShadow: '0 0 15px #4ade80',
-                  opacity: Math.random() * 0.8 + 0.2
-                }}
-              ></div>
-            ))}
+        {/* Simple reaction indicator */}
+        {animating && (
+          <div className="absolute inset-0 z-10 pointer-events-none">
+            <div className="absolute inset-0 bg-primary/10 animate-pulse rounded-xl"></div>
           </div>
         )}
 
@@ -365,60 +329,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {explosion && (
-          <div className="absolute inset-0 z-10">
-            <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-primary/10 to-transparent animate-pulse"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <div className="w-20 h-20 bg-gradient-radial from-primary/30 to-primary/10 rounded-full animate-ping opacity-75"></div>
-                <div className="absolute top-1/2 left-1/2 w-12 h-12 -translate-x-1/2 -translate-y-1/2 bg-primary/20 rounded-full animate-pulse"></div>
-              </div>
-            </div>
-            {[...Array(20)].map((_, i) => (
-              <div 
-                key={i} 
-                className="absolute rounded-full bg-primary/30"
-                style={{
-                  width: Math.random() * 6 + 2 + 'px',
-                  height: Math.random() * 6 + 2 + 'px',
-                  left: 50 + Math.random() * 10 - 5 + '%',
-                  top: 50 + Math.random() * 10 - 5 + '%',
-                  opacity: Math.random() * 0.7 + 0.3,
-                  animation: `gas-rise ${Math.random() * 1.5 + 0.5}s ease-out forwards`,
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {explosion && (
-          <div className="absolute inset-0 z-10">
-            <div className="absolute inset-0 bg-gradient-radial from-orange-500/40 via-red-500/20 to-transparent animate-pulse"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <div className="w-32 h-32 bg-gradient-radial from-yellow-300 via-orange-500 to-red-600 rounded-full animate-ping opacity-75"></div>
-                <div className="absolute top-1/2 left-1/2 w-20 h-20 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full animate-pulse"></div>
-              </div>
-            </div>
-            {[...Array(50)].map((_, i) => (
-              <div 
-                key={i} 
-                className="absolute rounded-full"
-                style={{
-                  width: Math.random() * 8 + 2 + 'px',
-                  height: Math.random() * 8 + 2 + 'px',
-                  left: 50 + Math.random() * 10 - 5 + '%',
-                  top: 50 + Math.random() * 10 - 5 + '%',
-                  background: `hsl(${Math.random() * 60 + 10}, 90%, 60%)`,
-                  opacity: Math.random() * 0.9 + 0.1,
-                  animation: `explosion-particle ${Math.random() * 1.5 + 0.5}s ease-out forwards`,
-                  '--x-move': `${(Math.random() - 0.5) * 400}px`,
-                  '--y-move': `${(Math.random() - 0.5) * 400}px`,
-                } as React.CSSProperties}
-              ></div>
-            ))}
-          </div>
-        )}
         
         {gas && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
