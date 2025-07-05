@@ -165,20 +165,15 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         setGas(true);
         setSteam(true);
         setWindEffect(true);
-        setChemicalSpiral(true);
         setTimeout(() => {
           setGas(false);
           setSteam(false);
           setWindEffect(false);
-          setChemicalSpiral(false);
         }, 5000);
       } else if (result.animationType === 'crystallization') {
-        setCrystallization(true);
         setPrecipitation(true);
-        setElectricArcs(true);
         setMolecularDance(true);
         setTimeout(() => {
-          setCrystallization(false);
           setPrecipitation(false);
           setMolecularDance(false);
         }, 4500);
