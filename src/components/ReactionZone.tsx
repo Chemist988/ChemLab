@@ -480,16 +480,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             ))}
           </div>
         )}
-
-        {explosion && (
-          <div className="absolute inset-0 z-10">
-            <div className="absolute inset-0 bg-gradient-radial from-orange-500/40 via-red-500/20 to-transparent animate-pulse"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <div className="w-32 h-32 bg-gradient-radial from-yellow-300 via-orange-500 to-red-600 rounded-full animate-ping opacity-75"></div>
-                <div className="absolute top-1/2 left-1/2 w-20 h-20 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full animate-pulse"></div>
-              </div>
-            </div>
             {[...Array(50)].map((_, i) => (
               <div 
                 key={i} 
