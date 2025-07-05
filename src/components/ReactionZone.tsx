@@ -3,6 +3,7 @@ import { useDrop } from 'react-dnd';
 import { Element, elements as elementsDatabase } from '@/data/elements';
 import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
+import Beaker3D from './Beaker3D';
 import { simulateReaction, ReactionResult, reactions } from '../utils/reactionUtils';
 import { Button } from '@/components/ui/button';
 import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Hexagon } from 'lucide-react';
@@ -406,85 +407,47 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* Perfectly Centered Beaker */}
+        {/* 3D Beaker */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-56 h-64 mx-auto">
-              <div className="absolute bottom-0 w-full h-full rounded-b-3xl rounded-t-lg overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/10 to-transparent border-2 border-border rounded-b-3xl rounded-t-lg backdrop-blur-sm shadow-lg">
-                  <div className="absolute top-8 left-4 w-16 h-32 bg-foreground/5 rounded-full transform -rotate-12"></div>
-                  <div className="absolute top-12 right-6 w-8 h-24 bg-foreground/5 rounded-full transform rotate-12"></div>
-                  <div className="absolute bottom-16 left-8 w-12 h-16 bg-foreground/5 rounded-full transform -rotate-45"></div>
-                  
-                  <div className="absolute inset-0 border border-border/40 rounded-b-3xl rounded-t-lg"></div>
-                  <div className="absolute inset-1 border border-border/20 rounded-b-3xl rounded-t-lg"></div>
-                </div>
-                
-                <div className="absolute -top-[1px] left-[8%] w-[35%] h-5 border-t-2 border-l-2 border-r-2 border-border bg-gradient-to-b from-background/10 to-transparent" 
-                     style={{ clipPath: 'polygon(0 0, 85% 0, 100% 100%, 15% 100%)' }}>
-                  <div className="absolute top-0 left-2 w-4 h-2 bg-foreground/5 rounded-full"></div>
-                </div>
-                
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-48 h-4 bg-foreground/10 rounded-full blur-sm"></div>
-              </div>
-
-              <div className={`absolute bottom-0 w-full transition-all duration-500 ease-out overflow-hidden rounded-b-2xl ${selectedElements.length > 0 ? 'h-[70%]' : 'h-[15%]'}`}>
-                <div className={`w-full h-full relative ${reaction?.productColor ? reaction.productColor : 'bg-gradient-to-b from-primary/20 to-primary/30'} ${animating ? 'animate-pulse' : ''}`}>
-                  <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-b from-background/30 via-background/15 to-transparent rounded-full"></div>
-                  <div className="absolute inset-x-2 top-0 h-1 bg-background/20 rounded-full"></div>
-                  
-                  {bubbles.map((bubble, index) => (
-                      <div key={index} 
-                           className="absolute rounded-full bg-background/80 animate-rise shadow-sm" 
-                           style={{
-                              width: Math.max(3, Math.random() * 8) + 'px',
-                              height: Math.max(3, Math.random() * 8) + 'px',
-                              bottom: bubble * 100 + '%',
-                              left: Math.random() * 80 + 10 + '%',
-                              animationDuration: Math.random() * 2 + 1 + 's',
-                              opacity: Math.random() * 0.6 + 0.3,
-                           }} />
-                  ))}
-                  
-                  {selectedElements.length > 1 && (
-                    <>
-                      <div className="absolute bottom-0 w-full h-1/4 bg-gradient-to-t from-foreground/10 to-transparent"></div>
-                      <div className="absolute bottom-1/4 w-full h-1 bg-gradient-to-r from-transparent via-background/20 to-transparent"></div>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 pt-8 pb-4">
-                  {selectedElements.length === 0 ? (
-                      <div className="text-center text-muted-foreground">
-                          <Beaker className="mx-auto h-12 w-12 mb-3 opacity-50" />
-                          <p>Drag elements here</p>
-                          <p className="text-xs mt-1 text-muted-foreground/80">to start a reaction</p>
-                      </div>
-                  ) : (
-                    <>
-                      {reaction ? (
-                          <div className="text-center mb-4">
-                              <h3 className="text-xl font-bold">{reaction.result}</h3>
-                              <p className="text-sm mt-1">{reaction.description}</p>
-                              <div className="mt-3 flex items-center justify-center gap-2">
-                                  {getReactionIcon(reaction.animationType)}
-                                  <span className="text-xs text-muted-foreground">{getReactionTypeName(reaction.animationType)}</span>
-                              </div>
-                          </div>
-                      ) : <div />}
-                      
-                      <div className="flex flex-wrap items-center justify-center gap-2">
-                          {selectedElements.map((element, index) => (
-                              <div key={index} className={`${animating ? 'animate-shake' : ''}`}>
-                                  <ElementCard element={element} onClick={() => onElementClick(element)} size="xs" isDraggable={false} />
-                              </div>
-                          ))}
-                      </div>
-                    </>
-                  )}
-              </div>
+          <div className="relative w-64 h-80">
+            <Beaker3D
+              liquidHeight={selectedElements.length > 0 ? 0.7 : 0.15}
+              liquidColor="#3b82f6"
+              isAnimating={animating}
+              bubbles={bubbles}
+            />
           </div>
+        </div>
+
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 pt-8 pb-4">
+          {selectedElements.length === 0 ? (
+            <div className="text-center text-muted-foreground">
+              <Beaker className="mx-auto h-12 w-12 mb-3 opacity-50" />
+              <p>Drag elements here</p>
+              <p className="text-xs mt-1 text-muted-foreground/80">to start a reaction</p>
+            </div>
+          ) : (
+            <>
+              {reaction ? (
+                <div className="text-center mb-4">
+                  <h3 className="text-xl font-bold">{reaction.result}</h3>
+                  <p className="text-sm mt-1">{reaction.description}</p>
+                  <div className="mt-3 flex items-center justify-center gap-2">
+                    {getReactionIcon(reaction.animationType)}
+                    <span className="text-xs text-muted-foreground">{getReactionTypeName(reaction.animationType)}</span>
+                  </div>
+                </div>
+              ) : <div />}
+              
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {selectedElements.map((element, index) => (
+                  <div key={index} className={`${animating ? 'animate-shake' : ''}`}>
+                    <ElementCard element={element} onClick={() => onElementClick(element)} size="xs" isDraggable={false} />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
       
