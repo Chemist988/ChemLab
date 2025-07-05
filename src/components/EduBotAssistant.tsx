@@ -11,7 +11,7 @@ const TheBlueMatterAI = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-16 h-16 rounded-full bg-gradient-to-r from-green-700 to-teal-600 hover:from-green-800 hover:to-teal-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center border border-primary/30 backdrop-blur-xl transform hover:scale-105 relative"
+          className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-700 to-crystan blue-600 hover:from-blue-800 hover:to-teal-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center border border-primary/30 backdrop-blur-xl transform hover:scale-105 relative"
         >
           {isOpen ? <X className="w-7 h-7 text-white" /> : <Bot className="w-7 h-7 text-white" />}
         </button>
@@ -38,7 +38,6 @@ const TheBlueMatterAI = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-white font-orbitron">TheBlueMatterAI</h2>
-                  <p className="text-white/80 text-sm">"I am the one who knocks... on chemistry's door"</p>
                 </div>
               </div>
               <button
