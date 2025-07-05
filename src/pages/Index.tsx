@@ -28,11 +28,11 @@ const Index = () => {
       <div className="relative min-h-screen">
         {/* Hero Section with Breaking Bad atmosphere */}
         <section className="relative overflow-hidden bg-gradient-to-br from-background via-background/95 to-background/90">
-          {/* Breaking Bad Desert Background */}
+          {/* Modern Tech Background */}
           <div 
-            className="absolute inset-0 opacity-10"
+            className="absolute inset-0 opacity-5"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?auto=format&fit=crop&w=2000&q=80')`,
+              backgroundImage: `url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=80')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -168,11 +168,11 @@ const Index = () => {
 
             {/* AI Assistant Section - TheBlueMatterAI */}
             <div className="glass-effect rounded-2xl border border-primary/30 p-8 mb-16 relative overflow-hidden">
-              {/* Blue crystal background */}
+              {/* Code/Tech background */}
               <div 
                 className="absolute inset-0 opacity-5"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=2000&q=80')`,
+                  backgroundImage: `url('https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=2000&q=80')`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
