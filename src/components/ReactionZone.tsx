@@ -32,7 +32,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [plasmaBurst, setPlasmaBurst] = useState(false);
   const [radioactiveGlow, setRadioactiveGlow] = useState(false);
   const [chemicalSpiral, setChemicalSpiral] = useState(false);
-  const [molecularDance, setMolecularDance] = useState(false);
   const [quantumFlicker, setQuantumFlicker] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
