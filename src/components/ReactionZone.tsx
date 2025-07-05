@@ -181,7 +181,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         setTimeout(() => {
           setCrystallization(false);
           setPrecipitation(false);
-          setElectricArcs(false);
           setMolecularDance(false);
         }, 4500);
       } else if (result.animationType === 'neutralization') {
@@ -192,7 +191,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         setTimeout(() => {
           setColorChange(false);
           setSteam(false);
-          setElectricArcs(false);
           setQuantumFlicker(false);
         }, 3500);
       } else if (result.animationType === 'combustion') {
