@@ -3,7 +3,6 @@ import { useDrop } from 'react-dnd';
 import { Element, elements as elementsDatabase } from '@/data/elements';
 import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
-import Beaker3D from './Beaker3D';
 import { simulateReaction, ReactionResult, reactions } from '../utils/reactionUtils';
 import { Button } from '@/components/ui/button';
 import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Hexagon } from 'lucide-react';
@@ -407,15 +406,10 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
         
-        {/* 3D Beaker */}
+        {/* Simple Beaker */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-64 h-80">
-            <Beaker3D
-              liquidHeight={selectedElements.length > 0 ? 0.7 : 0.15}
-              liquidColor="#3b82f6"
-              isAnimating={animating}
-              bubbles={bubbles}
-            />
+          <div className="relative w-32 h-32 opacity-30">
+            <Beaker className="w-full h-full text-muted-foreground" />
           </div>
         </div>
 

@@ -32,7 +32,7 @@ const Index = () => {
           <div 
             className="absolute inset-0 opacity-8"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=2000&q=80')`,
+              backgroundImage: `url('/lovable-uploads/5cb5a96f-bf4c-426a-8e1f-c6a488b53379.png')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -172,7 +172,7 @@ const Index = () => {
               <div 
                 className="absolute inset-0 opacity-5"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=2000&q=80')`,
+                  backgroundImage: `url('/lovable-uploads/5cb5a96f-bf4c-426a-8e1f-c6a488b53379.png')`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
