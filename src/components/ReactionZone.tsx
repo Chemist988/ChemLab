@@ -21,7 +21,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [splash, setSplash] = useState(false);
   const [suggestedElements, setSuggestedElements] = useState<Element[]>([]);
   const [steam, setSteam] = useState(false);
-  const [crystallization, setCrystallization] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [heatWaves, setHeatWaves] = useState(false);
   const [colorChange, setColorChange] = useState(false);
