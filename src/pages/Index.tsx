@@ -28,11 +28,11 @@ const Index = () => {
       <div className="relative min-h-screen">
         {/* Hero Section with Breaking Bad atmosphere */}
         <section className="relative overflow-hidden bg-gradient-to-br from-background via-background/95 to-background/90">
-          {/* Breaking Bad Desert Background */}
+          {/* Chemistry Lab Background */}
           <div 
-            className="absolute inset-0 opacity-10"
+            className="absolute inset-0 opacity-8"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?auto=format&fit=crop&w=2000&q=80')`,
+              backgroundImage: `url('/lovable-uploads/5cb5a96f-bf4c-426a-8e1f-c6a488b53379.png')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -57,12 +57,12 @@ const Index = () => {
             <header className="mb-12 text-center">
               <div className="space-y-6 max-w-4xl mx-auto">
                 <div className="flex items-center justify-center gap-4 mb-6">
-                  <h1 className="text-5xl md:text-6xl font-black tracking-tight font-orbitron text-breaking-bad">
+                  <h1 className="text-5xl md:text-6xl font-black tracking-tight font-orbitron text-primary">
                     ChemLab
                   </h1>
                 </div>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                  "Chemistry is the study of change" - Enter the danger zone of science
+                  Interactive Chemistry Laboratory - Explore molecular interactions
                 </p>
                 
                 {/* Breaking Bad inspired stats - centered */}
@@ -94,8 +94,8 @@ const Index = () => {
                         <Atom className="w-5 h-5 text-primary" />
                       </div>
                       <div>
-                        <h2 className="text-2xl font-bold text-breaking-bad font-orbitron">Element Table</h2>
-                        <p className="text-muted-foreground text-sm">"Respect the chemistry"</p>
+                        <h2 className="text-2xl font-bold text-foreground font-orbitron">Element Table</h2>
+                        <p className="text-muted-foreground text-sm">Interactive periodic table of elements</p>
                       </div>
                     </div>
                   </div>
@@ -121,7 +121,7 @@ const Index = () => {
                         className="flex-1 rounded-lg data-[state=active]:bg-primary/30 data-[state=active]:text-primary"
                       >
                         <FlaskConical className="w-4 h-4 mr-2" />
-                        Cook
+                        Info
                       </TabsTrigger>
                     </TabsList>
                     
@@ -134,7 +134,7 @@ const Index = () => {
                           <h3 className="text-lg font-bold font-orbitron text-foreground">Chemical Reactor</h3>
                         </div>
                         <p className="text-muted-foreground text-sm mb-4">
-                          "We're gonna need precise measurements"
+                          Drag elements to create chemical reactions
                         </p>
                       </div>
                       <Separator className="bg-primary/30" />
@@ -145,17 +145,17 @@ const Index = () => {
                       <div>
                         <div className="flex items-center gap-3 mb-4">
                           <FlaskConical className="w-5 h-5 text-primary" />
-                          <h3 className="text-lg font-bold font-orbitron text-primary">Cooking Guide</h3>
+                          <h3 className="text-lg font-bold font-orbitron text-primary">How to Use</h3>
                         </div>
                         
                         <div className="space-y-4 text-sm">
                           <div className="glass-effect p-4 rounded-xl border border-primary/30">
-                            <h4 className="font-bold text-primary mb-3">"Yeah, Science!"</h4>
+                            <h4 className="font-bold text-primary mb-3">Quick Guide</h4>
                             <ul className="space-y-2 text-muted-foreground text-xs">
                               <li>• Click elements for detailed information</li>
                               <li>• Search the periodic table</li>
                               <li>• Drag elements to reaction chamber</li>
-                              <li>• "Apply yourself" to chemistry</li>
+                              <li>• Explore chemical reactions</li>
                             </ul>
                           </div>
                         </div>
@@ -168,11 +168,11 @@ const Index = () => {
 
             {/* AI Assistant Section - TheBlueMatterAI */}
             <div className="glass-effect rounded-2xl border border-primary/30 p-8 mb-16 relative overflow-hidden">
-              {/* Blue crystal background */}
+              {/* Chemistry lab background */}
               <div 
                 className="absolute inset-0 opacity-5"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=2000&q=80')`,
+                  backgroundImage: `url('/lovable-uploads/5cb5a96f-bf4c-426a-8e1f-c6a488b53379.png')`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
@@ -189,8 +189,8 @@ const Index = () => {
                       </div>
                     </div>
                     <div>
-                      <h2 className="text-3xl font-black text-breaking-bad mb-2 font-orbitron">TheBlueMatterAI</h2>
-                      <p className="text-lg text-muted-foreground">"I am the one who knocks... on chemistry's door"</p>
+                      <h2 className="text-3xl font-black text-primary mb-2 font-orbitron">Chemistry AI</h2>
+                      <p className="text-lg text-muted-foreground">Your intelligent chemistry assistant</p>
                     </div>
                   </div>
                   
@@ -200,9 +200,9 @@ const Index = () => {
                         <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center">
                           <Atom className="w-3 h-3 text-primary" />
                         </div>
-                        <span className="font-bold text-primary text-sm">99.1% Pure Analysis</span>
+                        <span className="font-bold text-primary text-sm">Smart Analysis</span>
                       </div>
-                      <p className="text-xs text-muted-foreground">Crystal clear chemical insights</p>
+                      <p className="text-xs text-muted-foreground">Detailed chemical insights</p>
                     </div>
                     
                     <div className="glass-effect rounded-xl p-4 border border-primary/30">
@@ -210,9 +210,9 @@ const Index = () => {
                         <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center">
                           <Zap className="w-3 h-3 text-primary" />
                         </div>
-                        <span className="font-bold text-primary text-sm">High Voltage Chemistry</span>
+                        <span className="font-bold text-primary text-sm">Molecular Guidance</span>
                       </div>
-                      <p className="text-xs text-muted-foreground">Electrifying molecular guidance</p>
+                      <p className="text-xs text-muted-foreground">Interactive learning experience</p>
                     </div>
                   </div>
                 </div>
@@ -223,35 +223,25 @@ const Index = () => {
                     className="bg-primary hover:bg-primary/90 text-primary-foreground w-full py-6 text-lg font-bold rounded-xl transform hover:scale-105 transition-all duration-300 group border border-primary/50"
                   >
                     <Bot className="w-5 h-5 mr-3" />
-                    Cook with AI
+                    Start with AI
                     <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
                   </Button>
-                  <p className="text-xs text-muted-foreground text-center">"Say my name... TheBlueMatterAI"</p>
+                  <p className="text-xs text-muted-foreground text-center">AI-powered chemistry assistant</p>
                 </div>
               </div>
             </div>
 
-            {/* Breaking Bad Chemistry Challenge Section */}
-            <div className="glass-effect rounded-2xl border border-primary/30 p-8 relative overflow-hidden">
-              {/* Matrix-style background */}
-              <div 
-                className="absolute inset-0 opacity-5"
-                style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=2000&q=80')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
+            {/* Chemistry Features Section */}
+            <div className="glass-effect rounded-2xl border border-primary/30 p-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center border border-primary/30">
                       <Flame className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black text-breaking-bad font-orbitron">Chemistry Challenge</h3>
-                      <p className="text-muted-foreground">"Science, b****!"</p>
+                      <h3 className="text-2xl font-black text-foreground font-orbitron">Explore Chemistry</h3>
+                      <p className="text-muted-foreground">Interactive learning platform</p>
                     </div>
                   </div>
                   
@@ -259,7 +249,7 @@ const Index = () => {
                     <div className="glass-effect rounded-xl p-4 border border-primary/30">
                       <h4 className="font-bold text-primary mb-2 flex items-center gap-2">
                         <Zap className="w-4 h-4" />
-                        Crystal Meth... ods
+                        Reaction Simulator
                       </h4>
                       <p className="text-sm text-muted-foreground">Master chemical reactions and molecular structures</p>
                     </div>
@@ -267,21 +257,18 @@ const Index = () => {
                     <div className="glass-effect rounded-xl p-4 border border-primary/30">
                       <h4 className="font-bold text-primary mb-2 flex items-center gap-2">
                         <Atom className="w-4 h-4" />
-                        Danger Zone
+                        Element Explorer
                       </h4>
-                      <p className="text-sm text-muted-foreground">Explore the most reactive elements and compounds</p>
+                      <p className="text-sm text-muted-foreground">Discover properties of all elements</p>
                     </div>
                   </div>
                 </div>
                 
                 <div className="text-center space-y-4">
-                  <div 
-                    className="w-48 h-48 mx-auto rounded-2xl glass-effect border border-primary/30 bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url('https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=500&q=80')`,
-                    }}
-                  />
-                  <p className="text-sm text-muted-foreground italic">"Chemistry is the study of change"</p>
+                  <div className="w-48 h-48 mx-auto rounded-2xl glass-effect border border-primary/30 flex items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10">
+                    <Atom className="w-24 h-24 text-primary opacity-50" />
+                  </div>
+                  <p className="text-sm text-muted-foreground">Interactive chemistry laboratory</p>
                 </div>
               </div>
             </div>
