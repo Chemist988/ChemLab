@@ -16,7 +16,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [reaction, setReaction] = useState<ReactionResult | null>(null);
   const [animating, setAnimating] = useState(false);
   const [bubbles, setBubbles] = useState<number[]>([]);
-  const [explosion, setExplosion] = useState(false);
   const [gas, setGas] = useState(false);
   const [splash, setSplash] = useState(false);
   const [suggestedElements, setSuggestedElements] = useState<Element[]>([]);
@@ -116,7 +115,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setReaction(null);
     setAnimating(false);
     setBubbles([]);
-    setExplosion(false);
     setGas(false);
     setSplash(false);
     setSuggestedElements([]);
