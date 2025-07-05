@@ -150,13 +150,11 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       
       // Enhanced animations based on reaction type
       if (result.animationType === 'explosion') {
-        setExplosion(true);
         setHeatWaves(true);
         setFlames(true);
         setWindEffect(true);
         setPlasmaBurst(true);
         setTimeout(() => {
-          setExplosion(false);
           setHeatWaves(false);
           setFlames(false);
           setWindEffect(false);
