@@ -160,7 +160,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           setHeatWaves(false);
           setFlames(false);
           setWindEffect(false);
-          setPlasmaBurst(false);
         }, 4000);
       } else if (result.animationType === 'gas') {
         setGas(true);
