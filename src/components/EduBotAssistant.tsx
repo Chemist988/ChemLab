@@ -62,7 +62,7 @@ const TheBlueMatterAI = () => {
               
               <div className="w-full h-full bg-black/80 rounded-2xl shadow-lg overflow-hidden border border-primary/50 relative z-10">
                 <iframe
-                  src="https://www.chatbase.co/chatbot-iframe/COwMkAjIYb1meY0saCFK1"
+                  src="https://www.chatbase.co/chatbot-iframe/FDfuiUGe5P2Ho7k9RZQQZ"
                   allow="clipboard-write; microphone;"
                   className="w-full h-full border-none"
                   title="TheBlueMatterAI Assistant"
