@@ -29,7 +29,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [windEffect, setWindEffect] = useState(false);
   const [plasmaBurst, setPlasmaBurst] = useState(false);
   const [radioactiveGlow, setRadioactiveGlow] = useState(false);
-  const [chemicalSpiral, setChemicalSpiral] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -478,26 +477,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
             ))}
           </div>
         )}
-            {[...Array(50)].map((_, i) => (
-              <div 
-                key={i} 
-                className="absolute rounded-full"
-                style={{
-                  width: Math.random() * 8 + 2 + 'px',
-                  height: Math.random() * 8 + 2 + 'px',
-                  left: 50 + Math.random() * 10 - 5 + '%',
-                  top: 50 + Math.random() * 10 - 5 + '%',
-                  background: `hsl(${Math.random() * 60 + 10}, 90%, 60%)`,
-                  opacity: Math.random() * 0.9 + 0.1,
-                  animation: `explosion-particle ${Math.random() * 1.5 + 0.5}s ease-out forwards`,
-                  '--x-move': `${(Math.random() - 0.5) * 400}px`,
-                  '--y-move': `${(Math.random() - 0.5) * 400}px`,
-                } as React.CSSProperties}
-              ></div>
-            ))}
-          </div>
-        )}
-        
         {gas && (
           <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
             {[...Array(35)].map((_, i) => (
