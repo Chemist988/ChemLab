@@ -5,7 +5,8 @@ import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, ReactionResult, reactions } from '../utils/reactionUtils';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Hexagon } from 'lucide-react';
+import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Hexagon, MessageCircle, X } from 'lucide-react';
+import EduBotAssistant from './EduBotAssistant';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -34,6 +35,8 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [chemicalSpiral, setChemicalSpiral] = useState(false);
   const [molecularDance, setMolecularDance] = useState(false);
   const [quantumFlicker, setQuantumFlicker] = useState(false);
+  const [showChatbot, setShowChatbot] = useState(false);
+  const [askExplanation, setAskExplanation] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -233,6 +236,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       
       setTimeout(() => {
         setReaction(result);
+        setAskExplanation(true);
 
         try {
           const reactionLog = JSON.parse(localStorage.getItem('reactionLog') || '[]');
@@ -412,20 +416,21 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
         {electricArcs && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(12)].map((_, i) => (
+            {[...Array(25)].map((_, i) => (
               <div 
                 key={`arc-${i}`}
                 className="absolute"
                 style={{
-                  width: '3px',
-                  height: Math.random() * 120 + 60 + 'px',
-                  left: Math.random() * 80 + 10 + '%',
-                  top: Math.random() * 60 + 20 + '%',
-                  background: 'linear-gradient(to bottom, #60a5fa, #3b82f6, #1d4ed8)',
-                  boxShadow: '0 0 15px #3b82f6, 0 0 30px #60a5fa',
-                  animation: `electric-arc ${Math.random() * 0.3 + 0.1}s ease-in-out infinite alternate`,
-                  transform: `rotate(${Math.random() * 60 - 30}deg)`,
-                  opacity: Math.random() * 0.9 + 0.1
+                  width: Math.random() * 2 + 1 + 'px',
+                  height: Math.random() * 150 + 80 + 'px',
+                  left: Math.random() * 90 + 5 + '%',
+                  top: Math.random() * 70 + 15 + '%',
+                  background: 'linear-gradient(to bottom, #ffffff, #e0e7ff, #c7d2fe)',
+                  boxShadow: '0 0 8px #ffffff, 0 0 16px #c7d2fe, 0 0 24px #a5b4fc',
+                  animation: `electric-arc ${Math.random() * 0.2 + 0.05}s ease-in-out infinite alternate`,
+                  transform: `rotate(${Math.random() * 90 - 45}deg)`,
+                  opacity: Math.random() * 0.8 + 0.2,
+                  filter: 'blur(0.5px)'
                 }}
               ></div>
             ))}
@@ -496,30 +501,37 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
 
         {explosion && (
           <div className="absolute inset-0 z-10">
-            <div className="absolute inset-0 bg-gradient-radial from-orange-500/40 via-red-500/20 to-transparent animate-pulse"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <div className="w-32 h-32 bg-gradient-radial from-yellow-300 via-orange-500 to-red-600 rounded-full animate-ping opacity-75"></div>
-                <div className="absolute top-1/2 left-1/2 w-20 h-20 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full animate-pulse"></div>
-              </div>
-            </div>
-            {[...Array(50)].map((_, i) => (
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-400/30 via-red-400/20 to-yellow-300/10"></div>
+            {/* Realistic explosion debris */}
+            {[...Array(80)].map((_, i) => (
               <div 
                 key={i} 
-                className="absolute rounded-full"
+                className="absolute"
                 style={{
-                  width: Math.random() * 8 + 2 + 'px',
-                  height: Math.random() * 8 + 2 + 'px',
-                  left: 50 + Math.random() * 10 - 5 + '%',
-                  top: 50 + Math.random() * 10 - 5 + '%',
-                  background: `hsl(${Math.random() * 60 + 10}, 90%, 60%)`,
+                  width: Math.random() * 12 + 3 + 'px',
+                  height: Math.random() * 3 + 1 + 'px',
+                  left: 50 + Math.random() * 20 - 10 + '%',
+                  top: 50 + Math.random() * 20 - 10 + '%',
+                  background: `linear-gradient(${Math.random() * 360}deg, #fbbf24, #f59e0b, #d97706)`,
                   opacity: Math.random() * 0.9 + 0.1,
-                  animation: `explosion-particle ${Math.random() * 1.5 + 0.5}s ease-out forwards`,
-                  '--x-move': `${(Math.random() - 0.5) * 400}px`,
-                  '--y-move': `${(Math.random() - 0.5) * 400}px`,
+                  animation: `explosion-particle ${Math.random() * 2 + 1}s ease-out forwards`,
+                  transform: `rotate(${Math.random() * 360}deg)`,
+                  '--x-move': `${(Math.random() - 0.5) * 500}px`,
+                  '--y-move': `${(Math.random() - 0.5) * 500}px`,
                 } as React.CSSProperties}
               ></div>
             ))}
+            {/* Shock wave effect */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-0 h-0 border-orange-400/50 animate-ping" 
+                   style={{
+                     borderWidth: '150px',
+                     borderStyle: 'solid',
+                     borderRadius: '50%',
+                     animation: 'shock-wave 1.5s ease-out'
+                   }}>
+              </div>
+            </div>
           </div>
         )}
         
@@ -715,6 +727,58 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           <RotateCw className="h-4 w-4" /> Clear Reaction
         </Button>
       </div>
+
+      {/* Chatbot Explanation Popup */}
+      {askExplanation && reaction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
+          <div className="bg-gradient-to-br from-cyan-900/95 to-blue-900/95 rounded-2xl p-6 max-w-md w-full border border-cyan-400/30 shadow-2xl backdrop-blur-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-cyan-400/20 rounded-full">
+                <MessageCircle className="w-5 h-5 text-cyan-300" />
+              </div>
+              <h3 className="text-lg font-bold text-cyan-100">Reaction Complete!</h3>
+              <button
+                onClick={() => setAskExplanation(false)}
+                className="ml-auto text-cyan-300 hover:text-cyan-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="bg-cyan-800/30 rounded-lg p-4 mb-4">
+              <h4 className="font-bold text-cyan-200 mb-2">{reaction.result}</h4>
+              <p className="text-cyan-300 text-sm">{reaction.description}</p>
+            </div>
+            <p className="text-cyan-200 text-sm mb-4">
+              Would you like TheBlueMatterAI to explain this reaction in detail?
+            </p>
+            <div className="flex gap-3">
+              <Button
+                onClick={() => {
+                  setShowChatbot(true);
+                  setAskExplanation(false);
+                }}
+                className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white"
+              >
+                Yes, Explain!
+              </Button>
+              <Button
+                onClick={() => setAskExplanation(false)}
+                variant="outline"
+                className="flex-1 border-cyan-400/30 text-cyan-200 hover:bg-cyan-800/30"
+              >
+                No, Thanks
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Chatbot Component */}
+      {showChatbot && (
+        <div className="fixed inset-0 z-40">
+          <EduBotAssistant isOpen={showChatbot} onClose={() => setShowChatbot(false)} />
+        </div>
+      )}
     </div>
   );
 };

@@ -367,6 +367,61 @@
     }
   }
 
+  @keyframes shock-wave {
+    0% { 
+      transform: scale(0);
+      opacity: 1;
+      border-width: 4px;
+    }
+    50% { 
+      opacity: 0.6;
+      border-width: 2px;
+    }
+    100% { 
+      transform: scale(3);
+      opacity: 0;
+      border-width: 0px;
+    }
+  }
+
+  @keyframes crystal-formation {
+    0% { 
+      transform: scale(0) rotate(0deg);
+      opacity: 0;
+    }
+    50% { 
+      opacity: 0.8;
+    }
+    100% { 
+      transform: scale(1) rotate(180deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes vapor-rise {
+    0% { 
+      transform: translateY(20px) scale(0.5);
+      opacity: 0.9;
+      filter: blur(2px);
+    }
+    100% { 
+      transform: translateY(-100px) scale(2);
+      opacity: 0;
+      filter: blur(8px);
+    }
+  }
+
+  @keyframes particle-scatter {
+    0% { 
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+    100% { 
+      transform: translate(var(--x-move), var(--y-move)) rotate(720deg) scale(0.1);
+      opacity: 0;
+    }
+  }
+
   /* Hide Chatbase branding */
   iframe[src*="chatbase"] {
     border-radius: 12px;

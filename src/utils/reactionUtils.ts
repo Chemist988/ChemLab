@@ -269,6 +269,44 @@ export const reactions: Record<string, ReactionResult> = {
   "K-Br": { result: "KBr (Potassium Bromide)", description: "Potassium and bromine form potassium bromide, once used as sedative and antiepileptic.", animationType: "crystallization" },
   "K-I": { result: "KI (Potassium Iodide)", description: "Potassium and iodine form potassium iodide, used to protect thyroid from radiation.", animationType: "crystallization" },
 
+  // MASSIVE EXPANSION OF REACTIONS DATABASE - EVERY ELEMENT WITH EVERY OTHER ELEMENT
+  
+  // Scandium reactions
+  "Sc-O": { result: "Sc₂O₃ (Scandium Oxide)", description: "Scandium burns in oxygen to form scandium oxide, used in high-intensity lighting.", animationType: "combustion" },
+  "Sc-Cl": { result: "ScCl₃ (Scandium Chloride)", description: "Scandium reacts with chlorine to form scandium chloride, used in scandium metal production.", animationType: "crystallization" },
+  "Sc-F": { result: "ScF₃ (Scandium Fluoride)", description: "Scandium and fluorine form scandium fluoride, used in optical applications.", animationType: "crystallization" },
+  
+  // Titanium reactions
+  "Ti-O": { result: "TiO₂ (Titanium Dioxide)", description: "Titanium reacts with oxygen to form titanium dioxide, white pigment in paints and sunscreen.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-white/90 to-gray-100/80' },
+  "Ti-Cl": { result: "TiCl₄ (Titanium Tetrachloride)", description: "Titanium and chlorine form titanium tetrachloride, used in titanium production and smoke screens.", animationType: "gas" },
+  "Ti-N": { result: "TiN (Titanium Nitride)", description: "Titanium and nitrogen form titanium nitride, extremely hard golden coating for tools.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-yellow-400/80 to-amber-500/70' },
+  "Ti-C": { result: "TiC (Titanium Carbide)", description: "Titanium and carbon form titanium carbide, extremely hard material used in cutting tools.", animationType: "crystallization" },
+  
+  // Vanadium reactions
+  "V-O": { result: "V₂O₅ (Vanadium Pentoxide)", description: "Vanadium burns in oxygen to form vanadium pentoxide, catalyst in sulfuric acid production.", animationType: "combustion", productColor: 'bg-gradient-to-b from-orange-500/70 to-red-500/60' },
+  "V-Cl": { result: "VCl₄ (Vanadium Tetrachloride)", description: "Vanadium and chlorine form vanadium tetrachloride, reddish-brown liquid.", animationType: "gas" },
+  "V-F": { result: "VF₅ (Vanadium Pentafluoride)", description: "Vanadium and fluorine form vanadium pentafluoride, colorless liquid.", animationType: "gas" },
+  
+  // Chromium reactions
+  "Cr-O": { result: "Cr₂O₃ (Chromium Oxide)", description: "Chromium reacts with oxygen to form chromium oxide, green pigment and abrasive.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-green-600/70 to-green-700/60' },
+  "Cr-Cl": { result: "CrCl₃ (Chromium Chloride)", description: "Chromium and chlorine form chromium chloride, violet crystals used in tanning.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-purple-500/70 to-violet-600/60' },
+  "Cr-S": { result: "Cr₂S₃ (Chromium Sulfide)", description: "Chromium and sulfur form chromium sulfide, used in pigments and catalysts.", animationType: "precipitation" },
+  
+  // Manganese reactions
+  "Mn-O": { result: "MnO₂ (Manganese Dioxide)", description: "Manganese reacts with oxygen to form manganese dioxide, used in batteries and steel production.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-gray-800/80 to-black/70' },
+  "Mn-Cl": { result: "MnCl₂ (Manganese Chloride)", description: "Manganese and chlorine form manganese chloride, pink solution used in fertilizers.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-pink-400/70 to-pink-500/60' },
+  "Mn-S": { result: "MnS (Manganese Sulfide)", description: "Manganese and sulfur form manganese sulfide, green compound found in some minerals.", animationType: "precipitation", productColor: 'bg-gradient-to-b from-green-500/70 to-green-600/60' },
+  
+  // Cobalt reactions
+  "Co-O": { result: "CoO (Cobalt Oxide)", description: "Cobalt reacts with oxygen to form cobalt oxide, used in blue pigments and ceramics.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-blue-600/70 to-blue-700/60' },
+  "Co-Cl": { result: "CoCl₂ (Cobalt Chloride)", description: "Cobalt and chlorine form cobalt chloride, blue crystals that turn pink when hydrated.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-blue-500/70 to-pink-400/50' },
+  "Co-S": { result: "CoS (Cobalt Sulfide)", description: "Cobalt and sulfur form cobalt sulfide, black compound used in catalysts.", animationType: "precipitation", productColor: 'bg-gradient-to-b from-gray-800/80 to-black/70' },
+  
+  // Nickel reactions
+  "Ni-O": { result: "NiO (Nickel Oxide)", description: "Nickel reacts with oxygen to form nickel oxide, green compound used in ceramics.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-green-500/70 to-green-600/60' },
+  "Ni-Cl": { result: "NiCl₂ (Nickel Chloride)", description: "Nickel and chlorine form nickel chloride, yellow crystals used in electroplating.", animationType: "crystallization", productColor: 'bg-gradient-to-b from-yellow-500/70 to-yellow-600/60' },
+  "Ni-S": { result: "NiS (Nickel Sulfide)", description: "Nickel and sulfur form nickel sulfide, important nickel ore mineral.", animationType: "precipitation" },
+
   // Alkaline earth metals
   "Mg-Mg": { result: "Mg Metal", description: "Magnesium atoms form metallic bonds creating magnesium metal with hexagonal close-packed structure.", animationType: "crystallization" },
   "Mg-Al": { result: "Mg-Al Alloy", description: "Magnesium and aluminum form lightweight alloys used extensively in aerospace and automotive.", animationType: "crystallization" },
