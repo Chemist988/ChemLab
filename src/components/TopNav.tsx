@@ -22,7 +22,6 @@ const TopNav = () => {
 
   const navItems = [
     { path: '/', icon: Atom, label: 'Periodic Table' },
-    { path: '/analytics', icon: Bot, label: 'TheBlueMatterAI' }
   ];
 
   return (
