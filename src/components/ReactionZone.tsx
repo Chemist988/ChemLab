@@ -26,7 +26,7 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [heatWaves, setHeatWaves] = useState(false);
   const [colorChange, setColorChange] = useState(false);
   const [precipitation, setPrecipitation] = useState(false);
-  const [electricArcs, setElectricArcs] = useState(false);
+  
   const [flames, setFlames] = useState(false);
   const [windEffect, setWindEffect] = useState(false);
   const [plasmaBurst, setPlasmaBurst] = useState(false);
@@ -99,7 +99,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const addCompound = (compound: { name: string; formula: string; description: string }) => {
     setColorChange(true);
     setSteam(true);
-    setElectricArcs(true);
     
     const newBubbles = [...bubbles];
     for (let i = 0; i < 15; i++) {
@@ -110,7 +109,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setTimeout(() => {
       setColorChange(false);
       setSteam(false);
-      setElectricArcs(false);
     }, 2000);
   };
 
@@ -129,7 +127,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
     setHeatWaves(false);
     setColorChange(false);
     setPrecipitation(false);
-    setElectricArcs(false);
     setFlames(false);
     setWindEffect(false);
     setPlasmaBurst(false);
@@ -179,23 +176,19 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       } else if (result.animationType === 'crystallization') {
         setCrystallization(true);
         setPrecipitation(true);
-        setElectricArcs(true);
         setMolecularDance(true);
         setTimeout(() => {
           setCrystallization(false);
           setPrecipitation(false);
-          setElectricArcs(false);
           setMolecularDance(false);
         }, 4500);
       } else if (result.animationType === 'neutralization') {
         setColorChange(true);
         setSteam(true);
-        setElectricArcs(true);
         setQuantumFlicker(true);
         setTimeout(() => {
           setColorChange(false);
           setSteam(false);
-          setElectricArcs(false);
           setQuantumFlicker(false);
         }, 3500);
       } else if (result.animationType === 'combustion') {
@@ -215,11 +208,9 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         }, 4500);
       } else if (result.animationType === 'radioactive') {
         setRadioactiveGlow(true);
-        setElectricArcs(true);
         setQuantumFlicker(true);
         setTimeout(() => {
           setRadioactiveGlow(false);
-          setElectricArcs(false);
           setQuantumFlicker(false);
         }, 6000);
       }
@@ -410,28 +401,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
           </div>
         )}
 
-        {electricArcs && (
-          <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
-            {[...Array(25)].map((_, i) => (
-              <div 
-                key={`arc-${i}`}
-                className="absolute"
-                style={{
-                  width: Math.random() * 2 + 1 + 'px',
-                  height: Math.random() * 150 + 80 + 'px',
-                  left: Math.random() * 90 + 5 + '%',
-                  top: Math.random() * 70 + 15 + '%',
-                  background: 'linear-gradient(to bottom, #ffffff, #e0e7ff, #c7d2fe)',
-                  boxShadow: '0 0 8px #ffffff, 0 0 16px #c7d2fe, 0 0 24px #a5b4fc',
-                  animation: `electric-arc ${Math.random() * 0.2 + 0.05}s ease-in-out infinite alternate`,
-                  transform: `rotate(${Math.random() * 90 - 45}deg)`,
-                  opacity: Math.random() * 0.8 + 0.2,
-                  filter: 'blur(0.5px)'
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
 
         {flames && (
           <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
