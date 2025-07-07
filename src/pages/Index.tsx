@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
-import EduBotAssistant from '@/components/EduBotAssistant';
+
 import { Element } from '@/data/elements';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from '@/components/ui/separator';
@@ -281,7 +281,7 @@ const Index = () => {
           onClose={() => setDetailOpen(false)}
         />
         
-        <EduBotAssistant />
+        
       </div>
     </DndProvider>
   );

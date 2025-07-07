@@ -17,7 +17,7 @@ const AnalyticsPage = () => {
         />
         
         {/* Header with Breaking Bad theme */}
-        <div className="bg-gradient-to-r from-green-700 to-teal-600 p-6 flex items-center shrink-0 relative">
+        <div className="bg-gradient-to-r from-blue-900 to-blue-800 p-6 flex items-center shrink-0 relative">
           {/* Blue crystal overlay */}
           <div 
             className="absolute inset-0 opacity-10"

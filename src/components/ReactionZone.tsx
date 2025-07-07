@@ -5,8 +5,7 @@ import ElementCard from './ElementCard';
 import ElementSuggestions from './ElementSuggestions';
 import { simulateReaction, ReactionResult, reactions } from '../utils/reactionUtils';
 import { Button } from '@/components/ui/button';
-import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Hexagon, MessageCircle, X } from 'lucide-react';
-import EduBotAssistant from './EduBotAssistant';
+import { RotateCw, Bomb, Flame, Sparkles, Droplets, FlaskConical, Atom, Beaker, Zap, Hexagon } from 'lucide-react';
 
 interface ReactionZoneProps {
   onElementClick: (element: Element) => void;
@@ -35,8 +34,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
   const [chemicalSpiral, setChemicalSpiral] = useState(false);
   const [molecularDance, setMolecularDance] = useState(false);
   const [quantumFlicker, setQuantumFlicker] = useState(false);
-  const [showChatbot, setShowChatbot] = useState(false);
-  const [askExplanation, setAskExplanation] = useState(false);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'element',
@@ -236,7 +233,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
       
       setTimeout(() => {
         setReaction(result);
-        setAskExplanation(true);
 
         try {
           const reactionLog = JSON.parse(localStorage.getItem('reactionLog') || '[]');
@@ -728,57 +724,6 @@ const ReactionZone: React.FC<ReactionZoneProps> = ({ onElementClick }) => {
         </Button>
       </div>
 
-      {/* Chatbot Explanation Popup */}
-      {askExplanation && reaction && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-lg">
-          <div className="bg-gradient-to-br from-cyan-900/95 to-blue-900/95 rounded-2xl p-6 max-w-md w-full border border-cyan-400/30 shadow-2xl backdrop-blur-xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-cyan-400/20 rounded-full">
-                <MessageCircle className="w-5 h-5 text-cyan-300" />
-              </div>
-              <h3 className="text-lg font-bold text-cyan-100">Reaction Complete!</h3>
-              <button
-                onClick={() => setAskExplanation(false)}
-                className="ml-auto text-cyan-300 hover:text-cyan-100"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="bg-cyan-800/30 rounded-lg p-4 mb-4">
-              <h4 className="font-bold text-cyan-200 mb-2">{reaction.result}</h4>
-              <p className="text-cyan-300 text-sm">{reaction.description}</p>
-            </div>
-            <p className="text-cyan-200 text-sm mb-4">
-              Would you like TheBlueMatterAI to explain this reaction in detail?
-            </p>
-            <div className="flex gap-3">
-              <Button
-                onClick={() => {
-                  setShowChatbot(true);
-                  setAskExplanation(false);
-                }}
-                className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white"
-              >
-                Yes, Explain!
-              </Button>
-              <Button
-                onClick={() => setAskExplanation(false)}
-                variant="outline"
-                className="flex-1 border-cyan-400/30 text-cyan-200 hover:bg-cyan-800/30"
-              >
-                No, Thanks
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Chatbot Component */}
-      {showChatbot && (
-        <div className="fixed inset-0 z-40">
-          <EduBotAssistant isOpen={showChatbot} onClose={() => setShowChatbot(false)} />
-        </div>
-      )}
     </div>
   );
 };
