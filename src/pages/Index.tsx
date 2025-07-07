@@ -84,7 +84,7 @@ const Index = () => {
             </header>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-16">
               {/* Periodic Table */}
               <div className="xl:col-span-3">
                 <div className="glass-effect rounded-2xl p-6 border border-primary/30">
