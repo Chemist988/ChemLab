@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Atom, Bot, Beaker } from 'lucide-react';
@@ -41,9 +40,9 @@ const TopNav = () => {
               ChemLab
             </span>
           </Link>
-          
-          {/* Navigation */}
-          <div className="hidden md:flex items-center space-x-2">
+
+          {/* Navigation Centered */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-4">
             {navItems.map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
