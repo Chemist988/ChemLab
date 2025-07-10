@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'wouter';
+import { Link, useLocation } from 'react-router-dom';
 import { Atom, Bot, Beaker } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const TopNav = () => {
-  const [location] = useLocation();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -16,12 +16,11 @@ const TopNav = () => {
   }, []);
 
   const isActive = (path: string) => {
-    return location === path;
+    return location.pathname === path;
   };
 
   const navItems = [
     { path: '/', icon: Atom, label: 'Periodic Table' },
-    { path: '/acid-base-simulator', icon: Beaker, label: 'Acid-Base Lab' },
     { path: '/analytics', icon: Bot, label: 'TheBlueMatterAI' },
   ];
 
@@ -33,7 +32,7 @@ const TopNav = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Breaking Bad inspired title */}
-          <Link href="/" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center space-x-3 group">
             <div className="flex items-center gap-2">
               <Beaker className="h-8 w-8 text-primary group-hover:animate-pulse" />
             </div>
@@ -47,7 +46,7 @@ const TopNav = () => {
             {navItems.map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
-                href={path}
+                to={path}
                 className={cn(
                   'flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300',
                   isActive(path)
@@ -66,7 +65,7 @@ const TopNav = () => {
             {navItems.map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
-                href={path}
+                to={path}
                 className={cn(
                   'flex items-center space-x-2 px-3 py-2 rounded-lg text-xs transition-all duration-300',
                   isActive(path)

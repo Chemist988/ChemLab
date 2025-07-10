@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Router, Route, Switch } from "wouter";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
@@ -11,7 +11,6 @@ import FormulaBuilderPage from "./pages/FormulaBuilderPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import ActivityPage from "./pages/ActivityPage";
 import SourcesPage from "./pages/SourcesPage";
-import AcidBaseSimulatorPage from "./pages/AcidBaseSimulatorPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,45 +24,40 @@ const App = () => {
         <div className={theme}>
           <Toaster />
           <Sonner />
-          <Router>
-            <Switch>
-              <Route path="/">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={
                 <Layout>
                   <Index />
                 </Layout>
-              </Route>
-              <Route path="/formula-builder">
+              } />
+              <Route path="/formula-builder" element={
                 <Layout>
                   <FormulaBuilderPage />
                 </Layout>
-              </Route>
-              <Route path="/analytics">
+              } />
+              <Route path="/analytics" element={
                 <Layout>
                   <AnalyticsPage />
                 </Layout>
-              </Route>
-              <Route path="/activity">
+              } />
+              <Route path="/activity" element={
                 <Layout>
                   <ActivityPage />
                 </Layout>
-              </Route>
-              <Route path="/sources">
+              } />
+              <Route path="/sources" element={
                 <Layout>
                   <SourcesPage />
                 </Layout>
-              </Route>
-              <Route path="/acid-base-simulator">
-                <Layout>
-                  <AcidBaseSimulatorPage />
-                </Layout>
-              </Route>
-              <Route>
+              } />
+              <Route path="*" element={
                 <Layout>
                   <NotFound />
                 </Layout>
-              </Route>
-            </Switch>
-          </Router>
+              } />
+            </Routes>
+          </BrowserRouter>
         </div>
       </TooltipProvider>
     </QueryClientProvider>

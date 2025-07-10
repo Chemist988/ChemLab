@@ -15,29 +15,29 @@ export interface ReactionResult {
 export const getAnimationClass = (animationType: AnimationType): string => {
   switch (animationType) {
     case 'explosion':
-      return 'animate-[chemical-reaction_1s_ease-out]';
+      return 'animate-reaction';
     case 'gas':
-      return 'animate-[gas-formation_3s_ease-out_infinite]';
+      return 'animate-rise';
     case 'fade':
-      return 'opacity-80 transition-opacity duration-1000';
+      return 'animate-fade-in';
     case 'bubble':
-      return 'animate-[gentle-bubble_2s_ease-in-out_infinite]';
+      return 'animate-bounce-subtle';
     case 'crystallization':
-      return 'animate-[crystallization_2s_ease-in]';
+      return 'animate-pulse';
     case 'precipitation':
-      return 'animate-[precipitate-form_1.5s_ease-out]';
+      return 'animate-fall';
     case 'combustion':
-      return 'animate-[heat-glow_1s_ease-in-out_infinite]';
+      return 'animate-flame';
     case 'neutralization':
-      return 'animate-[neutralization_2s_ease-in-out]';
+      return 'animate-neutralize';
     case 'radioactive':
-      return 'animate-pulse opacity-75';
+      return 'animate-glow';
     case 'plasma':
-      return 'animate-[heat-glow_0.5s_ease-in-out_infinite]';
+      return 'animate-plasma';
     case 'sublimation':
-      return 'animate-[gas-formation_4s_ease-out]';
+      return 'animate-sublimate';
     default:
-      return 'animate-[chemical-reaction_2s_ease-in-out]';
+      return '';
   }
 };
 

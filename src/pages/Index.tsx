@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useLocation } from 'wouter';
+import { useNavigate } from 'react-router-dom';
 import PeriodicTable from '@/components/PeriodicTable';
 import ReactionZone from '@/components/ReactionZone';
 import ElementDetail from '@/components/ElementDetail';
@@ -16,7 +16,7 @@ import { Atom, Beaker, Bot, ArrowRight, Brain, FlaskConical, Flame, Zap, Hexagon
 const Index = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
-  const [location, setLocation] = useLocation();
+  const navigate = useNavigate();
 
   const handleElementClick = (element: Element) => {
     setSelectedElement(element);
