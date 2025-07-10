@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
-import { Beaker, Trash2, Plus, ArrowRight, Droplets, TestTube, Search, Activity, Zap } from 'lucide-react';
+import { Beaker, Trash2, Plus, ArrowRight, Droplets, TestTube } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface AcidBase {
@@ -278,18 +278,6 @@ const AcidBaseSimulatorPage = () => {
   });
   const [solutionName, setSolutionName] = useState('');
   const [savedSolutions, setSavedSolutions] = useState<Solution[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-
-  // Filter acids and bases based on search term
-  const filteredAcids = commonAcids.filter(acid => 
-    acid.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    acid.formula.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  
-  const filteredBases = commonBases.filter(base => 
-    base.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    base.formula.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const calculatePH = useCallback((acids: AcidBase[], bases: AcidBase[]) => {
     if (acids.length === 0 && bases.length === 0) return 7;
@@ -364,31 +352,6 @@ const AcidBaseSimulatorPage = () => {
     });
   }, [currentSolution, calculatePH, getSolutionColor]);
 
-  const saveSolution = useCallback(() => {
-    if (!solutionName.trim() || (currentSolution.acids.length === 0 && currentSolution.bases.length === 0)) {
-      toast.error('Please enter a solution name and add at least one acid or base');
-      return;
-    }
-
-    const solution: Solution = {
-      name: solutionName.trim(),
-      acids: [...currentSolution.acids],
-      bases: [...currentSolution.bases],
-      ph: currentSolution.ph,
-      color: currentSolution.color
-    };
-
-    setSavedSolutions(prev => [...prev, solution]);
-    setSolutionName('');
-    toast.success(`Saved solution: ${solution.name}`);
-  }, [solutionName, currentSolution]);
-
-  const loadSolution = useCallback((solution: Solution) => {
-    setCurrentSolution({...solution});
-    setSolutionName(solution.name);
-    toast(`Loaded ${solution.name}`);
-  }, []);
-
   const clearSolution = useCallback(() => {
     setCurrentSolution({
       acids: [],
@@ -401,7 +364,21 @@ const AcidBaseSimulatorPage = () => {
     toast('Solution cleared');
   }, []);
 
-
+  const saveSolution = useCallback(() => {
+    if (!solutionName.trim()) {
+      toast.error('Please enter a solution name');
+      return;
+    }
+    
+    const solution = {
+      ...currentSolution,
+      name: solutionName.trim()
+    };
+    
+    setSavedSolutions(prev => [...prev, solution]);
+    setSolutionName('');
+    toast.success(`Saved solution: ${solution.name}`);
+  }, [currentSolution, solutionName]);
 
   const getPHColor = (ph: number) => {
     if (ph < 3) return 'text-red-500';
@@ -431,217 +408,35 @@ const AcidBaseSimulatorPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Solution Builder */}
-        <div className="lg:col-span-2 space-y-6">
-          <Card className="liquid-glass">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Beaker className="w-5 h-5" />
-                Solution Builder
-              </CardTitle>
-              <CardDescription>
-                Build your acid-base solution and observe pH changes
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Solution name..."
-                    value={solutionName}
-                    onChange={(e) => setSolutionName(e.target.value)}
-                    className="flex-1"
-                  />
-                  <Button onClick={saveSolution} disabled={currentSolution.acids.length === 0 && currentSolution.bases.length === 0}>
-                    Save
-                  </Button>
-                  <Button variant="outline" onClick={clearSolution}>
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-
-                {/* Solution Display */}
-                <div className="p-6 bg-gradient-to-r from-red-50 via-yellow-50 to-blue-50 dark:from-red-900/20 dark:via-yellow-900/20 dark:to-blue-900/20 rounded-xl border">
-                  <div className="text-center">
-                    <div className="text-3xl font-mono font-bold mb-2">
-                      pH = {currentSolution.ph.toFixed(2)}
-                    </div>
-                    <div className="flex items-center justify-center gap-4 text-sm">
-                      <Badge variant="default" className={getPHColor(currentSolution.ph)}>
-                        {getPHLabel(currentSolution.ph)}
-                      </Badge>
-                      <span className="text-muted-foreground">
-                        {currentSolution.acids.length} Acids + {currentSolution.bases.length} Bases
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Acids and Bases Sections */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <h4 className="font-medium flex items-center gap-2">
-                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      Added Acids
-                    </h4>
-                    {currentSolution.acids.length === 0 ? (
-                      <div className="p-4 border-2 border-dashed border-red-200 rounded-lg text-center text-muted-foreground">
-                        No acids added
-                      </div>
-                    ) : (
-                      <div className="space-y-2">
-                        {currentSolution.acids.map((acid, index) => (
-                          <div key={`${acid.id}-${index}`} className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                            <div className="flex items-center gap-3">
-                              <Badge variant="secondary">{acid.formula}</Badge>
-                              <span className="font-medium">{acid.name}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Badge variant={acid.strength === 'strong' ? 'destructive' : 'secondary'} className="text-xs">
-                                {acid.strength}
-                              </Badge>
-                              <Button size="sm" variant="destructive" onClick={() => {
-                                const newAcids = currentSolution.acids.filter((_, i) => i !== index);
-                                const ph = calculatePH(newAcids, currentSolution.bases);
-                                const color = getSolutionColor(ph, newAcids, currentSolution.bases);
-                                setCurrentSolution(prev => ({ ...prev, acids: newAcids, ph, color }));
-                              }}>
-                                <Trash2 className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="space-y-4">
-                    <h4 className="font-medium flex items-center gap-2">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                      Added Bases
-                    </h4>
-                    {currentSolution.bases.length === 0 ? (
-                      <div className="p-4 border-2 border-dashed border-blue-200 rounded-lg text-center text-muted-foreground">
-                        No bases added
-                      </div>
-                    ) : (
-                      <div className="space-y-2">
-                        {currentSolution.bases.map((base, index) => (
-                          <div key={`${base.id}-${index}`} className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                            <div className="flex items-center gap-3">
-                              <Badge variant="secondary">{base.formula}</Badge>
-                              <span className="font-medium">{base.name}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Badge variant={base.strength === 'strong' ? 'default' : 'secondary'} className="text-xs bg-blue-500">
-                                {base.strength}
-                              </Badge>
-                              <Button size="sm" variant="destructive" onClick={() => {
-                                const newBases = currentSolution.bases.filter((_, i) => i !== index);
-                                const ph = calculatePH(currentSolution.acids, newBases);
-                                const color = getSolutionColor(ph, currentSolution.acids, newBases);
-                                setCurrentSolution(prev => ({ ...prev, bases: newBases, ph, color }));
-                              }}>
-                                <Trash2 className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Chemical Palette */}
-          <Card className="liquid-glass">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TestTube className="w-5 h-5" />
-                Chemical Palette
-              </CardTitle>
-              <CardDescription>
-                Search and select acids and bases to add to your solution
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Search acids and bases..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="flex-1"
-                  />
-                  <Button variant="outline" size="sm">
-                    <Search className="w-4 h-4" />
-                  </Button>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-3">
-                    <h5 className="font-medium text-red-600 dark:text-red-400">Acids</h5>
-                    <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
-                      {(searchTerm ? filteredAcids : commonAcids.slice(0, 24)).map((acid) => (
-                        <Button
-                          key={acid.id}
-                          variant="outline"
-                          size="sm"
-                          onClick={() => addAcid(acid)}
-                          className="liquid-glass-button p-2 h-auto flex flex-col items-center gap-1 hover:scale-105 transition-transform text-xs"
-                          style={{
-                            borderLeft: `3px solid ${acid.color}`,
-                          }}
-                        >
-                          <span className="font-bold">{acid.formula}</span>
-                          <span className="text-[0.6rem] opacity-70 text-center">{acid.name.split(' ')[0]}</span>
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <h5 className="font-medium text-blue-600 dark:text-blue-400">Bases</h5>
-                    <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
-                      {(searchTerm ? filteredBases : commonBases.slice(0, 24)).map((base) => (
-                        <Button
-                          key={base.id}
-                          variant="outline"
-                          size="sm"
-                          onClick={() => addBase(base)}
-                          className="liquid-glass-button p-2 h-auto flex flex-col items-center gap-1 hover:scale-105 transition-transform text-xs"
-                          style={{
-                            borderLeft: `3px solid ${base.color}`,
-                          }}
-                        >
-                          <span className="font-bold">{base.formula}</span>
-                          <span className="text-[0.6rem] opacity-70 text-center">{base.name.split(' ')[0]}</span>
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="text-xs text-muted-foreground text-center">
-                  Click chemicals to add to solution
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Sidebar with Beaker and Stats */}
-        <div className="space-y-6">
-          <Card className="liquid-glass">
+        {/* Solution Beaker */}
+        <div className="lg:col-span-1">
+          <Card className="liquid-glass h-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Beaker className="w-5 h-5" />
                 Solution Beaker
               </CardTitle>
+              <CardDescription>
+                Current solution composition and pH
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Solution Name Input */}
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Solution name..."
+                  value={solutionName}
+                  onChange={(e) => setSolutionName(e.target.value)}
+                  className="flex-1"
+                />
+                <Button onClick={saveSolution} disabled={currentSolution.acids.length === 0 && currentSolution.bases.length === 0}>
+                  Save
+                </Button>
+                <Button variant="outline" onClick={clearSolution}>
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+
               {/* Enhanced Beaker Visualization - Same as Reaction Lab */}
               <div className="relative mx-auto w-64 h-80">
                 {/* Beaker Container with Enhanced Styling */}
@@ -740,88 +535,165 @@ const AcidBaseSimulatorPage = () => {
                   </div>
                 )}
               </div>
-            </CardContent>
-          </Card>
 
-          <Card className="liquid-glass">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Activity className="w-5 h-5" />
-                Solution Stats
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span>Acids:</span>
-                  <span>{currentSolution.acids.length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Bases:</span>
-                  <span>{currentSolution.bases.length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Total Chemicals:</span>
-                  <span>{currentSolution.acids.length + currentSolution.bases.length}</span>
-                </div>
-                <Separator />
-                <div className="flex justify-between">
-                  <span>pH Level:</span>
-                  <span className={getPHColor(currentSolution.ph)}>
-                    {currentSolution.ph.toFixed(2)}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Status:</span>
-                  <Badge variant="default" className={getPHColor(currentSolution.ph)}>
+              {/* pH Scale */}
+              <div className="space-y-4">
+                <div className="text-center">
+                  <div className={`text-3xl font-bold ${getPHColor(currentSolution.ph)}`}>
+                    pH {currentSolution.ph.toFixed(2)}
+                  </div>
+                  <div className={`text-sm ${getPHColor(currentSolution.ph)}`}>
                     {getPHLabel(currentSolution.ph)}
-                  </Badge>
+                  </div>
                 </div>
+                
+                {/* pH Scale Visual */}
+                <div className="relative h-8 rounded-lg overflow-hidden bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500">
+                  <div 
+                    className="absolute top-0 w-1 h-full bg-white border-2 border-black transition-all duration-500"
+                    style={{ left: `${(currentSolution.ph / 14) * 100}%` }}
+                  />
+                  <div className="absolute bottom-0 left-0 text-xs text-white font-bold p-1">0</div>
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-xs text-black font-bold p-1">7</div>
+                  <div className="absolute bottom-0 right-0 text-xs text-white font-bold p-1">14</div>
+                </div>
+              </div>
+
+              {/* Current Components */}
+              <div className="space-y-2">
+                <h4 className="font-semibold">Components:</h4>
+                {currentSolution.acids.map((acid, index) => (
+                  <Badge key={`acid-${index}`} variant="destructive" className="mr-2">
+                    {acid.formula}
+                  </Badge>
+                ))}
+                {currentSolution.bases.map((base, index) => (
+                  <Badge key={`base-${index}`} className="mr-2 bg-blue-500">
+                    {base.formula}
+                  </Badge>
+                ))}
+                {currentSolution.acids.length === 0 && currentSolution.bases.length === 0 && (
+                  <p className="text-muted-foreground text-sm">Empty beaker</p>
+                )}
               </div>
             </CardContent>
           </Card>
+        </div>
 
-          <Card className="liquid-glass">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="w-5 h-5" />
-                Saved Solutions
-              </CardTitle>
-              <CardDescription>
-                Your saved acid-base solutions
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {savedSolutions.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">
-                  No saved solutions yet
-                </p>
-              ) : (
-                <div className="space-y-3">
-                  {savedSolutions.slice().reverse().slice(0, 10).map((solution, index) => (
-                    <div
-                      key={index}
-                      className="p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg cursor-pointer hover:bg-white/70 dark:hover:bg-gray-800/70 transition-colors"
-                      onClick={() => loadSolution(solution)}
+        {/* Acids and Bases Selection */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Acids */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-red-600">
+                  <TestTube className="w-5 h-5" />
+                  Acids
+                </CardTitle>
+                <CardDescription>
+                  Click to add acids to the solution
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 gap-2 max-h-96 overflow-y-auto pr-2">
+                  {commonAcids.slice(0, 50).map((acid) => (
+                    <Button
+                      key={acid.id}
+                      variant="outline"
+                      onClick={() => addAcid(acid)}
+                      className="justify-start h-auto p-3 hover:bg-red-50 dark:hover:bg-red-950 border-red-200 dark:border-red-800 transition-all duration-200 hover:scale-102"
+                      style={{
+                        borderLeft: `4px solid ${acid.color}`,
+                        animation: acid.strength === 'strong' ? 'heat-glow 2s ease-in-out infinite' : 'none'
+                      }}
                     >
-                      <div className="font-medium text-sm mb-1">{solution.name}</div>
-                      <div className="font-mono text-xs text-muted-foreground mb-1">
-                        pH: {solution.ph.toFixed(2)} ({getPHLabel(solution.ph)})
+                      <div className="text-left w-full">
+                        <div className="font-semibold text-sm">{acid.name}</div>
+                        <div className="text-xs text-muted-foreground font-mono">{acid.formula}</div>
+                        <div className="flex justify-between items-center mt-1">
+                          <Badge variant={acid.strength === 'strong' ? 'destructive' : 'secondary'} className="text-xs">
+                            {acid.strength}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">pH ≈ {acid.strength === 'strong' ? '0-3' : '3-6'}</span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="secondary" className="text-xs">
-                          {solution.acids.length} acids
-                        </Badge>
-                        <Badge variant="secondary" className="text-xs">
-                          {solution.bases.length} bases
-                        </Badge>
+                    </Button>
+                  ))}
+                  <div className="text-center py-2 text-sm text-muted-foreground">
+                    Showing 50 of {commonAcids.length} acids
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Bases */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-blue-600">
+                  <Droplets className="w-5 h-5" />
+                  Bases
+                </CardTitle>
+                <CardDescription>
+                  Click to add bases to the solution
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 gap-2 max-h-96 overflow-y-auto pr-2">
+                  {commonBases.slice(0, 50).map((base) => (
+                    <Button
+                      key={base.id}
+                      variant="outline"
+                      onClick={() => addBase(base)}
+                      className="justify-start h-auto p-3 hover:bg-blue-50 dark:hover:bg-blue-950 border-blue-200 dark:border-blue-800 transition-all duration-200 hover:scale-102"
+                      style={{
+                        borderLeft: `4px solid ${base.color}`,
+                        animation: base.strength === 'strong' ? 'heat-glow 2s ease-in-out infinite' : 'none'
+                      }}
+                    >
+                      <div className="text-left w-full">
+                        <div className="font-semibold text-sm">{base.name}</div>
+                        <div className="text-xs text-muted-foreground font-mono">{base.formula}</div>
+                        <div className="flex justify-between items-center mt-1">
+                          <Badge variant={base.strength === 'strong' ? 'default' : 'secondary'} className="text-xs bg-blue-500">
+                            {base.strength}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">pH ≈ {base.strength === 'strong' ? '11-14' : '8-11'}</span>
+                        </div>
+                      </div>
+                    </Button>
+                  ))}
+                  <div className="text-center py-2 text-sm text-muted-foreground">
+                    Showing 50 of {commonBases.length} bases
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Saved Solutions */}
+          {savedSolutions.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Saved Solutions</CardTitle>
+                <CardDescription>Previously created acid-base solutions</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {savedSolutions.map((solution, index) => (
+                    <div key={index} className="p-4 border rounded-lg">
+                      <h4 className="font-semibold">{solution.name}</h4>
+                      <div className={`text-lg font-bold ${getPHColor(solution.ph)}`}>
+                        pH {solution.ph.toFixed(2)}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {solution.acids.length} acids, {solution.bases.length} bases
                       </div>
                     </div>
                   ))}
                 </div>
-              )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
