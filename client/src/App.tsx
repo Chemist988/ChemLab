@@ -11,6 +11,7 @@ import FormulaBuilderPage from "./pages/FormulaBuilderPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import ActivityPage from "./pages/ActivityPage";
 import SourcesPage from "./pages/SourcesPage";
+import AcidBaseSimulatorPage from "./pages/AcidBaseSimulatorPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,11 @@ const App = () => {
               <Route path="/sources">
                 <Layout>
                   <SourcesPage />
+                </Layout>
+              </Route>
+              <Route path="/acid-base-simulator">
+                <Layout>
+                  <AcidBaseSimulatorPage />
                 </Layout>
               </Route>
               <Route>
