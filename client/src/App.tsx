@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Router, Route, Switch } from "wouter";
 import { useTheme } from "@/hooks/use-theme";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
@@ -24,40 +24,40 @@ const App = () => {
         <div className={theme}>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={
+          <Router>
+            <Switch>
+              <Route path="/">
                 <Layout>
                   <Index />
                 </Layout>
-              } />
-              <Route path="/formula-builder" element={
+              </Route>
+              <Route path="/formula-builder">
                 <Layout>
                   <FormulaBuilderPage />
                 </Layout>
-              } />
-              <Route path="/analytics" element={
+              </Route>
+              <Route path="/analytics">
                 <Layout>
                   <AnalyticsPage />
                 </Layout>
-              } />
-              <Route path="/activity" element={
+              </Route>
+              <Route path="/activity">
                 <Layout>
                   <ActivityPage />
                 </Layout>
-              } />
-              <Route path="/sources" element={
+              </Route>
+              <Route path="/sources">
                 <Layout>
                   <SourcesPage />
                 </Layout>
-              } />
-              <Route path="*" element={
+              </Route>
+              <Route>
                 <Layout>
                   <NotFound />
                 </Layout>
-              } />
-            </Routes>
-          </BrowserRouter>
+              </Route>
+            </Switch>
+          </Router>
         </div>
       </TooltipProvider>
     </QueryClientProvider>
