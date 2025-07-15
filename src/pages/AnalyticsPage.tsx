@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bot } from 'lucide-react';
+import { FlaskConical } from 'lucide-react';
 
 const AnalyticsPage = () => {
   return (
@@ -15,7 +15,7 @@ const AnalyticsPage = () => {
           }}
         />
         
-        {/* Header with Breaking Bad theme */}
+        {/* Header with theme */}
         <div className="bg-gradient-to-r from-blue-900 to-blue-800 p-6 flex items-center shrink-0 relative">
           {/* Blue crystal overlay */}
           <div 
@@ -28,7 +28,7 @@ const AnalyticsPage = () => {
           
           <div className="flex items-center gap-3 relative z-10">
             <div className="p-2 bg-white/10 rounded-full border border-white/20">
-              <Bot className="w-6 h-6 text-white" />
+              <FlaskConical className="w-6 h-6 text-white" />
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-white font-orbitron">TheBlueMatterAI</h2>
