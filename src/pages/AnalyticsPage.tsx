@@ -33,7 +33,6 @@ const AnalyticsPage = () => {
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-white font-orbitron">TheBlueMatterAI</h2>
-              <p className="text-white/80 text-sm">"Say my name... I'm the danger in chemistry"</p>
             </div>
           </div>
         </div>
