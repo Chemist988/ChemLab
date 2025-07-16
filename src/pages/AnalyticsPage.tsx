@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Bot } from 'lucide-react';
 
@@ -32,7 +33,6 @@ const AnalyticsPage = () => {
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-white font-orbitron">TheBlueMatterAI</h2>
-              <p className="text-white/80 text-sm"></p>
             </div>
           </div>
         </div>
