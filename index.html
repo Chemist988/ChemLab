@@ -1,23 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChemLab</title>
-    <meta name="description" content="M" />
-    <meta name="author" content="Maahit" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemLab - Interactive Periodic Table</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="brand-title">ChemLab</h1>
+                </div>
+                <div class="nav-links">
+                    <button class="nav-link active" data-page="periodic">Periodic Table</button>
+                    <button class="nav-link" data-page="reaction">Reaction Zone</button>
+                    <button class="nav-link" data-page="chatbot">TheBlueMatterAI</button>
+                </div>
+            </div>
+        </nav>
 
-    <meta property="og:title" content="chem-ai-spark" />
-    <meta property="og:description" content="Maahit" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Periodic Table Page -->
+            <div id="periodic-page" class="page active">
+                <div class="page-header">
+                    <h2>Interactive Periodic Table</h2>
+                    <div class="search-container">
+                        <input type="text" id="element-search" placeholder="Search elements..." class="search-input">
+                        <button id="clear-search" class="clear-btn">×</button>
+                    </div>
+                </div>
+                
+                <div class="periodic-table-container">
+                    <div id="periodic-table" class="periodic-table"></div>
+                </div>
+                
+                <div class="legend">
+                    <h3>Element Categories</h3>
+                    <div class="legend-items">
+                        <div class="legend-item" data-category="alkali-metal">
+                            <div class="legend-color alkali-metal"></div>
+                            <span>Alkali Metal</span>
+                        </div>
+                        <div class="legend-item" data-category="alkaline-earth-metal">
+                            <div class="legend-color alkaline-earth-metal"></div>
+                            <span>Alkaline Earth Metal</span>
+                        </div>
+                        <div class="legend-item" data-category="transition-metal">
+                            <div class="legend-color transition-metal"></div>
+                            <span>Transition Metal</span>
+                        </div>
+                        <div class="legend-item" data-category="post-transition-metal">
+                            <div class="legend-color post-transition-metal"></div>
+                            <span>Post-Transition Metal</span>
+                        </div>
+                        <div class="legend-item" data-category="metalloid">
+                            <div class="legend-color metalloid"></div>
+                            <span>Metalloid</span>
+                        </div>
+                        <div class="legend-item" data-category="nonmetal">
+                            <div class="legend-color nonmetal"></div>
+                            <span>Nonmetal</span>
+                        </div>
+                        <div class="legend-item" data-category="halogen">
+                            <div class="legend-color halogen"></div>
+                            <span>Halogen</span>
+                        </div>
+                        <div class="legend-item" data-category="noble-gas">
+                            <div class="legend-color noble-gas"></div>
+                            <span>Noble Gas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  </head>
+            <!-- Reaction Zone Page -->
+            <div id="reaction-page" class="page">
+                <div class="page-header">
+                    <h2>Chemical Reaction Simulator</h2>
+                    <button id="clear-reaction" class="clear-btn">Clear All</button>
+                </div>
+                
+                <div class="reaction-zone" id="reaction-zone">
+                    <div class="reaction-area">
+                        <div class="drop-zone" id="drop-zone">
+                            <p>Drag elements here to create reactions</p>
+                            <div id="selected-elements" class="selected-elements"></div>
+                        </div>
+                        <button id="simulate-reaction" class="simulate-btn" disabled>Simulate Reaction</button>
+                    </div>
+                    
+                    <div id="reaction-result" class="reaction-result hidden">
+                        <h3>Reaction Result</h3>
+                        <div id="reaction-output"></div>
+                    </div>
+                </div>
+                
+                <div class="element-picker">
+                    <h3>Select Elements</h3>
+                    <div id="element-list" class="element-list"></div>
+                </div>
+            </div>
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+            <!-- Chatbot Page -->
+            <div id="chatbot-page" class="page">
+                <div class="chatbot-container">
+                    <div class="chatbot-header">
+                        <h2>TheBlueMatterAI</h2>
+                        <p>Your Chemistry Assistant</p>
+                    </div>
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message bot-message">
+                            <div class="message-content">
+                                <p>Hello! I'm TheBlueMatterAI, your chemistry assistant. Ask me about elements, reactions, or any chemistry concepts!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" placeholder="Ask about chemistry..." class="chat-input">
+                        <button id="send-message" class="send-btn">Send</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Element Detail Modal -->
+        <div id="element-modal" class="modal hidden">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <div id="element-detail"></div>
+            </div>
+        </div>
+
+        <!-- Animation Container -->
+        <div id="animation-container" class="animation-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
